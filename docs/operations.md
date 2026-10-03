@@ -60,6 +60,22 @@ bounded memory/CPU/PIDs and positive/negative controls. Dataset question and
 private-test payloads are downloaded separately and never published here.
 The standalone synthetic vision deck contains its own ground truth and sources.
 
+The original 30-function prototype had three ambiguous interfaces and is retained
+as an invalid comparison prototype. V2 specifies them and exposes one public
+example per task. All private tests/controls are unchanged; every task is rerun.
+This is a local canary deck, not a blind preregistered public benchmark.
+
+```bash
+python3 scripts/prepare_practical30.py
+bash scripts/build_grader.sh
+python3 practical_eval.py --cases eval/practical30-v2-cases.jsonl \
+  --effort low --tokens 32768 --label practical30-low --out results/practical30-low.json
+```
+
+The evaluator verifies positive/negative controls for every function before model
+calls and binds the run to the actual owned runtime. The output limit is a runaway
+guard; exhausting it withholds full-cohort accuracy. Keep off and low runs separate.
+
 ## Public evidence
 
 `python3 scripts/export_public.py` exports a fixed allowlist of checkpoint

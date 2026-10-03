@@ -50,6 +50,12 @@ it does not prove all busy cycles perform useful expert computation. Adaptive
 expert caching intentionally fills VRAM, while all experts/ngrams already fit
 in RAM. Container RAM and host-used RAM overlap and must not be added.
 
+A later five-second loaded Q4 vision decode sample used **103.59 GiB container
+RAM**, **23.44 GiB VRAM**, with **77.96 GiB host RAM available** and **11.98 CPU
+core equivalents**. The earlier IQ3 sample used 82.7 GiB RAM. Docker's headline
+memory counter excludes inactive file pages; the comparable cgroup measurement
+includes them, which explains the lower number shown by `docker stats`.
+
 Prior original-table text profiles measured 111.15–116.4 tok/s with medium
 reasoning. Earlier fresh 130K prefill measured about 4,850 tok/s, with 27.2 s
 TTFT. A small same-history cache check reduced TTFT from 1.67 to 0.173 s,
@@ -112,6 +118,19 @@ qualification steps. See the [coding evidence](results/public/coding-checkpoint.
 Ten low/off prompt fixtures render byte-for-byte identically to the pinned
 official Qwen template, including system, multi-turn, tools and image messages.
 This checks prompt serialization; it does not certify all native numerical paths.
+
+| Thirty executable DevOps/Python canaries, v2 | IQ3_S | Q4_K_XL |
+|---|---:|---:|
+| Low: complete correct functions | Pending | **30/30** |
+| Off: complete correct functions | Pending | **27/30** |
+| Low median completed-answer time | Pending | **16.51 s** |
+| Off median completed-answer time | Pending | **6.60 s** |
+
+All Q4 canaries stop naturally; each function has positive/negative isolated
+grader controls. V2 repairs three interfaces found ambiguous in the Q4 prototype
+and includes one public example per prompt. All 30 are rerun; private tests and
+controls are unchanged. This is a local canary deck, not a blind public benchmark
+or repository-scale agent qualification. [Protocol and results](results/public/practical30-comparison.json)
 
 ## Bandwidth reference and remaining headroom
 

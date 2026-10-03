@@ -34,5 +34,6 @@
     "log-rotation-plan",
     "typed-json-equality"
   ],
-  "selection": "New specifications and manually specified examples/edge cases frozen before responses. Model receives only the prompt, never reference implementations or private tests."
+  "selection": "New specifications and manually specified examples/edge cases frozen before responses. Model receives only the prompt, never reference implementations or private tests.",
+  "qualification_status": "Prototype only: three interface ambiguities found after Q4 preview. No usable comparison score; superseded by v2 with all 30 tasks rerun."
 }

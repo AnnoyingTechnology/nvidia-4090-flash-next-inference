@@ -46,6 +46,10 @@ workers, verified MTP with four draft tokens, PCIe fraction .35 and speculation 
 is 262,144 tokens, with int8 KV and a 32K resident window. Adaptive expert caching is already active.
 Experimental speed projection and coupled draft are disabled. No model disk tier is used during decode.
 
+The later Q4 vision profile's five-second active canary decode sample measured 103.59 GiB cgroup
+RAM, 23.44 GiB VRAM, 77.96 GiB host RAM available and 11.98 CPU core equivalents. Docker's usual
+headline excludes inactive file pages, so it is not directly comparable to this cgroup-total figure.
+
 The vision profile uses the original BF16 projector on the GPU and a 4096-token image budget. The encoder
 warms its largest supported workspace before the engine sizes its expert cache. This worked with the
 existing CUDA 12.4 / SM89 build and R550 driver; no driver change was needed. The earlier CPU encoder's
@@ -168,6 +172,13 @@ deployment reconciliation and IPv4/IPv6 CIDR handling. Generated functions are r
 isolated grader with public/private tests and positive/negative controls. Original-table IQ3_S completion
 times were 25.15, 7.96, 9.54 and 12.15 seconds, versus Q4 40.44, 14.75, 21.35 and 31.02 seconds.
 These are four practical function tasks, not repository-scale coding or SWE-bench qualification.
+
+The later 30-function v2 deck gives Q4 **30/30 low**, **27/30 off**, with all 30
+naturally completed in each mode. Median completed-answer times are **16.51 / 6.60 seconds**;
+total generation times **637.30 / 246.47 seconds**. IQ3 v2 is pending. The first prototype
+omitted three interface details; v2 specifies them and displays one public example
+for every task, preserving all private tests and controls. All thirty tasks are rerun,
+not just failures. The revised deck is not a blind preregistered external benchmark.
 
 The eight operations decisions cover systemd network readiness, atomic nginx changes, deleted open logs,
 Ansible idempotence, TLS/SNI, PostgreSQL expand/contract, authoritative DNS/TTL and retaining SSH access.

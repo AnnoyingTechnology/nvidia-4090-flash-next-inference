@@ -1,0 +1,696 @@
+{
+  "scope": "Thirty original executable DevOps/Python function canaries; bounded local tasks, not SWE-bench or repository-scale agent performance.",
+  "completion_policy": "Only natural stops graded; all thirty required for full-cohort accuracy.",
+  "runs": [
+    {
+      "label": "practical30-v2-q4-off",
+      "source": "practical30-v2-q4-off.json",
+      "source_sha256": "96bbada3921f2f890fe80524bdaeb644778a87ed97fa48552bfb81e66bd65bd2",
+      "cases_sha256": "03b7d02ea58fef79b8bcc28a94b5c43a9735168145cd0f50a39f0bb0b44ed0ba",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "runtime_fingerprint": "8c322b4068789b0b73c7716d0c352c474ebb53d69d7027eacbe62f8b84e7146d",
+      "protocol": {
+        "effort": "none",
+        "max_tokens": 32768,
+        "seed": 42,
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "min_p": 0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1,
+        "version": 3,
+        "completion_policy": "Natural stop required; incomplete cases withhold full-cohort accuracy",
+        "penalty_last_n": 64
+      },
+      "controls": {
+        "expected": 30,
+        "positive_passed": 30,
+        "negative_rejected": 30
+      },
+      "coverage": {
+        "expected_cases": 30,
+        "attempted": 30,
+        "completed": 30,
+        "passed": 27,
+        "failed": 3,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 27,
+          "total": 30,
+          "accuracy": 0.9
+        }
+      },
+      "completed_answer_median_s": 6.59682324899768,
+      "attempt_wall_s": 246.46577534699463,
+      "results": [
+        {
+          "id": "merge-patch",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 252,
+          "elapsed_s": 4.630108151999593,
+          "reasoning_chars": 0,
+          "input_sha256": "0b9f46f3a302fbfb8a0eb0f79961ee750cfd34eae64493d91e04359c712cba86"
+        },
+        {
+          "id": "json-pointer",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 684,
+          "elapsed_s": 10.293679686998075,
+          "reasoning_chars": 0,
+          "input_sha256": "8373a8e57de2f4b2c698c7e06cd043cf81c5573b270d5bf0526d3ca8cc893995"
+        },
+        {
+          "id": "environment-expansion",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 847,
+          "elapsed_s": 14.118025400995975,
+          "reasoning_chars": 0,
+          "input_sha256": "282610d5474651ef418750f716061b8378134496f87049ecf3716d3dafeec89e"
+        },
+        {
+          "id": "sandbox-path",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 330,
+          "elapsed_s": 5.52095263999945,
+          "reasoning_chars": 0,
+          "input_sha256": "d6cd8027516efd490c0f76f794005fc12737a2a244f9a04994ef68efa30b96c3"
+        },
+        {
+          "id": "numeric-version-sort",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 230,
+          "elapsed_s": 4.367950004001614,
+          "reasoning_chars": 0,
+          "input_sha256": "ce05f93c9cf59295558be2665c28a51fce11851ad4fbc0985a0c3761a71814c0"
+        },
+        {
+          "id": "dependency-order",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 511,
+          "elapsed_s": 8.067069491000439,
+          "reasoning_chars": 0,
+          "input_sha256": "20bb42d0c295a6392bd1dfe8472e009110e5abc2ea9e06f23845f3e0d86da97b"
+        },
+        {
+          "id": "dependency-impact",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 363,
+          "elapsed_s": 6.393164176995924,
+          "reasoning_chars": 0,
+          "input_sha256": "3b3308152a14dd7613daee759ddd36b2181fe59bd0bbad440aa196e35bd683be"
+        },
+        {
+          "id": "first-fit-capacity",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 177,
+          "elapsed_s": 3.3402826829988044,
+          "reasoning_chars": 0,
+          "input_sha256": "796d3940d2054e7075ebe304b4b1175ec285b862e15ff1c0e33b979ea9f860ca"
+        },
+        {
+          "id": "rollout-rounding",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 891,
+          "elapsed_s": 15.345709319997695,
+          "reasoning_chars": 0,
+          "input_sha256": "47652b4fbc01a4295b4cf6a246fce00599a54236403702f768ea6c83d7925777"
+        },
+        {
+          "id": "path-route",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 296,
+          "elapsed_s": 5.583058242998959,
+          "reasoning_chars": 0,
+          "input_sha256": "ca92f1a81cff0517946b2494e918ca9211220e1e0ff8c829e08b0ef07f59a8a6"
+        },
+        {
+          "id": "journal-priority",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 435,
+          "elapsed_s": 7.413319757004501,
+          "reasoning_chars": 0,
+          "input_sha256": "706a88a78405dee9d8941d1230ac54a00a42f32d50448d07dde66d7601799266"
+        },
+        {
+          "id": "nearest-rank-percentile",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 134,
+          "elapsed_s": 2.9323919029993704,
+          "reasoning_chars": 0,
+          "input_sha256": "6a77b27afc8ddf0acce245394ef073ba7b1b0f8246a450632df7dcf261ba89b1"
+        },
+        {
+          "id": "counter-reset-rate",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 305,
+          "elapsed_s": 5.054451334006444,
+          "reasoning_chars": 0,
+          "input_sha256": "ad3adf048415e44fe6fcac47b5e91fc864a199c5cd1873d93374d1aa1c388eb3"
+        },
+        {
+          "id": "latest-alert",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 253,
+          "elapsed_s": 4.632741617002466,
+          "reasoning_chars": 0,
+          "input_sha256": "0377eb0c87f50021ca52e61a7d2a326b4916df8dfde14356e02b699ff935756a"
+        },
+        {
+          "id": "expiry-cache",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 340,
+          "elapsed_s": 6.398431071997038,
+          "reasoning_chars": 0,
+          "input_sha256": "74922881903c75636e9d6f0503b1da90763f77005550a5e013b8c79c1392ff41"
+        },
+        {
+          "id": "token-bucket",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 247,
+          "elapsed_s": 4.618382081003801,
+          "reasoning_chars": 0,
+          "input_sha256": "0caa6bb515295dc7487d1b5c94a16c9d8bd5b8a61b7351c27c178f8fb54e63dc"
+        },
+        {
+          "id": "backoff",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1674,
+          "elapsed_s": 24.66404870599945,
+          "reasoning_chars": 0,
+          "input_sha256": "446ef01924b23fec39e0fdd236eeda9a25ba8c593464c0a151b041fe25341570"
+        },
+        {
+          "id": "idempotency-conflicts",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 279,
+          "elapsed_s": 5.405615445000876,
+          "reasoning_chars": 0,
+          "input_sha256": "6922965f091f9343af063be8952620683bd6d741731cc30fed5a2d03d305e623"
+        },
+        {
+          "id": "memory-info",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 318,
+          "elapsed_s": 6.21466389199486,
+          "reasoning_chars": 0,
+          "input_sha256": "03a4519f68875d61abecec472c653a8d54919525646ae50ae1fdeedf409dc362"
+        },
+        {
+          "id": "cgroup-quota",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 468,
+          "elapsed_s": 7.9787293749977835,
+          "reasoning_chars": 0,
+          "input_sha256": "513912d10abc9310014198087548da874445f6075d47f56c6634f2aacd2f5d6f"
+        },
+        {
+          "id": "canonical-query",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 406,
+          "elapsed_s": 6.795215425998322,
+          "reasoning_chars": 0,
+          "input_sha256": "d8503033c4210cd34828d526737d6a49cbe5af22bd9e8c4c1656c2b69165ccd2"
+        },
+        {
+          "id": "duration-milliseconds",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 917,
+          "elapsed_s": 15.049579000995436,
+          "reasoning_chars": 0,
+          "input_sha256": "12f7cc847e3b017116c686eb304c695cf221904abf8390a205924643b2fc3679"
+        },
+        {
+          "id": "literal-endpoint",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 650,
+          "elapsed_s": 10.184982098995533,
+          "reasoning_chars": 0,
+          "input_sha256": "ded3f0b13d65088235765239df47a318e1929c346cffec1c2100e1f17cc47094"
+        },
+        {
+          "id": "retry-after",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 914,
+          "elapsed_s": 14.102883766005107,
+          "reasoning_chars": 0,
+          "input_sha256": "03e3ab341c4e5b732ac49d110e4ad85832044fb0e2f3f6dc585163363429b208"
+        },
+        {
+          "id": "access-log-summary",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 435,
+          "elapsed_s": 8.234592651002458,
+          "reasoning_chars": 0,
+          "input_sha256": "2c52316052e304838d0a29df569dc5f2fa81995bbd5812171d14c7023964b776"
+        },
+        {
+          "id": "unit-dependencies",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 496,
+          "elapsed_s": 8.141350171004888,
+          "reasoning_chars": 0,
+          "input_sha256": "95c8528979ba864a1e2c465fab6af53c1a040f39fc3fcc0d6c70a3167cfb666f"
+        },
+        {
+          "id": "interval-union",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 281,
+          "elapsed_s": 5.213936434003699,
+          "reasoning_chars": 0,
+          "input_sha256": "5c2549088766dd1d88f73ad70bc72a5068bd011c6f431bd405a7de7604fbe7be"
+        },
+        {
+          "id": "dns-wildcard",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 615,
+          "elapsed_s": 10.142986487000599,
+          "reasoning_chars": 0,
+          "input_sha256": "7c785a3380c8e88978a3a3d1a4f9c444f8f87944dcc80160123c2c5a0dccb1c4"
+        },
+        {
+          "id": "log-rotation-plan",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 334,
+          "elapsed_s": 6.129629486997146,
+          "reasoning_chars": 0,
+          "input_sha256": "a1d512b239538d5ee22668ce192d44f86023ce72c14b3e7941a5e4f3d7c09f57"
+        },
+        {
+          "id": "typed-json-equality",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 659,
+          "elapsed_s": 9.497844844998326,
+          "reasoning_chars": 0,
+          "input_sha256": "8f1f54c47f22a0bac8d87c4bf79b7cb66d276082905b57f2bf0d54db4f224430"
+        }
+      ]
+    },
+    {
+      "label": "practical30-v2-q4-low",
+      "source": "practical30-v2-q4-low.json",
+      "source_sha256": "3daac5ab323d1a116cc1e697d913c6dbb1e4686bd045b56a244f29d555edbde6",
+      "cases_sha256": "03b7d02ea58fef79b8bcc28a94b5c43a9735168145cd0f50a39f0bb0b44ed0ba",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "runtime_fingerprint": "8c322b4068789b0b73c7716d0c352c474ebb53d69d7027eacbe62f8b84e7146d",
+      "protocol": {
+        "effort": "low",
+        "max_tokens": 32768,
+        "seed": 42,
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0,
+        "presence_penalty": 0,
+        "repetition_penalty": 1,
+        "version": 3,
+        "completion_policy": "Natural stop required; incomplete cases withhold full-cohort accuracy"
+      },
+      "controls": {
+        "expected": 30,
+        "positive_passed": 30,
+        "negative_rejected": 30
+      },
+      "coverage": {
+        "expected_cases": 30,
+        "attempted": 30,
+        "completed": 30,
+        "passed": 30,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 30,
+          "total": 30,
+          "accuracy": 1.0
+        }
+      },
+      "completed_answer_median_s": 16.505186116501136,
+      "attempt_wall_s": 637.3036014369936,
+      "results": [
+        {
+          "id": "merge-patch",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 578,
+          "elapsed_s": 10.854125203004514,
+          "reasoning_chars": 1732,
+          "input_sha256": "bf33d84dd5d4933fae8bdea457ffdad7c455caa9d090af796c66976e56d66f41"
+        },
+        {
+          "id": "json-pointer",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1665,
+          "elapsed_s": 26.14449844000046,
+          "reasoning_chars": 4686,
+          "input_sha256": "e4305d2307be6f94c6e73d17fdda1b96bb063bfe7d46089d37d4bf0703e8c0fd"
+        },
+        {
+          "id": "environment-expansion",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1870,
+          "elapsed_s": 30.363549019995844,
+          "reasoning_chars": 6167,
+          "input_sha256": "92d93fd9be4258d3829c05f9e5874469658718c729718a88f36c6b1024cab03f"
+        },
+        {
+          "id": "sandbox-path",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 875,
+          "elapsed_s": 14.332451568996476,
+          "reasoning_chars": 2497,
+          "input_sha256": "68043a0dc33acadee59b80124bfc0eb0076024020651b7b8354984853301d3ba"
+        },
+        {
+          "id": "numeric-version-sort",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 654,
+          "elapsed_s": 11.663618266000412,
+          "reasoning_chars": 1647,
+          "input_sha256": "a8adfae11534fca6ad949bc6f212fb446d14f062c955f47600018560db0c15dc"
+        },
+        {
+          "id": "dependency-order",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 961,
+          "elapsed_s": 17.37608445299702,
+          "reasoning_chars": 2623,
+          "input_sha256": "473405e65c9b074b76a59a87d0f682c82dd29435e283f773f7b35b22b5f60927"
+        },
+        {
+          "id": "dependency-impact",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 814,
+          "elapsed_s": 14.686912316006783,
+          "reasoning_chars": 2491,
+          "input_sha256": "e00ec83dc694d85a84217c25fbdf84f7467263633261f8ccec3cb6165e9b2a77"
+        },
+        {
+          "id": "first-fit-capacity",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 923,
+          "elapsed_s": 16.19192269600171,
+          "reasoning_chars": 2860,
+          "input_sha256": "93314d7fd78b526326b2206e53b4f011f69999426806ae9942afd10edd6db536"
+        },
+        {
+          "id": "rollout-rounding",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2256,
+          "elapsed_s": 36.65040370300267,
+          "reasoning_chars": 6708,
+          "input_sha256": "8ac766c2e0795f7265589a80aafba79be3c31d4d352399b4420e096301babdcb"
+        },
+        {
+          "id": "path-route",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1226,
+          "elapsed_s": 21.046883857001376,
+          "reasoning_chars": 4107,
+          "input_sha256": "914c6869048f489c7330bc6da869772f18c7562040185e76a6cf6e4193929363"
+        },
+        {
+          "id": "journal-priority",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 908,
+          "elapsed_s": 15.614353698998457,
+          "reasoning_chars": 2687,
+          "input_sha256": "7aa8e0dfd73756af616a6fe957dc720f5160f8cf7f174065832cc058f78e1d29"
+        },
+        {
+          "id": "nearest-rank-percentile",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 699,
+          "elapsed_s": 12.596934576999047,
+          "reasoning_chars": 1629,
+          "input_sha256": "dc76c6e65bb1c9b763ea88a202eeba4e3a0357b5598b48099f501423f52cf7d6"
+        },
+        {
+          "id": "counter-reset-rate",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 850,
+          "elapsed_s": 15.92161682400183,
+          "reasoning_chars": 2418,
+          "input_sha256": "25c175fd5891a97d3a1f06ae91e9a7f3d0520c0cf191d79fd7d87018ba857cef"
+        },
+        {
+          "id": "latest-alert",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 290,
+          "elapsed_s": 6.556884565994551,
+          "reasoning_chars": 911,
+          "input_sha256": "5befeea1dced2b270f5371a7fbc01ab63b6e48c7d9d82ccf8b90015c868f185a"
+        },
+        {
+          "id": "expiry-cache",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 651,
+          "elapsed_s": 12.108329773996957,
+          "reasoning_chars": 1782,
+          "input_sha256": "1dcd026652929ef64286581eee77be1c5665364e752988778e55d849cf16c09e"
+        },
+        {
+          "id": "token-bucket",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 444,
+          "elapsed_s": 8.858653838004102,
+          "reasoning_chars": 1141,
+          "input_sha256": "ab570e4a9fa238a8f32d200ee6533e095244de49e113f4273dabe0592f6b1920"
+        },
+        {
+          "id": "backoff",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2715,
+          "elapsed_s": 38.18615760200191,
+          "reasoning_chars": 7415,
+          "input_sha256": "c099b712603fe86bdc9f6aa074d3301ae0af0fdf10177e696a4df278f7ca510c"
+        },
+        {
+          "id": "idempotency-conflicts",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 843,
+          "elapsed_s": 16.50515928799723,
+          "reasoning_chars": 2766,
+          "input_sha256": "f170514afe9f13b0ea7ba7545cab077a07e669782ad38ba84f879607dc52818d"
+        },
+        {
+          "id": "memory-info",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1411,
+          "elapsed_s": 25.961623967996275,
+          "reasoning_chars": 4364,
+          "input_sha256": "654bbbc0d30f260f2855dc43366f2542e7532f67e012776f61dacba9b0a33d50"
+        },
+        {
+          "id": "cgroup-quota",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1084,
+          "elapsed_s": 18.499086039999384,
+          "reasoning_chars": 2832,
+          "input_sha256": "a9d15511f7d2c7a9c2202674c504ac33ab1f4604c3ef8add596a528722e13118"
+        },
+        {
+          "id": "canonical-query",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 891,
+          "elapsed_s": 16.410689046999323,
+          "reasoning_chars": 2623,
+          "input_sha256": "c764fee8e628b30da3090186d59ec43e18a20ae40a0b59120b5da5ee84bd5c2e"
+        },
+        {
+          "id": "duration-milliseconds",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2548,
+          "elapsed_s": 40.23124478200043,
+          "reasoning_chars": 7776,
+          "input_sha256": "601ef4c4cd08a4b7cf6f16ca529f6f57ac84adc3555b72f2c59e67133019af09"
+        },
+        {
+          "id": "literal-endpoint",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 3695,
+          "elapsed_s": 58.09657585199602,
+          "reasoning_chars": 10660,
+          "input_sha256": "ad9f467fb5add9bc7476c59e174a6973f8819abd38dd0204d9f01396805f6099"
+        },
+        {
+          "id": "retry-after",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2416,
+          "elapsed_s": 40.22453271899576,
+          "reasoning_chars": 7166,
+          "input_sha256": "3c67476b53cc1fdb41e23bffe4718bde752f27b38e04f80437f5214f2c8ae3f6"
+        },
+        {
+          "id": "access-log-summary",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 888,
+          "elapsed_s": 16.50521294500504,
+          "reasoning_chars": 2315,
+          "input_sha256": "e2bbcc450ee4e143b9cf81b6b01659ded0d58743b04d827bcef3715ef4bffe1b"
+        },
+        {
+          "id": "unit-dependencies",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1313,
+          "elapsed_s": 22.766247812003712,
+          "reasoning_chars": 4227,
+          "input_sha256": "d0e13eae7b1613c444c4e81a0bfd706f79d76a18aa8d65db48c0e52cdbac42f3"
+        },
+        {
+          "id": "interval-union",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 663,
+          "elapsed_s": 12.316779898996174,
+          "reasoning_chars": 1817,
+          "input_sha256": "ad1f8d95e0afd09da069880d5a5b6b9402632d10e7573b0bb38e8fded30f6f20"
+        },
+        {
+          "id": "dns-wildcard",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1707,
+          "elapsed_s": 26.74693633699644,
+          "reasoning_chars": 5843,
+          "input_sha256": "482f5ab21f9774ed78020f441df92924286fb318aef3f8eb2e373296c891666f"
+        },
+        {
+          "id": "log-rotation-plan",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1063,
+          "elapsed_s": 18.208645537000848,
+          "reasoning_chars": 3093,
+          "input_sha256": "5fcbd5158be23385118cbd0d641450adfdd8cbbb9b43726af5acb89d6538bab1"
+        },
+        {
+          "id": "typed-json-equality",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1043,
+          "elapsed_s": 15.677486808002868,
+          "reasoning_chars": 3171,
+          "input_sha256": "b9a76b0113c9a2c034e0f7ddca30006a4ebfeff0989490c3338f081052f0acd8"
+        }
+      ]
+    }
+  ],
+  "paired_request_checks": []
+}

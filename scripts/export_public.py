@@ -26,7 +26,9 @@ FILES = [
     'chartqa-comparison.json', 'chartqa15-manifest.json', 'chartqa-arithmetic5-manifest.json',
     'resources-iq3s-vision-decode.json', 'opencode-client-check.json', 'coding-checkpoint.json',
     'template-parity-low-off.json', 'official-template-source.json', 'coding-format-audit.json',
-    'practical30-manifest.json', 'practical30-comparison.json',
+    'practical30-manifest.json', 'practical30-v2-manifest.json', 'practical30-comparison.json',
+    'resources-q4-vision-decode.json',
+    'quant-tensor-inventory.json',
 ]
 
 

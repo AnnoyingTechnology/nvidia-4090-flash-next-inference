@@ -17,8 +17,10 @@ CASES = []
 
 
 def case(name, signature, specification, examples, control):
+    arguments, expected = examples[0]
+    visible_example = ' Example: solve(' + ', '.join(repr(v) for v in arguments) + ') returns ' + repr(expected) + '.'
     CASES.append(program(name, f'Implement solve({signature}) in Python using only the standard library. '
-        + specification + ' Return only the complete implementation in a Python code block.',
+        + specification + visible_example + ' Return only the complete implementation in a Python code block.',
         examples[:1], examples[1:], textwrap.dedent(control)))
 
 
@@ -85,7 +87,7 @@ case('environment-expansion', 'text, variables',
 
 case('sandbox-path', 'path',
     'Normalize a POSIX relative path within a sandbox, lexically without filesystem access. Reject absolute '
-    'paths, NUL characters, or any .. component that would go above the sandbox. Ignore empty and . '
+    'paths, NUL characters, or any .. component that would go above the sandbox, returning None. Ignore empty and . '
     'components; backslashes are ordinary characters. Return normalized relative text, using . for the root.',
     [(['a/./b/../c'],'a/c'), (['../a'],None), (['a/../../b'],None),
      (['/etc'],None), (['a//b/'],'a/b'), (['a/..'],'.'), ([''],'.'), (['a\u0000b'],None)], r'''
@@ -210,7 +212,7 @@ case('path-route', 'path, routes',
 
 
 case('journal-priority', 'entries, ceiling',
-    'Return MESSAGE strings from entries whose PRIORITY is a digit string 0 through 7 or an integer 0 '
+    'Return MESSAGE strings from entries whose PRIORITY is exactly one ASCII digit string 0 through 7 or an integer 0 '
     'through 7, and is <= ceiling. Ignore bool priorities, missing fields and non-string messages; '
     'retain input order.',
     [([[{'PRIORITY':'3','MESSAGE':'error'},{'PRIORITY':'6','MESSAGE':'info'}],3],['error']),
@@ -305,8 +307,8 @@ case('token-bucket', 'capacity, refill, requests',
     ''')
 
 case('backoff', 'base, maximum, attempts',
-    'Return exponential retry delays min(maximum, base*2**attempt) for the given nonnegative integer '
-    'attempts. Base and maximum are nonnegative integers. Handle very large attempts without constructing '
+    'Attempts is a list of nonnegative integers. Return exponential retry delays min(maximum, base*2**attempt) '
+    'for each element. Base and maximum are nonnegative integers. Handle very large attempts without constructing '
     'unbounded-size integers. Retain attempt order.',
     [([3,20,[0,1,2,3,4]],[3,6,12,20,20]), ([0,100,[0,1000000000]],[0,0]),
      ([1,0,[0,3]],[0,0]), ([8,3,[0,1]],[3,3]), ([1,8,[2,3,1000000000]],[4,8,8])], r'''
@@ -545,20 +547,32 @@ case('typed-json-equality', 'left, right',
 def main():
     if len(CASES) != 30 or len({c['id'] for c in CASES}) != 30:
         raise RuntimeError('Expected exactly 30 unique new canaries')
-    out = ROOT/'eval/practical30-cases.jsonl'
+    out = ROOT/'eval/practical30-v2-cases.jsonl'
     data = ''.join(json.dumps(row, ensure_ascii=False)+'\n' for row in CASES)
     if out.exists() and out.read_text() != data:
         raise RuntimeError('Refuse to overwrite a different frozen deck')
     out.parent.mkdir(exist_ok=True)
     out.write_text(data)
-    manifest = {'scope': '30 original held-out executable DevOps/SysAdmin/Python function canaries; '
+    manifest = {'scope': '30 original executable DevOps/SysAdmin/Python function canaries; '
                          'not an external benchmark or repository repair qualification.',
+                'protocol_version': 2,
+                'revision_reason': 'Q4 prototype audit identified three ambiguous interfaces. Specify rejection '
+                    'return value, single-digit priorities and list-valued attempts; expose the first public '
+                    'example in every prompt. All 30 are rerun; no private tests or reference controls changed. '
+                    'This revised prompt deck is not a blind preregistered evaluation.',
                 'cases_sha256': hashlib.sha256(out.read_bytes()).hexdigest(),
                 'generator_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 'case_ids': [c['id'] for c in CASES],
-                'selection': 'New specifications and manually specified examples/edge cases frozen before responses. '
-                             'Model receives only the prompt, never reference implementations or private tests.'}
-    (ROOT/'results/practical30-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+                'selection': 'Revised prompts frozen before v2 responses; manually specified tests unchanged. '
+                             'Model receives prompt and one public example, never reference controls or private tests.'}
+    prototype = ROOT/'eval/practical30-cases.jsonl'
+    if prototype.exists():
+        before = [json.loads(line) for line in prototype.read_text().splitlines()]
+        if [{k:v for k,v in c.items() if k!='prompt'} for c in before] != [
+                {k:v for k,v in c.items() if k!='prompt'} for c in CASES]:
+            raise RuntimeError('V2 must not change prototype grading payloads or controls')
+        manifest['prototype_cases_sha256'] = hashlib.sha256(prototype.read_bytes()).hexdigest()
+    (ROOT/'results/practical30-v2-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     print(manifest)
 
 

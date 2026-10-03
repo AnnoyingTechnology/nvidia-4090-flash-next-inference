@@ -188,8 +188,24 @@
       "public_export_sha256": "fd9e2c180546203de4d16cb230d6f81b66dc565ca626ba50e6fdac259d61c32d"
     },
     "practical30-manifest.json": {
-      "private_original_sha256": "625c5a1577089c3eaadae9b7266f52103aa7165673e9ac8599ee08c54a34e25f",
-      "public_export_sha256": "625c5a1577089c3eaadae9b7266f52103aa7165673e9ac8599ee08c54a34e25f"
+      "private_original_sha256": "89f29a429ca45e8ecef5bf3fd931b5cb5b9c51713d572f2ce98edf84d70aa9ea",
+      "public_export_sha256": "89f29a429ca45e8ecef5bf3fd931b5cb5b9c51713d572f2ce98edf84d70aa9ea"
+    },
+    "practical30-v2-manifest.json": {
+      "private_original_sha256": "6291e61b86f0bcff984707715be09b37771ed19f4d1a4326f65f0d66e1a35f81",
+      "public_export_sha256": "6291e61b86f0bcff984707715be09b37771ed19f4d1a4326f65f0d66e1a35f81"
+    },
+    "practical30-comparison.json": {
+      "private_original_sha256": "1ba8e3aae38cff3f0c40bdfc1101098350cbf5812d24e75d15423940fd0efc98",
+      "public_export_sha256": "1ba8e3aae38cff3f0c40bdfc1101098350cbf5812d24e75d15423940fd0efc98"
+    },
+    "resources-q4-vision-decode.json": {
+      "private_original_sha256": "85397c3bf06451482dd0fd58f4aa3b1ce9ceae47b5b5477546b8f0afaceb8533",
+      "public_export_sha256": "85397c3bf06451482dd0fd58f4aa3b1ce9ceae47b5b5477546b8f0afaceb8533"
+    },
+    "quant-tensor-inventory.json": {
+      "private_original_sha256": "280f9f337471c580a8fc3b9e54f5525f4aff0f39c5d981f37a430dcfb5a19a8c",
+      "public_export_sha256": "280f9f337471c580a8fc3b9e54f5525f4aff0f39c5d981f37a430dcfb5a19a8c"
     }
   }
 }

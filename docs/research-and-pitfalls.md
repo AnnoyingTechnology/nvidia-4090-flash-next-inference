@@ -111,3 +111,19 @@ The [GSQ release card](https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ
 also advertises a separate Coder model with 256 of 512 experts retained per layer. It is a task-specialized,
 pruned candidate requiring separate code and general-task qualification, not a substitute for the current
 unpruned target. Its linked card was unavailable in the final web fetch; no execution or quality claim follows.
+
+## Targeted precision diagnostic
+
+Observed header inventory: 1224 identical tensor names/shapes, with 906 source type differences.
+The IQ3 token embedding is IQ4_XS (337.72 MB) versus Q4 Q8_0 (675.43 MB); the IQ3 output head is
+Q6_K (521.47 MB) versus Q4 Q8_0 (675.43 MB). Restoring these two to the available Q4 precision would
+add about 338 MB embedding storage and 154 MB output-head storage, before runtime workspaces/cache
+effects. This is a **planned diagnostic**, not an implemented or measured recovery. The embedding's
+actual GPU placement must be checked before treating all added storage as VRAM.
+
+IQ3 routers are already BF16; hyper-connection projections are mostly BF16, while Q4 source stores
+many as Q8_0 and rounds compatible projections into its runtime pack. Source bit-width labels therefore
+do not monotonically rank all dense components. Same types do not prove equal values. Preserve common
+tensor basis/layout, shape/type checks, target routing, sampler and PLE; a loader-supported overlay and
+complete paired canaries are required before selecting any restoration. Do not mix expert matrices
+from different quantization recipes without establishing their basis compatibility.
