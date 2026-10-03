@@ -21,17 +21,18 @@ def main():
     ap.add_argument('--label', required=True)
     ap.add_argument('--effort', choices=['none', 'low', 'medium'], default='low')
     ap.add_argument('--tokens', type=int, default=8192)
+    ap.add_argument('--seed', type=int, default=42)
     ap.add_argument('--control-only', action='store_true')
     ap.add_argument('--penalty-last-n', type=int, default=64)
     args = ap.parse_args()
-    if args.tokens <= 0 or not 1 <= args.penalty_last_n <= 4096:
-        ap.error('Positive token budget and penalty window in [1, 4096] required')
+    if args.tokens <= 0 or not 1 <= args.penalty_last_n <= 4096 or not 0 <= args.seed < 2**32:
+        ap.error('Positive token budget, penalty window in [1, 4096], and uint32 seed required')
     source, path = Path(args.cases), Path(args.out)
     cases = [json.loads(line) for line in source.read_text().splitlines()]
     digest = hashlib.sha256(source.read_bytes()).hexdigest()
     grader_id = subprocess.check_output(['docker', 'image', 'inspect', GRADER,
                                         '--format', '{{.Id}}'], text=True).strip()
-    protocol = {'effort': args.effort, 'max_tokens': args.tokens, 'seed': 42,
+    protocol = {'effort': args.effort, 'max_tokens': args.tokens, 'seed': args.seed,
                 'temperature': 1, 'top_p': 0.95, 'top_k': 20, 'min_p': 0,
                 'presence_penalty': 0, 'repetition_penalty': 1, 'version': 3,
                 'completion_policy': 'Natural stop required; incomplete cases withhold full-cohort accuracy'}

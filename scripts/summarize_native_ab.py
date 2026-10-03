@@ -11,7 +11,7 @@ def read(path):
     return json.loads(path.read_text())
 
 
-def summarize(left_path, right_path):
+def summarize(left_path, right_path, dense_precision=False):
     left, right = read(left_path), read(right_path)
     for key in ['sampling', 'tune', 'decode_tokens', 'paired_id']:
         if left[key] != right[key]:
@@ -19,11 +19,28 @@ def summarize(left_path, right_path):
     if not left['paired_id']:
         raise ValueError('A stable paired request ID is required')
     artifacts = [r['runtime']['identity']['artifacts'] for r in [left, right]]
+    if dense_precision:
+        if any(key in artifacts[0] for key in ['head_override_shards', 'embedding_override']):
+            raise ValueError('Dense precision control must be the original unmodified target')
+        if 'head_override_shards' not in artifacts[1]:
+            raise ValueError('Dense precision experiment must include a head override')
+        for key in ['native_sha256', 'shared_defaults_sha256']:
+            if artifacts[0][key] != artifacts[1][key]:
+                raise ValueError('Dense precision engine/defaults differ: ' + key)
+        for key in ['image_id', 'chat_template_sha256', 'api_properties']:
+            if left['runtime']['identity'][key] != right['runtime']['identity'][key]:
+                raise ValueError('Dense precision frontend differs: ' + key)
     for key in ['api_sources', 'native_command', 'tokenizer', 'target_shards', 'pack', 'mtp',
                 'expert_profile', 'vision_artifacts']:
         if key == 'native_command':
             # Only the executable path differs; actual engine arguments must match.
             values = [a[key][1:] for a in artifacts]
+            if dense_precision:
+                values = [list(v) for v in values]
+                for option in ['--native-head-gguf', '--embd-gguf']:
+                    if option in values[1]:
+                        index = values[1].index(option)
+                        del values[1][index:index+2]
         else:
             values = [a[key] for a in artifacts]
         if values[0] != values[1]:
@@ -76,8 +93,12 @@ def summarize(left_path, right_path):
             'drafted_tokens': drafted, 'accepted_drafts': accepted,
             'aggregate_draft_acceptance': accepted / drafted if drafted else None,
             'cells': cells})
-    return {'scope': 'CUDA 12.4 adaptation versus pinned upstream, same quantized target and '
-            '32K fully resident int8 KV allocation. Not a 256K fork result.',
+    scope = ('Original IQ3 versus an experimental dense-precision overlay on the same upstream engine. '
+        'IQ3 experts/body/PLE and BF16 vision remain common; output head also serves MTP. '
+        '256K context capacity with 32K resident int8 KV. Not an exact published GSQ checkpoint.'
+        if dense_precision else 'CUDA 12.4 adaptation versus pinned upstream, same quantized target and '
+        '32K fully resident int8 KV allocation. Not a 256K fork result.')
+    return {'scope': scope,
         'protocol': {key: left[key] for key in ['sampling', 'tune', 'decode_tokens', 'paired_id']},
         'matching_request_hashes': 11, 'runs': runs,
         'interpretation': 'Fixed-length throughput counts reasoning and answer tokens; intentional '
@@ -90,8 +111,9 @@ def main():
     ap.add_argument('--left', type=Path, required=True)
     ap.add_argument('--right', type=Path, required=True)
     ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--dense-precision', action='store_true')
     args = ap.parse_args()
-    result = summarize(args.left, args.right)
+    result = summarize(args.left, args.right, args.dense_precision)
     args.out.write_text(json.dumps(result, indent=2) + '\n')
     print([(r['source'], r['decode_median_tok_s']) for r in result['runs']])
 

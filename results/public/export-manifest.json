@@ -200,8 +200,8 @@
       "public_export_sha256": "6291e61b86f0bcff984707715be09b37771ed19f4d1a4326f65f0d66e1a35f81"
     },
     "practical30-comparison.json": {
-      "private_original_sha256": "d22635c5b08734dc421a1850109363b6f418336b21909333c4e457afa909fe2b",
-      "public_export_sha256": "d22635c5b08734dc421a1850109363b6f418336b21909333c4e457afa909fe2b"
+      "private_original_sha256": "f22a583049d6e9afb3e831f1ea46c1ab141a1f6133f06a9278823870d1ddab60",
+      "public_export_sha256": "f22a583049d6e9afb3e831f1ea46c1ab141a1f6133f06a9278823870d1ddab60"
     },
     "resources-q4-vision-decode.json": {
       "private_original_sha256": "85397c3bf06451482dd0fd58f4aa3b1ce9ceae47b5b5477546b8f0afaceb8533",
@@ -223,9 +223,21 @@
       "private_original_sha256": "c022592bf5fdfcaf50e681048e1b4b5b3c44fefb2365e2eed026f2ca71766e14",
       "public_export_sha256": "c022592bf5fdfcaf50e681048e1b4b5b3c44fefb2365e2eed026f2ca71766e14"
     },
+    "native-ab-q4-32k-static-comparison.json": {
+      "private_original_sha256": "f22f2569b8fa41f56717d332f71abd08684b9be9280c8047e55bf2a696a5e4c2",
+      "public_export_sha256": "f22f2569b8fa41f56717d332f71abd08684b9be9280c8047e55bf2a696a5e4c2"
+    },
     "dense-row-compatibility.json": {
       "private_original_sha256": "1e3ce16977c6a9eff1cd33c42328bccef6b519cad6e07b155e7eff145c103a95",
       "public_export_sha256": "1e3ce16977c6a9eff1cd33c42328bccef6b519cad6e07b155e7eff145c103a95"
+    },
+    "dense-embedding-extraction.json": {
+      "private_original_sha256": "534a329eeaec411ec79db182ba4f733a222124575b19374e6c2f372fa89df14e",
+      "public_export_sha256": "534a329eeaec411ec79db182ba4f733a222124575b19374e6c2f372fa89df14e"
+    },
+    "precision-iq3-head-comparison.json": {
+      "private_original_sha256": "0c471b5026a13c1610f110bfacffd5d80e2f57ce979a9df235b69e81c803d257",
+      "public_export_sha256": "0c471b5026a13c1610f110bfacffd5d80e2f57ce979a9df235b69e81c803d257"
     }
   }
 }

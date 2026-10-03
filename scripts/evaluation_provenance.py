@@ -26,9 +26,12 @@ def files(path):
     path=Path(path)
     if path.is_file(): return [identity(path,path.stat().st_size<16*1024*1024)]
     return [identity(p,p.stat().st_size<16*1024*1024) for p in sorted(path.rglob('*')) if p.is_file()]
+def split_shards(path):
+    path=Path(path)
+    match=re.search(r'-\d{5}-of-\d{5}\.gguf$',path.name)
+    return sorted(path.parent.glob(path.name[:match.start()]+'-*-of-*.gguf')) if match else [path]
 args=cfg['args']; native=Path(args[args.index('--native')+1])
-match=re.search(r'-\d{5}-of-\d{5}\.gguf$',native.name)
-shards=sorted(native.parent.glob(native.name[:match.start()]+'-*-of-*.gguf')) if match else [native]
+shards=split_shards(native)
 processes=[]
 for p in Path('/proc').iterdir():
     if not p.name.isdigit(): continue
@@ -44,6 +47,10 @@ result={'config_sha256':digest(cfg_path),'engine_config':cfg,
         'tokenizer':files(cfg['tokenizer']), 'target_shards':[identity(p) for p in shards]}
 for option,key in [('--pack','pack'),('--mtp','mtp'),('--expert-profile','expert_profile')]:
     if option in args: result[key]=files(args[args.index(option)+1])
+if '--native-head-gguf' in args:
+    result['head_override_shards']=[identity(p) for p in split_shards(args[args.index('--native-head-gguf')+1])]
+if '--embd-gguf' in args:
+    result['embedding_override']=identity(args[args.index('--embd-gguf')+1])
 vision=cfg.get('vision')
 if vision:
     result['vision_artifacts']={'native_sha256':digest(Path(vision['exe'])),

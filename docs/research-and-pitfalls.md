@@ -72,8 +72,8 @@ unmatched protocol details and local qualification requirements.
 - CPU intermediate quantization: [upstream PR 500](https://github.com/Niko1221/Strata/pull/500), pinned to
   `8eacd97390dc286e81af046f4a9bd8332c84ed1d`, passes the retained synthetic native-pool parity test.
   Its first six-run 107.4 tok/s median versus a subsequent 105.9 baseline is insufficient evidence to adopt it.
-- [eddoursul's Strata fork](https://github.com/eddoursul/Strata/blob/custom/docs/COMPARISON.md) is a serious
-  remaining A/B candidate. Published single-3090 IQ3_S thinking decode around 111 tok/s is close to the current
+- [eddoursul's Strata fork](https://github.com/eddoursul/Strata/blob/custom/docs/COMPARISON.md) is a **closed
+  alternative on this setup**. Published single-3090 IQ3_S thinking decode around 111 tok/s is close to the current
   Ulmus result, while its Q4 result suggests a useful path. Its dramatic gain compares an older upstream base
   without Q4 kernels; Ulmus already runs a newer base. Neither dual-GPU nor cross-CPU numbers transfer directly.
   The pinned native engine now builds for SM89/CUDA 12.4 behind the existing qualified API/vision frontend.
@@ -87,7 +87,8 @@ unmatched protocol details and local qualification requirements.
   Both engines reduce that prefill ceiling as needed. The matched Q4 32K A/B passes all nine API
   checks per engine but measures **33.65 tok/s fork vs 57.65 upstream**, with similar ~4.4K prefill.
   The same IQ3 comparison measures **46.60 versus 105.05 tok/s**. The fork is slower for both tested quants.
-  It is not selected. These adapted-build results do not establish the author's newer-CUDA performance.
+  Disabling adaptation also loses: **29.75 versus 46.15 tok/s** for Q4. No further fork tuning,
+  quality evaluation or build work is scheduled. These adapted-build results do not establish the author's newer-CUDA performance.
   Build with `bash scripts/build_eddoursul.sh`; retain the component and matched measurement records.
 - [ExLlamaV3's CPU-offload documentation](https://github.com/turboderp-org/exllamav3/blob/d3739fd393337b1ff4d6c2a342b12f0c87a9592f/doc/env_vars.md#cpu-moe-offload)
   specifies mul1-codebook eligibility, CPU resident experts and GPU streamed prefill. It is a plausible supported
@@ -131,7 +132,7 @@ Observed header inventory: 1224 identical tensor names/shapes, with 906 source t
 The IQ3 token embedding is IQ4_XS (337.72 MB) versus Q4 Q8_0 (675.43 MB); the IQ3 output head is
 Q6_K (521.47 MB) versus Q4 Q8_0 (675.43 MB). Restoring these two to the available Q4 precision would
 add about 338 MB embedding storage and 154 MB output-head storage, before runtime workspaces/cache
-effects. This is a **planned diagnostic**, not an implemented or measured recovery. The embedding's
+effects. These are **experimental mixed-checkpoint diagnostics**, not selected quality recovery. The embedding's
 actual GPU placement must be checked before treating all added storage as VRAM.
 
 IQ3 routers are already BF16; hyper-connection projections are mostly BF16, while Q4 source stores
@@ -148,6 +149,19 @@ relative L2 **.01928**; embeddings have mean cosine **.996951**, relative L2
 closely, and the full norm vector is identical. The five tokenizer files have
 identical content hashes. This screens out a gross hidden-state rotation/layout
 mismatch; it does not establish exact original-BF16 ancestry or certify a mixed
-model. The existing head override is a potential small diagnostic; embedding
-replacement requires a supported loader extension. Neither has been selected.
+model. The selected upstream provides both `--native-head-gguf` and `--embd-gguf`;
+the latter requires a standalone GGUF and rejects an individual split-model shard. Extract
+the embedding payload unchanged into the supported one-tensor `strata-embd` format. These paths
+permit separate head-only and head-plus-embedding diagnostics. The head is also
+shared with MTP, so the experiment is not a target-only logit intervention.
+Neither has been selected. Runtime fingerprints include the additional source
+artifacts before any response is reused or imported.
 [Sample evidence](../results/public/dense-row-compatibility.json)
+
+Head-only completes 29/30 low versus original IQ3 28/30, recovering both original
+failures but introducing a backoff edge-case failure. Median completed-answer
+latency is 9.45 s versus 9.12 s. Fresh matched decode is 100.3 versus 100.6 tok/s;
+there is no demonstrated speed gain. Seed repetitions remain necessary before
+selection. The embedding extraction copies exactly 675,430,400 source bytes;
+source and copied payload hashes match. It performs no requantization or inference.
+[Copy provenance](../results/public/dense-embedding-extraction.json)

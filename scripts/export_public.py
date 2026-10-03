@@ -32,7 +32,10 @@ FILES = [
     'eddoursul-native-parity.json',
     'native-ab-q4-32k-comparison.json',
     'native-ab-iq3-32k-comparison.json',
+    'native-ab-q4-32k-static-comparison.json',
     'dense-row-compatibility.json',
+    'dense-embedding-extraction.json',
+    'precision-iq3-head-comparison.json',
 ]
 
 

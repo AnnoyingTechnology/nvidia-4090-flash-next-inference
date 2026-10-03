@@ -140,6 +140,15 @@ rules that IQ3 off handles. More precision does not uniformly win across
 efforts. These single-seed results support repeating specific disagreements,
 not a universal retained-quality percentage.
 
+An **experimental IQ3 + Q4-source output head** completes **29/30 low** in
+**9.45 s median**, versus 28/30 and 9.12 s for original IQ3. It fixes the two
+original failures but introduces a zero-base backoff edge-case failure. Fresh
+matched 512-token decode measures **100.6 tok/s original / 100.3 head-only**:
+no demonstrated throughput gain. This mixed checkpoint also changes the shared
+MTP head and is not the exact published GSQ release. It remains unselected;
+two more seeds on the observed disagreements and the embedding-plus-head
+diagnostic are in progress. [Matched performance](results/public/precision-iq3-head-comparison.json)
+
 ## Bandwidth reference and remaining headroom
 
 Observed PCIe 4 x16 host-to-device bandwidth is **26.9 GB/s**. RAM capacity
@@ -186,6 +195,10 @@ one kernel. [Matched evidence](results/public/native-ab-q4-32k-comparison.json)
 The same controlled IQ3 comparison also favors upstream; its 32K results are
 separate from the selected 256K profile's earlier measurements.
 [IQ3 matched evidence](results/public/native-ab-iq3-32k-comparison.json)
+Disabling adaptive refill does not remove the fork's Q4 regression: **46.15
+tok/s upstream / 29.75 fork**, with both slower than their adaptive runs. Keep
+adaptation enabled. This does not identify the cause of the remaining stall.
+[Static-cache control](results/public/native-ab-q4-32k-static-comparison.json)
 
 ## Boundaries
 
@@ -319,8 +332,9 @@ repair. No generated operations command was applied to infrastructure.
    output caps, exact arguments, recovery, instruction compliance and answer latency.
 2. Expand beyond the completed 15-image and human-chart comparisons with
    independently reviewed screenshots, documents, spatial scenes and visual tool use.
-3. A/B the eddoursul Strata fork, then profile cold experts, cache placement,
-   transfers and GDN/hybrid-connection critical-path work.
+3. Profile the selected upstream's cold experts, cache placement, transfers and
+   GDN/hybrid-connection critical path. The measured eddoursul fork is closed;
+   no further tuning or qualification is scheduled.
 4. Build and qualify ExLlamaV3/TabbyAPI with a separate EXL3 checkpoint. Its
    whole-layer CPU offload could win or lose against per-expert caching.
 5. Requalify c2 on selected profiles. Current history parking is not simultaneous serving.

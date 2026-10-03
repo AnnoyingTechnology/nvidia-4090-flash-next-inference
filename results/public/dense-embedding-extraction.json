@@ -1,0 +1,15 @@
+{
+  "operation": "Exact embedding payload copy; no requantization",
+  "source_shard": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+  "tensor": "token_embd.weight",
+  "shape": [
+    2560,
+    248320
+  ],
+  "type": "Q8_0",
+  "payload_bytes": 675430400,
+  "source_payload_sha256": "be5e15b7020ec67dcfe5267807d20308a1dd27669c0fa2e1bae8e2ae58089d43",
+  "copied_payload_sha256": "be5e15b7020ec67dcfe5267807d20308a1dd27669c0fa2e1bae8e2ae58089d43",
+  "artifact_sha256": "5e96312dfbb53d7511d739b1ae7d5f62622be0957f73b6155b3f0972baecf21b",
+  "script_sha256": "74c3cdb88f44e71777b942833035fd09fa13a7afeaa5206afee3381f1bc6ce3b"
+}
