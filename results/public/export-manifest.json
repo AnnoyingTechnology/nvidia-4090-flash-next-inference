@@ -17,7 +17,7 @@
     },
     "second-round-summary.json": {
       "private_original_sha256": "cb13703b41f7368cb3838bb8e6f8c21d09e2b3d743d39dcd7b559358fa434409",
-      "public_export_sha256": "cb13703b41f7368cb3838bb8e6f8c21d09e2b3d743d39dcd7b559358fa434409"
+      "public_export_sha256": "6a5b0c86df329504d1b8672e7ae8749727757b0bcc9e8c0efebc73d9f27b8552"
     },
     "ple-iq4nl-perf.json": {
       "private_original_sha256": "e14d6920b16f2dfb4b44b3dfd7f7c0dbbaebb02164676b463543ab6d1b0c796e",
@@ -176,8 +176,8 @@
       "public_export_sha256": "91bc475db8fa88495f7c5d3f5e36dc727caf31209d22adcec6c0cf90983b8727"
     },
     "coding-checkpoint.json": {
-      "private_original_sha256": "bc00d0aa6d2a509d11db1247578356ef88485d242606373c8c11331814bf91d4",
-      "public_export_sha256": "bc00d0aa6d2a509d11db1247578356ef88485d242606373c8c11331814bf91d4"
+      "private_original_sha256": "ec8066bf4a154cdb476927d5c9c0720ec6c2b90be95e9ca0997ac421be9d7ddf",
+      "public_export_sha256": "ec8066bf4a154cdb476927d5c9c0720ec6c2b90be95e9ca0997ac421be9d7ddf"
     }
   }
 }

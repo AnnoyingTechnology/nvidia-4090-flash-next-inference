@@ -65,7 +65,8 @@ unmatched protocol details and local qualification requirements.
   downloads their exact byte ranges, not the full target checkpoint. Main weights remain GSQ IQ3_S. The isolated
   loader image applies [upstream PR 586](https://github.com/Niko1221/Strata/pull/586), pinned to
   `36f829da8bc1396e8c8198e3c2e0c147c78d14ba`; reader self-tests and real rows pass.
-  The completed screen finds no quality recovery: 112/140 answer-content correct versus 115 with IQ4_NL.
+  The knowledge attempts produced 112 correct completed answers versus 115 with IQ4_NL, with five capped
+  cases in each; full-deck accuracy is unqualified and no quality recovery has been demonstrated.
   Matched text speed is 107.5 tok/s versus the baseline's 116.4 and 111.15 before/after runs.
   Keep the restored table optional; retain IQ4_NL as the default.
 - CPU intermediate quantization: [upstream PR 500](https://github.com/Niko1221/Strata/pull/500), pinned to

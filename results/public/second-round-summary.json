@@ -9,7 +9,7 @@
         "wall_seconds": 1276.8101916810374
       },
       "answer_content_correct": 115,
-      "normalization": "Only exact A-J or **A-J**; empty/capped answers remain failures",
+      "normalization": "Only exact A-J or **A-J** on naturally finished answers; capped generations are incomplete, not quality failures.",
       "median_request_wall_s": 5.956581731001279,
       "seconds_per_correct_answer_including_failed_requests": 11.102697318965543,
       "category_content_correct": {
@@ -27,7 +27,8 @@
         "philosophy": 8,
         "physics": 7,
         "psychology": 9
-      }
+      },
+      "quality_score": null
     },
     "knowledge-iq3s-low": {
       "strict": {
@@ -38,7 +39,7 @@
         "wall_seconds": 782.9979271139855
       },
       "answer_content_correct": 115,
-      "normalization": "Only exact A-J or **A-J**; empty/capped answers remain failures",
+      "normalization": "Only exact A-J or **A-J** on naturally finished answers; capped generations are incomplete, not quality failures.",
       "median_request_wall_s": 3.5591782510000485,
       "seconds_per_correct_answer_including_failed_requests": 6.808677627078135,
       "category_content_correct": {
@@ -56,7 +57,8 @@
         "philosophy": 8,
         "physics": 8,
         "psychology": 8
-      }
+      },
+      "quality_score": null
     },
     "knowledge-iq3s-bf16-low": {
       "strict": {
@@ -67,7 +69,7 @@
         "wall_seconds": 756.9890203190153
       },
       "answer_content_correct": 112,
-      "normalization": "Only exact A-J or **A-J**; empty/capped answers remain failures",
+      "normalization": "Only exact A-J or **A-J** on naturally finished answers; capped generations are incomplete, not quality failures.",
       "median_request_wall_s": 3.527184622002096,
       "seconds_per_correct_answer_including_failed_requests": 6.758830538562636,
       "category_content_correct": {
@@ -85,7 +87,8 @@
         "philosophy": 8,
         "physics": 7,
         "psychology": 8
-      }
+      },
+      "quality_score": null
     }
   },
   "practical": {
@@ -661,5 +664,6 @@
     "resume-iq3s-cpuquant.json": "4a90f3a9bddddab5f087329d418a912940da84c71fc9ad82a30543f39b6bc6fe",
     "vision-iq3s-gpu-perf.json": "8e7df42b80bb08e9914c09a78fd5f51ea16cf7fdc379d656a2a382e5c1616896",
     "resume-iq3s-baseline.json": "4e41bc605a41bd300cc5fe0cdae6641b92f023d1adfd4498aabeef4d852e912e"
-  }
+  },
+  "completion_policy": "Historical attempt counters, not usable full-deck knowledge accuracy: every knowledge run contains capped generations. Keep incomplete attempts separate from completed correct/incorrect answers. Original private captures are unchanged."
 }

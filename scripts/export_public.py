@@ -49,7 +49,16 @@ def main():
         source = ROOT / 'results' / name
         if not source.exists():
             continue
-        payload = json.dumps(clean(json.loads(source.read_text())), indent=2) + '\n'
+        value = json.loads(source.read_text())
+        if name == 'second-round-summary.json':
+            value['completion_policy'] = ('Historical attempt counters, not usable full-deck knowledge accuracy: '
+                'every knowledge run contains capped generations. Keep incomplete attempts separate from '
+                'completed correct/incorrect answers. Original private captures are unchanged.')
+            for run in value['knowledge'].values():
+                run['normalization'] = ('Only exact A-J or **A-J** on naturally finished answers; '
+                                        'capped generations are incomplete, not quality failures.')
+                run['quality_score'] = None
+        payload = json.dumps(clean(value), indent=2) + '\n'
         target = OUT / name
         target.write_text(payload)
         manifest['sources'][name] = {'private_original_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),

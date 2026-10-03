@@ -10,12 +10,15 @@ import subprocess
 import uuid
 
 from bench import request
+from scripts.evaluation_status import unfinished, summary
 
 GRADER = 'ulmus/eval:lcb-28fef95'
-PROTOCOL = {'nonthinking': {'temperature': 0, 'seed': 42},
+PROTOCOL = {'nonthinking': {'temperature': 0.7, 'top_p': 0.8, 'top_k': 20, 'min_p': 0.0,
+                           'presence_penalty': 1.5, 'repetition_penalty': 1.0, 'seed': 42},
             'thinking': {'temperature': 1.0, 'top_p': 0.95, 'top_k': 20, 'min_p': 0.0,
                          'presence_penalty': 0.0, 'repetition_penalty': 1.0, 'seed': 42},
-            'aime_tokens': 32768, 'mmlu_tokens': 64, 'code_tokens': 32768, 'version': 2}
+            'aime_tokens': 32768, 'mmlu_tokens': 64, 'code_tokens': 32768, 'version': 3,
+            'completion_policy': 'Only natural stop is graded; full-cohort accuracy requires every case complete'}
 
 
 def grade(problem, code, image=GRADER):
@@ -34,7 +37,7 @@ def grade(problem, code, image=GRADER):
         return json.loads(run.stdout)
     except subprocess.TimeoutExpired:
         subprocess.run(['docker', 'rm', '--force', name], capture_output=True, timeout=15)
-        return {'pass': False, 'error': 'isolated grader exceeded 180 seconds'}
+        return {'error': 'isolated grader exceeded 180 seconds'}
 
 
 def control():
@@ -73,6 +76,9 @@ def prompt(case, effort='high'):
 
 
 def score(case, response):
+    incomplete = unfinished(response)
+    if incomplete:
+        return incomplete
     content = response['content'].strip()
     row, suite = case['data'], case['suite']
     if suite == 'aime25':
@@ -101,7 +107,10 @@ def main():
     ap.add_argument('--limit', type=int)
     ap.add_argument('--control-only', action='store_true')
     ap.add_argument('--import-from', help='Reuse results only when the exact request hash and source deck match')
-    ap.add_argument('--effort', choices=['low', 'medium', 'high'], default='high')
+    ap.add_argument('--effort', choices=['none', 'low', 'medium', 'high'], default='low')
+    ap.add_argument('--seed', type=int, default=42)
+    ap.add_argument('--presence-penalty', type=float,
+                    help='Separate thinking-sampler experiment; never changes the frozen prompt')
     ap.add_argument('--code-tokens', type=int, default=32768,
                     help='Completion budget for coding cases, recorded in the run protocol')
     ap.add_argument('--ids', nargs='*')
@@ -109,8 +118,13 @@ def main():
     if args.code_tokens <= 0:
         ap.error('--code-tokens must be positive')
     PROTOCOL['code_tokens'] = args.code_tokens
-    if args.effort != 'high':
-        PROTOCOL['effort'] = args.effort
+    PROTOCOL['effort'] = args.effort
+    for mode in ['nonthinking', 'thinking']:
+        PROTOCOL[mode]['seed'] = args.seed
+    if args.presence_penalty is not None:
+        if args.effort == 'none' or not 0 <= args.presence_penalty <= 2:
+            ap.error('--presence-penalty is a thinking experiment in the range [0, 2]')
+        PROTOCOL['thinking']['presence_penalty'] = args.presence_penalty
     controls = control()
     if args.control_only:
         print(json.dumps(controls, indent=2))
@@ -134,6 +148,14 @@ def main():
         cases = [c for c in cases if str(c['id']) in args.ids]
     if args.limit:
         cases = cases[:args.limit]
+    expected = defaultdict(int)
+    for case in cases:
+        expected[case['suite']] += 1
+    selected = {(c['suite'], c['id']) for c in cases}
+    previous_selection = {(c['suite'], c['id']) for c in report.get('selected_cases', [])}
+    if completed - selected or (previous_selection and previous_selection != selected):
+        raise RuntimeError('Resume case selection differs')
+    report['selected_cases'] = [{'suite': c['suite'], 'id': c['id']} for c in cases]
     prior = {}
     if args.import_from:
         old = json.loads(Path(args.import_from).read_text())
@@ -151,7 +173,8 @@ def main():
         input_hash = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
         old = prior.get((case['suite'], case['id']))
         if old and old['input_sha256'] == input_hash:
-            response, verdict = old['response'], old['verdict']
+            response = old['response']
+            verdict = unfinished(response) or old['verdict']
         else:
             response = request(args.url, payload)
             try:
@@ -168,14 +191,12 @@ def main():
         groups = defaultdict(list)
         for result in report['results']:
             groups[result['suite']].append(result)
-        report['scores'] = {s: {'passed': sum(r['verdict'].get('pass', False) for r in rows),
-            'total': len(rows), 'truncated': sum(r['response']['finish_reason'] == 'length' for r in rows),
-            'grader_errors': sum('pass' not in r['verdict'] for r in rows)} for s, rows in groups.items()}
+        report['scores'] = {s: summary(rows, expected[s]) for s, rows in groups.items()}
         path.write_text(json.dumps(report, indent=2))
         print(case['suite'], case['id'], verdict.get('pass'),
               response['usage'].get('completion_tokens'), response['finish_reason'],
               report['scores'][case['suite']], flush=True)
-        if 'pass' not in verdict:
+        if 'pass' not in verdict and verdict.get('status') != 'incomplete':
             raise RuntimeError(verdict['error'])
 
 

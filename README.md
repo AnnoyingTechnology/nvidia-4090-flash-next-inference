@@ -78,13 +78,16 @@ Original responses and annotation scores are retained. IQ3_S misread a line
 chart's change; this set does **not** separate Terra from Sol or establish
 broad cloud-model parity. Read the [vision protocol and audit](docs/vision-comparison.md).
 
-The 24-case frozen LiveCodeBench screen at **low / 8192 output tokens** scored
-**13/24**. All 11 failures hit the output cap; all 13 finished completions
-passed the isolated grader. A separately labelled 32768-token retry of the
-first capped case also capped. This is a practical budget limitation, not
-an official leaderboard score or a measured quantization deficit. The
-140-question low-reasoning knowledge screen scored **115/140 answer content**
-for both IQ3_S and Q4; four practical code functions and eight operations
+The 24-case frozen LiveCodeBench attempt at **low / 8192 output tokens** is
+**incomplete: 13 finished and passed, 11 exhausted the cap**. It has no usable
+full-deck quality score. A separately labelled 32768-token retry of the
+first capped case also exhausted its cap without producing code. The same
+case finished and passed with thinking off; a full off-mode run is in progress.
+Capped cases are neither correct nor incorrect, and finished-case counts do
+not establish accuracy for the whole deck. The historical 140-question low
+knowledge attempts also had caps: IQ3_S/Q4 produced 115 correct completed
+answers each, with five/four incomplete cases; their full-deck quality remains
+unqualified. Four practical code functions and eight operations
 decisions passed on content. Published paired full-size coding/knowledge
 references remain the quantization anchor in the quality section below.
 
@@ -113,7 +116,7 @@ work, not a claim that an unused RAM allocation makes inference faster.
 | CPU worker, prefill, PCIe and MTP tuning | Selected 11 workers, auto:32768, .35 PCIe / .7 min-p, four draft tokens | Aggressive short-sweep gains failed longer confirmation |
 | GPU BF16 vision, 4096 image-token budget | **5/5** initial and profile-default canaries pass | Budget, placement and reasoning not fully isolated; no broad vision parity claim |
 | Effective low/stochastic defaults and JSON validator dependency | **9/9 API checks per profile**, upstream 8 tests pass | Identical engine binary; prompt-and-validate JSON, no grammar decoder |
-| Original BF16 ngram table, RAM resident | 107.5 tok/s; **112/140** answer-content correct vs 115 | Fits with about 35.9 GiB RAM available; no demonstrated quality recovery, not selected |
+| Original BF16 ngram table, RAM resident | 107.5 tok/s; 112 correct completed knowledge answers vs 115, with caps in both runs | Fits with about 35.9 GiB RAM available; full-deck quality unqualified, no demonstrated recovery, not selected |
 | CPU activation-quantization parallelization | 107.4 vs subsequent 105.9 tok/s baseline | 18 native-pool parity configurations pass; gain not established, not selected |
 
 These rows use several protocols. Their percentages are not multiplied, and
@@ -229,15 +232,18 @@ comparisons, not a universal retained-intelligence percentage.
 
 | Frozen local low-reasoning screen | IQ3_S | Q4 |
 |---|---:|---:|
-| 140-question knowledge, strict letter | **114/140** | 108/140 |
-| Same screen, answer content | **115/140** | **115/140** |
+| Knowledge attempt: correct completed strict letters | 114 | 108 |
+| Knowledge attempt: correct completed answer content | 115 | 115 |
+| Incomplete knowledge cases / 140 attempted | 5 | 4 |
+| Full-deck knowledge accuracy | **Unqualified** | **Unqualified** |
 | Practical executable functions | **4/4** | **4/4** |
 | Operations decisions, content / strict | **8/8 / 6/8** | **8/8 / 8/8** |
 | Multi-turn simulated tool workflows | **3/3** | **3/3** |
 | Synthetic GPU vision, strict JSON and content | **5/5** | **5/5** |
 
 Knowledge uses zero-shot low reasoning, the stated sampler, seed 42 and a
-4096-token cap. IQ3_S/Q4 reached the cap five/four times. Answer-content scoring
+4096-token cap. IQ3_S/Q4 reached the cap five/four times, so these are completion
+diagnostics rather than representative full-deck scores. Answer-content scoring
 only accepts a single A–J letter, optionally surrounded by bold markers.
 The equal totals hide ten differing answers. The broader official agent and
 vision benchmarks were not run; four function tasks do not qualify repository

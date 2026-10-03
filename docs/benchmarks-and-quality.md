@@ -103,9 +103,10 @@ legacy label `iq3s-original-table-low` means the starting quantized release tabl
 
 | Local screen | IQ3_S + IQ4_NL | Q4 + IQ4_NL | IQ3_S + original BF16 |
 | --- | ---: | ---: | ---: |
-| Knowledge: strict requested letter | **114/140** | 108/140 | 109/140 |
-| Knowledge: answer content | **115/140** | **115/140** | 112/140 |
-| Output caps reached | 5 | 4 | 5 |
+| Knowledge attempt: correct completed strict letters | 114 | 108 | 109 |
+| Knowledge attempt: correct completed answer content | 115 | 115 | 112 |
+| Incomplete cases / 140 attempted | 5 | 4 | 5 |
+| Full-deck knowledge accuracy | **Unqualified** | **Unqualified** | **Unqualified** |
 | Format failures | 7 | 15 | 10 |
 | Knowledge median request time | **3.56 s** | 5.96 s | 3.53 s |
 | Total knowledge screen time | **783 s** | 1277 s | 757 s |
@@ -120,7 +121,24 @@ arbitrary prose for a convenient answer. Strict scores remain intact. The two or
 equal content totals but differ on ten questions: five correct only for IQ3_S, five only for Q4. This is
 not identical behavior. The earlier greedy/non-thinking screen was Q4 100 versus IQ3_S 92; both sampling
 and reasoning changed in this round, so the improved totals do not isolate reasoning or quantization.
-The local bounded zero-shot protocol is not the published full benchmark protocol.
+The local bounded zero-shot protocol is not the published full benchmark protocol. Capped generations
+are unusable quality tests. Original capture summaries used legacy pass/total counters; those counters
+must not be interpreted as accuracy. We retain attempted coverage, completed correct/incorrect answers
+and incomplete cases separately, and withhold full-deck accuracy when any case is unfinished.
+
+### Coding completion protocol
+
+The frozen 24-case LiveCodeBench v6 attempt at low/8192 has 13 completed, graded passes and 11 incomplete
+generations. The first hard case also exhausted 32768 tokens entirely in reasoning, without answer code.
+Thinking off completed that same case in about 18 seconds and passed. This single diagnostic does not
+qualify the full coding deck. The complete off-mode run uses Qwen's recommended off sampler and the
+unchanged frozen prompts; it is in progress.
+
+Evaluator protocol v3 grades only naturally finished (`finish_reason=stop`) responses and publishes
+full-cohort accuracy only when every selected case finishes and has a grader verdict. It does not force
+thinking closure, count capped output as a model error, or substitute survivor accuracy. The output
+limit remains a runaway guard; reaching it invalidates that quality run. Fixed-length throughput
+measurements remain separate from answer-quality tests.
 
 The code deck covers exact config-size parsing, recursive credential redaction, deterministic/idempotent
 deployment reconciliation and IPv4/IPv6 CIDR handling. Generated functions are run through the retained
@@ -224,7 +242,7 @@ breakdown. Logs are diagnostic evidence for CPU/GPU overlap and kernel work, not
    answer time separately. Repeat selected disagreements across seeds; five equal totals do not settle
    task fidelity. Extend IFBench/instruction and multimodal evidence.
 2. **Recover bounded/format failures deliberately.** Re-run the capped knowledge cases with the owner
-   8192 budget or higher and test medium effort on hard code/operations cases. Qualification must include
+   ample output room and diagnose natural low/off completion on hard code/operations cases. Qualification must include
    completion latency, not just decode. Use native validated structured output for standalone machine-facing
    JSON, and qualify client tool schemas separately. Frozen controls are needed before attributing a gain
    to precision rather than sampler or output room.
