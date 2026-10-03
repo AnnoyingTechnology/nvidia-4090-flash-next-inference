@@ -30,6 +30,9 @@ FILES = [
     'resources-q4-vision-decode.json',
     'quant-tensor-inventory.json',
     'eddoursul-native-parity.json',
+    'native-ab-q4-32k-comparison.json',
+    'native-ab-iq3-32k-comparison.json',
+    'dense-row-compatibility.json',
 ]
 
 

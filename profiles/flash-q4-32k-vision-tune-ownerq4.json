@@ -1,5 +1,5 @@
 {
-  "exe": "/opt/strata-eddoursul-build/strata",
+  "exe": "/opt/strata-build/strata",
   "args": [
     "--pack",
     "/work/packs/q4",
@@ -12,7 +12,7 @@
     "--ple-io",
     "ram",
     "--prefill",
-    "auto:32768",
+    "32768",
     "--spec",
     "4",
     "--spec-min-p",
@@ -20,7 +20,7 @@
     "--mtp",
     "/work/mtp/rt",
     "--max-context",
-    "262144",
+    "32768",
     "--kv",
     "int8",
     "--pool-workers",
@@ -28,14 +28,12 @@
     "--stats",
     "--pcie-frac",
     "0.35",
-    "--kv-resident",
-    "32768",
     "--vision"
   ],
   "cwd": "/opt/strata",
   "tokenizer": "/work/packs/q4/tokenizer",
   "model_name": "Qwen3.8-Flash-Next",
-  "log": "/work/results/flash-q4-256k-vision-tune-eddoursulq4-engine.log",
+  "log": "/work/results/flash-q4-32k-vision-tune-ownerq4-engine.log",
   "host": "0.0.0.0",
   "port": 19623,
   "aliases": [

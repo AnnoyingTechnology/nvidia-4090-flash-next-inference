@@ -121,16 +121,24 @@ This checks prompt serialization; it does not certify all native numerical paths
 
 | Thirty executable DevOps/Python canaries, v2 | IQ3_S | Q4_K_XL |
 |---|---:|---:|
-| Low: complete correct functions | Pending | **30/30** |
-| Off: complete correct functions | Pending | **27/30** |
-| Low median completed-answer time | Pending | **16.51 s** |
-| Off median completed-answer time | Pending | **6.60 s** |
+| Low: complete correct functions | **28/30** | **30/30** |
+| Off: complete correct functions | **29/30** | **27/30** |
+| Low median completed-answer time | **9.12 s** | **16.51 s** |
+| Off median completed-answer time | **3.40 s** | **6.60 s** |
 
-All Q4 canaries stop naturally; each function has positive/negative isolated
+All completed IQ3/Q4 runs stop naturally; each function has positive/negative isolated
 grader controls. V2 repairs three interfaces found ambiguous in the Q4 prototype
 and includes one public example per prompt. All 30 are rerun; private tests and
 controls are unchanged. This is a local canary deck, not a blind public benchmark
 or repository-scale agent qualification. [Protocol and results](results/public/practical30-comparison.json)
+
+All 30 input hashes match within each effort. IQ3's low-mode failures accept
+unbracketed IPv6 and raise an exception through incorrect regex group indices
+in Retry-After parsing; Q4 low passes both. IQ3/Q4 off both mishandle the
+missing-variable return contract; Q4 off also misses root-route and IPv6-zone
+rules that IQ3 off handles. More precision does not uniformly win across
+efforts. These single-seed results support repeating specific disagreements,
+not a universal retained-quality percentage.
 
 ## Bandwidth reference and remaining headroom
 
@@ -159,11 +167,25 @@ work, not a claim that an unused RAM allocation makes inference faster.
 | Effective low/stochastic defaults and JSON validator dependency | **9/9 API checks per profile**, upstream 8 tests pass | Identical engine binary; prompt-and-validate JSON, no grammar decoder |
 | Original BF16 ngram table, RAM resident | 107.5 tok/s; 112 correct completed knowledge answers vs 115, with caps in both runs | Fits with about 35.9 GiB RAM available; full-deck quality unqualified, no demonstrated recovery, not selected |
 | CPU activation-quantization parallelization | 107.4 vs subsequent 105.9 tok/s baseline | 18 native-pool parity configurations pass; gain not established, not selected |
-| eddoursul native fork, CUDA 12.4 adaptation | **9/9 component checks pass**, build succeeds | Ordered copies, grouped GEMM fallback, sampler, PLE, QSA, GDN, router and real IQ3/Q4 experts; API/throughput comparison in progress, not selected |
+| eddoursul native fork, CUDA 12.4 adaptation, Q4 at 32K | **33.65 vs 57.65 tok/s upstream**, 9/9 component and API checks pass | Slower in this matched configuration; not selected. Its older engine lacks the selected stack's 256K KV paging |
+| Same adapted fork, IQ3 at 32K | **46.60 vs 105.05 tok/s upstream**, 9/9 API checks per engine | Identical target/arguments/requests; not selected |
 
 These rows use several protocols. Their percentages are not multiplied, and
 no target-weight or KV precision change is described as lossless. Verified
 MTP proposals are always checked against the quantized target.
+
+The native-fork Q4 A/B uses fresh launches, identical request hashes for three
+warmups, six 512-token low-mode decode cells and two uncached 31,823-token
+prefills. Both engines use a 32K fully resident int8 KV allocation, identical
+weights, frontend, image encoder and sampling. Prefill is **4386 / 4548 tok/s
+upstream**, **4512 / 4324.5 fork**. Short-prompt TTFT medians are **1.04 / 2.63 s**.
+Aggregate MTP acceptance is similar, **73.98% / 73.63%**; the fork has a slightly
+larger expert cache, **14.12 vs 13.76 GiB**, yet slower decode. This measures
+the CUDA 12.4 adaptation, not the author's newer-CUDA build, and does not isolate
+one kernel. [Matched evidence](results/public/native-ab-q4-32k-comparison.json)
+The same controlled IQ3 comparison also favors upstream; its 32K results are
+separate from the selected 256K profile's earlier measurements.
+[IQ3 matched evidence](results/public/native-ab-iq3-32k-comparison.json)
 
 ## Boundaries
 

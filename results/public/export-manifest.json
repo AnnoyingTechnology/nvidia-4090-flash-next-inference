@@ -200,8 +200,8 @@
       "public_export_sha256": "6291e61b86f0bcff984707715be09b37771ed19f4d1a4326f65f0d66e1a35f81"
     },
     "practical30-comparison.json": {
-      "private_original_sha256": "1ba8e3aae38cff3f0c40bdfc1101098350cbf5812d24e75d15423940fd0efc98",
-      "public_export_sha256": "1ba8e3aae38cff3f0c40bdfc1101098350cbf5812d24e75d15423940fd0efc98"
+      "private_original_sha256": "d22635c5b08734dc421a1850109363b6f418336b21909333c4e457afa909fe2b",
+      "public_export_sha256": "d22635c5b08734dc421a1850109363b6f418336b21909333c4e457afa909fe2b"
     },
     "resources-q4-vision-decode.json": {
       "private_original_sha256": "85397c3bf06451482dd0fd58f4aa3b1ce9ceae47b5b5477546b8f0afaceb8533",
@@ -214,6 +214,18 @@
     "eddoursul-native-parity.json": {
       "private_original_sha256": "1f37b0a6a249c4a10ea8856bb46a012e452024faa65f681cc97a19f70346feb5",
       "public_export_sha256": "1f37b0a6a249c4a10ea8856bb46a012e452024faa65f681cc97a19f70346feb5"
+    },
+    "native-ab-q4-32k-comparison.json": {
+      "private_original_sha256": "45614f4e182b1d558f80f3e172754455e7ac604bbc02135ea702b3f8e1b27235",
+      "public_export_sha256": "45614f4e182b1d558f80f3e172754455e7ac604bbc02135ea702b3f8e1b27235"
+    },
+    "native-ab-iq3-32k-comparison.json": {
+      "private_original_sha256": "c022592bf5fdfcaf50e681048e1b4b5b3c44fefb2365e2eed026f2ca71766e14",
+      "public_export_sha256": "c022592bf5fdfcaf50e681048e1b4b5b3c44fefb2365e2eed026f2ca71766e14"
+    },
+    "dense-row-compatibility.json": {
+      "private_original_sha256": "1e3ce16977c6a9eff1cd33c42328bccef6b519cad6e07b155e7eff145c103a95",
+      "public_export_sha256": "1e3ce16977c6a9eff1cd33c42328bccef6b519cad6e07b155e7eff145c103a95"
     }
   }
 }

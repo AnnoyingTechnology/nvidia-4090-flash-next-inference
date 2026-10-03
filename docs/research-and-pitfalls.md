@@ -82,8 +82,13 @@ unmatched protocol details and local qualification requirements.
   features, so it is an adapted-fork A/B rather than the author's original software configuration.
   All **9 component checks pass**, including exact ordered copy checks, four heterogeneous GEMM stream
   configurations, sampler, PLE reader, QSA/GDN/router, and real native IQ3/Q4 experts. End-to-end API,
-  quality and performance remain separate gates. Build with `bash scripts/build_eddoursul.sh`;
-  the alternate profiles stay experimental until the matched measurements justify selection.
+  quality and performance remain separate gates. Its older engine lacks `--kv-resident` and treats
+  `auto:32768` as zero; experimental profiles instead use 32K context and numeric `--prefill 32768`.
+  Both engines reduce that prefill ceiling as needed. The matched Q4 32K A/B passes all nine API
+  checks per engine but measures **33.65 tok/s fork vs 57.65 upstream**, with similar ~4.4K prefill.
+  The same IQ3 comparison measures **46.60 versus 105.05 tok/s**. The fork is slower for both tested quants.
+  It is not selected. These adapted-build results do not establish the author's newer-CUDA performance.
+  Build with `bash scripts/build_eddoursul.sh`; retain the component and matched measurement records.
 - [ExLlamaV3's CPU-offload documentation](https://github.com/turboderp-org/exllamav3/blob/d3739fd393337b1ff4d6c2a342b12f0c87a9592f/doc/env_vars.md#cpu-moe-offload)
   specifies mul1-codebook eligibility, CPU resident experts and GPU streamed prefill. It is a plausible supported
   bootstrap, not a measured performance improvement. A separate EXL3 download and source build remain.
@@ -135,3 +140,14 @@ do not monotonically rank all dense components. Same types do not prove equal va
 tensor basis/layout, shape/type checks, target routing, sampler and PLE; a loader-supported overlay and
 complete paired canaries are required before selecting any restoration. Do not mix expert matrices
 from different quantization recipes without establishing their basis compatibility.
+
+A sampled dense-row coordinate screen reads 15.23 MB of tensor payload without
+inference. IQ3/Q4 output heads have mean cosine **.999814** over 518 rows,
+relative L2 **.01928**; embeddings have mean cosine **.996951**, relative L2
+**.07800** over 518 rows. Adjacent output hyper-connection matrices also align
+closely, and the full norm vector is identical. The five tokenizer files have
+identical content hashes. This screens out a gross hidden-state rotation/layout
+mismatch; it does not establish exact original-BF16 ancestry or certify a mixed
+model. The existing head override is a potential small diagnostic; embedding
+replacement requires a supported loader extension. Neither has been selected.
+[Sample evidence](../results/public/dense-row-compatibility.json)

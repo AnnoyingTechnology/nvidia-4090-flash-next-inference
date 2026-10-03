@@ -103,6 +103,8 @@ def main():
     ap.add_argument('--tune', help='JSON of Strata per-request tuning keys')
     ap.add_argument('--sampling', help='JSON sampling override; for a separate realistic-generation measurement')
     ap.add_argument('--paired-id', help='Stable request prefix for comparisons across fresh engine launches')
+    ap.add_argument('--capture-runtime', action='store_true',
+                    help='Fingerprint the owned container and model artifacts for a matched engine A/B')
     a = ap.parse_args()
     report = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'url': a.url,
               'sampling': json.loads(a.sampling) if a.sampling else {'temperature': 0, 'reasoning_effort': 'none', 'seed': 42},
@@ -110,8 +112,13 @@ def main():
               'decode_tokens': a.decode_tokens, 'paired_id': a.paired_id,
               'warmups': [], 'decode': [], 'prefill': []}
     path = Path(a.out)
+    if a.capture_runtime:
+        from scripts.evaluation_provenance import capture, assert_container
+        report['runtime'] = capture(a.url)
 
     def measure(prompt, tokens, group, **extra):
+        if a.capture_runtime:
+            assert_container(report['runtime'])
         run_id = (f'{a.paired_id}-{group}-{len(report[group])}' if a.paired_id else uuid.uuid4().hex)
         payload = {'model': 'ulmus', 'messages': [
             {'role': 'system', 'content': f'Benchmark run {run_id}. Follow the user request.'},
@@ -128,6 +135,8 @@ def main():
             payload.update(sampling)
         try:
             result = request(a.url, payload)
+            if a.capture_runtime:
+                assert_container(report['runtime'])
         except Exception as error:
             result = {'error': str(error)}
         result['fixture'] = prompt[:100]

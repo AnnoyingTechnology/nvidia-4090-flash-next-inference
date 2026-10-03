@@ -28,6 +28,9 @@ def main():
     ap.add_argument('--url', default='http://127.0.0.1:19623')
     args = ap.parse_args()
     profile = Path('profiles') / (args.profile + '.json')
+    config = json.loads(profile.read_text())
+    engine_args = config['args']
+    expected_context = int(engine_args[engine_args.index('--max-context') + 1])
     report = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
               'profile': args.profile, 'profile_sha256': hashlib.sha256(profile.read_bytes()).hexdigest(),
               'checks': []}
@@ -43,7 +46,7 @@ def main():
 
     status = http(args.url, '/v1/status')
     check('model-context-vision', status['status'] == 200 and status['body']['model'] == 'Qwen3.8-Flash-Next'
-          and status['body']['context']['native'] == 262144
+          and status['body']['context']['native'] == expected_context
           and status['body']['vision']['enabled'] == args.vision, status)
     props = http(args.url, '/props?model=ulmus')
     params = props['body']['default_generation_settings']['params']
