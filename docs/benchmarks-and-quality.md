@@ -1,5 +1,11 @@
 # Ulmus Flash-Next: second checkpoint, 2026-10-03
 
+The latest additions are summarized in the [README](../README.md): completed
+[Luna/Terra/Sol vision comparisons](vision-comparison.md), the 24-case low-reasoning
+coding screen, a loaded-memory/CPU snapshot and the [OpenCode client](opencode.md).
+The measurements below retain their original protocols; higher-effort historical
+cells are not used as matched low/off quality comparisons.
+
 The current candidate is **unpruned GSQ IQ3_S with the release's IQ4_NL ngram table in RAM**.
 The packaged owner profiles measured **110.8 tok/s for text** and **97.65 tok/s with GPU vision enabled**,
 with uncached ~32K prefill near 4,700–4,800 tok/s. GPU vision now passes the five synthetic canaries,

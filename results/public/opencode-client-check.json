@@ -1,0 +1,140 @@
+{
+  "client_version": "1.18.32",
+  "checks": [
+    {
+      "name": "read-tool-low",
+      "passed": true,
+      "returncode": 0,
+      "elapsed_s": 6.661685114027932,
+      "answer": "- **Queue name:** `ops-canary-94627`\n- **Retries:** `7`",
+      "requests": [
+        {
+          "generation": {
+            "model": "Qwen3.8-Flash-Next",
+            "max_tokens": 8192,
+            "temperature": 1,
+            "top_p": 0.95,
+            "presence_penalty": 0,
+            "top_k": 20,
+            "min_p": 0,
+            "repetition_penalty": 1,
+            "reasoning_effort": "low",
+            "stream": true,
+            "stream_options": {
+              "include_usage": true
+            }
+          },
+          "tool_names": [],
+          "assistant_reasoning_present": false,
+          "image_count": 0
+        },
+        {
+          "generation": {
+            "model": "Qwen3.8-Flash-Next",
+            "max_tokens": 8192,
+            "temperature": 1,
+            "top_p": 0.95,
+            "presence_penalty": 0,
+            "top_k": 20,
+            "min_p": 0,
+            "repetition_penalty": 1,
+            "reasoning_effort": "low",
+            "tool_choice": "auto",
+            "stream": true,
+            "stream_options": {
+              "include_usage": true
+            }
+          },
+          "tool_names": [
+            "read"
+          ],
+          "assistant_reasoning_present": false,
+          "image_count": 0
+        },
+        {
+          "generation": {
+            "model": "Qwen3.8-Flash-Next",
+            "max_tokens": 8192,
+            "temperature": 1,
+            "top_p": 0.95,
+            "presence_penalty": 0,
+            "top_k": 20,
+            "min_p": 0,
+            "repetition_penalty": 1,
+            "reasoning_effort": "low",
+            "tool_choice": "auto",
+            "stream": true,
+            "stream_options": {
+              "include_usage": true
+            }
+          },
+          "tool_names": [
+            "read"
+          ],
+          "assistant_reasoning_present": true,
+          "image_count": 0
+        }
+      ]
+    },
+    {
+      "name": "image-off",
+      "passed": true,
+      "returncode": 0,
+      "elapsed_s": 6.851278705056757,
+      "answer": "ULMUS-731",
+      "requests": [
+        {
+          "generation": {
+            "model": "Qwen3.8-Flash-Next",
+            "max_tokens": 8192,
+            "temperature": 1,
+            "top_p": 0.95,
+            "presence_penalty": 0,
+            "top_k": 20,
+            "min_p": 0,
+            "repetition_penalty": 1,
+            "reasoning_effort": "low",
+            "stream": true,
+            "stream_options": {
+              "include_usage": true
+            }
+          },
+          "tool_names": [],
+          "assistant_reasoning_present": false,
+          "image_count": 1
+        },
+        {
+          "generation": {
+            "model": "Qwen3.8-Flash-Next",
+            "max_tokens": 8192,
+            "temperature": 0.7,
+            "top_p": 0.8,
+            "presence_penalty": 1.5,
+            "top_k": 20,
+            "min_p": 0,
+            "repetition_penalty": 1,
+            "reasoning_effort": "none",
+            "tool_choice": "auto",
+            "stream": true,
+            "stream_options": {
+              "include_usage": true
+            }
+          },
+          "tool_names": [
+            "read"
+          ],
+          "assistant_reasoning_present": false,
+          "image_count": 1
+        }
+      ]
+    },
+    {
+      "name": "ssh-launcher-off",
+      "passed": true,
+      "answer": "READY",
+      "returncode": 0,
+      "tunnel_closed": true,
+      "elapsed_s": 5.684541902970523
+    }
+  ]
+}

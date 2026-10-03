@@ -11,8 +11,14 @@ The complete upstream notice is retained in patches/STRATA-LICENSE.
 LiveCodeBench's evaluator is downloaded from the pinned upstream repository;
 its license accompanies the evaluator in the local build context.
 
-Photographs in fixtures/vision15/photos/ are public-domain/CC0 scikit-image sample
+Photographs named photo-*.png in fixtures/vision15/ are public-domain/CC0 scikit-image sample
 data, with individual source URLs, authors, licenses and hashes in that deck's
 manifest.json. NASA astronaut photo: public domain. Chelsea: Stefan van der Walt,
 CC0. Coffee: Rachel Michetti, courtesy of Pikolo Espresso Bar, CC0.
 Synthetic benchmark figures and terminal screenshots are original to this project.
+
+ChartQA evaluation inputs are downloaded separately from vis-nlp/ChartQA at
+revision 044eabfc306abfe9340c5741f0093aefc5973d06, whose upstream license is GPL-3.0.
+Chart images and question payloads are not redistributed here. The public
+checkpoint contains selection provenance, generated responses and derived scores.
+Upstream: https://github.com/vis-nlp/ChartQA

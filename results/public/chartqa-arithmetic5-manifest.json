@@ -1,0 +1,59 @@
+{
+  "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+  "seed": 38471,
+  "selection": "One seeded human test question per operation, distinct images, selected before arithmetic runs.",
+  "cases_sha256": "a68f39d69854b8f9378ae9acb1c22da78b38403e60bfaae61eb1c790a6305d50",
+  "combined_sha256": "02db69789cd39132f864db243025e181aebfc081e520d9de3b34bd39a0aa7bef",
+  "cases": [
+    {
+      "id": "chartqa-human-867",
+      "category": "arithmetic/addition",
+      "image_sha256": "44090a4d974a56c262f063eaa088e970d6e411f55dfa4a42abe3161d094e1628",
+      "source": {
+        "repository": "vis-nlp/ChartQA",
+        "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+        "human_test_index": 867
+      }
+    },
+    {
+      "id": "chartqa-human-993",
+      "category": "arithmetic/subtraction",
+      "image_sha256": "857d3faa5ca5f50221d18294de1192c14c0ce081eea6d40135d261bb77eadd55",
+      "source": {
+        "repository": "vis-nlp/ChartQA",
+        "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+        "human_test_index": 993
+      }
+    },
+    {
+      "id": "chartqa-human-834",
+      "category": "arithmetic/multiplication",
+      "image_sha256": "403e4e68d3b1d505cc94e5065da238d335804e40c2cc9843368cf22fde5e5c8c",
+      "source": {
+        "repository": "vis-nlp/ChartQA",
+        "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+        "human_test_index": 834
+      }
+    },
+    {
+      "id": "chartqa-human-49",
+      "category": "arithmetic/division",
+      "image_sha256": "b372ea540608f488ecaaaea2493b99f4a74da4773433873db0ed4f8b75446777",
+      "source": {
+        "repository": "vis-nlp/ChartQA",
+        "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+        "human_test_index": 49
+      }
+    },
+    {
+      "id": "chartqa-human-343",
+      "category": "arithmetic/average",
+      "image_sha256": "3e7b9f99c284ed9ea3dd0654d128400ffed39e663624ccc71cfd699be9d93e58",
+      "source": {
+        "repository": "vis-nlp/ChartQA",
+        "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+        "human_test_index": 343
+      }
+    }
+  ]
+}

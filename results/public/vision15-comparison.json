@@ -1,0 +1,1288 @@
+{
+  "cases_sha256": "8def474d906672e145926973f4422bda9909e1a4d70c394d4c5edb2799437298",
+  "scorer_sha256": "b334d85b2e0ecc081f4d02d52f170e8dadfd2c4059514be2e4fe2d2ac87349cf",
+  "method": "Post-run derivation, uniformly applied to every original response. Exact object keys; typed booleans; exact numeric strings accepted; trailing % accepted only for use_percent/busy_percent. Original typed verdicts and responses remain unchanged.",
+  "reason": "Frozen prompts request displayed numbers but do not mandate numeric JSON types.",
+  "runs": [
+    {
+      "source": "vision15-iq3s-none.json",
+      "source_sha256": "eb6ee2fbc7836067760a7c2cd334c1935a9b7a0f9d03da2cdf440853be394443",
+      "model": "Qwen3.8-Flash-Next-IQ3_S",
+      "effort": "none",
+      "summary": {
+        "image_content_correct": 15,
+        "total": 15,
+        "field_correct": 34,
+        "field_total": 34,
+        "typed_contract_correct": 14,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": 91
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": 5432
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": true
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true
+        }
+      ]
+    },
+    {
+      "source": "vision15-iq3s-low.json",
+      "source_sha256": "24882c5058805adcb13685f62d928342ad44a98d8e4ea721b0125491aea1ba56",
+      "model": "Qwen3.8-Flash-Next-IQ3_S",
+      "effort": "low",
+      "summary": {
+        "image_content_correct": 15,
+        "total": 15,
+        "field_correct": 34,
+        "field_total": 34,
+        "typed_contract_correct": 14,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": 91
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": 5432
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": true
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true
+        }
+      ]
+    },
+    {
+      "source": "vision15-luna-low.json",
+      "source_sha256": "a728940dc4002cedd1ea79405eb0ee94cabaf55388923b12949481c05c88d17d",
+      "model": "gpt-6-luna",
+      "effort": "low",
+      "summary": {
+        "image_content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "typed_contract_correct": 11,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": "91%"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": "5432"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": false,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": false
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 2
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true
+        }
+      ]
+    },
+    {
+      "source": "vision15-terra-low.json",
+      "source_sha256": "2b71ca93072dc9f771fd972ea99833e1c47343fadc9639052bfacbe2c7ca5659",
+      "model": "gpt-5.6-terra",
+      "effort": "low",
+      "summary": {
+        "image_content_correct": 15,
+        "total": 15,
+        "field_correct": 34,
+        "field_total": 34,
+        "typed_contract_correct": 14,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": 91
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": 5432
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": true
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true
+        }
+      ]
+    },
+    {
+      "source": "vision15-sol-low.json",
+      "source_sha256": "d6a5e0ec5f7108d21ddc62d986edd3a9d7a3d065ec78c8f4a4cc024c6f88c7a9",
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "summary": {
+        "image_content_correct": 15,
+        "total": 15,
+        "field_correct": 34,
+        "field_total": 34,
+        "typed_contract_correct": 14,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": 91
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": 5432
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": true
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 1
+          },
+          "original_typed_contract_correct": true
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true
+        }
+      ]
+    }
+  ]
+}

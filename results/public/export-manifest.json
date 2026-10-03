@@ -98,6 +98,86 @@
     "strata-iq3s-pfauto.json": {
       "private_original_sha256": "ae3db472dd1ff851643f15191d9eda27f5480d438df9ae6bb641a9b07ebbc34d",
       "public_export_sha256": "594d1f8717a6d916a871d3aa079f1ca4d829f53c383ccf12bc9545bfde9274fb"
+    },
+    "vision15-iq3s-none.json": {
+      "private_original_sha256": "eb6ee2fbc7836067760a7c2cd334c1935a9b7a0f9d03da2cdf440853be394443",
+      "public_export_sha256": "2d94ae9c911d1aa4df15185b6a464b05624b8fee79ff50de2f778eed514562c7"
+    },
+    "vision15-iq3s-low.json": {
+      "private_original_sha256": "24882c5058805adcb13685f62d928342ad44a98d8e4ea721b0125491aea1ba56",
+      "public_export_sha256": "2a92a1642b44c47f4a002d3388d5168fe90e3cbab6d91c967b6b645f23ae90f1"
+    },
+    "vision15-luna-low.json": {
+      "private_original_sha256": "a728940dc4002cedd1ea79405eb0ee94cabaf55388923b12949481c05c88d17d",
+      "public_export_sha256": "a728940dc4002cedd1ea79405eb0ee94cabaf55388923b12949481c05c88d17d"
+    },
+    "vision15-terra-low.json": {
+      "private_original_sha256": "2b71ca93072dc9f771fd972ea99833e1c47343fadc9639052bfacbe2c7ca5659",
+      "public_export_sha256": "2b71ca93072dc9f771fd972ea99833e1c47343fadc9639052bfacbe2c7ca5659"
+    },
+    "vision15-sol-low.json": {
+      "private_original_sha256": "d6a5e0ec5f7108d21ddc62d986edd3a9d7a3d065ec78c8f4a4cc024c6f88c7a9",
+      "public_export_sha256": "d6a5e0ec5f7108d21ddc62d986edd3a9d7a3d065ec78c8f4a4cc024c6f88c7a9"
+    },
+    "vision15-comparison.json": {
+      "private_original_sha256": "707726b8aa47afde8f3d69ed58869c12e3f6c63c3485d056203b47dbbd92e966",
+      "public_export_sha256": "707726b8aa47afde8f3d69ed58869c12e3f6c63c3485d056203b47dbbd92e966"
+    },
+    "chartqa20-iq3s-low.json": {
+      "private_original_sha256": "feaeaba453915591a52fca5b3da9159b355ad9e9426abd046654c15bce13e870",
+      "public_export_sha256": "ec0bb0172113fb57c66b57c888ca1519ae5ed218d1a1d2026e71f9169e692f51"
+    },
+    "chartqa-multiplication1-iq3s-low.json": {
+      "private_original_sha256": "80ae161e0da4e95c113b442ad90be01db70fc0b0932d07a925361cc870f7a12f",
+      "public_export_sha256": "89fca7f0b3ae603804f0116e1ba939acd45aa7b8c0245d1e33918abfef9809ea"
+    },
+    "chartqa15-terra-low.json": {
+      "private_original_sha256": "44793ddd44e13d01c4955b034c4e030cc87cf87cbad7bd33c307bcaeacaa7c15",
+      "public_export_sha256": "44793ddd44e13d01c4955b034c4e030cc87cf87cbad7bd33c307bcaeacaa7c15"
+    },
+    "chartqa15-sol-low.json": {
+      "private_original_sha256": "7069cd4b5b1a2dc4428a6326c2c65c76e58172c6d2d1acd1e95d811204e5e8a8",
+      "public_export_sha256": "7069cd4b5b1a2dc4428a6326c2c65c76e58172c6d2d1acd1e95d811204e5e8a8"
+    },
+    "chartqa-arithmetic5-terra-low.json": {
+      "private_original_sha256": "e24a52d92140000cb560a0c4d435f5f786afd2fd7b63b41aee6cf680dfe0bb13",
+      "public_export_sha256": "e24a52d92140000cb560a0c4d435f5f786afd2fd7b63b41aee6cf680dfe0bb13"
+    },
+    "chartqa-arithmetic5-sol-low.json": {
+      "private_original_sha256": "c4402f23ce4664ff9700c110e8cd1204bd948c569087ca3bf91ebc3c06bd6d59",
+      "public_export_sha256": "c4402f23ce4664ff9700c110e8cd1204bd948c569087ca3bf91ebc3c06bd6d59"
+    },
+    "chartqa-multiplication1-terra-low.json": {
+      "private_original_sha256": "eb424ae18ec47e1c03df3789c5f30a429a10b2574da651adc1062a22e4eca01e",
+      "public_export_sha256": "eb424ae18ec47e1c03df3789c5f30a429a10b2574da651adc1062a22e4eca01e"
+    },
+    "chartqa-multiplication1-sol-low.json": {
+      "private_original_sha256": "ff8465b2d7045a91577910d0a1d7966f07ce8b123dace28e4f19d9864e660a50",
+      "public_export_sha256": "ff8465b2d7045a91577910d0a1d7966f07ce8b123dace28e4f19d9864e660a50"
+    },
+    "chartqa-comparison.json": {
+      "private_original_sha256": "f81c18c8f10000a3068ee529662f7db84885563be776cffafd1a734efdf82a92",
+      "public_export_sha256": "f81c18c8f10000a3068ee529662f7db84885563be776cffafd1a734efdf82a92"
+    },
+    "chartqa15-manifest.json": {
+      "private_original_sha256": "8099ea0eb337c7584b6cbb5cb2551eb9b245442ba558033a4862142a119ae01c",
+      "public_export_sha256": "8099ea0eb337c7584b6cbb5cb2551eb9b245442ba558033a4862142a119ae01c"
+    },
+    "chartqa-arithmetic5-manifest.json": {
+      "private_original_sha256": "324ddb6f7721693b49238108859bb6d6805d5e529c295c383da5414ada3a3269",
+      "public_export_sha256": "324ddb6f7721693b49238108859bb6d6805d5e529c295c383da5414ada3a3269"
+    },
+    "resources-iq3s-vision-decode.json": {
+      "private_original_sha256": "9b4b085d5f9b176cb89dad4e641e548b063cf3a1663f7aaeda71747651bd5d03",
+      "public_export_sha256": "9b4b085d5f9b176cb89dad4e641e548b063cf3a1663f7aaeda71747651bd5d03"
+    },
+    "opencode-client-check.json": {
+      "private_original_sha256": "91bc475db8fa88495f7c5d3f5e36dc727caf31209d22adcec6c0cf90983b8727",
+      "public_export_sha256": "91bc475db8fa88495f7c5d3f5e36dc727caf31209d22adcec6c0cf90983b8727"
+    },
+    "coding-checkpoint.json": {
+      "private_original_sha256": "bc00d0aa6d2a509d11db1247578356ef88485d242606373c8c11331814bf91d4",
+      "public_export_sha256": "bc00d0aa6d2a509d11db1247578356ef88485d242606373c8c11331814bf91d4"
     }
   }
 }

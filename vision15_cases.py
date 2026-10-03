@@ -38,6 +38,11 @@ def text(draw, xy, content, size=28, color='#172b4d', mono=False):
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     original = ROOT / 'fixtures/vision/cases.jsonl'
+    if not original.exists():
+        import subprocess
+        import sys
+        subprocess.run([sys.executable, str(ROOT/'vision_fixture.py')], check=True)
+        subprocess.run([sys.executable, str(ROOT/'vision_cases.py')], check=True)
     for row in map(json.loads, original.read_text().splitlines()):
         add(row['id'], 'diagram' if row['id'] == 'request-path' else 'screenshot/OCR',
             ROOT / row['image'], row['prompt'], row['expected'])

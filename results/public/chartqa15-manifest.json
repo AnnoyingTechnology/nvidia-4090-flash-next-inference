@@ -1,0 +1,147 @@
+{
+  "repository": "vis-nlp/ChartQA",
+  "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+  "human_test_sha256": "5fba61b508a96b85cd5906bb14adfc1ba552bdcf88ac568ed6e2f79dcf0460b7",
+  "cases_sha256": "fc23063edd07c0017733fd9cf10d179243ed6fb0c5b6e2c99ae1b6ceabea886d",
+  "seed": 31191,
+  "selection": "Five lookup, five comparison, five counting; unique images; no arithmetic-heavy queries; pinned source order and seeded shuffle. Chosen before model requests.",
+  "scope": "Small human ChartQA screen, not the full benchmark or general vision qualification.",
+  "redistribution": "Dataset images/questions remain local; published provenance permits source reconstruction.",
+  "cases": [
+    {
+      "id": "chartqa-human-774",
+      "category": "lookup",
+      "human_test_index": 774,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/two_col_22364.png",
+      "image_sha256": "2cab4c4d79ee41e4f5c8a537d2b8e284ca66f9bd7bf48a89f65a5f64bba9791d",
+      "query_sha256": "aa41607ed6f2b9e3285daa3f6710211f5280c1ee7727bdf2841bbd4f8a9d26fb",
+      "label_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e"
+    },
+    {
+      "id": "chartqa-human-937",
+      "category": "lookup",
+      "human_test_index": 937,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/multi_col_20535.png",
+      "image_sha256": "626797923157b92889f87675028b43e4a1479bf41b29f76fb38d212955777ed0",
+      "query_sha256": "b339cdcf1311fb12095c9ed68e37bdb65c4da2ac359de2a0ebb1ecd504421a25",
+      "label_sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5"
+    },
+    {
+      "id": "chartqa-human-1081",
+      "category": "lookup",
+      "human_test_index": 1081,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/multi_col_80333.png",
+      "image_sha256": "6e01ef9415994ca39b9e6381f0388f370601ad1126a16472f31c0649020f89c6",
+      "query_sha256": "6289f71c0edff94f8fb8cc830dee491098ad2db7603a8d5077fddb1e3467980e",
+      "label_sha256": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306"
+    },
+    {
+      "id": "chartqa-human-238",
+      "category": "lookup",
+      "human_test_index": 238,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/15359798001840.png",
+      "image_sha256": "76bd61821f15a6aacd3248e83d4d43d95017f05b5c1192270512eb8d05dfc81e",
+      "query_sha256": "42c9858541f4716fbc866b645bbb808c9db12fe1ceae5aa629582dc0831bdc55",
+      "label_sha256": "3d914f9348c9cc0ff8a79716700b9fcd4d2f3e711608004eb8f138bcba7f14d9"
+    },
+    {
+      "id": "chartqa-human-98",
+      "category": "lookup",
+      "human_test_index": 98,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/42902375003200.png",
+      "image_sha256": "eb59454537af2eab980556f7b94c36498d63b0823177be41d512fed968bc8059",
+      "query_sha256": "fd715ef7963c756f6f186117a920bf213419902bc1f106b6782fa65997db6358",
+      "label_sha256": "5f8ab00c2dcb30bd4a3523ab7a5ef69b5fc3715a3b77615b088b82874cdfc075"
+    },
+    {
+      "id": "chartqa-human-74",
+      "category": "comparison",
+      "human_test_index": 74,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/18179062004443.png",
+      "image_sha256": "08e8ad99e4efb057bbee56349a6ce160a647b2448023abad7e0314aa3b88abb4",
+      "query_sha256": "6087f0eac68376e49eec3e5bfa6630d304a33c2b6393e97b462c31552832b6b2",
+      "label_sha256": "369f03b0731892787891aeed17052516415d5bb42e451c68d55bbd45953dd9a3"
+    },
+    {
+      "id": "chartqa-human-878",
+      "category": "comparison",
+      "human_test_index": 878,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/multi_col_1088.png",
+      "image_sha256": "c317151bfe69cd9948419e78b70af813153fc18868d23040e1e825dd83d72041",
+      "query_sha256": "6c31829322b9c010bbcb104e42b8c1f2b888dcd12ad847b926eb91ce83fdf81d",
+      "label_sha256": "da6e2f539726fabd1f8cd7c9469a22b36769137975b28abc65fe2dc29e659b77"
+    },
+    {
+      "id": "chartqa-human-423",
+      "category": "comparison",
+      "human_test_index": 423,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/82213443009070.png",
+      "image_sha256": "ebfce22b0900940869223347698eff66f17805fff5a232109d802b20b153cb4b",
+      "query_sha256": "880104eec6e62f363084973ddd3896c410ea936758e2b883f09e1f8c386b69e0",
+      "label_sha256": "02bf1dfa9a0365a86223f0e4ac9eaa0517b06b2e9273790f719feda656a247ae"
+    },
+    {
+      "id": "chartqa-human-161",
+      "category": "comparison",
+      "human_test_index": 161,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/17258.png",
+      "image_sha256": "e22a89616173ce81b2694d561f788b8aa6697aaec65bcf5c86e6fe150c0abdcb",
+      "query_sha256": "7f2c03ca8487949e311d5ada9b475e4386750b419231f27b5ac953c2d36a038d",
+      "label_sha256": "9489390af58bfdd4efc6912f8db437e2d27a2702088095697f84cfb12087fab5"
+    },
+    {
+      "id": "chartqa-human-934",
+      "category": "comparison",
+      "human_test_index": 934,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/multi_col_20505.png",
+      "image_sha256": "47ef0a4784388549be0f1f24f938ce6e93f5dd9855a41ff6736f992d98f25526",
+      "query_sha256": "6fe1b3702fe2764b5d5c1e87d64d5a38aff9bb13b13dd9c04087b2e20e0375a6",
+      "label_sha256": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4"
+    },
+    {
+      "id": "chartqa-human-981",
+      "category": "counting",
+      "human_test_index": 981,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/multi_col_60027.png",
+      "image_sha256": "717caf14587cdf7cda943382685273d300bc55f6032d3fae290caf7bf296c68f",
+      "query_sha256": "11da6f0c044a7c2e68205820139acc5fa6948186b76a37f4f0c82c18153fe9e0",
+      "label_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "id": "chartqa-human-692",
+      "category": "counting",
+      "human_test_index": 692,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/two_col_102054.png",
+      "image_sha256": "36b631d944f24470eb91b53e5ce839cb15c4969dbdb7250cd4de2b012581db3b",
+      "query_sha256": "fb9e8e58f33a02708e30949bed13b042c48e051bc4196b02211ca4592e9515b3",
+      "label_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+    },
+    {
+      "id": "chartqa-human-521",
+      "category": "counting",
+      "human_test_index": 521,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/OECD_FINANCIAL_DISINCENTIVE_TO_RETURN_TO_WORK_AUS_DNK_LUX_NOR_SVN_000002.png",
+      "image_sha256": "4558760205365984f931e33b14e7ab72e8c2d19be0c14bf551540546dc71c8db",
+      "query_sha256": "de420afdf33038d6759701684da95c253a448035806b6d8a412595d1e808d947",
+      "label_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "id": "chartqa-human-660",
+      "category": "counting",
+      "human_test_index": 660,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/two_col_83220.png",
+      "image_sha256": "586a53a7fb4506c386463d25b8ef3325cf313422a879ff9314b7502d1277a9d9",
+      "query_sha256": "dfe07fa060ea8bf750a0c18c83c0cd2748406ba3ba93bc2158e8f2669965ef52",
+      "label_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "id": "chartqa-human-308",
+      "category": "counting",
+      "human_test_index": 308,
+      "image_url": "https://raw.githubusercontent.com/vis-nlp/ChartQA/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/png/47613048005879.png",
+      "image_sha256": "49cda1197e7d274c4731f40a0ee24e96c6b0caa0ecadd75da526d74e8f1c04ad",
+      "query_sha256": "f31688a7ccc357be219f061a9dff9c2f6d43244fea21e25a6c2ed045d04cf0cb",
+      "label_sha256": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8"
+    }
+  ]
+}

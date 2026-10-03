@@ -102,8 +102,13 @@ def main():
     ap.add_argument('--control-only', action='store_true')
     ap.add_argument('--import-from', help='Reuse results only when the exact request hash and source deck match')
     ap.add_argument('--effort', choices=['low', 'medium', 'high'], default='high')
+    ap.add_argument('--code-tokens', type=int, default=32768,
+                    help='Completion budget for coding cases, recorded in the run protocol')
     ap.add_argument('--ids', nargs='*')
     args = ap.parse_args()
+    if args.code_tokens <= 0:
+        ap.error('--code-tokens must be positive')
+    PROTOCOL['code_tokens'] = args.code_tokens
     if args.effort != 'high':
         PROTOCOL['effort'] = args.effort
     controls = control()

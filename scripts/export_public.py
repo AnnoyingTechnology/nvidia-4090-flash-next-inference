@@ -17,6 +17,14 @@ FILES = [
     'quality-iq3s-v2-256k.json', 'conversations-iq3s.json',
     'sampled-iq3s-off.json', 'sampled-q4-report.json',
     'strata-q4-pfauto.json', 'strata-iq3s-pfauto.json',
+    'vision15-iq3s-none.json', 'vision15-iq3s-low.json', 'vision15-luna-low.json',
+    'vision15-terra-low.json', 'vision15-sol-low.json', 'vision15-comparison.json',
+    'chartqa20-iq3s-low.json', 'chartqa-multiplication1-iq3s-low.json',
+    'chartqa15-terra-low.json', 'chartqa15-sol-low.json',
+    'chartqa-arithmetic5-terra-low.json', 'chartqa-arithmetic5-sol-low.json',
+    'chartqa-multiplication1-terra-low.json', 'chartqa-multiplication1-sol-low.json',
+    'chartqa-comparison.json', 'chartqa15-manifest.json', 'chartqa-arithmetic5-manifest.json',
+    'resources-iq3s-vision-decode.json', 'opencode-client-check.json', 'coding-checkpoint.json',
 ]
 
 

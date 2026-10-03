@@ -35,18 +35,58 @@ network exposure was changed. The measured profiles are:
 | Minimum available host RAM across these cells | **104.01 GiB** | **103.58 GiB** |
 | Effective profile defaults and API checks | **9/9 pass** | **9/9 pass** |
 | Vision with default low reasoning | Not enabled | **5/5 strict JSON and content**, 1.94–4.07 s |
+| Loaded vision container RAM, 30-second decode sample | Separate text cell not sampled | **82.7 GiB**, about **103.7 GiB** host RAM available |
+| VRAM, same sample | Separate text cell not sampled | **23.45 / 23.99 GiB** |
+| CPU, same sample | Separate text cell not sampled | **12 core equivalents**; one thread on each physical core busy, SMT siblings mostly idle |
 
 Decode counts reasoning and answer tokens. The speed cells intentionally stop
 at 512 tokens; first streamed token is not a completed answer. The vision
 profile costs about 12% decode in this comparison, but cache history differs,
 so the difference is not an exact isolation of projector residency. No
 wall-plug energy claim or power sweep is inferred from board-power samples.
+The later resource sample covers an active coding decode, so its board draw
+is a different cell. CPU occupancy includes worker polling and coordination;
+it does not prove all busy cycles perform useful expert computation. Adaptive
+expert caching intentionally fills VRAM, while all experts/ngrams already fit
+in RAM. Container RAM and host-used RAM overlap and must not be added.
 
 Prior original-table text profiles measured 111.15–116.4 tok/s with medium
 reasoning. Earlier fresh 130K prefill measured about 4,850 tok/s, with 27.2 s
 TTFT. A small same-history cache check reduced TTFT from 1.67 to 0.173 s,
 with 3,124 cached tokens; those are separate historical cells, not values
 measured on the final vision profile.
+
+## Quality and vision checkpoint — 2026-10-03
+
+Current comparisons use **low reasoning**, with separately labelled off-mode
+cells. The selected target remains the complete GSQ IQ3_S model with its
+IQ4_NL ngram table and original BF16 vision projector.
+
+| Frozen screen | IQ3_S | Luna low | Terra low | Sol low |
+|---|---:|---:|---:|---:|
+| 15 diverse screenshots, diagrams, documents, spatial tasks and photos: image content | **15/15 low; 15/15 off** | **14/15** | **15/15** | **15/15** |
+| Same 15: exact requested keys and expected JSON types | **14/15 low; 14/15 off** | **11/15** | **14/15** | **14/15** |
+| Harder published human charts: reviewed visual content | **19/20 low** | Not run | **20/20** | **20/20** |
+| Ordinary chart arithmetic: addition, subtraction, multiplication, division, average | **5/5 low** | Not run | **5/5** | **5/5** |
+
+Exact cloud models are `gpt-6-luna`, `gpt-5.6-terra` and `gpt-6.1-sol`.
+All returned plain JSON on the first deck. Numeric strings explain several
+typed-contract differences; Luna also miscounted a spoon. The harder round
+contains 21 requests: one ambiguous population question is excluded from the
+reviewed score, and two published annotations need unit/value corrections.
+Original responses and annotation scores are retained. IQ3_S misread a line
+chart's change; this set does **not** separate Terra from Sol or establish
+broad cloud-model parity. Read the [vision protocol and audit](docs/vision-comparison.md).
+
+The 24-case frozen LiveCodeBench screen at **low / 8192 output tokens** scored
+**13/24**. All 11 failures hit the output cap; all 13 finished completions
+passed the isolated grader. A separately labelled 32768-token retry of the
+first capped case also capped. This is a practical budget limitation, not
+an official leaderboard score or a measured quantization deficit. The
+140-question low-reasoning knowledge screen scored **115/140 answer content**
+for both IQ3_S and Q4; four practical code functions and eight operations
+decisions passed on content. Published paired full-size coding/knowledge
+references remain the quantization anchor in the quality section below.
 
 ## Bandwidth reference and remaining headroom
 
@@ -137,6 +177,11 @@ read-only legacy GGUF library, and `ULMUS_EXPECTED_HOST` can enforce an expected
 hostname. No host path or private address is required by the selected profiles.
 `stop.sh` removes only the owned inference container, preserving models and images.
 
+For OpenCode on Juniperus, the installed model is
+`ai-ulmus-flash-next/qwen3.8-flash-next`, with low/off variants and an
+optional larger output reserve. The prior 27B default is preserved.
+[Client configuration and SSH launcher](docs/opencode.md)
+
 ## Production invocation and settings
 
 The profiles execute the following engine command inside the container;
@@ -202,8 +247,8 @@ repair. No generated operations command was applied to infrastructure.
 
 1. Expand executable code/repository and operations/tool qualification, including
    output caps, exact arguments, recovery, instruction compliance and answer latency.
-2. Complete the frozen 15-image comparison against low-reasoning Codex Luna,
-   Terra and Sol, plus Flash-Next with none/low reasoning; record exact model versions.
+2. Expand beyond the completed 15-image and human-chart comparisons with
+   independently reviewed screenshots, documents, spatial scenes and visual tool use.
 3. A/B the eddoursul Strata fork, then profile cold experts, cache placement,
    transfers and GDN/hybrid-connection critical-path work.
 4. Build and qualify ExLlamaV3/TabbyAPI with a separate EXL3 checkpoint. Its
@@ -220,6 +265,8 @@ experiment. [Research and alternatives](docs/research-and-pitfalls.md)
 - [Architecture](docs/architecture.md): pinned sources, model hashes and placement.
 - [Benchmarks and quality](docs/benchmarks-and-quality.md): protocols, full-size references and caveats.
 - [Operations](docs/operations.md): build, start, requests, measurements and rollback.
+- [Vision comparisons](docs/vision-comparison.md): Luna, Terra, Sol, low/off protocols and annotation audit.
+- [OpenCode](docs/opencode.md): naming, output reserves, reasoning variants and SSH access.
 - [Research and pitfalls](docs/research-and-pitfalls.md): measured and unqualified alternatives.
 - [Public evidence](results/public/export-manifest.json): explicit export set and original/export hashes.
 

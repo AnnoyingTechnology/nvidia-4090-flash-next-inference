@@ -1,0 +1,121 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ai-ulmus-flash-next": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Qwen3.8 Flash-Next (RTX 4090 / Ulmus)",
+      "options": {
+        "baseURL": "http://127.0.0.1:19623/v1",
+        "timeout": 600000
+      },
+      "models": {
+        "qwen3.8-flash-next": {
+          "id": "Qwen3.8-Flash-Next",
+          "name": "Qwen3.8 Flash-Next GSQ IQ3_S / MTP4 (RTX 4090 / Ulmus)",
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoning": true,
+          "tool_call": true,
+          "interleaved": {
+            "field": "reasoning_content"
+          },
+          "options": {
+            "reasoningEffort": "low",
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "presence_penalty": 0,
+            "repetition_penalty": 1
+          },
+          "variants": {
+            "off": {
+              "reasoningEffort": "none",
+              "temperature": 0.7,
+              "top_p": 0.8,
+              "presence_penalty": 1.5
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "disabled": true
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          },
+          "limit": {
+            "context": 253952,
+            "input": 245760,
+            "output": 8192
+          }
+        },
+        "qwen3.8-flash-next-long": {
+          "id": "Qwen3.8-Flash-Next",
+          "name": "Qwen3.8 Flash-Next GSQ IQ3_S / MTP4 / 32K output (RTX 4090 / Ulmus)",
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoning": true,
+          "tool_call": true,
+          "interleaved": {
+            "field": "reasoning_content"
+          },
+          "options": {
+            "reasoningEffort": "low",
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "presence_penalty": 0,
+            "repetition_penalty": 1
+          },
+          "variants": {
+            "off": {
+              "reasoningEffort": "none",
+              "temperature": 0.7,
+              "top_p": 0.8,
+              "presence_penalty": 1.5
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "disabled": true
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          },
+          "limit": {
+            "context": 253952,
+            "input": 221184,
+            "output": 32768
+          }
+        }
+      }
+    }
+  }
+}
