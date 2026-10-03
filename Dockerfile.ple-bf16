@@ -1,0 +1,5 @@
+# Isolated addition of original-table BF16 loading to the pinned baseline.
+# Build context contains only the reviewed source delta in overlay/.
+FROM ulmus/strata:99f3dbd-cu124-sm89
+COPY overlay/ /opt/strata/
+RUN cmake --build /opt/strata-build -j 8 --target strata ple_reader_test

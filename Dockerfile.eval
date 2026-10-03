@@ -1,0 +1,6 @@
+FROM ulmus/strata:99f3dbd-cu124-sm89
+RUN /opt/strata/.venv/bin/pip install --no-cache-dir pyarrow==21.0.0
+COPY eval-source/testing_util.py eval-source/LICENSE /opt/lcb/
+COPY grade.py /opt/lcb/grade.py
+ENV OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+ENTRYPOINT ["/opt/strata/.venv/bin/python", "/opt/lcb/grade.py"]

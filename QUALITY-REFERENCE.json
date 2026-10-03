@@ -1,0 +1,34 @@
+{
+  "recorded_at": "2026-10-03",
+  "purpose": "Published full-size Flash-Next is the quality reference. Local Q4 is a diagnostic comparison, not the oracle.",
+  "owner_priorities": [
+    "DevOps, SysAdmin, executable code",
+    "General agentic help, tool use, vision, general knowledge and practical thinking"
+  ],
+  "pure_math": "Published-reference sanity check; low weight in local tuning and deployment selection",
+  "local_full_precision_inference": "Forbidden by owner; no Q8/full-size reference target loading",
+  "published_paired_reference": {
+    "source": "https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF#results",
+    "scores": {
+      "AIME25": {"BF16": 100.0, "GSQ_IQ3_S": 100.0},
+      "GPQA_Diamond": {"BF16": 91.92, "GSQ_IQ3_S": 92.93},
+      "LiveCodeBench_v6": {"BF16": 87.43, "GSQ_IQ3_S": 86.86}
+    },
+    "precision_scope": "GSQ includes its fixed IQ4_NL ngram table; original BF16 table is a separate recovery experiment",
+    "unknown_protocol_details": ["Exact prompts and sampling", "Reasoning effort", "Output budget", "Seeds/repeats", "Grading and task-version revisions"],
+    "interpretation": "Paired published quantization evidence; does not certify the local runtime or prove every task is preserved"
+  },
+  "official_full_size_reference": {
+    "source": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next#benchmark-results",
+    "scores": {"DeepSWE_1.1": 58.7, "SWE_bench_Pro": 62.5, "SWE_bench_Multilingual": 81.0,
+      "NL2Repo_Bench": 48.1, "Toolathlon_Verified": 73.5, "IFBench": 81.3,
+      "GPQA_Diamond": 91.7, "HLE": 35.9, "LiveCodeBench_v6": 91.9},
+    "interpretation": "Task/harness-specific published scores; keep distinct from DASLab's paired evaluation and local bounded screens"
+  },
+  "local_gate_status": {
+    "quality_parity": "Unknown; not certified",
+    "requirements": ["Expand paired practical/code and knowledge screens", "Pass exact tool/JSON and vision canaries",
+      "Track caps and completed-answer latency", "Verify runtime/template/representation differences before attributing failures to quantization"],
+    "principle": "Do not convert token agreement or a benchmark recovery ratio into a universal retained-intelligence percentage"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "exe": "/opt/strata-build/strata",
+  "args": [
+    "--pack",
+    "/work/packs/q4",
+    "--native",
+    "/models/unsloth/Qwen3.8-Flash-Next-GGUF/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "--expert-profile",
+    "/opt/strata/data/expert-profile.bin",
+    "--expert-cache",
+    "auto",
+    "--ple-io",
+    "ram",
+    "--prefill",
+    "auto:32768",
+    "--spec",
+    "4",
+    "--spec-min-p",
+    "0.70",
+    "--mtp",
+    "/work/mtp/rt",
+    "--max-context",
+    "262144",
+    "--kv",
+    "int8",
+    "--pool-workers",
+    "11",
+    "--stats",
+    "--pcie-frac",
+    "0.35",
+    "--kv-resident",
+    "32768",
+    "--vision"
+  ],
+  "cwd": "/opt/strata",
+  "tokenizer": "/work/packs/q4/tokenizer",
+  "model_name": "flash-q4-256k-vision-tune-screen4k",
+  "log": "/work/results/flash-q4-256k-vision-tune-screen4k-engine.log",
+  "host": "0.0.0.0",
+  "port": 19623,
+  "aliases": [
+    "ulmus"
+  ],
+  "vision": {
+    "exe": "/opt/vision-build/bin/strata-vision",
+    "mmproj": "/work/models/gsq-iq3_s/mmproj-Qwen3.8-Flash-Next-BF16.gguf",
+    "model": "/models/unsloth/Qwen3.8-Flash-Next-GGUF/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "gpu": false,
+    "max_tokens": 4096,
+    "threads": 12
+  }
+}

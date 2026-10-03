@@ -1,0 +1,6 @@
+# The manifest verifies this already-built base image ID before the build.
+FROM ulmus/strata:99f3dbd-cu124-sm89
+COPY api-wheels /tmp/api-wheels
+COPY api-requirements.lock /tmp/api-requirements.lock
+RUN python -m pip install --no-index --find-links /tmp/api-wheels --require-hashes \
+    -r /tmp/api-requirements.lock && rm -rf /tmp/api-wheels /tmp/api-requirements.lock

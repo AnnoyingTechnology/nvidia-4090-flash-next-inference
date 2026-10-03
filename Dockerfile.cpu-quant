@@ -1,0 +1,5 @@
+# Separate image for exact activation-quantization parallelism; baseline stays intact.
+FROM ulmus/strata:99f3dbd-ple-bf16
+COPY overlay/ /opt/strata/
+RUN cmake -S /opt/strata -B /opt/strata-build -DSTRATA_BUILD_TESTS=ON \
+    && cmake --build /opt/strata-build -j 8 --target strata pool_test

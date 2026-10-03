@@ -1,0 +1,94 @@
+{
+  "owner-text-api.json": {
+    "profile": "flash-iq3s-256k-tune-ownertext",
+    "summary": {
+      "passed": 9,
+      "total": 9
+    },
+    "checks": [
+      {
+        "name": "model-context-vision",
+        "passed": true
+      },
+      {
+        "name": "sampling-and-output-defaults",
+        "passed": true
+      },
+      {
+        "name": "low-reasoning-default",
+        "passed": true
+      },
+      {
+        "name": "implicit-low-request",
+        "passed": true
+      },
+      {
+        "name": "explicit-none-override",
+        "passed": true
+      },
+      {
+        "name": "validated-json-schema-sse",
+        "passed": true
+      },
+      {
+        "name": "invalid-root-schema-rejected",
+        "passed": true
+      },
+      {
+        "name": "unsupported-format-plus-tools-rejected",
+        "passed": true
+      },
+      {
+        "name": "explicit-output-cap-override",
+        "passed": true
+      }
+    ],
+    "private_original_sha256": "31313c65cb3bf75e01d9fe8d9e477c3f3297f3dd346b773ceb9eee6e128e718e"
+  },
+  "owner-vision-api.json": {
+    "profile": "flash-iq3s-256k-vision-tune-ownervision",
+    "summary": {
+      "passed": 9,
+      "total": 9
+    },
+    "checks": [
+      {
+        "name": "model-context-vision",
+        "passed": true
+      },
+      {
+        "name": "sampling-and-output-defaults",
+        "passed": true
+      },
+      {
+        "name": "low-reasoning-default",
+        "passed": true
+      },
+      {
+        "name": "implicit-low-request",
+        "passed": true
+      },
+      {
+        "name": "explicit-none-override",
+        "passed": true
+      },
+      {
+        "name": "validated-json-schema-sse",
+        "passed": true
+      },
+      {
+        "name": "invalid-root-schema-rejected",
+        "passed": true
+      },
+      {
+        "name": "unsupported-format-plus-tools-rejected",
+        "passed": true
+      },
+      {
+        "name": "explicit-output-cap-override",
+        "passed": true
+      }
+    ],
+    "private_original_sha256": "c8fa3b3c7843e0861e254690b45837f8d3809c9534528e17dce9e45ac602c2d5"
+  }
+}

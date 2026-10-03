@@ -1,0 +1,41 @@
+{
+  "exe": "/opt/strata-build/strata",
+  "args": [
+    "--pack",
+    "/work/packs/q4",
+    "--native",
+    "/models/unsloth/Qwen3.8-Flash-Next-GGUF/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "--expert-profile",
+    "/opt/strata/data/expert-profile.bin",
+    "--expert-cache",
+    "auto",
+    "--ple-io",
+    "ram",
+    "--prefill",
+    "4096",
+    "--spec",
+    "4",
+    "--spec-min-p",
+    "0.70",
+    "--mtp",
+    "/work/mtp/rt",
+    "--max-context",
+    "32768",
+    "--kv",
+    "int8",
+    "--pool-workers",
+    "11",
+    "--stats",
+    "--pcie-frac",
+    "0.35"
+  ],
+  "cwd": "/opt/strata",
+  "tokenizer": "/work/packs/q4/tokenizer",
+  "model_name": "flash-q4-32k",
+  "log": "/work/results/flash-q4-32k-engine.log",
+  "host": "0.0.0.0",
+  "port": 19623,
+  "aliases": [
+    "ulmus"
+  ]
+}

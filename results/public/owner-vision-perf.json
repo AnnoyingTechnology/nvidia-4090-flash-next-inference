@@ -1,0 +1,408 @@
+{
+  "observed_at": "2026-10-03T13:52:44.430702+00:00",
+  "url": "http://127.0.0.1:19623",
+  "sampling": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "presence_penalty": 0,
+    "repetition_penalty": 1,
+    "reasoning_effort": "low"
+  },
+  "tune": {},
+  "decode_tokens": 512,
+  "paired_id": "owner-profiles-v1",
+  "warmups": [
+    {
+      "ttft_s": 0.552321702001791,
+      "total_s": 1.7922770320001291,
+      "usage": {
+        "prompt_tokens": 98,
+        "completion_tokens": 128,
+        "total_tokens": 226,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 98,
+        "prompt_ms": 523.7,
+        "prompt_per_token_ms": 5.344,
+        "prompt_per_second": 187.1,
+        "predicted_n": 128,
+        "predicted_ms": 1251.3,
+        "predicted_per_token_ms": 9.776,
+        "predicted_per_second": 102.3,
+        "draft_n": 99,
+        "draft_n_accepted": 81
+      },
+      "content": "",
+      "reasoning": "The user wants a complete Python LRU cache implementation using `collections.OrderedDict` with:\n1. Capacity limit\n2. `get` and `put` methods\n3. Type annotations\n4. A docstring\n5. Six unit tests\n\nLet me write a clean, well-structured implementation with proper type hints, docstrings, and comprehensive tests.\n\nI'll design the LRU cache where:\n- Most recently used items are at the end of the OrderedDict\n- Least recently used items are at the front\n- When capacity is exceeded, the front item is evicted\n- `get` returns the",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 42.0,
+      "host_min_available_gib": 103.64167785644531,
+      "median_power_w": 66.665,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m",
+      "input_sha256": "72589781a8d40c07ef057ac3321a85dad9ab9b85f8044c4887f6b0411629a44e"
+    },
+    {
+      "ttft_s": 0.5590086209995206,
+      "total_s": 1.9171636789978947,
+      "usage": {
+        "prompt_tokens": 106,
+        "completion_tokens": 128,
+        "total_tokens": 234,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 106,
+        "prompt_ms": 544.3,
+        "prompt_per_token_ms": 5.135,
+        "prompt_per_second": 194.7,
+        "predicted_n": 128,
+        "predicted_ms": 1369.2,
+        "predicted_per_token_ms": 10.697,
+        "predicted_per_second": 93.5,
+        "draft_n": 96,
+        "draft_n_accepted": 70
+      },
+      "content": "# The Full Stack of a Page Load: How DNS, TLS, HTTP/2, Connection Pooling,",
+      "reasoning": "The user wants a detailed technical explanation of how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling, and caching interact during a browser page load. They want specific examples, latency discussion, and failure handling. This needs to be at least 1000 words. Let me organize this as a comprehensive technical walkthrough that traces the sequence of events and shows how these systems interconnect, rather than treating them as isolated topics. I'll use a concrete example like loading a modern e-commerce page.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 44.0,
+      "host_min_available_gib": 103.65449523925781,
+      "median_power_w": 190.57,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a",
+      "input_sha256": "9f560bef888acb06037de0bacde78792875278716d74a7c58671ffce47aef9e6"
+    },
+    {
+      "ttft_s": 0.5555258880012843,
+      "total_s": 1.800066717001755,
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 128,
+        "total_tokens": 228,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 100,
+        "prompt_ms": 541.1,
+        "prompt_per_token_ms": 5.411,
+        "prompt_per_second": 184.8,
+        "predicted_n": 128,
+        "predicted_ms": 1255.1,
+        "predicted_per_token_ms": 9.805,
+        "predicted_per_second": 102.0,
+        "draft_n": 100,
+        "draft_n_accepted": 81
+      },
+      "content": "",
+      "reasoning": "The user wants me to describe twelve European capitals in alphabetical order, starting with Paris. For each capital, I need to cover: location, history, transport, and one museum. The total needs to be at least 1000 words.\n\nLet me think about which twelve capitals to choose. Since I need to start with Paris and continue in alphabetical order, I'll select twelve European capitals that span the alphabet reasonably. Let me pick:\n\n1. Paris (must be first)\n2. Amsterdam\n3. Berlin\n4. Budapest\n5. Copenhagen\n6. Dublin\n7. Helsinki\n8. Lisbon\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 43.0,
+      "host_min_available_gib": 103.6519889831543,
+      "median_power_w": 195.945,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport",
+      "input_sha256": "f2591672c61ff72b3e52a99f1695fa0952b7f1ce8cae4e8e4294e50d7378afc5"
+    }
+  ],
+  "decode": [
+    {
+      "ttft_s": 0.5083075719994667,
+      "total_s": 4.759624055001041,
+      "usage": {
+        "prompt_tokens": 97,
+        "completion_tokens": 512,
+        "total_tokens": 609,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 97,
+        "prompt_ms": 493.6,
+        "prompt_per_token_ms": 5.089,
+        "prompt_per_second": 196.5,
+        "predicted_n": 512,
+        "predicted_ms": 4261.7,
+        "predicted_per_token_ms": 8.324,
+        "predicted_per_second": 120.1,
+        "draft_n": 398,
+        "draft_n_accepted": 324
+      },
+      "content": "```python\nfrom collections import OrderedDict\nfrom typing import Any, Optional\nimport unittest\n\n\nclass LRUCache:\n    \"\"\"A Least Recently Used (LRU) cache implemented with collections.OrderedDict.\n\n    The cache maintains a fixed capacity. When a new item is inserted and the\n    cache is at capacity, the least recently used item is evicted. Accessing\n    an item (via get or put) marks it as the most recently used.\n\n    Args:\n        capacity: The maximum number of items the cache can hold.\n\n    Attributes:\n        capacity: Maximum number of items in the cache.\n        _cache: An OrderedDict storing key-value pairs ordered by usage recency\n                (leftmost = least recently used, rightmost = most recently used).\n",
+      "reasoning": "The user wants a complete Python implementation of an LRU cache using `collections.OrderedDict`. Let me think about what's needed:\n\n1. An LRU cache class with:\n   - `OrderedDict` as the underlying data structure\n   - A capacity limit\n   - `get` method: retrieves a value, moves it to the end (most recently used)\n   - `put` method: inserts/updates a key-value pair, evicts the least recently used if at capacity\n   - Type annotations\n   - A class docstring\n\n2. Six unit tests using `unittest` (or pytest-style, but unittest is more standard)\n\nLet me design the LRU cache:\n- `__init__(self, capacity: int)`: Initialize with capacity\n- `get(self, key)`: If key exists, move to end and return value; otherwise return -1 (or None)\n- `put(self, key, value)`: If key exists, update and move to end. If capacity is full, remove the oldest item. Then insert.\n\nFor the OrderedDict approach:\n- Most recently used items are at the end (rightmost)\n- Least recently used items are at the beginning (leftmost)\n- `move_to_end(key)` marks as recently used\n- `popitem(last=False)` removes the least recently used item\n\nLet me write six unit tests covering:\n1. Basic put and get\n2. Getting a non-existent key\n3. LRU eviction (capacity limit)\n4. Updating an existing key\n5. Access order matters for eviction\n6. Capacity of 1\n\nLet me write the complete code.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 46.0,
+      "host_min_available_gib": 103.65288162231445,
+      "median_power_w": 227.13,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m",
+      "input_sha256": "3c2b527424ee2537a4dc06ce6008843429796ebe69db3d6115b2dc1b42ae1858"
+    },
+    {
+      "ttft_s": 0.5705632909994165,
+      "total_s": 5.639236200000596,
+      "usage": {
+        "prompt_tokens": 105,
+        "completion_tokens": 512,
+        "total_tokens": 617,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 105,
+        "prompt_ms": 552.4,
+        "prompt_per_token_ms": 5.261,
+        "prompt_per_second": 190.1,
+        "predicted_n": 512,
+        "predicted_ms": 5082.8,
+        "predicted_per_token_ms": 9.927,
+        "predicted_per_second": 100.7,
+        "draft_n": 370,
+        "draft_n_accepted": 254
+      },
+      "content": "# The Browser Network Stack: From DNS to Cached Pages\n\nWhen a browser loads a page like `https://example.com`, it orchestrates a complex pipeline of networking subsystems that together determine whether a page loads in 50 milliseconds or 3 seconds. Understanding how DNS resolution, TLS handshake, HTTP/2 multiplexing, connection pooling, and caching interact is essential for anyone who designs, debugs, or optimizes web applications. Below is a walkthrough of the full interaction, with latency figures and failure modes.\n\n## 1. DNS Resolution: The First Gate\n\nWhen the user types `example.com` into the address bar, the browser's very first task is to resolve the hostname to an IP address. This is not a single query but a layered lookup:\n\n1. **Browser cache**: The browser maintains its own DNS cache (typically 60 seconds for A/AAAA records). If the user previously visited the page, resolution is instant (~0ms).\n2. **OS resolver cache**: If the browser cache misses, the OS resolver is consulted. Windows caches for up to 15 minutes by default; Linux respects TTL.\n3. **Local resolver / recursive resolver**: If both caches miss, the query goes to the configured recursive resolver (often the ISP's or a public resolver like 8.8.8.8). This can involve iterative queries to root servers, TLD servers, and authoritative nameservers.\n\n**Latency**: A cold DNS lookup typically costs 20\u2013100ms. With DNS-over-HTTPS (DoH), TLS adds overhead but enables connection reuse. With DNS-over-TLS on a fresh connection, you pay an extra RTT for the TLS handshake (~20\u201380ms).\n\n**Failure handling**: If the authoritative server is unreachable, the resolver retries with exponential backoff. If no A record is returned, the browser tries AAAA (IPv6). If both fail, the browser shows a DNS error (NET::ERR_NAME_NOT_RESOLVED",
+      "reasoning": "The user wants a detailed technical explanation of how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling, and caching interact during browser page loading. I need to cover the full pipeline, use specific examples, discuss latency numbers, and failure handling. This should be at least 1000 words and technically deep. Let me organize this around the actual sequence of events a browser goes through when loading a page, showing how each layer feeds into the next.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 47.0,
+      "host_min_available_gib": 103.66889190673828,
+      "median_power_w": 234.95999999999998,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a",
+      "input_sha256": "e356e38c09bb9a6a54aacccc96a0839f44530d7cc505180e5e1ea74b6261ec73"
+    },
+    {
+      "ttft_s": 0.6000603819993557,
+      "total_s": 5.932668852998177,
+      "usage": {
+        "prompt_tokens": 99,
+        "completion_tokens": 512,
+        "total_tokens": 611,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 99,
+        "prompt_ms": 575.9,
+        "prompt_per_token_ms": 5.817,
+        "prompt_per_second": 171.9,
+        "predicted_n": 512,
+        "predicted_ms": 5353.3,
+        "predicted_per_token_ms": 10.456,
+        "predicted_per_second": 95.6,
+        "draft_n": 392,
+        "draft_n_accepted": 275
+      },
+      "content": "## Twelve European Capitals\n\n**Amsterdam** is situated in the western Netherlands, along the banks of the Amstel River and connected to the North Sea Canal. Founded in the thirteenth century as a small fishing village, Amsterdam grew into one of Europe's most important trading ports during the Dutch Golden Age of the seventeenth century, when the Dutch East India Company dominated global commerce. The city's transport infrastructure is renowned for its cycling culture, with over 800,000 bicycles serving a population of approximately 800,000, complemented by an efficient tram network, metro system, and buses. The Rijksmuseum, located on Museumplein, houses a world-class collection spanning eight centuries of Dutch and international art, including Rembrandt's *The Night Watch* and Vermeer's *The Milkmaid*, making it one of the most visited cultural institutions in the Netherlands.\n\n**Athens** sits in the Attica basin between the Saronic Gulf and Mount Hymettus, in southeastern Greece. As one of the world's oldest continuously inhabited cities, Athens was the heart of classical Greek civilization, democracy, and philosophy from the fifth century BCE onward, with landmarks like the Parthenon still dominating the Acropolis skyline. Modern transport includes a metro system opened in 2000 with over 60 stations, extensive bus and trolleybus networks, and a suburban railway connecting to the airport. The National Archaeological Museum holds the largest collection of Greek antiquities in the world, with over 11,000 exhibits ranging from prehistoric artifacts through Roman-era sculptures, including the famous Mask of Agamemnon.\n\n**Berlin**, located on the banks of the River Spree in northeastern Germany, has a complex history spanning from its medieval origins as",
+      "reasoning": "The user wants me to describe twelve European capitals in alphabetical order, starting with Paris. Each capital needs a paragraph covering its location, history, transport, and one museum. I need at least 1000 words total.\n\nLet me pick twelve European capitals in alphabetical order:\n1. Amsterdam\n2. Athens\n3. Berlin\n4. Brussels\n5. Copenhagen\n6. Dublin\n7. Helsinki\n8. Lisbon\n9. Madrid\n10. Paris\n11. Prague\n12. Vienna\n\nNow I'll write a paragraph for each covering location, history, transport, and one museum, aiming for well over 1000 words total.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 47.0,
+      "host_min_available_gib": 103.66535186767578,
+      "median_power_w": 209.03,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport",
+      "input_sha256": "ef7a984507b2795100df794052067ba7fe1e282aa2a5f448341af8acb8f68a83"
+    },
+    {
+      "ttft_s": 0.6283574849985598,
+      "total_s": 5.800508169999375,
+      "usage": {
+        "prompt_tokens": 97,
+        "completion_tokens": 512,
+        "total_tokens": 609,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 97,
+        "prompt_ms": 603.8,
+        "prompt_per_token_ms": 6.225,
+        "prompt_per_second": 160.6,
+        "predicted_n": 512,
+        "predicted_ms": 5192.9,
+        "predicted_per_token_ms": 10.142,
+        "predicted_per_second": 98.6,
+        "draft_n": 404,
+        "draft_n_accepted": 342
+      },
+      "content": "```python\nfrom collections import OrderedDict\nfrom typing import Optional, Any\n\n\nclass LRUCache:\n    \"\"\"A Least Recently Used (LRU) cache backed by collections.OrderedDict.\n\n    The cache stores key-value pairs up to a fixed capacity. When the cache\n    is full and a new entry is inserted, the least recently used entry is\n    evicted. Accessing an entry (via get or put) promotes it to most recently\n    used position.\n\n    Attributes:\n        capacity: Maximum number of items the cache can hold.\n        _cache: Internal OrderedDict maintaining insertion/access order.\n    \"\"\"\n\n    def __init__(self, capacity: int) -> None:\n        if capacity <= 0:\n            raise ValueError(\"Capacity must be a positive integer\")\n        self.capacity: int = capacity\n        self._cache: OrderedDict[Any, Any] = OrderedDict()\n\n    def get(self, key: Any) -> Optional[Any]:\n        \"\"\"Retrieve the value for a given key.\n\n        Args:\n            key: The key to look up.\n\n        Returns:\n            The cached value if the key exists, otherwise None.\n        \"\"\"\n        if key not in self._cache:\n            return None\n        # Move the accessed key to the end (most recently used)\n        self._cache.move_to_end(key)\n        return self._cache[key]\n\n    def put(self, key: Any, value: Any) -> None:\n        \"\"\"Insert or update a key-value pair in the cache.\n\n        If the key already exists, its value is updated and it is promoted\n        to most recently used. If the cache is at capacity, the least\n        recently used entry is evicted before insertion.\n\n        Args:\n            key: The key",
+      "reasoning": "The user wants a complete Python implementation of an LRU cache using `collections.OrderedDict`. Let me think about what's needed:\n\n1. An LRU cache class with:\n   - `OrderedDict` as the underlying data structure\n   - A capacity limit\n   - `get` method: retrieves a value, moves it to the end (most recently used)\n   - `put` method: inserts/updates a key-value pair, evicts the least recently used if at capacity\n   - Type annotations\n   - A docstring\n\n2. Six unit tests using `unittest`\n\nLet me write clean, complete code.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 48.0,
+      "host_min_available_gib": 103.6631088256836,
+      "median_power_w": 199.57,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m",
+      "input_sha256": "790ba985503bc622dcc772772c17a5957d83ea66abfa972aef2d6f3167a9bccc"
+    },
+    {
+      "ttft_s": 0.6075134409984457,
+      "total_s": 6.004282306999812,
+      "usage": {
+        "prompt_tokens": 105,
+        "completion_tokens": 512,
+        "total_tokens": 617,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 105,
+        "prompt_ms": 587.1,
+        "prompt_per_token_ms": 5.591,
+        "prompt_per_second": 178.8,
+        "predicted_n": 512,
+        "predicted_ms": 5413.5,
+        "predicted_per_token_ms": 10.573,
+        "predicted_per_second": 94.6,
+        "draft_n": 368,
+        "draft_n_accepted": 241
+      },
+      "content": "# The Browser Loading Pipeline: DNS, TLS, HTTP/2, Connection Pooling, and Caching\n\nWhen you type a URL into a browser and hit Enter, a remarkable orchestration of networking subsystems unfolds. Each layer\u2014DNS resolution, TLS handshake, HTTP/2 multiplexing, connection pooling, and caching\u2014operates semi-independently but must coordinate to deliver a page in milliseconds. Understanding how these systems interact reveals why some pages feel instant while others crawl, and why resilience engineering at each layer matters.\n\n## The Request Lifecycle\n\nConsider loading `https://www.example.com/index.html`. The browser's first decision is whether to even initiate a network request. This is where **caching** enters the pipeline first.\n\n### Caching: The First Gate\n\nThe browser checks its HTTP cache (and possibly a service worker) before touching the network at all. A `Cache-Control: max-age=31536000` header on a JavaScript bundle means the browser serves it from disk for a full year without any DNS lookup, TCP connection, or TLS negotiation. This is the single largest latency win in the entire stack\u2014eliminating not just network round trips but entire subsystem activations.\n\nIf the resource is not in cache, the browser proceeds. If the resource exists in cache but with a `Cache-Control: max-age=0, must-revalidate` directive, the browser must still contact the origin, but it can send a conditional request (`If-None-Match: \"abc123\"`) and accept a 304 Not Modified response, which saves bandwidth but not the full latency cost.\n\nA critical interaction: **HTTP caching keys are URL-based but cache validation interacts with connection state**. If a connection to `example.com` is already open via HTTP/2, a conditional request can be sent as a stream over that connection without additional TLS or DNS cost. If no connection exists, the full pipeline must run.\n\n### DNS Resolution: Finding the Address\n\n",
+      "reasoning": "The user wants a detailed technical explanation of how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling, and caching interact during browser page loading. I need to cover the full pipeline, use specific examples, discuss latency implications, and address failure handling. I need to write at least 1000 words. Let me organize this as a comprehensive technical deep-dive that traces the actual request flow through these subsystems, showing how they interconnect rather than treating them in isolation.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 49.0,
+      "host_min_available_gib": 103.66752624511719,
+      "median_power_w": 223.5,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a",
+      "input_sha256": "14609a163ccf3519e6972e79eca94a67e8828f57d3c77e9446fdd0937a094d28"
+    },
+    {
+      "ttft_s": 0.6080312459998822,
+      "total_s": 5.879474443998333,
+      "usage": {
+        "prompt_tokens": 99,
+        "completion_tokens": 512,
+        "total_tokens": 611,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 99,
+        "prompt_ms": 582.7,
+        "prompt_per_token_ms": 5.886,
+        "prompt_per_second": 169.9,
+        "predicted_n": 512,
+        "predicted_ms": 5293.1,
+        "predicted_per_token_ms": 10.338,
+        "predicted_per_second": 96.7,
+        "draft_n": 398,
+        "draft_n_accepted": 283
+      },
+      "content": "# Twelve European Capitals\n\n**Paris** sits on the River Seine in the \u00cele-de-France region of north-central France. Founded as the Roman settlement of Lutetia, Paris grew through the Middle Ages into one of Europe's most influential cities, becoming the seat of the Capetian monarchy and later a crucible of revolution, enlightenment, and artistic innovation. Transport in Paris is anchored by the M\u00e9tro, one of the densest rapid transit systems in the world with over 300 stations, complemented by the RER regional rail network, an extensive bus system, and major international terminals including Gare du Nord and Charles de Gaulle Airport. The Mus\u00e9e d'Orsay, housed in a converted Beaux-Arts railway station on the Left Bank, holds the world's finest collection of Impressionist and Post-Impressionist art, with masterpieces by Monet, Renoir, Van Gogh, and C\u00e9zanne displayed across three vast floors of its elegant",
+      "reasoning": "The user wants me to describe twelve European capitals in alphabetical order, starting with Paris. Each capital needs a paragraph covering its location, history, transport, and one museum. I need at least 1000 words total.\n\nLet me think about which twelve European capitals to choose. Starting with Paris and going alphabetically, I need to pick capitals that span a good range. Since it says \"continue in alphabetical order,\" I should pick twelve capitals and arrange them alphabetically. Let me choose:\n\nAmsterdam, Athens, Berlin, Budapest, Copenhagen, Dublin, Helsinki, Lisbon, London, Madrid, Oslo, Paris\n\nWait, the user says \"Start with Paris and continue in alphabetical order.\" This means Paris is first, then the rest follow alphabetically. So Paris is the starting point, then the remaining 11 continue alphabetically.\n\nLet me pick: Paris, then alphabetically from there: Amsterdam, Athens, Berlin, Budapest, Copenhagen, Dublin, Helsinki, Lisbon, London, Madrid, Oslo.\n\nSo the order would be:\n1. Paris\n2. Amsterdam\n3. Athens\n4. Berlin\n5. Budapest\n6. Copenhagen\n7. Dublin\n8. Helsinki\n9. Lisbon\n10. London\n11. Madrid\n12. Oslo\n\nLet me write detailed paragraphs for each, covering location, history, transport, and one museum. I need to make sure I hit at least 1000 words, so roughly 85+ words per capital.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 48.0,
+      "host_min_available_gib": 103.67430877685547,
+      "median_power_w": 220.015,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport",
+      "input_sha256": "8fb5b4ab4a7f7f122b43a01594c01c087242eecfa4b3e4c4cb1176a3e499cc28"
+    }
+  ],
+  "prefill": [
+    {
+      "ttft_s": 6.831685686000128,
+      "total_s": 7.549338761000399,
+      "usage": {
+        "prompt_tokens": 31818,
+        "completion_tokens": 64,
+        "total_tokens": 31882,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 31818,
+        "prompt_ms": 6735.9,
+        "prompt_per_token_ms": 0.212,
+        "prompt_per_second": 4723.6,
+        "predicted_n": 64,
+        "predicted_ms": 734.9,
+        "predicted_per_token_ms": 11.483,
+        "predicted_per_second": 87.1,
+        "draft_n": 49,
+        "draft_n_accepted": 38
+      },
+      "content": "",
+      "reasoning": "The user asks me to explain the main components and their performance trade-offs in three sentences, based on the Strata documentation and code provided.\n\nLet me identify the main components and their trade-offs:\n\n1. **GPU (VRAM)** - holds the most-used experts (adaptive cache), attention/DeltaNet mix",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 103.60938262939453,
+      "median_power_w": 273.44,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig",
+      "input_sha256": "dc41fbf257cd77be024ff130e44a412a3677d21d31a28db874de591e5f52066f"
+    },
+    {
+      "ttft_s": 6.842347523001081,
+      "total_s": 7.450715382001363,
+      "usage": {
+        "prompt_tokens": 31818,
+        "completion_tokens": 64,
+        "total_tokens": 31882,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 31818,
+        "prompt_ms": 6746.4,
+        "prompt_per_token_ms": 0.212,
+        "prompt_per_second": 4716.3,
+        "predicted_n": 64,
+        "predicted_ms": 621.4,
+        "predicted_per_token_ms": 9.709,
+        "predicted_per_second": 103.0,
+        "draft_n": 42,
+        "draft_n_accepted": 34
+      },
+      "content": "",
+      "reasoning": "The user asks me to explain the main components and their performance trade-offs in three sentences, based on the Strata documentation and code provided.\n\nLet me distill the key architecture:\n1. GPU holds the dense operations (attention, mixers, shared experts, output head) plus a cache of the most-used",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 24008.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 103.58058547973633,
+      "median_power_w": 272.03,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig",
+      "input_sha256": "b7e5fbd58b461c6f2944d875fd4a8ab008a23ecf40888b06e36e93497188542a"
+    }
+  ],
+  "decode_median_tok_s": 97.65
+}

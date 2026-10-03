@@ -1,0 +1,39 @@
+{
+  "exe": "/opt/strata-build/strata",
+  "args": [
+    "--pack",
+    "/work/packs/iq3s",
+    "--native",
+    "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+    "--expert-profile",
+    "/opt/strata/data/expert-profile.bin",
+    "--expert-cache",
+    "auto",
+    "--ple-io",
+    "ram",
+    "--prefill",
+    "4096",
+    "--spec",
+    "4",
+    "--spec-min-p",
+    "0.5",
+    "--mtp",
+    "/work/mtp/rt",
+    "--max-context",
+    "32768",
+    "--kv",
+    "int8",
+    "--pool-workers",
+    "11",
+    "--stats"
+  ],
+  "cwd": "/opt/strata",
+  "tokenizer": "/work/packs/iq3s/tokenizer",
+  "model_name": "flash-iq3s-32k",
+  "log": "/work/results/flash-iq3s-32k-engine.log",
+  "host": "0.0.0.0",
+  "port": 19623,
+  "aliases": [
+    "ulmus"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "method": "Explicit allowlist; remove per-sample telemetry and local host paths",
+  "private_exclusions": [
+    "Host/container captures",
+    "Non-synthetic benchmark question/test payloads",
+    "Downloaded binaries and model files",
+    "Private deployment logs"
+  ],
+  "sources": {
+    "owner-text-perf.json": {
+      "private_original_sha256": "8624f0b3a30c4f15e7acae67c8ca071e7076d6e40ace43c2add32bdf72ad491b",
+      "public_export_sha256": "4efb1a77631a77185674025cd227954da5f5e5b3f85e361ccf6beba4dff6fcb1"
+    },
+    "owner-vision-perf.json": {
+      "private_original_sha256": "8eb6c0125e24390b6a508b709cc2011490a5fc6801545d2217ca152376223bc8",
+      "public_export_sha256": "7f63ce3e88f422687c8887b6b97dc0ab010aea3e980c3b2db62f736489d1bb7f"
+    },
+    "second-round-summary.json": {
+      "private_original_sha256": "cb13703b41f7368cb3838bb8e6f8c21d09e2b3d743d39dcd7b559358fa434409",
+      "public_export_sha256": "cb13703b41f7368cb3838bb8e6f8c21d09e2b3d743d39dcd7b559358fa434409"
+    },
+    "ple-iq4nl-perf.json": {
+      "private_original_sha256": "e14d6920b16f2dfb4b44b3dfd7f7c0dbbaebb02164676b463543ab6d1b0c796e",
+      "public_export_sha256": "06a2b592a7399372519d5dd521b8bd6567a89be3c832734bcb4c47361d2ec856"
+    },
+    "ple-bf16-perf.json": {
+      "private_original_sha256": "3c8316a55c0ed1c5233e55367dcf4d9f0a0e29cef5ced8e00bdd85f429fb3dbe",
+      "public_export_sha256": "f0c494180dc44af70f19d1427edf9cf3ab2cfb185568fba7ba854ace3cc6a46f"
+    },
+    "ple-iq4nl-confirmation-perf.json": {
+      "private_original_sha256": "895e338e469c647d681c9d31fb7778dc342e3e39d5bbd3123da722b44d8d7a3e",
+      "public_export_sha256": "cb6d8bc4e129c9a86666749d56574b68f411facf029d8d6664ca44e4be9d4990"
+    },
+    "ple-bf16-gpuvision-perf.json": {
+      "private_original_sha256": "65a9cfa19779daa3ba3443fa42af565fc25c15e217b6fccbbe540c86ebad8521",
+      "public_export_sha256": "132848ded4e963c5535d6822500af5104be4d5a6b03bfb694b5c1a249327e0bd"
+    },
+    "vision-iq3s-gpu-perf.json": {
+      "private_original_sha256": "8e7df42b80bb08e9914c09a78fd5f51ea16cf7fdc379d656a2a382e5c1616896",
+      "public_export_sha256": "12111cce063bc35ea69d218da4f10316f3381b39b437cc8dff4bff1a8f5811ad"
+    },
+    "resume-iq3s-cpuquant.json": {
+      "private_original_sha256": "4a90f3a9bddddab5f087329d418a912940da84c71fc9ad82a30543f39b6bc6fe",
+      "public_export_sha256": "dabfd1dadddbf6faeff62306e44c6d8d4c9d1297987a0643f5b13ea1f630a48d"
+    },
+    "resume-iq3s-confirmation.json": {
+      "private_original_sha256": "1cd3856dd929c54a1e18514fabfb3b0ae8902fc56eaa5f74a2b86ad0ee5d82ce",
+      "public_export_sha256": "da45fee20744bef0353c9a86f1b82f055ff20ccc899e05e9be2674495d6ba8dc"
+    },
+    "vision-owner-defaults.json": {
+      "private_original_sha256": "ea8d2c7549c850a6ba78456e19522ac2f049e75e2889517f38a850f20d9e1b9a",
+      "public_export_sha256": "24759721686b2d7a3d9e77f7b5fcf091f3f3a2c4bb09f3dc11d7de3885904818"
+    },
+    "practical-iq3s-iq4nl-low.json": {
+      "private_original_sha256": "c6ab6006c5951983df49cfc5ba4daa26ae2e5e60a5e72f9199addeb86bc5df39",
+      "public_export_sha256": "d5be0b8cadbfe88b550af67d1fe1cd0491ba6c389a1063e5e875b3c1b2ab0a4c"
+    },
+    "practical-q4-iq4nl-low.json": {
+      "private_original_sha256": "77d4ccf063d3c29d1ec30736af1987ecdd3a698ee79980c86411469244139d10",
+      "public_export_sha256": "a939d1d33db09bd898e714a94b5b5f535796c14ef2a932cae81e80ab344658af"
+    },
+    "practical-iq3s-bf16-low.json": {
+      "private_original_sha256": "189729b76d8e6a8ceb7cc83881e34cb49202b1d9acd04bdf6858362c5e4be76d",
+      "public_export_sha256": "6542e225ede63228fb68b981df21fb4566ece08c7b0632402ad966ea369aa7e4"
+    },
+    "ple-iq4nl-agents.json": {
+      "private_original_sha256": "f7a668033f66b0d67befe2c16602b4e74dbfcf91befd363782a6499dbf3e356a",
+      "public_export_sha256": "df609fd8b4212ccfb7bb2cd4b7eb27d2295b1f187d92304fa9fd66d9f7e92ff0"
+    },
+    "q4-agents.json": {
+      "private_original_sha256": "9fda8501bf6fbb597d4117412917f595043c68e35fa8240fe6e22192b98fa1ae",
+      "public_export_sha256": "3e28b2fb5d1845a1306ce509016483b61af21bc57e7eec0270c61907abcab40f"
+    },
+    "ple-bf16-agents.json": {
+      "private_original_sha256": "8cb80b101b6b995be8a4cef0180c01c6794dfddf1f9e56ea506a61bbb27aa01b",
+      "public_export_sha256": "3b81f84c36af11e9f311e2b358a6d30c08a0a2afc756dde54d58de73e8abe6c4"
+    },
+    "quality-iq3s-v2-256k.json": {
+      "private_original_sha256": "5724c697d8e0b4f2e0ab99ee19ef40e0bacd39a43bb84fbe86d1f8ff808d996a",
+      "public_export_sha256": "dfcc0c5eda0e95b80bd8c825adcdc01dd180ba54571f9d94a203cd96f079ad3d"
+    },
+    "conversations-iq3s.json": {
+      "private_original_sha256": "e27b2c7fb7aa6c4a3c5263713e34279e4c0711935604c5ac2fe3bd3e17ab02f5",
+      "public_export_sha256": "67a56b9f3b748c28020f3d8bbb60455d34a0ffa2e0d7a203a4941b7ed6df8a19"
+    },
+    "sampled-iq3s-off.json": {
+      "private_original_sha256": "21a9725805bf29092319b2fa1a662c5e5e30980667586f6645fdd3c21048b0f5",
+      "public_export_sha256": "9c6cc2045a690a63dae9f1ff3098e828775252a3c468c449c0ecabdbd954c9b1"
+    },
+    "sampled-q4-report.json": {
+      "private_original_sha256": "9b4fe81b091e7d184a8419a8376358be0d1901697484a9d9933ccaddd495088f",
+      "public_export_sha256": "2df4e2b8473f8a26324f36d7604ccfb86c4d4d4b27914a9b1a0f7457737359ec"
+    },
+    "strata-q4-pfauto.json": {
+      "private_original_sha256": "c939f659290ac0520a91a2df7d7641efaf2345d5c2bb86f81859bcc3002c640d",
+      "public_export_sha256": "3a2a8330e80db723c8f6e9f95691236ffc7f98f1bb27d5ed55e674d23790a633"
+    },
+    "strata-iq3s-pfauto.json": {
+      "private_original_sha256": "ae3db472dd1ff851643f15191d9eda27f5480d438df9ae6bb641a9b07ebbc34d",
+      "public_export_sha256": "594d1f8717a6d916a871d3aa079f1ca4d829f53c383ccf12bc9545bfde9274fb"
+    }
+  }
+}

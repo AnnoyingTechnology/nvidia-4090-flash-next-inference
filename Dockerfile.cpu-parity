@@ -1,0 +1,5 @@
+FROM ulmus/strata:99f3dbd-cpu-quant
+COPY native_pool_parity.cpp /opt/strata/src/kernels/cpu/native_pool_parity.cpp
+RUN printf '\nadd_executable(ulmus_native_pool_parity src/kernels/cpu/native_pool_parity.cpp)\ntarget_link_libraries(ulmus_native_pool_parity PRIVATE strata_kernels_cpu)\n' >> /opt/strata/CMakeLists.txt \
+    && cmake -S /opt/strata -B /opt/strata-build \
+    && cmake --build /opt/strata-build -j 8 --target ulmus_native_pool_parity

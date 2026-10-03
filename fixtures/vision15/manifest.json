@@ -1,0 +1,67 @@
+{
+  "cases": 15,
+  "cases_sha256": "8def474d906672e145926973f4422bda9909e1a4d70c394d4c5edb2799437298",
+  "scope": "12 original synthetic tasks and 3 public-domain/CC0 photographs; bounded canaries, not a public benchmark",
+  "sources": {
+    "nginx-error": {
+      "kind": "original synthetic fixture"
+    },
+    "disk-usage": {
+      "kind": "original synthetic fixture"
+    },
+    "service-ports": {
+      "kind": "original synthetic fixture"
+    },
+    "request-path": {
+      "kind": "original synthetic fixture"
+    },
+    "printed-code": {
+      "kind": "original synthetic fixture"
+    },
+    "git-diff": {
+      "kind": "original synthetic fixture"
+    },
+    "latency-chart": {
+      "kind": "original synthetic fixture"
+    },
+    "capacity-chart": {
+      "kind": "original synthetic fixture"
+    },
+    "network-boundary": {
+      "kind": "original synthetic fixture"
+    },
+    "invoice": {
+      "kind": "original synthetic fixture"
+    },
+    "untrusted-poster": {
+      "kind": "original synthetic fixture"
+    },
+    "shape-count": {
+      "kind": "original synthetic fixture"
+    },
+    "photo-astronaut": {
+      "kind": "photograph",
+      "author": "NASA",
+      "license": "public domain",
+      "revision": "a160f384523ac70173d069954b7084bee79fb68e",
+      "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/a160f384523ac70173d069954b7084bee79fb68e/skimage/data/astronaut.png",
+      "license_reference": "https://github.com/scikit-image/scikit-image/blob/a160f384523ac70173d069954b7084bee79fb68e/skimage/data/_fetchers.py"
+    },
+    "photo-coffee": {
+      "kind": "photograph",
+      "author": "Rachel Michetti / Pikolo Espresso Bar",
+      "license": "CC0",
+      "revision": "a160f384523ac70173d069954b7084bee79fb68e",
+      "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/a160f384523ac70173d069954b7084bee79fb68e/skimage/data/coffee.png",
+      "license_reference": "https://github.com/scikit-image/scikit-image/blob/a160f384523ac70173d069954b7084bee79fb68e/skimage/data/_fetchers.py"
+    },
+    "photo-chelsea": {
+      "kind": "photograph",
+      "author": "Stefan van der Walt",
+      "license": "CC0",
+      "revision": "a160f384523ac70173d069954b7084bee79fb68e",
+      "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/a160f384523ac70173d069954b7084bee79fb68e/skimage/data/chelsea.png",
+      "license_reference": "https://github.com/scikit-image/scikit-image/blob/a160f384523ac70173d069954b7084bee79fb68e/skimage/data/_fetchers.py"
+    }
+  }
+}

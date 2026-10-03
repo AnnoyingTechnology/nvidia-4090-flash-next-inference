@@ -1,0 +1,10 @@
+# Only the owner API/evaluator build inputs belong in this context.
+# Base engine builds use the separately pinned upstream source context.
+**
+!Dockerfile*
+!api-wheels
+!api-wheels/**
+!api-requirements.lock
+!grade.py
+!eval-source
+!eval-source/**

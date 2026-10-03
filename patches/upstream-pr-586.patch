@@ -1,0 +1,658 @@
+From 36f829da8bc1396e8c8198e3c2e0c147c78d14ba Mon Sep 17 00:00:00 2001
+From: Constantin <fokouaconstantin@gmail.com>
+Date: Thu, 1 Oct 2026 21:21:18 -0400
+Subject: [PATCH] ple: read the n-gram table at full BF16 precision
+
+The table reaches the engine as IQ4_NL (ISTA-DASLab's shard 2), which is
+about 8% off per row against the checkpoint's own values. tools/ple_table_pack
+already recovers Qwen's F8 E4M3 release exactly; the full checkpoint stores the
+same shards as BF16, which is the source of record and 102.4 GB rather than
+51.2 GB.
+
+So accept it rather than re-quantize it. A bfloat16 IS the top half of a
+float32, so widening is a shift: exact for every value, no rounding and no
+scale, where casting BF16 to FP8 would carry a 3-bit mantissa and land within a
+few percent of the IQ4_NL table this is meant to replace.
+
+  - ngram: PLE_ROW_BYTES_BF16 (320) and bf16_dequant_row, widening little-endian
+    bytes explicitly so the result does not depend on host endianness.
+  - PleTable::open: a BF16 tensor sets the row width; it needs no scale and
+    trusts no metadata, because the values carry themselves.
+  - The direct reader takes the table's own row size, so BF16 reads unbuffered
+    like IQ4_NL and FP8 instead of falling back to the mapped path Q5_0 needs.
+    The comment claiming fixed 90-byte rows was stale from before FP8.
+  - tools/ple_fp8_pack.py -> tools/ple_table_pack.py: reads whichever dtype the
+    checkpoint holds and copies the bytes through. FP8 output is unchanged, byte
+    for byte; nothing imports or tests the old path, so the rename is free.
+  - ple_reader_test: the widening is exact over the patterns a lossy path breaks
+    on (subnormals, +-inf, both NaNs), and a synthetic BF16 GGUF reads back
+    identically through Direct and Mmap. Both were mutation-checked - widening by
+    >> instead of <<, and a 160 B row width, both fail the selftest.
+
+Host build and ple_reader_selftest pass. No GPU, model or engine run: this says
+the reader widens BF16 exactly, not that a 102 GB table serves prompts well.
+
+(cherry picked from commit 33a2775a6a9ff912d90054bd6e40b878dbe5bc05)
+(cherry picked from commit 4ae54787d69f5ed30c97907739438d9a20dddafd)
+---
+ CMakeLists.txt                          |   2 +-
+ include/strata/artifact/gguf_reader.hpp |   2 +-
+ include/strata/kernels/ngram.hpp        |  22 +++-
+ src/kernels/ngram.cpp                   |  35 +++++-
+ src/kernels/ple_fp8_parity.cpp          |   2 +-
+ src/ngram/ple_reader_test.cpp           | 110 +++++++++++++++++
+ src/program/generate.cpp                |   2 +-
+ tools/ple_fp8_pack.py                   | 127 ++------------------
+ tools/ple_table_pack.py                 | 150 ++++++++++++++++++++++++
+ 9 files changed, 320 insertions(+), 132 deletions(-)
+ create mode 100644 tools/ple_table_pack.py
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ff8766b20..62ce8e03e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1031,7 +1031,7 @@ if(STRATA_NATIVE_EXPERTS)
+     add_executable(q5_projection_parity src/kernels/q5_projection_parity.cpp)
+     target_include_directories(q5_projection_parity PRIVATE ${_strata_gpu_include_directories})
+     target_link_libraries(q5_projection_parity PRIVATE strata_kernels strata_artifact ggml-base ${_strata_gpu_runtime_target})
+-    # #291: the FP8 PLE table (tools/ple_fp8_pack.py) through PleTable vs the checkpoint's own values
++    # #291: the FP8 PLE table (tools/ple_table_pack.py) through PleTable vs the checkpoint's own values
+     add_executable(ple_fp8_parity src/kernels/ple_fp8_parity.cpp)
+     target_link_libraries(ple_fp8_parity PRIVATE strata_kernels ${_strata_gpu_runtime_target})
+   endif()
+diff --git a/include/strata/artifact/gguf_reader.hpp b/include/strata/artifact/gguf_reader.hpp
+index 298dc3bc3..63bac5717 100644
+--- a/include/strata/artifact/gguf_reader.hpp
++++ b/include/strata/artifact/gguf_reader.hpp
+@@ -206,7 +206,7 @@ inline bool block_geometry(uint32_t t, int& elems, int& bytes) {
+         elems = 256;
+         bytes = 56;
+         return true;
+-    case 24:   // I8: raw bytes (the FP8 PLE table of tools/ple_fp8_pack.py)
++    case 24:   // I8: raw bytes (the FP8 PLE table of tools/ple_table_pack.py)
+         elems = 1;
+         bytes = 1;
+         return true;
+diff --git a/include/strata/kernels/ngram.hpp b/include/strata/kernels/ngram.hpp
+index 9aae9c08c..41d9442e1 100644
+--- a/include/strata/kernels/ngram.hpp
++++ b/include/strata/kernels/ngram.hpp
+@@ -41,12 +41,13 @@ inline constexpr int NG_HIST = (PLE_CONV_KERNEL - 1) * NGRAM_SIZE;       // 9
+ inline constexpr int32_t TOKEN_NULL = -1;       // LLAMA_TOKEN_NULL
+ inline constexpr float NG_RMS_EPS = 1e-6f;
+ 
+-// The table: [160, 320001536] IQ4_NL.  ne0 = 160 is the FAST axis, so one row is 160 contiguous elements =
++// The table: [160, 320001536] IQ4_NL.  ne0 = 160 is the FAST axis, so the ROW index is shape[1] and a row is contiguous.
+ // 5 blocks of 32 at 18 bytes = 90 bytes.  The head-slowest flatten then makes 16 rows exactly n_embd = 2560.
+ inline constexpr uint64_t PLE_TABLE_ROWS = 320001536ull;
+ inline constexpr int PLE_ROW_BYTES = (PLE_HEAD_DIM / 32) * 18;           // 90: an IQ4_NL row
+ inline constexpr int PLE_ROW_BYTES_FP8 = PLE_HEAD_DIM;                   // 160: an F8_E4M3 row, one byte a value
+-inline constexpr int PLE_ROW_BYTES_MAX = PLE_ROW_BYTES_FP8;
++inline constexpr int PLE_ROW_BYTES_BF16 = PLE_HEAD_DIM * 2;              // 320: a BF16 row, two bytes a value
++inline constexpr int PLE_ROW_BYTES_MAX = PLE_ROW_BYTES_BF16;             // the widest row any format uses
+ 
+ /// The artifact's own hash constants, transcribed from `docs/gguf-dump-shard1.txt`:
+ ///
+@@ -100,7 +101,15 @@ void iq4nl_dequant_row(const uint8_t* row, float* out160);
+ 
+ /// One FP8 row -> 160 floats: each byte an E4M3 value (the "fn" variant: no infinities, 0x7F/0xFF are NaN), times the
+ /// table's one scale. This is the table as Qwen3.8-Flash-Next ships it (`...ngram_embedding.shard_k`, F8_E4M3, and
+-/// `weight_scale`), kept byte for byte by tools/ple_fp8_pack.py; IQ4_NL is 8% off it per row.
++/// `weight_scale`), kept byte for byte by tools/ple_table_pack.py; IQ4_NL is 8% off it per row.
++void fp8_e4m3_dequant_row(const uint8_t* row, float scale, float* out160);
++
++/// One BF16 row -> 160 floats, EXACTLY: bfloat16 is the top half of a float32, so this is a shift and a copy
++/// with no rounding anywhere. It is the other published form of this same table - the full checkpoint stores
++/// `...ngram_embedding.shard_k` as BF16 (2 B a value, 102.4 GB), which is the source of record rather than a
++/// re-quantization: tools/ple_table_pack.py copies it through and the reader expands it here. There is no scale,
++/// because BF16 values are the values.
++void bf16_dequant_row(const uint8_t* row, float* out160);
+ void fp8_e4m3_dequant_row(const uint8_t* row, float scale, float* out160);
+ 
+ /// How the table's rows are read (plan v0.3 P2). `Direct` is the default: unbuffered 4 KiB reads from the SSD,
+@@ -115,7 +124,8 @@ enum class PleIo { Direct, Mmap };
+ struct PleIoOptions {
+     PleIo mode = PleIo::Direct;
+     uint32_t max_inflight = 256;     ///< outstanding SSD reads (decode needs 16; a prompt chunk saturates the SSD at 256)
+-    uint64_t cache_rows = 1u << 20;  ///< bounded row cache: 1,048,576 rows x 90 B ~ 95 MB; 0 disables
++    uint64_t cache_rows = 1u << 20;  ///< bounded row cache, in ROWS: 1,048,576 x 90 B ~ 95 MB (IQ4_NL), or
++                                     ///< ~160 MB (FP8) / ~335 MB (BF16); 0 disables
+     bool io_thread = true;           ///< reads submitted by a worker thread, not the caller
+     /// Mmap mode only (`--ple-io ram`): lock the whole mapped table in RAM at open, so no SSD read ever sits on
+     /// the prompt or token path. Needs RAM for the full table. POSIX only (mlock); `locked()` reports the outcome.
+@@ -162,7 +172,9 @@ class PleTable {
+     /// True when `PleIoOptions::lock` was asked for and mlock succeeded (false: pages only pre-touched).
+     bool locked() const;
+     uint64_t rows() const;
+-    /// "IQ4_NL" or "F8_E4M3" (a GGUF from tools/ple_fp8_pack.py: type I8, strata.ple.format = f8_e4m3).
++    /// "IQ4_NL", "F8_E4M3" (a GGUF from tools/ple_table_pack.py: type I8 with strata.ple.format = f8_e4m3 and
++    /// strata.ple.scale), "Q5_0" (OrcaRouter's own GGUF), or "BF16" (the same tool, full precision: type BF16,
++    /// no scale).
+     const char* format() const;
+ 
+     /// 16 row indices -> 2560 floats.  The gathered rows are flattened HEAD-SLOWEST: row h's 160 values
+diff --git a/src/kernels/ngram.cpp b/src/kernels/ngram.cpp
+index a533dbf51..febc45992 100644
+--- a/src/kernels/ngram.cpp
++++ b/src/kernels/ngram.cpp
+@@ -130,6 +130,19 @@ struct Fp8Table {
+ const Fp8Table kFp8;
+ }  // namespace
+ 
++void bf16_dequant_row(const uint8_t* row, float* out160) {
++    // bfloat16 IS the top 16 bits of a float32, so widening is exact for every value, normal or not - no
++    // rounding, no clamp, no scale. Bytes are assembled little-endian explicitly rather than reinterpreted, so
++    // this is the same on a big-endian host.
++    for (int j = 0; j < PLE_HEAD_DIM; ++j) {
++        const uint32_t bits = (uint32_t) row[2 * j] | ((uint32_t) row[2 * j + 1] << 8);
++        const uint32_t wide = bits << 16;
++        float v;
++        std::memcpy(&v, &wide, sizeof v);
++        out160[j] = v;
++    }
++}
++
+ void fp8_e4m3_dequant_row(const uint8_t* row, float scale, float* out160) {
+     for (int j = 0; j < PLE_HEAD_DIM; ++j) out160[j] = kFp8.v[row[j]] * scale;
+ }
+@@ -150,11 +163,13 @@ struct PleTable::Impl {
+     bool locked = false;
+     uint32_t rows[PLE_N_HEADS] = {};
+     uint8_t raw[PLE_N_HEADS * PLE_ROW_BYTES_MAX] = {};
+-    bool fp8 = false;                 // F8_E4M3 rows (tools/ple_fp8_pack.py); else IQ4_NL
++    bool fp8 = false;                 // F8_E4M3 rows (tools/ple_table_pack.py); else IQ4_NL
++    bool bf16 = false;                // BF16 rows, the checkpoint's own table; else one of the above
+     float scale = 1.0f;               // the FP8 table's one scale
+     uint32_t rb = PLE_ROW_BYTES;      // bytes per row
+     void decode(const uint8_t* row, float* out160) const {
+         if (fp8) fp8_e4m3_dequant_row(row, scale, out160);
++        else if (bf16) bf16_dequant_row(row, out160);
+         else if (q5_0)
+             for (int b = 0; b < PLE_HEAD_DIM / 32; ++b) strata::dequantize_q5_0(row + (size_t) b * 22, out160 + b * 32);
+         else iq4nl_dequant_row(row, out160);
+@@ -188,9 +203,11 @@ bool PleTable::open(const std::string& gguf_path, std::string& err, const PleIoO
+         close();
+         return false;
+     }
+-    // IQ4_NL (ISTA-DASLab's shard 2, the original's own GGUF), Q5_0 (#296: OrcaRouter's GGUF), or the FP8 table as
+-    // shipped: I8 bytes marked strata.ple.format = f8_e4m3 with strata.ple.scale (tools/ple_fp8_pack.py)
++    // IQ4_NL (ISTA-DASLab's shard 2, the original's own GGUF), Q5_0 (#296: OrcaRouter's GGUF), the FP8 table as
++    // shipped (I8 bytes marked strata.ple.format = f8_e4m3 with strata.ple.scale), or the same table at full
++    // BF16 precision straight out of the checkpoint (tools/ple_table_pack.py).
+     impl_->fp8 = false;
++    impl_->bf16 = false;
+     impl_->q5_0 = std::strcmp(t->type_name(), "Q5_0") == 0;
+     impl_->rb = impl_->q5_0 ? (PLE_HEAD_DIM / 32) * 22 : PLE_ROW_BYTES;
+     if (std::strcmp(t->type_name(), "I8") == 0) {
+@@ -204,8 +221,14 @@ bool PleTable::open(const std::string& gguf_path, std::string& err, const PleIoO
+         impl_->fp8 = true;
+         impl_->scale = (float) s->num();
+         impl_->rb = PLE_ROW_BYTES_FP8;
++    } else if (std::strcmp(t->type_name(), "BF16") == 0) {
++        // Self-describing: a BF16 row carries its own values, so there is no scale to require and no metadata
++        // to trust. Widening to float is exact, so this row is the checkpoint's value, not a rounded copy.
++        impl_->bf16 = true;
++        impl_->rb = PLE_ROW_BYTES_BF16;
+     } else if (!impl_->q5_0 && std::strcmp(t->type_name(), "IQ4_NL") != 0) {
+-        err = std::string("per_layer_token_embd.weight is ") + t->type_name() + ", not IQ4_NL, Q5_0 or FP8 (I8)";
++        err = std::string("per_layer_token_embd.weight is ") + t->type_name() +
++              ", not IQ4_NL, Q5_0, BF16 or FP8 (I8)";
+         close();
+         return false;
+     }
+@@ -291,7 +314,9 @@ void PleTable::close() {
+ 
+ bool PleTable::is_open() const { return impl_->data != nullptr || impl_->reader.is_open(); }
+ bool PleTable::locked() const { return impl_->locked; }
+-const char* PleTable::format() const { return impl_->fp8 ? "F8_E4M3" : impl_->q5_0 ? "Q5_0" : "IQ4_NL"; }
++const char* PleTable::format() const {
++    return impl_->fp8 ? "F8_E4M3" : impl_->bf16 ? "BF16" : impl_->q5_0 ? "Q5_0" : "IQ4_NL";
++}
+ PleIo PleTable::mode() const { return impl_->mode; }
+ uint64_t PleTable::rows() const { return impl_->n_rows; }
+ uint64_t PleTable::bytes_read() const { return impl_->bytes_read; }
+diff --git a/src/kernels/ple_fp8_parity.cpp b/src/kernels/ple_fp8_parity.cpp
+index 09dd199a8..1586ec67c 100644
+--- a/src/kernels/ple_fp8_parity.cpp
++++ b/src/kernels/ple_fp8_parity.cpp
+@@ -1,4 +1,4 @@
+-// src/kernels/ple_fp8_parity.cpp - the FP8 PLE table (tools/ple_fp8_pack.py) read through PleTable, against values
++// src/kernels/ple_fp8_parity.cpp - the FP8 PLE table (tools/ple_table_pack.py) read through PleTable, against values
+ // decoded from the checkpoint itself, and against the IQ4_NL table it replaces.
+ //
+ //     ple_fp8_parity <ple-fp8.gguf> <reference.bin> [<iq4nl shard.gguf>]
+diff --git a/src/ngram/ple_reader_test.cpp b/src/ngram/ple_reader_test.cpp
+index 87270fdc6..d8234c1b4 100644
+--- a/src/ngram/ple_reader_test.cpp
++++ b/src/ngram/ple_reader_test.cpp
+@@ -75,6 +75,114 @@ bool check_rows(ng::PleReader& rd, const std::vector<uint32_t>& rows, uint32_t n
+     return true;
+ }
+ 
++/// THE BF16 TABLE, and the claim it rests on.  A bfloat16 is literally the top half of a float32, so widening
++/// one is a shift: exact for every value, normal or not, with no rounding to hide behind.  These patterns are
++/// the ones a lossy path would break on - the subnormals and the NaN/inf encodings a saturating cast to FP8
++/// would collapse - so a table that came back through the FP8 route would not reproduce all of them.
++void bf16_widening_is_exact() {
++    const uint16_t bits[] = {0x0000, 0x8000, 0x3f80, 0xbf80, 0x7f7f, 0xff7f,  // 0, -0, 1, -1, max, -max
++                             0x0001, 0x8001, 0x007f, 0x7f80, 0xff80,          // smallest subnormals, +-inf
++                             0x7fc0, 0x7f81, 0x4049, 0xc249, 0x3c75};        // NaN, signalling NaN, 3.14, -3.14
++    for (uint16_t b : bits) {
++        uint8_t row[2 * k::PLE_HEAD_DIM];
++        std::memset(row, 0, sizeof row);
++        row[0] = (uint8_t) b;                       // little-endian: the low byte first
++        row[1] = (uint8_t) (b >> 8);
++        float out[k::PLE_HEAD_DIM];
++        k::bf16_dequant_row(row, out);
++        uint32_t want = (uint32_t) b << 16, got;
++        std::memcpy(&got, &out[0], sizeof got);
++        CHECK(got == want, "bf16 0x%04x widened to 0x%08x, not 0x%08x", b, got, want);
++        bool tail_zero = true;                      // one element under test must not have shifted the rest
++        for (int j = 1; j < k::PLE_HEAD_DIM; ++j) tail_zero = tail_zero && out[j] == 0.0f;
++        CHECK(tail_zero, "bf16 0x%04x: the rest of the row is not zero", b);
++    }
++}
++
++/// The value the WRITER puts at (row, element).  Every element is a distinct pattern, so a row read at the
++/// wrong width or the wrong offset lands on values that belong to another element or another row.
++uint16_t bf16_cell_bits(uint32_t row, int j) {
++    return (uint16_t) (0x3f80u + (uint16_t) (j * 7 + (int) (row % 61)));
++}
++
++/// The value the CHECKER expects, decoded from those bytes independently of `bf16_dequant_row`.
++float bf16_cell_value(uint32_t row, int j) {
++    const uint32_t bits = (uint32_t) bf16_cell_bits(row, j) << 16;
++    float v;
++    std::memcpy(&v, &bits, sizeof v);
++    return v;
++}
++
++/// A MINIMAL PLE-ONLY GGUF holding that table, so the file layout can be exercised end to end: one tensor with
++/// the name and shape the engine looks for, type 30 (GGML_TYPE_BF16), data at offset 0 of the data section.
++std::string write_bf16_table(const std::string& dir, uint32_t rows) {
++    const std::string path = dir + "/ple_bf16_selftest.gguf";
++    std::ofstream f(path, std::ios::binary);
++    if (!f) { std::fprintf(stderr, "cannot write %s\n", path.c_str()); return {}; }
++    const auto le = [](auto value, int bytes) {
++        std::string out((size_t) bytes, '\0');
++        for (int i = 0; i < bytes; ++i) out[(size_t) i] = (char) ((value >> (8 * i)) & 0xff);
++        return out;
++    };
++    const auto gguf_string = [&](const char* s) {
++        return le((uint64_t) std::strlen(s), 8) + std::string(s);
++    };
++    std::string head = "GGUF" + le(3u, 4) + le(1ull, 8) + le(1ull, 8);      // v3, 1 KV pair, 1 tensor
++    head += gguf_string("general.architecture") + le(8u, 4) + gguf_string("strata-ple");   // 8 = STRING
++    head += gguf_string("per_layer_token_embd.weight") + le(2u, 4);
++    head += le((uint64_t) k::PLE_HEAD_DIM, 8) + le((uint64_t) rows, 8);   // ne0 is the fast axis
++    head += le(30u, 4) + le(0ull, 8);                                     // GGML_TYPE_BF16, offset 0
++    while (head.size() % 32) head += '\0';                               // GGUF aligns tensor data to 32
++    f.write(head.data(), (std::streamsize) head.size());
++    for (uint32_t r = 0; r < rows; ++r) {
++        uint8_t row[2 * k::PLE_HEAD_DIM];
++        for (int j = 0; j < k::PLE_HEAD_DIM; ++j) {
++            const uint16_t w = bf16_cell_bits(r, j);
++            row[2 * j] = (uint8_t) w;
++            row[2 * j + 1] = (uint8_t) (w >> 8);
++        }
++        f.write((const char*) row, sizeof row);
++    }
++    f.close();
++    return f ? path : std::string();
++}
++
++/// THE SAME ROWS BACK OUT OF THAT TABLE, THROUGH BOTH I/O MODES.  Direct is the default and the path this
++/// feature is for, and its row is 320 B where the reader started at 90 B - what is checked here is that the
++/// table's own row width travels all the way through the direct reader, and that both modes agree.
++void bf16_table_round_trip(const std::string& dir, uint32_t rows) {
++    const std::string path = write_bf16_table(dir, rows);
++    if (path.empty()) { CHECK(false, "no BF16 table was written"); return; }
++    std::mt19937 rng(11);
++    std::vector<uint32_t> want(rows);
++    for (uint32_t i = 0; i < rows; ++i) want[i] = rng() % rows;
++    for (k::PleIo mode : {k::PleIo::Direct, k::PleIo::Mmap}) {
++        const char* name = mode == k::PleIo::Direct ? "direct" : "mmap";
++        k::PleTable t;
++        std::string err;
++        k::PleIoOptions io;
++        io.mode = mode;
++        io.max_inflight = 8;
++        io.cache_rows = 0;
++        CHECK(t.open(path, err, io), "open a BF16 table in %s mode: %s", name, err.c_str());
++        if (!g_fail) {
++            CHECK(std::strcmp(t.format(), "BF16") == 0, "format is \"%s\", not BF16", t.format());
++            CHECK(t.rows() == rows, "rows: %llu, not %u", (unsigned long long) t.rows(), rows);
++        }
++        float got[k::PLE_HEAD_DIM];
++        for (uint32_t r : want) {
++            t.read_row(r, got);
++            for (int j = 0; j < k::PLE_HEAD_DIM; ++j)
++                if (got[j] != bf16_cell_value(r, j)) {
++                    CHECK(false, "%s: row %u element %d read %.9g, expected %.9g", name, r, j,
++                          (double) got[j], (double) bf16_cell_value(r, j));
++                    break;
++                }
++        }
++    }
++    std::filesystem::remove(path);
++}
++
+ // row_bytes: ng::ROW_BYTES (90, IQ4_NL) is the production default; 110 (#296, OrcaRouter's Q5_0 PLE rows) is
+ // run too, through the exact same generic row_bytes path -- nothing here is IQ4_NL-specific, so a second row
+ // size run here is the correctness evidence for lifting ngram.cpp's "Q5_0 PLE requires --ple-io mmap" refusal.
+@@ -288,6 +396,8 @@ int main(int argc, char** argv) {
+     if (self) {
+         // ng::ROW_BYTES (90, IQ4_NL, production default) and 110 (#296, OrcaRouter's Q5_0 PLE rows) through the
+         // same generic row_bytes path -- see the comment on selftest().
++        bf16_widening_is_exact();                  // the BF16 reader's own claim, no file needed
++        bf16_table_round_trip(dir, 2000);          // ... and it end to end, through both readers
+         const int r90 = selftest(dir, ng::ROW_BYTES);
+         const int r110 = selftest(dir, 110);
+         return r90 != 0 ? r90 : r110;
+diff --git a/src/program/generate.cpp b/src/program/generate.cpp
+index a7c77d0ef..2fc0b3f3c 100644
+--- a/src/program/generate.cpp
++++ b/src/program/generate.cpp
+@@ -1621,7 +1621,7 @@ int main(int argc, char** argv) {
+             // every shard of the model (<name>-0000N-of-0000M.gguf beside --native), then the PLE shard: a split
+             // may put any layer in any shard (Swift's GGUFs: layers 13-47 in shard 2, the PLE table in shard 1)
+             o.native_dense_gguf = o.native_shards;
+-            // a PLE-only table (tools/ple_fp8_pack.py: architecture strata-ple) holds no projections
++            // a PLE-only table (tools/ple_table_pack.py: architecture strata-ple) holds no projections
+             bool ple_only = false;
+             try {
+                 strata::GgufFile pg(o.ple_gguf);
+diff --git a/tools/ple_fp8_pack.py b/tools/ple_fp8_pack.py
+index 631327314..541292cae 100644
+--- a/tools/ple_fp8_pack.py
++++ b/tools/ple_fp8_pack.py
+@@ -1,123 +1,14 @@
+-"""tools/ple_fp8_pack.py - the PLE n-gram table exactly as Qwen shipped it (FP8 E4M3), as a GGUF the engine reads.
++#!/usr/bin/env python3
++"""Kept so existing `tools/ple_fp8_pack.py` invocations keep working.
+ 
+-    python tools/ple_fp8_pack.py --model <checkpoint dir> --out <ple-fp8.gguf>
+-
+-Qwen3.8-Flash-Next's checkpoint stores the table as 128 shards `...ngram_embedding.shard_{k}.weight` of
+-[2500012, 160] F8_E4M3 with one BF16 `weight_scale`: 320,001,536 rows of 160 values, 51.2 GB. The engine used to take
+-it from ISTA-DASLab's GGUF as IQ4_NL (90 B/row), which is 8% off these values per row; this keeps them bit for bit.
+-
+-The output is a one-tensor GGUF: `per_layer_token_embd.weight`, ne = [160, 320001536], type I8 holding the FP8 bytes
+-(GGUF has no FP8 type), with `strata.ple.format` = "f8_e4m3" and `strata.ple.scale` (F32). The bytes are copied
+-straight out of the safetensors files in shard order - nothing is decoded or rounded - so memory stays flat.
++The tool now handles BF16 as well as F8_E4M3, so `ple_table_pack.py` is its real name. Renaming the file
++alone would break every command line already written against the old one, and this tool is the only way to
++get a non-IQ4_NL PLE table at all -- so the old name has to keep working. Nothing about the FP8 path
++changes: the arguments, the output format and the metadata are the same.
+ """
+-import argparse
+-import json
+ import pathlib
+-import struct
++import runpy
+ import sys
+ 
+-GGUF_TYPE_STRING, GGUF_TYPE_F32 = 8, 6
+-GGML_TYPE_I8 = 24
+-ALIGN = 32
+-CHUNK = 64 << 20
+-
+-
+-def safetensors_header(path):
+-    with open(path, "rb") as f:
+-        n = struct.unpack("<Q", f.read(8))[0]
+-        return json.loads(f.read(n)), 8 + n
+-
+-
+-def gguf_string(s):
+-    b = s.encode("utf-8")
+-    return struct.pack("<Q", len(b)) + b
+-
+-
+-def kv_string(key, val):
+-    return gguf_string(key) + struct.pack("<I", GGUF_TYPE_STRING) + gguf_string(val)
+-
+-
+-def kv_f32(key, val):
+-    return gguf_string(key) + struct.pack("<I", GGUF_TYPE_F32) + struct.pack("<f", val)
+-
+-
+-def main():
+-    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+-    ap.add_argument("--model", required=True, help="the checkpoint directory (model.safetensors.index.json)")
+-    ap.add_argument("--out", required=True)
+-    a = ap.parse_args()
+-    model, out = pathlib.Path(a.model), pathlib.Path(a.out)
+-    wmap = json.loads((model / "model.safetensors.index.json").read_text(encoding="utf-8"))["weight_map"]
+-
+-    shards = {}
+-    scale_name = None
+-    for name in wmap:
+-        if ".ngram_embedding.shard_" in name and name.endswith(".weight"):
+-            shards[int(name.rsplit(".shard_", 1)[1].split(".")[0])] = name
+-        elif name.endswith(".ngram_embedding.weight_scale"):
+-            scale_name = name
+-    if not shards or scale_name is None:
+-        sys.exit("no ngram_embedding shards / weight_scale in " + str(model))
+-    if sorted(shards) != list(range(len(shards))):
+-        sys.exit("the n-gram shards are not numbered 0..%d without gaps" % (len(shards) - 1))
+-
+-    hdr, base = safetensors_header(model / wmap[scale_name])
+-    t = hdr[scale_name]
+-    if t["dtype"] != "BF16" or t["shape"] not in ([1], []):
+-        sys.exit("unexpected weight_scale: %s %s" % (t["dtype"], t["shape"]))
+-    with open(model / wmap[scale_name], "rb") as f:
+-        f.seek(base + t["data_offsets"][0])
+-        (bits,) = struct.unpack("<H", f.read(2))
+-    scale = struct.unpack("<f", struct.pack("<I", bits << 16))[0]
+-
+-    parts, rows, dim = [], 0, None
+-    for k in range(len(shards)):
+-        name = shards[k]
+-        hdr, base = safetensors_header(model / wmap[name])
+-        t = hdr[name]
+-        if t["dtype"] != "F8_E4M3" or len(t["shape"]) != 2:
+-            sys.exit("%s is %s %s, not a 2-D F8_E4M3 tensor" % (name, t["dtype"], t["shape"]))
+-        if dim is None:
+-            dim = t["shape"][1]
+-        if t["shape"][1] != dim or t["data_offsets"][1] - t["data_offsets"][0] != t["shape"][0] * dim:
+-            sys.exit("%s: inconsistent shape %s" % (name, t["shape"]))
+-        parts.append((model / wmap[name], base + t["data_offsets"][0], t["shape"][0] * dim))
+-        rows += t["shape"][0]
+-    print("%d shards, %d rows x %d, scale %.9g, %.2f GB" % (len(parts), rows, dim, scale, rows * dim / 1e9), flush=True)
+-
+-    kvs = [kv_string("general.architecture", "strata-ple"),
+-           kv_string("general.name", "PLE n-gram table, FP8 E4M3 as shipped"),
+-           kv_string("strata.ple.format", "f8_e4m3"),
+-           kv_f32("strata.ple.scale", scale),
+-           kv_string("strata.ple.source", model.name)]
+-    head = b"GGUF" + struct.pack("<IQQ", 3, 1, len(kvs)) + b"".join(kvs)
+-    head += gguf_string("per_layer_token_embd.weight") + struct.pack("<I", 2) + struct.pack("<QQ", dim, rows)
+-    head += struct.pack("<I", GGML_TYPE_I8) + struct.pack("<Q", 0)
+-    head += b"\0" * ((-len(head)) % ALIGN)
+-
+-    out.parent.mkdir(parents=True, exist_ok=True)
+-    tmp = out.with_suffix(out.suffix + ".part")
+-    written = 0
+-    with open(tmp, "wb") as w:
+-        w.write(head)
+-        for i, (path, off, n) in enumerate(parts):
+-            with open(path, "rb") as f:
+-                f.seek(off)
+-                left = n
+-                while left:
+-                    b = f.read(min(CHUNK, left))
+-                    if not b:
+-                        sys.exit("short read in " + str(path))
+-                    w.write(b)
+-                    left -= len(b)
+-            written += n
+-            if i % 16 == 15 or i == len(parts) - 1:
+-                print("  %3d/%d shards, %.1f GB" % (i + 1, len(parts), written / 1e9), flush=True)
+-    if tmp.stat().st_size != len(head) + rows * dim:
+-        sys.exit("size check failed: %d != %d" % (tmp.stat().st_size, len(head) + rows * dim))
+-    tmp.replace(out)
+-    print("wrote %s (%d rows x %d FP8, header %d B)" % (out, rows, dim, len(head)))
+-
+-
+-if __name__ == "__main__":
+-    main()
++sys.argv[0] = str(pathlib.Path(__file__).with_name("ple_table_pack.py"))
++runpy.run_path(sys.argv[0], run_name="__main__")
+\ No newline at end of file
+diff --git a/tools/ple_table_pack.py b/tools/ple_table_pack.py
+new file mode 100644
+index 000000000..7d95e8947
+--- /dev/null
++++ b/tools/ple_table_pack.py
+@@ -0,0 +1,150 @@
++"""tools/ple_table_pack.py - the PLE n-gram table from the checkpoint, as a GGUF the engine reads.
++
++    python tools/ple_table_pack.py --model <checkpoint dir> --out <ple-table.gguf>
++
++Qwen3.8-Flash-Next's checkpoint stores the table as 128 shards `...ngram_embedding.shard_k.weight`, and two
++releases store those shards in different precisions. The tool reads whichever the checkpoint has and copies the
++bytes through - nothing is decoded, rounded or re-quantized - so the table the engine gathers rows from is the
++checkpoint's own, row for row.
++
++    F8_E4M3 (51.2 GB)  one byte a value plus one BF16 `weight_scale`, as Qwen publishes it. Written as type I8
++                       (GGUF has no FP8 type) with `strata.ple.format` = "f8_e4m3" and `strata.ple.scale`.
++    BF16   (102.4 GB)  two bytes a value and no scale - the full-precision release. Written as type BF16, which
++                       is self-describing, so it carries no extra metadata.
++
++The engine used to take this table from ISTA-DASLab's GGUF as IQ4_NL (90 B/row), which is ~8% off per row; either
++form here replaces that with the checkpoint's values.
++"""
++import argparse
++import json
++import pathlib
++import struct
++import sys
++
++GGUF_TYPE_STRING, GGUF_TYPE_F32 = 8, 6
++GGML_TYPE_I8 = 24
++GGML_TYPE_BF16 = 30
++ALIGN = 32
++CHUNK = 64 << 20
++
++# Source dtype -> (GGUF tensor type, bytes per value, whether the checkpoint carries a `weight_scale`)
++SOURCES = {
++    "F8_E4M3": (GGML_TYPE_I8, 1, True),
++    "BF16": (GGML_TYPE_BF16, 2, False),
++}
++
++
++def safetensors_header(path):
++    with open(path, "rb") as f:
++        n = struct.unpack("<Q", f.read(8))[0]
++        return json.loads(f.read(n)), 8 + n
++
++
++def gguf_string(s):
++    b = s.encode("utf-8")
++    return struct.pack("<Q", len(b)) + b
++
++
++def kv_string(key, val):
++    return gguf_string(key) + struct.pack("<I", GGUF_TYPE_STRING) + gguf_string(val)
++
++
++def kv_f32(key, val):
++    return gguf_string(key) + struct.pack("<I", GGUF_TYPE_F32) + struct.pack("<f", val)
++
++
++def read_weight_scale(model, wmap, name):
++    """The one BF16 scalar an FP8 checkpoint scales its whole table by, read as the float it encodes."""
++    hdr, base = safetensors_header(model / wmap[name])
++    t = hdr[name]
++    if t["dtype"] != "BF16" or t["shape"] not in ([1], []):
++        sys.exit("unexpected weight_scale: %s %s" % (t["dtype"], t["shape"]))
++    with open(model / wmap[name], "rb") as f:
++        f.seek(base + t["data_offsets"][0])
++        (bits,) = struct.unpack("<H", f.read(2))
++    return struct.unpack("<f", struct.pack("<I", bits << 16))[0]
++
++
++def main():
++    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
++    ap.add_argument("--model", required=True, help="the checkpoint directory (model.safetensors.index.json)")
++    ap.add_argument("--out", required=True)
++    a = ap.parse_args()
++    model, out = pathlib.Path(a.model), pathlib.Path(a.out)
++    wmap = json.loads((model / "model.safetensors.index.json").read_text(encoding="utf-8"))["weight_map"]
++
++    shards, scale_name = {}, None
++    for name in wmap:
++        if ".ngram_embedding.shard_" in name and name.endswith(".weight"):
++            shards[int(name.rsplit(".shard_", 1)[1].split(".")[0])] = name
++        elif name.endswith(".ngram_embedding.weight_scale"):
++            scale_name = name
++    if not shards:
++        sys.exit("no ngram_embedding shards in " + str(model))
++    if sorted(shards) != list(range(len(shards))):
++        sys.exit("the n-gram shards are not numbered 0..%d without gaps" % (len(shards) - 1))
++
++    # The dtype is a property of the checkpoint, not a choice: every shard must agree, because one GGUF tensor
++    # has one type. The first shard decides and the rest are checked against it below.
++    hdr, base = safetensors_header(model / wmap[shards[0]])
++    dtype = hdr[shards[0]]["dtype"]
++    if dtype not in SOURCES:
++        sys.exit("%s is %s, not a 2-D %s tensor" % (shards[0], dtype, " or ".join(SOURCES)))
++    gguf_type, width, needs_scale = SOURCES[dtype]
++    if needs_scale and scale_name is None:
++        sys.exit("this checkpoint is %s but has no ngram_embedding.weight_scale" % dtype)
++    scale = read_weight_scale(model, wmap, scale_name) if needs_scale else None
++
++    parts, rows, dim = [], 0, None
++    for k in range(len(shards)):
++        name = shards[k]
++        hdr, base = safetensors_header(model / wmap[name])
++        t = hdr[name]
++        if t["dtype"] != dtype or len(t["shape"]) != 2:
++            sys.exit("%s is %s %s, not a 2-D %s tensor" % (name, t["dtype"], t["shape"], dtype))
++        if dim is None:
++            dim = t["shape"][1]
++        if t["shape"][1] != dim or t["data_offsets"][1] - t["data_offsets"][0] != t["shape"][0] * dim * width:
++            sys.exit("%s: inconsistent shape %s" % (name, t["shape"]))
++        parts.append((model / wmap[name], base + t["data_offsets"][0], t["shape"][0] * dim * width))
++        rows += t["shape"][0]
++    print("%d shards, %d rows x %d, %s, %.2f GB"
++          % (len(parts), rows, dim, dtype, rows * dim * width / 1e9), flush=True)
++
++    kvs = [kv_string("general.architecture", "strata-ple"),
++           kv_string("general.name", "PLE n-gram table, %s from the checkpoint" % dtype),
++           kv_string("strata.ple.source", model.name)]
++    if needs_scale:
++        # FP8 rows are bytes of a scaled type, so the reader needs both parts spelled out. BF16 does not.
++        kvs += [kv_string("strata.ple.format", "f8_e4m3"), kv_f32("strata.ple.scale", scale)]
++    head = b"GGUF" + struct.pack("<IQQ", 3, 1, len(kvs)) + b"".join(kvs)
++    head += gguf_string("per_layer_token_embd.weight") + struct.pack("<I", 2) + struct.pack("<QQ", dim, rows)
++    head += struct.pack("<I", gguf_type) + struct.pack("<Q", 0)
++    head += b"\0" * ((-len(head)) % ALIGN)
++
++    out.parent.mkdir(parents=True, exist_ok=True)
++    tmp = out.with_suffix(out.suffix + ".part")
++    written = 0
++    with open(tmp, "wb") as w:
++        w.write(head)
++        for i, (path, off, n) in enumerate(parts):
++            with open(path, "rb") as f:
++                f.seek(off)
++                left = n
++                while left:
++                    b = f.read(min(CHUNK, left))
++                    if not b:
++                        sys.exit("short read in " + str(path))
++                    w.write(b)
++                    left -= len(b)
++            written += n
++            if i % 16 == 15 or i == len(parts) - 1:
++                print("  %3d/%d shards, %.1f GB" % (i + 1, len(parts), written / 1e9), flush=True)
++    if tmp.stat().st_size != len(head) + written:
++        sys.exit("size check failed: %d != %d" % (tmp.stat().st_size, len(head) + written))
++    tmp.replace(out)
++    print("wrote %s (%d rows x %d %s, header %d B)" % (out, rows, dim, dtype, len(head)))
++
++
++if __name__ == "__main__":
++    main()

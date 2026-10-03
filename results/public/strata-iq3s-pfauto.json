@@ -1,0 +1,725 @@
+{
+  "observed_at": "2026-10-03T10:51:15.754552+00:00",
+  "url": "http://127.0.0.1:19623",
+  "warmups": [
+    {
+      "ttft_s": 0.5967980349996651,
+      "total_s": 1.8929472729996633,
+      "usage": {
+        "prompt_tokens": 91,
+        "completion_tokens": 128,
+        "total_tokens": 219,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 564.2,
+        "prompt_per_token_ms": 6.2,
+        "prompt_per_second": 161.3,
+        "predicted_n": 128,
+        "predicted_ms": 1320.4,
+        "predicted_per_token_ms": 10.316,
+        "predicted_per_second": 96.9,
+        "draft_n": 95,
+        "draft_n_accepted": 80
+      },
+      "content": "```python\nfrom collections import OrderedDict\nfrom typing import Optional, Any\n\n\nclass LRUCache:\n    \"\"\"\n    A Least Recently Used (LRU) cache implementation using collections.OrderedDict.\n    \n    The cache stores key-value pairs with a fixed capacity. When the cache is full\n    and a new item is added, the least recently used item is evicted.\n    \n    Attributes:\n        capacity (int): The maximum number of items the cache can hold.\n        _cache (OrderedDict): The underlying ordered dictionary storing the cache entries.\n    \"\"\"\n    \n    def __init__(self,",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23966.0,
+      "gpu_peak_temperature_c": 46.0,
+      "host_min_available_gib": 104.14544677734375,
+      "median_power_w": 111.26500000000001,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.5114676970006258,
+      "total_s": 1.8689813199998753,
+      "usage": {
+        "prompt_tokens": 104,
+        "completion_tokens": 128,
+        "total_tokens": 232,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 104,
+        "prompt_ms": 494.7,
+        "prompt_per_token_ms": 4.757,
+        "prompt_per_second": 210.2,
+        "predicted_n": 128,
+        "predicted_ms": 1370.1,
+        "predicted_per_token_ms": 10.704,
+        "predicted_per_second": 93.4,
+        "draft_n": 84,
+        "draft_n_accepted": 59
+      },
+      "content": "When a user types a URL into a browser and hits enter, a complex orchestration of network protocols and optimization techniques begins. This process is not merely a linear sequence of steps but a highly parallelized, stateful interaction between DNS resolution, TLS handshakes, HTTP/2 multiplexing, connection pooling, and various layers of caching. Understanding how these components interact is crucial for optimizing web performance, as each layer introduces specific latencies and failure modes that can significantly impact the user experience.\n\n### The Initial Phase: DNS Resolution and Caching\n\nThe journey begins with **DNS resolution**. Before any data can be transferred, the browser",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23966.0,
+      "gpu_peak_temperature_c": 47.0,
+      "host_min_available_gib": 104.17174911499023,
+      "median_power_w": 194.305,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5442665120008314,
+      "total_s": 1.9593157620001875,
+      "usage": {
+        "prompt_tokens": 94,
+        "completion_tokens": 128,
+        "total_tokens": 222,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 94,
+        "prompt_ms": 529.1,
+        "prompt_per_token_ms": 5.629,
+        "prompt_per_second": 177.7,
+        "predicted_n": 128,
+        "predicted_ms": 1426.8,
+        "predicted_per_token_ms": 11.147,
+        "predicted_per_second": 89.7,
+        "draft_n": 87,
+        "draft_n_accepted": 67
+      },
+      "content": "Amsterdam is the capital of the Netherlands, situated in the western part of the country on the banks of the Amstel River and the IJ bay. Its history is deeply intertwined with its status as a major trading hub during the Dutch Golden Age of the 17th century, when it became one of the wealthiest cities in the world due to the Dutch East India Company. The city\u2019s unique geography, characterized by a dense network of canals built in the 17th century, was designed for defense and water management, earning it the nickname \"Venice of the North.\" Today, Amsterdam is renowned for its liberal social policies",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 47.0,
+      "host_min_available_gib": 104.23490905761719,
+      "median_power_w": 192.45,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    }
+  ],
+  "decode": [
+    {
+      "ttft_s": 0.47521094900002936,
+      "total_s": 4.6329982050010585,
+      "usage": {
+        "prompt_tokens": 94,
+        "completion_tokens": 512,
+        "total_tokens": 606,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 94,
+        "prompt_ms": 460.6,
+        "prompt_per_token_ms": 4.9,
+        "prompt_per_second": 204.1,
+        "predicted_n": 512,
+        "predicted_ms": 4169.0,
+        "predicted_per_token_ms": 8.143,
+        "predicted_per_second": 122.8,
+        "draft_n": 395,
+        "draft_n_accepted": 354
+      },
+      "content": "```python\nfrom collections import OrderedDict\nfrom typing import Optional, Any\n\n\nclass LRUCache:\n    \"\"\"\n    A Least Recently Used (LRU) cache implementation using collections.OrderedDict.\n    \n    The cache stores key-value pairs with a fixed capacity. When the cache is full\n    and a new item is added, the least recently used item is evicted.\n    \n    Attributes:\n        capacity (int): The maximum number of items the cache can hold.\n        _cache (OrderedDict): The underlying ordered dictionary storing the cache entries.\n    \"\"\"\n\n    def __init__(self, capacity: int) -> None:\n        \"\"\"\n        Initialize the LRU cache with a given capacity.\n        \n        Args:\n            capacity (int): The maximum number of items the cache can hold. Must be positive.\n        \n        Raises:\n            ValueError: If capacity is not a positive integer.\n        \"\"\"\n        if not isinstance(capacity, int) or capacity <= 0:\n            raise ValueError(\"Capacity must be a positive integer.\")\n        self.capacity: int = capacity\n        self._cache: OrderedDict[Any, Any] = OrderedDict()\n\n    def get(self, key: Any) -> Optional[Any]:\n        \"\"\"\n        Retrieve the value associated with the given key.\n        \n        If the key exists in the cache, it is moved to the end (most recently used)\n        and its value is returned. If the key does not exist, None is returned.\n        \n        Args:\n            key (Any): The key to look up in the cache.\n        \n        Returns:\n            Optional[Any]: The value associated with the key, or None if not found.\n        \"\"\"\n        if key not in self._cache:\n            return None\n        # Move the accessed key to the end to mark it as most recently used\n        self._cache.move_to_end(key)\n        return self._cache[key]\n\n    def put(self, key: Any, value: Any) -> None:\n        \"\"\"\n        Insert or update the value associated with the given key.\n        \n        If the key already exists, its value is updated and it is moved to the end\n        (most recently used). If the key does not exist, it is added to the cache.\n        If the cache exceeds its capacity after insertion, the least recently used\n        item is evicted.\n        \n        Args:\n            key",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 48.0,
+      "host_min_available_gib": 104.23112869262695,
+      "median_power_w": 217.61,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.5748997989994677,
+      "total_s": 5.565084670999568,
+      "usage": {
+        "prompt_tokens": 103,
+        "completion_tokens": 512,
+        "total_tokens": 615,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 103,
+        "prompt_ms": 557.0,
+        "prompt_per_token_ms": 5.408,
+        "prompt_per_second": 184.9,
+        "predicted_n": 512,
+        "predicted_ms": 5004.1,
+        "predicted_per_token_ms": 9.774,
+        "predicted_per_second": 102.3,
+        "draft_n": 338,
+        "draft_n_accepted": 237
+      },
+      "content": "When a user types a URL into a browser and hits enter, a complex orchestration of network protocols and browser optimizations begins. This process is not merely a linear sequence of steps but a highly parallelized, stateful interaction between DNS resolution, TLS handshakes, HTTP/2 multiplexing, connection pooling, and various caching layers. Understanding how these components interact is crucial for optimizing web performance, as each layer introduces specific latencies and failure modes that can significantly impact the user experience.\n\nThe journey begins with **DNS Resolution**, the process of translating a human-readable domain name (e.g., `example.com`) into an IP address. This is often the first bottleneck in page loading. Browsers maintain their own DNS cache, which is separate from the operating system\u2019s cache. If the domain is not found in the browser\u2019s cache, the browser queries the OS cache, and if that fails, it sends a query to a recursive resolver. This process can take anywhere from a few milliseconds for a cached entry to over 100 milliseconds for a cold lookup, depending on network conditions and the resolver\u2019s proximity.\n\nConsider a scenario where a user visits `news.example.com`. The browser checks its internal cache. If the entry has expired (based on the Time-To-Live, or TTL, set by the DNS record), the browser must perform a fresh lookup. During this time, the browser cannot initiate a TCP connection because it does not know the destination IP. This is a critical serialization point. However, modern browsers mitigate this by using **DNS Prefetching**. If the HTML contains links to other domains (e.g., `cdn.example.com` for images), the browser can resolve those names in the background while the main page is still loading. This pre-warming of the DNS cache reduces latency for subsequent requests.\n\nOnce the IP address is resolved, the browser initiates a **TCP connection**. For secure sites, this is followed by a **TLS (Transport Layer Security) handshake**. TLS ensures encryption and authentication. The handshake involves multiple round trips (RTTs) between the client and server. In TLS 1.2, this typically requires two RTTs: one for the ClientHello/ServerHello and another for the key exchange. In TLS 1.3, this is reduced to one RTT, significantly improving performance.\n\nThe interaction between DNS and TLS is critical for **Session Resumption**. If a user has previously visited `example.com`, the browser may have cached the TLS session ID or session ticket. When",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 50.0,
+      "host_min_available_gib": 104.23260498046875,
+      "median_power_w": 237.33,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5674702399992384,
+      "total_s": 5.319981489999918,
+      "usage": {
+        "prompt_tokens": 94,
+        "completion_tokens": 512,
+        "total_tokens": 606,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 94,
+        "prompt_ms": 547.1,
+        "prompt_per_token_ms": 5.82,
+        "prompt_per_second": 171.8,
+        "predicted_n": 512,
+        "predicted_ms": 4769.0,
+        "predicted_per_token_ms": 9.314,
+        "predicted_per_second": 107.4,
+        "draft_n": 359,
+        "draft_n_accepted": 248
+      },
+      "content": "Amsterdam, the capital of the Netherlands, is situated in the western part of the country, nestled within the province of North Holland. Its geography is defined by a complex network of canals, which were originally dug in the 17th century during the Dutch Golden Age to manage water levels and facilitate trade. Historically, Amsterdam rose to prominence as a major commercial hub, becoming one of the most important ports in the world. The city\u2019s history is marked by its relative tolerance and openness, which attracted merchants, artists, and refugees from across Europe, fostering a vibrant cultural and intellectual environment. Today, Amsterdam is a global center for art, media, and innovation. Transport in Amsterdam is renowned for its efficiency and sustainability. The city is exceptionally bike-friendly, with an extensive network of dedicated cycling paths that make it one of the safest and most convenient places in the world to travel by bicycle. Public transport is provided by GVB, which operates trams, buses, and metro lines, while the central station serves as a major railway hub connecting the city to the rest of the Netherlands and Europe. One of the city\u2019s most significant cultural institutions is the Rijksmuseum. This museum is dedicated to arts and history, housing a vast collection of Dutch art and history from the Middle Ages to the present day. Its highlights include masterpieces by Rembrandt, such as *The Night Watch*, and Vermeer\u2019s *The Milkmaid*, offering visitors a profound insight into the artistic heritage of the Netherlands.\n\nAthens, the capital of Greece, is located in the Attica region, situated on the southern tip of the Balkan Peninsula. The city is built around the Acropolis, a rocky outcrop that dominates the skyline and serves as a symbol of the city\u2019s ancient heritage. Athens is widely considered the cradle of Western civilization and the birthplace of democracy, philosophy, and the Olympic Games. Its history spans over 3,400 years, with its classical period in the 5th century BC marking a golden age of cultural and political achievement. The city has endured various empires, including Roman, Byzantine, and Ottoman rule, before becoming the capital of the modern Greek state in 1834. Transport in Athens is a mix of modern infrastructure and historical challenges. The Athens Metro is a highly efficient and affordable system that also doubles as an archaeological museum, with many stations displaying ancient artifacts discovered during construction. The city also relies heavily on buses and trolleybuses, while the Athens International Airport serves as a",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 51.0,
+      "host_min_available_gib": 104.23479843139648,
+      "median_power_w": 248.93,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    },
+    {
+      "ttft_s": 0.5740185460017528,
+      "total_s": 5.373514991000775,
+      "usage": {
+        "prompt_tokens": 94,
+        "completion_tokens": 512,
+        "total_tokens": 606,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 94,
+        "prompt_ms": 551.9,
+        "prompt_per_token_ms": 5.871,
+        "prompt_per_second": 170.3,
+        "predicted_n": 512,
+        "predicted_ms": 4817.9,
+        "predicted_per_token_ms": 9.41,
+        "predicted_per_second": 106.3,
+        "draft_n": 394,
+        "draft_n_accepted": 355
+      },
+      "content": "```python\nfrom collections import OrderedDict\nfrom typing import Optional, Any\n\n\nclass LRUCache:\n    \"\"\"\n    A Least Recently Used (LRU) cache implementation using collections.OrderedDict.\n    \n    The cache stores key-value pairs with a fixed capacity. When the cache is full\n    and a new item is added, the least recently used item is evicted.\n    \n    Attributes:\n        capacity (int): The maximum number of items the cache can hold.\n        _cache (OrderedDict): The underlying ordered dictionary storing the cache entries.\n    \"\"\"\n\n    def __init__(self, capacity: int) -> None:\n        \"\"\"\n        Initialize the LRU cache with a given capacity.\n        \n        Args:\n            capacity (int): The maximum number of items the cache can hold. Must be positive.\n        \n        Raises:\n            ValueError: If capacity is not a positive integer.\n        \"\"\"\n        if not isinstance(capacity, int) or capacity <= 0:\n            raise ValueError(\"Capacity must be a positive integer.\")\n        self.capacity: int = capacity\n        self._cache: OrderedDict[Any, Any] = OrderedDict()\n\n    def get(self, key: Any) -> Optional[Any]:\n        \"\"\"\n        Retrieve the value associated with the given key.\n        \n        If the key exists in the cache, it is moved to the end (most recently used)\n        and its value is returned. If the key does not exist, None is returned.\n        \n        Args:\n            key (Any): The key to look up in the cache.\n        \n        Returns:\n            Optional[Any]: The value associated with the key, or None if not found.\n        \"\"\"\n        if key not in self._cache:\n            return None\n        # Move the accessed key to the end to mark it as most recently used\n        self._cache.move_to_end(key)\n        return self._cache[key]\n\n    def put(self, key: Any, value: Any) -> None:\n        \"\"\"\n        Insert or update the value associated with the given key.\n        \n        If the key already exists, its value is updated and it is moved to the end\n        (most recently used). If the key does not exist, it is added to the cache.\n        If the cache exceeds its capacity after insertion, the least recently used\n        item is evicted.\n        \n        Args:\n            key",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 50.0,
+      "host_min_available_gib": 104.21492004394531,
+      "median_power_w": 194.52,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.5830589100005454,
+      "total_s": 5.469443837000654,
+      "usage": {
+        "prompt_tokens": 103,
+        "completion_tokens": 512,
+        "total_tokens": 615,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 103,
+        "prompt_ms": 565.2,
+        "prompt_per_token_ms": 5.487,
+        "prompt_per_second": 182.2,
+        "predicted_n": 512,
+        "predicted_ms": 4900.8,
+        "predicted_per_token_ms": 9.572,
+        "predicted_per_second": 104.5,
+        "draft_n": 346,
+        "draft_n_accepted": 248
+      },
+      "content": "When a user types a URL into a browser and hits enter, a complex orchestration of network protocols and optimization techniques begins. This process is not merely a linear sequence of steps but a highly parallelized, stateful interaction between DNS resolution, TLS handshakes, HTTP/2 multiplexing, connection pooling, and various caching layers. Understanding how these components interact is crucial for optimizing web performance, as each layer introduces potential latency points and failure modes that can significantly degrade the user experience.\n\n### The Initial Lookup: DNS Resolution and Caching\n\nThe journey begins with **DNS resolution**. Before any data can be transferred, the browser must translate the human-readable domain name (e.g., `example.com`) into an IP address. This process is hierarchical and relies heavily on caching to minimize latency.\n\n1.  **Browser Cache:** The browser first checks its internal DNS cache. If the record exists and hasn\u2019t expired (based on the Time-To-Live, or TTL, set by the DNS server), resolution is instantaneous, costing zero network round-trips.\n2.  **OS Cache:** If not found in the browser, the operating system\u2019s resolver cache is checked.\n3.  **Recursive Resolver:** If still missing, the request goes to the configured recursive DNS resolver (often provided by the ISP or a public service like Cloudflare or Google). This resolver may have its own cache. If not, it queries root servers, TLD servers, and finally the authoritative nameservers for the domain.\n\n**Latency Impact:** A cold DNS lookup can take 20\u2013100ms or more, depending on network conditions and resolver efficiency. This is pure latency added before any TCP connection is established.\n\n**Failure Handling:** If DNS fails, the browser may retry with different resolvers or display a \"DNS_PROBE_FINISHED_NXDOMAIN\" error. Modern browsers also support **DNS-over-HTTPS (DoH)**, which encrypts DNS queries, preventing eavesdropping but potentially adding slight latency due to TLS overhead on the DNS query itself.\n\n### Establishing Security: TLS Handshake and Connection Pooling\n\nOnce the IP address is known, the browser initiates a TCP connection, followed by a **TLS (Transport Layer Security)** handshake to secure the communication. This is where **connection pooling** becomes critical.\n\n**Connection Pooling:** Browsers maintain a pool of persistent connections to each origin (scheme + host + port). Instead of opening a new TCP/TLS connection for every resource (HTML",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 51.0,
+      "host_min_available_gib": 104.23237609863281,
+      "median_power_w": 232.43,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5707698629994411,
+      "total_s": 5.37483402900034,
+      "usage": {
+        "prompt_tokens": 92,
+        "completion_tokens": 512,
+        "total_tokens": 604,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 550.8,
+        "prompt_per_token_ms": 5.987,
+        "prompt_per_second": 167.0,
+        "predicted_n": 512,
+        "predicted_ms": 4820.6,
+        "predicted_per_token_ms": 9.415,
+        "predicted_per_second": 106.2,
+        "draft_n": 355,
+        "draft_n_accepted": 241
+      },
+      "content": "Amsterdam, the capital of the Netherlands, is situated in the western part of the country, nestled within the province of North Holland. Its history is deeply intertwined with its unique geography, as the city was built on reclaimed land and wooden piles, evolving from a small fishing village in the 12th century into a major trading hub during the Dutch Golden Age of the 17th century. This era saw the establishment of the Dutch East India Company, which brought immense wealth and cultural flourishing to the city. Today, Amsterdam is renowned for its intricate network of canals, which form a UNESCO World Heritage site, and its liberal social policies. Transport in Amsterdam is exceptionally efficient and environmentally conscious, with a strong emphasis on cycling infrastructure that makes bicycles the primary mode of local travel. The city also boasts an extensive tram network, a metro system, and a central railway station that connects it to major European cities. A standout cultural institution is the Rijksmuseum, which houses the national collection of art and history. It features masterpieces by Rembrandt, such as *The Night Watch*, and Vermeer\u2019s *The Milkmaid*, offering visitors a comprehensive journey through Dutch history and artistic achievement from the Middle Ages to the present day.\n\nAthens, the capital of Greece, is located in the Attica region in southern Greece, overlooking the Saronic Gulf. As one of the world\u2019s oldest cities, Athens has a recorded history spanning over 3,400 years and is widely considered the cradle of Western civilization and the birthplace of democracy, philosophy, and the Olympic Games. The city\u2019s historical significance is most visibly represented by the Acropolis, a citadel located on a rocky outcrop above the city, which contains the remains of several ancient buildings of great architectural and historic significance, the most famous being the Parthenon. Modern Athens is a bustling metropolis that blends ancient ruins with contemporary urban life. The transport system includes a modern metro network that opened in the late 1990s, which is not only functional but also serves as an underground museum, displaying artifacts found during construction. Additionally, the city relies heavily on buses and trolleybuses, and the Athens International Airport serves as a major gateway for international travelers. The Acropolis Museum, located at the foot of the Acropolis, is a critical cultural site. It houses the artifacts found on the slopes of the Sacred Rock and within the Acropolis itself, providing a contextual understanding of the monuments and offering a panoramic view of the ancient site through",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 52.0,
+      "host_min_available_gib": 104.20066833496094,
+      "median_power_w": 250.41,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    },
+    {
+      "ttft_s": 0.5792511580002611,
+      "total_s": 5.3854374480015395,
+      "usage": {
+        "prompt_tokens": 97,
+        "completion_tokens": 512,
+        "total_tokens": 609,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 97,
+        "prompt_ms": 555.9,
+        "prompt_per_token_ms": 5.731,
+        "prompt_per_second": 174.5,
+        "predicted_n": 512,
+        "predicted_ms": 4825.2,
+        "predicted_per_token_ms": 9.424,
+        "predicted_per_second": 106.1,
+        "draft_n": 396,
+        "draft_n_accepted": 352
+      },
+      "content": "```python\nfrom collections import OrderedDict\nfrom typing import Optional, Any\n\n\nclass LRUCache:\n    \"\"\"\n    A Least Recently Used (LRU) cache implementation using collections.OrderedDict.\n    \n    The cache stores key-value pairs with a fixed capacity. When the cache is full\n    and a new item is added, the least recently used item is evicted.\n    \n    Attributes:\n        capacity (int): The maximum number of items the cache can hold.\n        cache (OrderedDict): The underlying ordered dictionary storing the cache entries.\n    \"\"\"\n\n    def __init__(self, capacity: int) -> None:\n        \"\"\"\n        Initialize the LRU cache with a given capacity.\n        \n        Args:\n            capacity (int): The maximum number of items the cache can hold. Must be positive.\n        \n        Raises:\n            ValueError: If capacity is not a positive integer.\n        \"\"\"\n        if not isinstance(capacity, int) or capacity <= 0:\n            raise ValueError(\"Capacity must be a positive integer\")\n        self.capacity: int = capacity\n        self.cache: OrderedDict[Any, Any] = OrderedDict()\n\n    def get(self, key: Any) -> Optional[Any]:\n        \"\"\"\n        Retrieve the value associated with the given key.\n        \n        If the key exists in the cache, it is moved to the end (most recently used)\n        and its value is returned. If the key does not exist, None is returned.\n        \n        Args:\n            key (Any): The key to look up in the cache.\n        \n        Returns:\n            Optional[Any]: The value associated with the key, or None if not found.\n        \"\"\"\n        if key not in self.cache:\n            return None\n        # Move the accessed item to the end (most recently used)\n        self.cache.move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key: Any, value: Any) -> None:\n        \"\"\"\n        Insert or update the value associated with the given key.\n        \n        If the key already exists, its value is updated and it is moved to the end\n        (most recently used). If the key does not exist, it is added to the cache.\n        If the cache exceeds its capacity after insertion, the least recently used\n        item is evicted.\n        \n        Args:\n            key (Any): The key to insert",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 51.0,
+      "host_min_available_gib": 104.22635650634766,
+      "median_power_w": 194.8,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.5865091330015275,
+      "total_s": 5.486706710000362,
+      "usage": {
+        "prompt_tokens": 102,
+        "completion_tokens": 512,
+        "total_tokens": 614,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 102,
+        "prompt_ms": 566.3,
+        "prompt_per_token_ms": 5.552,
+        "prompt_per_second": 180.1,
+        "predicted_n": 512,
+        "predicted_ms": 4915.6,
+        "predicted_per_token_ms": 9.601,
+        "predicted_per_second": 104.2,
+        "draft_n": 338,
+        "draft_n_accepted": 237
+      },
+      "content": "When a user types a URL into a browser and hits enter, a complex orchestration of network protocols and optimization techniques begins. This process is not merely a linear sequence of steps but a highly parallelized, stateful interaction between DNS resolution, TLS handshakes, HTTP/2 multiplexing, connection pooling, and various layers of caching. Understanding how these components interact is crucial for optimizing web performance, as each layer introduces potential latency points and failure modes that can significantly degrade the user experience.\n\nThe journey begins with **DNS Resolution**, the process of translating a human-readable domain name (e.g., `www.example.com`) into an IP address. This is often the first bottleneck in page loading. Browsers typically maintain a local DNS cache, which stores recent lookups. If the domain is cached, the resolution is instantaneous, saving the round-trip time (RTT) required to query a recursive resolver. However, if the cache is empty or expired, the browser must initiate a DNS query. This involves contacting a local resolver, which may then query root servers, TLD servers, and finally the authoritative nameserver for the domain. Each hop adds latency, typically ranging from 20ms to over 100ms depending on geographic proximity and network conditions.\n\nTo mitigate this, modern browsers employ **DNS Prefetching** and **Pre-resolving**. If a page contains links to other domains (e.g., third-party analytics or CDN resources), the browser can proactively resolve these names in the background while the main page is still loading. This ensures that when the browser actually needs to fetch a resource from `cdn.example.com`, the IP address is already known, eliminating the DNS lookup latency at the critical moment of resource request. Failure handling here is robust; if a DNS lookup fails, the browser may retry with different resolvers or fall back to IPv4 if IPv6 resolution fails, but persistent DNS failures result in a \"server not found\" error, halting the process before any connection is established.\n\nOnce the IP address is obtained, the browser initiates a **TCP connection**, followed by a **TLS (Transport Layer Security) handshake** for HTTPS sites. This is a critical security layer that encrypts data in transit. The TLS handshake involves several round trips: the client sends a \"ClientHello,\" the server responds with a \"ServerHello\" and its certificate, and then they negotiate encryption keys. This process can add significant latency, often 1-2 RTTs. To reduce this, browsers use",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 52.0,
+      "host_min_available_gib": 104.23175048828125,
+      "median_power_w": 234.99,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5674895299998752,
+      "total_s": 5.271504522999749,
+      "usage": {
+        "prompt_tokens": 93,
+        "completion_tokens": 512,
+        "total_tokens": 605,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 93,
+        "prompt_ms": 545.3,
+        "prompt_per_token_ms": 5.863,
+        "prompt_per_second": 170.5,
+        "predicted_n": 512,
+        "predicted_ms": 4722.0,
+        "predicted_per_token_ms": 9.223,
+        "predicted_per_second": 108.4,
+        "draft_n": 347,
+        "draft_n_accepted": 246
+      },
+      "content": "Amsterdam, the capital of the Netherlands, is situated in the western part of the country, nestled within the province of North Holland. Its history is deeply intertwined with its status as a major trading hub during the Dutch Golden Age of the 17th century, a period when it became one of the world\u2019s most important financial centers. The city\u2019s unique geography, characterized by a dense network of canals and reclaimed land, has shaped its urban development for centuries. Transport in Amsterdam is famously bicycle-centric; the city boasts an extensive network of bike lanes and parking facilities, making cycling the most efficient and popular mode of daily commuting. Additionally, the public transport system, managed by GVB, includes trams, buses, and metro lines that connect the city center with its suburbs. A standout cultural institution is the Rijksmuseum, which houses a vast collection of Dutch art and history. Its highlights include masterpieces by Rembrandt, such as *The Night Watch*, and Vermeer\u2019s *The Milkmaid*, offering visitors a profound insight into the artistic and cultural zenith of the Netherlands.\n\nAthens, the capital of Greece, is located in the Attica region, surrounded by mountains and overlooking the Saronic Gulf. As one of the world\u2019s oldest cities, its history spans over 3,400 years, serving as the cradle of Western civilization, democracy, and philosophy. The ancient Acropolis, perched on a rocky outcrop, remains the symbolic heart of the city, representing the pinnacle of classical Greek architecture and culture. Modern transport in Athens is a mix of ancient charm and contemporary infrastructure. The Athens Metro is efficient and clean, with several stations doubling as archaeological museums due to artifacts discovered during construction. Buses and trolleybuses cover the wider metropolitan area, while the suburban railway connects the city to the coastal suburbs and the airport. The Acropolis Museum, located at the foot of the Acropolis, is a modern architectural marvel that houses the artifacts found on the sacred rock. It provides a comprehensive narrative of the history of the Acropolis, displaying sculptures from the Parthenon and other temples, allowing visitors to understand the religious and political significance of the site in its original context.\n\nBerlin, the capital of Germany, lies in the northeastern part of the country, situated on the banks of the Spree River. Its history is marked by dramatic shifts, from being the capital of the Prussian Empire and the German Empire to its division during the Cold War, where the Berlin Wall physically separated East and West",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 104.23552703857422,
+      "median_power_w": 247.18,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    }
+  ],
+  "prefill": [
+    {
+      "ttft_s": 1.6031194739989587,
+      "total_s": 2.3339713940004003,
+      "usage": {
+        "prompt_tokens": 3139,
+        "completion_tokens": 64,
+        "total_tokens": 3203,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 3139,
+        "prompt_ms": 1572.9,
+        "prompt_per_token_ms": 0.501,
+        "prompt_per_second": 1995.7,
+        "predicted_n": 64,
+        "predicted_ms": 748.6,
+        "predicted_per_token_ms": 11.697,
+        "predicted_per_second": 85.5,
+        "draft_n": 37,
+        "draft_n_accepted": 28
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD to fit large models on consumer hardware, prioritizing VRAM capacity over raw speed to maximize the number of experts resident on the GPU. The system employs speculative decoding via a small MTP helper to draft",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 52.0,
+      "host_min_available_gib": 104.19295501708984,
+      "median_power_w": 244.51,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 1.58743499800039,
+      "total_s": 2.143569709000076,
+      "usage": {
+        "prompt_tokens": 3143,
+        "completion_tokens": 64,
+        "total_tokens": 3207,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 3143,
+        "prompt_ms": 1560.5,
+        "prompt_per_token_ms": 0.497,
+        "prompt_per_second": 2014.1,
+        "predicted_n": 64,
+        "predicted_ms": 570.5,
+        "predicted_per_token_ms": 8.914,
+        "predicted_per_second": 112.2,
+        "draft_n": 37,
+        "draft_n_accepted": 29
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD to fit large models on consumer hardware, prioritizing VRAM capacity over raw speed to maximize the number of experts resident on the GPU. The system employs speculative decoding via a small MTP helper that drafts",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 104.19265747070312,
+      "median_power_w": 223.21,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 1.5819125300004089,
+      "total_s": 2.0962090370012447,
+      "usage": {
+        "prompt_tokens": 3141,
+        "completion_tokens": 64,
+        "total_tokens": 3205,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 3141,
+        "prompt_ms": 1556.5,
+        "prompt_per_token_ms": 0.496,
+        "prompt_per_second": 2018.0,
+        "predicted_n": 64,
+        "predicted_ms": 526.7,
+        "predicted_per_token_ms": 8.23,
+        "predicted_per_second": 121.5,
+        "draft_n": 35,
+        "draft_n_accepted": 29
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD to fit large models on consumer hardware, prioritizing VRAM capacity over raw speed to maximize the number of experts resident on the GPU. The system employs a speculative decoding strategy where a small helper model drafts",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 104.20351028442383,
+      "median_power_w": 224.57,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 6.833095700998456,
+      "total_s": 7.381793982998715,
+      "usage": {
+        "prompt_tokens": 31812,
+        "completion_tokens": 64,
+        "total_tokens": 31876,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 31812,
+        "prompt_ms": 6744.6,
+        "prompt_per_token_ms": 0.212,
+        "prompt_per_second": 4716.7,
+        "predicted_n": 64,
+        "predicted_ms": 560.4,
+        "predicted_per_token_ms": 8.756,
+        "predicted_per_second": 114.2,
+        "draft_n": 40,
+        "draft_n_accepted": 31
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD to fit large models on consumer hardware, prioritizing VRAM capacity over raw GPU speed to maximize the number of experts computed locally. The system employs speculative decoding where a small helper model drafts tokens that the",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 56.0,
+      "host_min_available_gib": 104.04538345336914,
+      "median_power_w": 274.74,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 6.729458268000599,
+      "total_s": 7.253660368000055,
+      "usage": {
+        "prompt_tokens": 31815,
+        "completion_tokens": 64,
+        "total_tokens": 31879,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 31815,
+        "prompt_ms": 6641.4,
+        "prompt_per_token_ms": 0.209,
+        "prompt_per_second": 4790.4,
+        "predicted_n": 64,
+        "predicted_ms": 535.3,
+        "predicted_per_token_ms": 8.364,
+        "predicted_per_second": 119.6,
+        "draft_n": 42,
+        "draft_n_accepted": 32
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD to fit large models on consumer hardware, prioritizing VRAM capacity over raw GPU speed to maximize the number of experts computed locally. The system employs speculative decoding where a small helper model drafts tokens that the",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 56.0,
+      "host_min_available_gib": 104.04741668701172,
+      "median_power_w": 274.65,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 6.75263815299877,
+      "total_s": 7.309016326998972,
+      "usage": {
+        "prompt_tokens": 31811,
+        "completion_tokens": 64,
+        "total_tokens": 31875,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 31811,
+        "prompt_ms": 6662.5,
+        "prompt_per_token_ms": 0.209,
+        "prompt_per_second": 4774.6,
+        "predicted_n": 64,
+        "predicted_ms": 567.7,
+        "predicted_per_token_ms": 8.87,
+        "predicted_per_second": 112.7,
+        "draft_n": 33,
+        "draft_n_accepted": 27
+      },
+      "content": "Strata distributes the model's 24,576 experts across the GPU, RAM, and SSD, keeping frequently used experts in VRAM for fast access while offloading the rest to system memory and disk to fit large models on consumer hardware. The system employs speculative decoding where a small helper model drafts multiple tokens",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 57.0,
+      "host_min_available_gib": 104.04949951171875,
+      "median_power_w": 278.3,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 27.170172349000495,
+      "total_s": 27.75641663300121,
+      "usage": {
+        "prompt_tokens": 130117,
+        "completion_tokens": 64,
+        "total_tokens": 130181,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 130117,
+        "prompt_ms": 26830.7,
+        "prompt_per_token_ms": 0.206,
+        "prompt_per_second": 4849.6,
+        "predicted_n": 64,
+        "predicted_ms": 598.4,
+        "predicted_per_token_ms": 9.35,
+        "predicted_per_second": 107.0,
+        "draft_n": 47,
+        "draft_n_accepted": 30
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD storage, using an adaptive cache to keep the most frequently used experts on the graphics card while the CPU computes the rest in parallel to maximize throughput on consumer hardware. The engine employs speculative decoding with a small",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 59.0,
+      "host_min_available_gib": 103.60360336303711,
+      "median_power_w": 275.57,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 27.2536983659993,
+      "total_s": 27.810527444999025,
+      "usage": {
+        "prompt_tokens": 130117,
+        "completion_tokens": 64,
+        "total_tokens": 130181,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 130117,
+        "prompt_ms": 26915.1,
+        "prompt_per_token_ms": 0.207,
+        "prompt_per_second": 4834.3,
+        "predicted_n": 64,
+        "predicted_ms": 569.0,
+        "predicted_per_token_ms": 8.891,
+        "predicted_per_second": 112.5,
+        "draft_n": 48,
+        "draft_n_accepted": 31
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD storage, using an adaptive cache to keep the most frequently used experts on the graphics card while the CPU computes the rest in parallel to maximize throughput on consumer hardware. The engine employs speculative decoding with a small",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 60.0,
+      "host_min_available_gib": 103.62098693847656,
+      "median_power_w": 276.22,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    },
+    {
+      "ttft_s": 27.175367474999803,
+      "total_s": 27.730188868999903,
+      "usage": {
+        "prompt_tokens": 130115,
+        "completion_tokens": 64,
+        "total_tokens": 130179,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 130115,
+        "prompt_ms": 26836.4,
+        "prompt_per_token_ms": 0.206,
+        "prompt_per_second": 4848.5,
+        "predicted_n": 64,
+        "predicted_ms": 566.9,
+        "predicted_per_token_ms": 8.858,
+        "predicted_per_second": 112.9,
+        "draft_n": 46,
+        "draft_n_accepted": 31
+      },
+      "content": "Strata distributes the model's 24,576 experts across GPU VRAM, system RAM, and SSD storage, using an adaptive cache to keep the most frequently used experts on the graphics card while the CPU computes the rest in parallel to maximize throughput on consumer hardware. The engine employs speculative decoding with a small",
+      "reasoning": "",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23974.0,
+      "gpu_peak_temperature_c": 60.0,
+      "host_min_available_gib": 103.57153701782227,
+      "median_power_w": 275.43,
+      "fixture": "# How does Strata work?\n\nModels like Qwen3.8-Flash-Next normally run on servers with hundreds of gig"
+    }
+  ],
+  "decode_median_tok_s": 106.2
+}
