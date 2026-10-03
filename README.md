@@ -19,6 +19,12 @@ and [Intel Arc Pro B70](https://github.com/AnnoyingTechnology/intel-arc-b70-llm-
 projects. Their rates concern different models and cannot be treated as a
 same-target comparison.
 
+**Paused for the night, 2026-10-03.** The owned test workload is stopped.
+Read the [session status](docs/session-status-2026-10-03.md) for completed results,
+unfinished experiments, closed alternatives and the next-session sequence.
+The requested [Claude Opus 5.5 xhigh review](docs/claude-opus-5.5-review-2026-10-03.md)
+is logged with qualifications; it adds advice, not measurements.
+
 ## Result
 
 The recorded profiles expose model `Qwen3.8-Flash-Next`, alias `ulmus`, through
@@ -147,7 +153,7 @@ matched 512-token decode measures **100.6 tok/s original / 100.3 head-only**:
 no demonstrated throughput gain. This mixed checkpoint also changes the shared
 MTP head and is not the exact published GSQ release. It remains unselected;
 two more seeds on the observed disagreements and the embedding-plus-head
-diagnostic are in progress. [Matched performance](results/public/precision-iq3-head-comparison.json)
+diagnostic remain unfinished at the pause. [Matched performance](results/public/precision-iq3-head-comparison.json)
 
 ## Bandwidth reference and remaining headroom
 

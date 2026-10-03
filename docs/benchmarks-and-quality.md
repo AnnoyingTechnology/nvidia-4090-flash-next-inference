@@ -281,13 +281,15 @@ breakdown. Logs are diagnostic evidence for CPU/GPU overlap and kernel work, not
    completion latency, not just decode. Use native validated structured output for standalone machine-facing
    JSON, and qualify client tool schemas separately. Frozen controls are needed before attributing a gain
    to precision rather than sampler or output room.
-3. **A/B eddoursul's Strata fork and improve the measured critical path.** The inspected fork pins to
+3. **Improve the selected upstream's measured critical path. The eddoursul fork is closed.** The inspected fork pins to
    `3a19944130d93d204a845234bbb61c1f1fb3b57d`. Its [single-3090 measurements](https://github.com/eddoursul/Strata/blob/custom/docs/COMPARISON.md)
    put IQ3_S near our result and suggest useful Q4 work. Its advertised large gain compares an older
    upstream without Q4 kernels; we already use a newer baseline. Its CUDA 12.4 adaptation now builds and
    passes nine component checks and nine API checks per engine. A matched Q4 comparison at 32K
    measures **33.65 tok/s fork versus 57.65 upstream**, with similar prefill; this adaptation is not selected.
-   Its older engine lacks KV paging, so the comparison does not qualify a 256K fork profile.
+   IQ3 also loses, 46.60 versus 105.05 tok/s; disabling Q4 adaptation loses 29.75 versus 46.15.
+   No further fork build, sweep or quality evaluation is scheduled. Its older engine lacks
+   KV paging, so these comparisons do not qualify a 256K fork profile.
    Focus on cold-expert kernels, placement and overlapped transfers/GDN work, using profiles
    rather than assuming another dramatic doubling. Sensitivity-guided precision restoration of selected
    tensors is more promising to test than automatically restoring the entire PLE table.
