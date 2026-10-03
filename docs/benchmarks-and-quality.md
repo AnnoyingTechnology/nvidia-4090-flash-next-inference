@@ -130,15 +130,38 @@ and incomplete cases separately, and withhold full-deck accuracy when any case i
 
 The frozen 24-case LiveCodeBench v6 attempt at low/8192 has 13 completed, graded passes and 11 incomplete
 generations. The first hard case also exhausted 32768 tokens entirely in reasoning, without answer code.
-Thinking off completed that same case in about 18 seconds and passed. This single diagnostic does not
-qualify the full coding deck. The complete off-mode run uses Qwen's recommended off sampler and the
-unchanged frozen prompts; it is in progress.
+Thinking off completed that same case in about 18 seconds and passed. The full off-mode comparisons
+now have 24 natural completions each: **IQ3_S 14/24, Q4_K_XL 16/24**. All 24 input hashes match.
+Q4 alone passes four cases, IQ3 alone two. Median completed-answer time is **13.83 / 40.42 seconds**;
+total generation time **963.48 / 1518.95 seconds**. Different answer lengths contribute to this gap.
+These are single-seed subset results, not official LiveCodeBench scores or a full-size fidelity estimate.
+The IQ3_S low/presence-penalty-1.5 diagnostic also reaches 32768 entirely in reasoning.
+Q4's first-hard low diagnostic finishes and passes in **195.24 s / 13,285 tokens**;
+this is an isolated completed case, not qualification of the full low-mode deck.
 
 Evaluator protocol v3 grades only naturally finished (`finish_reason=stop`) responses and publishes
 full-cohort accuracy only when every selected case finishes and has a grader verdict. It does not force
 thinking closure, count capped output as a model error, or substitute survivor accuracy. The output
 limit remains a runaway guard; reaching it invalidates that quality run. Fixed-length throughput
 measurements remain separate from answer-quality tests.
+
+Off-mode floating sampler values follow the Qwen card, but the native penalty window defaults to
+64 consumed tokens, including prompt context (native history capacity 4096). This must be distinguished
+from another runtime's full-output-history penalty semantics. Longer-window experiments require separate
+labels and must not silently replace the matched baseline. Low with zero penalties is unaffected by this
+window. Low is a template instruction, not a hard thinking quota.
+Ten low/off rendered fixtures match the official Qwen template at revision
+`de4b8e4d43b917e7706784d8bb445c9af86a3540` byte-for-byte. Both quant packs use the
+same tokenizer/template files. The source templates differ because of supported
+frontend extensions, but the tested ordinary system/user, multi-turn, tool and
+image forms serialize identically. This does not establish complete native numerical parity.
+
+Protocol v4 adds live runtime fingerprints: image/native/API hashes, actual native command, profile/default
+and tokenizer hashes, plus large target/pack/MTP artifact inode/size/mtime identities. Large-file identities
+are not fresh published-content-hash verification. Import/resume requires exact fingerprints; legacy
+reports without them cannot feed new model evaluations. Existing v3 captures remain unchanged and are
+summarized with their historical provenance limits. Evaluator errors can be regraded on the retained
+response with the original error archived. Both stdin and function grader controls are required.
 
 The code deck covers exact config-size parsing, recursive credential redaction, deterministic/idempotent
 deployment reconciliation and IPv4/IPv6 CIDR handling. Generated functions are run through the retained
@@ -168,7 +191,8 @@ fresh encoder work, so do not interpret these timings as a universal GPU speedup
 Non-thinking GPU vision got all image content right but only 2/5 strict JSON for IQ3_S and 1/5 for Q4,
 mostly code fences. Low reasoning passed 5/5 strict for both. The original 1K-budget OCR failure is now
 recovered in the tested 4K-budget path, but budget, encoder placement and reasoning were not all isolated.
-No video, multi-image, fine handwriting, photo understanding or public vision benchmark was evaluated.
+The later 15-image deck includes photos and the harder chart deck uses published ChartQA inputs;
+see [the reviewed comparison](vision-comparison.md). Video, multi-image and fine handwriting remain unqualified.
 
 Earlier fresh 16-fact retrieval tests passed at 32K/128K/256K for both quants. The BF16 table passed the
 same long-context and ten basic canaries. These establish retrieval canaries, not general 256K reasoning.
@@ -286,8 +310,9 @@ Image IDs, profile/default hashes, source overlays, sampled outputs, caps, telem
 failed attempts are preserved. The executed extraction and owner-controller sources have snapshots under
 `results/sources/`; maintained versions may contain later journal/output-capture hardening.
 
-At **13:55:01 UTC**, the final capture (`after-second-checkpoint.json`, retained locally) shows the owned experiment
+At the historical **13:55:01 UTC** checkpoint, the capture (`after-second-checkpoint.json`, retained locally) shows the owned experiment
 container removed, GPU memory at 2 MiB, host RAM available about 185 GiB, no swap, the same R550 driver,
 same kernel and **280 W** power limit. No reboot, production routing, firewall or automatic startup change
 was made. The preserved 27B vLLM container remains stopped with its original image and restart policy,
 as it was when first inspected. Model originals and the unused Q8 download were preserved.
+The owner subsequently resumed work; consult the README and latest launch records for the later state.

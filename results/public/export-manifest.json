@@ -176,8 +176,20 @@
       "public_export_sha256": "91bc475db8fa88495f7c5d3f5e36dc727caf31209d22adcec6c0cf90983b8727"
     },
     "coding-checkpoint.json": {
-      "private_original_sha256": "ec8066bf4a154cdb476927d5c9c0720ec6c2b90be95e9ca0997ac421be9d7ddf",
-      "public_export_sha256": "ec8066bf4a154cdb476927d5c9c0720ec6c2b90be95e9ca0997ac421be9d7ddf"
+      "private_original_sha256": "fbf07c4f37451a021b34393fce7a7848e8d8f9a7035cb384593b7ef18e290088",
+      "public_export_sha256": "fbf07c4f37451a021b34393fce7a7848e8d8f9a7035cb384593b7ef18e290088"
+    },
+    "template-parity-low-off.json": {
+      "private_original_sha256": "9b49b008ee57a948a324dad4e8cbb69c2165a677228a5aafcde610ee646b4095",
+      "public_export_sha256": "9b49b008ee57a948a324dad4e8cbb69c2165a677228a5aafcde610ee646b4095"
+    },
+    "official-template-source.json": {
+      "private_original_sha256": "99afa8958c76695935213e963501be2ea30c9f247f376d2c4d748918ea97477e",
+      "public_export_sha256": "fd9e2c180546203de4d16cb230d6f81b66dc565ca626ba50e6fdac259d61c32d"
+    },
+    "practical30-manifest.json": {
+      "private_original_sha256": "625c5a1577089c3eaadae9b7266f52103aa7165673e9ac8599ee08c54a34e25f",
+      "public_export_sha256": "625c5a1577089c3eaadae9b7266f52103aa7165673e9ac8599ee08c54a34e25f"
     }
   }
 }

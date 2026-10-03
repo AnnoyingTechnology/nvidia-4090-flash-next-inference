@@ -25,6 +25,8 @@ FILES = [
     'chartqa-multiplication1-terra-low.json', 'chartqa-multiplication1-sol-low.json',
     'chartqa-comparison.json', 'chartqa15-manifest.json', 'chartqa-arithmetic5-manifest.json',
     'resources-iq3s-vision-decode.json', 'opencode-client-check.json', 'coding-checkpoint.json',
+    'template-parity-low-off.json', 'official-template-source.json', 'coding-format-audit.json',
+    'practical30-manifest.json', 'practical30-comparison.json',
 ]
 
 

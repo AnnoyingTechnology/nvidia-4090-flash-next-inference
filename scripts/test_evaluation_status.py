@@ -6,6 +6,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import eval as evaluator
 from scripts.evaluation_status import summary
+from scripts.evaluation_provenance import fingerprint, require_matching
 
 
 class CompletionTests(unittest.TestCase):
@@ -35,6 +36,18 @@ class CompletionTests(unittest.TestCase):
         for row in [{'response': {'finish_reason': 'stop'}, 'verdict': {'error': 'grader crashed'}},
                     {'response': {'finish_reason': 'cancel'}, 'verdict': {'pass': True}}]:
             self.assertIsNone(summary([row], 1)['quality_score'])
+
+    def test_same_api_alias_does_not_allow_cross_quant_import(self):
+        iq3 = {'model_alias': 'ulmus', 'target': 'iq3', 'native_sha256': 'engine-a'}
+        q4 = {'model_alias': 'ulmus', 'target': 'q4', 'native_sha256': 'engine-a'}
+        report = {'runtime': {'fingerprint': fingerprint(iq3)}}
+        with self.assertRaises(RuntimeError):
+            require_matching(report, {'fingerprint': fingerprint(q4)})
+        require_matching(report, {'fingerprint': fingerprint(iq3)})
+
+    def test_missing_legacy_runtime_is_not_importable(self):
+        with self.assertRaises(RuntimeError):
+            require_matching({}, {'fingerprint': 'fresh'})
 
 
 if __name__ == '__main__':

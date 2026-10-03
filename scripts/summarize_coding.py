@@ -11,7 +11,7 @@ from evaluation_status import status, summary
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def summarize(deck, sources):
+def summarize(deck, sources, legacy_selections=None):
     digest = hashlib.sha256(deck.read_bytes()).hexdigest()
     cases = {c['id']: c for line in deck.read_text().splitlines()
              if (c := json.loads(line))['suite'] == 'lcb-v6-screen'}
@@ -21,8 +21,15 @@ def summarize(deck, sources):
         if report['cases_sha256'] != digest:
             raise ValueError('Coding deck provenance mismatch: ' + source.name)
         selected = report.get('selected_cases')
-        expected_ids = {r['id'] for r in selected} if selected else (
-            set(cases) if source.name.startswith('lcb24-') else {r['id'] for r in report['results']})
+        if selected:
+            expected_ids = {r['id'] for r in selected}
+            selection_source = 'Run selected_cases metadata'
+        else:
+            legacy = (legacy_selections or {}).get(source.name)
+            if not legacy:
+                raise ValueError('Explicit legacy selection required: ' + source.name)
+            expected_ids = set(legacy['ids'])
+            selection_source = legacy['evidence']
         ids = [r['id'] for r in report['results']]
         if len(set(ids)) != len(ids) or not set(ids) <= expected_ids or not expected_ids <= set(cases):
             raise ValueError('Invalid selected cases: ' + source.name)
@@ -46,6 +53,10 @@ def summarize(deck, sources):
         runs.append({'source': source.name,
             'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
             'protocol': report['protocol'], 'cases_sha256': digest,
+            'selection_source': selection_source,
+            'runtime_fingerprint': report.get('runtime', {}).get('fingerprint'),
+            'runtime_identity_status': 'captured' if report.get('runtime') else
+                'Historical launch evidence only; no runtime fingerprint captured by that evaluator version',
             'grader_image_id': report['grader_image_id'],
             'grader_controls': {'correct_program_passed': controls['correct_program']['pass'],
                                'public_only_program_rejected': not controls['public_only_program']['pass']},
@@ -66,8 +77,10 @@ def main():
     ap.add_argument('--cases', type=Path, default=ROOT/'eval/cases.jsonl')
     ap.add_argument('--runs', nargs='+', type=Path, required=True)
     ap.add_argument('--out', type=Path, default=ROOT/'results/coding-checkpoint.json')
+    ap.add_argument('--legacy-selections', type=Path)
     args = ap.parse_args()
-    report = summarize(args.cases, args.runs)
+    legacy = json.loads(args.legacy_selections.read_text()) if args.legacy_selections else None
+    report = summarize(args.cases, args.runs, legacy)
     args.out.write_text(json.dumps(report, indent=2) + '\n')
     for run in report['runs']:
         print(run['source'], run['coverage'])

@@ -84,6 +84,29 @@ The public GSQ repository's `eval_model.py` uses generic lm-eval completions and
 it does not establish the exact Flash-Next AIME/GPQA/LiveCodeBench release protocol. Do not silently apply
 that generic script's defaults to the published paired results.
 
+## Vision weights on demand
+
+The earlier [4090 27B A/B](https://github.com/AnnoyingTechnology/nvidia-4090-llm-inference/blob/main/results/vision-offload-ab.json)
+measured 1.03277 seconds with the pinned-RAM vision blocks versus .98371 seconds resident: **49.06 ms**
+extra on that image/cell. Its roughly 879 MiB BF16 tower copied each block/merger to the GPU only for
+image forward. The offloaded profile remained stable; this is separate hardware/runtime evidence, not
+a measured Flash-Next implementation. Host-mapped zero-copy was much slower than bulk staging there.
+
+Current Strata holds about **1.94 GiB** in its persistent vision worker, including about .85 GiB weights
+and maximum-image workspace. It warms that workspace before sizing the main fixed expert-cache arena.
+Unloading the worker does not dynamically enlarge an already allocated expert cache. A useful
+implementation must stage weights with bounded workspace, or explicitly coordinate shared memory and
+cache invalidation; CPU image inference is a different, much slower measured alternative.
+
+[llama.cpp discussion 20246](https://github.com/ggml-org/llama.cpp/discussions/20246) identifies a concrete
+new bootstrap: [PR 28320](https://github.com/ggml-org/llama.cpp/pull/28320), from CachyLLama, frees the LLM
+scheduler's scratch, encodes with a temporary GPU projector, then retains host-owned embeddings through
+`mtmd_batch_set_ctx`. Its server switch is `--mmproj-vram-swap`. The reported V100 path spends substantial
+time parsing/initializing the projector; it is not evidence of a 50 ms Flash-Next path. Strata's custom
+persistent graphs and monolithic expert allocation do not directly use those llama-context APIs. Preserve
+parsed host weights and qualify encoder embeddings, peak memory, repeated images, cancellation and
+maximum image geometry before selecting a related design here.
+
 The [GSQ release card](https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF)
 also advertises a separate Coder model with 256 of 512 experts retained per layer. It is a task-specialized,
 pruned candidate requiring separate code and general-task qualification, not a substitute for the current

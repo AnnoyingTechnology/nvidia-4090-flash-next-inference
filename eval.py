@@ -11,13 +11,17 @@ import uuid
 
 from bench import request
 from scripts.evaluation_status import unfinished, summary
+from scripts.evaluation_provenance import capture, assert_container, require_matching
 
 GRADER = 'ulmus/eval:lcb-28fef95'
 PROTOCOL = {'nonthinking': {'temperature': 0.7, 'top_p': 0.8, 'top_k': 20, 'min_p': 0.0,
-                           'presence_penalty': 1.5, 'repetition_penalty': 1.0, 'seed': 42},
+                           'presence_penalty': 1.5, 'repetition_penalty': 1.0,
+                           'penalty_last_n': 64, 'seed': 42},
             'thinking': {'temperature': 1.0, 'top_p': 0.95, 'top_k': 20, 'min_p': 0.0,
                          'presence_penalty': 0.0, 'repetition_penalty': 1.0, 'seed': 42},
-            'aime_tokens': 32768, 'mmlu_tokens': 64, 'code_tokens': 32768, 'version': 3,
+            'aime_tokens': 32768, 'mmlu_tokens': 64, 'code_tokens': 32768, 'version': 4,
+            'penalty_semantics': 'Native consumed-token history includes prompt and output; capacity 4096; '
+                'off default window 64. Floating sampler values do not establish HF/vLLM equivalence.',
             'completion_policy': 'Only natural stop is graded; full-cohort accuracy requires every case complete'}
 
 
@@ -48,7 +52,15 @@ def control():
     wrong = grade(problem, 'print(5)')
     if not good['pass'] or wrong['pass']:
         raise RuntimeError(f'Grader controls failed: good={good}, wrong={wrong}')
-    return {'correct_program': good, 'public_only_program': wrong}
+    function = {'public_test_cases': json.dumps([{'input': '2\n3', 'output': '5'}]),
+                'private_test_cases': json.dumps([{'input': '40\n2', 'output': '42'}]),
+                'metadata': json.dumps({'func_name': 'solve'})}
+    function_good = grade(function, 'def solve(a, b): return a + b')
+    function_wrong = grade(function, 'def solve(a, b): return 5')
+    if not function_good['pass'] or function_wrong['pass']:
+        raise RuntimeError(f'Function grader controls failed: {function_good}, {function_wrong}')
+    return {'correct_program': good, 'public_only_program': wrong,
+            'correct_function': function_good, 'public_only_function': function_wrong}
 
 
 def prompt(case, effort='high'):
@@ -111,12 +123,17 @@ def main():
     ap.add_argument('--seed', type=int, default=42)
     ap.add_argument('--presence-penalty', type=float,
                     help='Separate thinking-sampler experiment; never changes the frozen prompt')
+    ap.add_argument('--penalty-last-n', type=int, default=64,
+                    help='Explicit native off-mode penalty window, 1..4096; separately labelled experiments')
     ap.add_argument('--code-tokens', type=int, default=32768,
                     help='Completion budget for coding cases, recorded in the run protocol')
     ap.add_argument('--ids', nargs='*')
     args = ap.parse_args()
     if args.code_tokens <= 0:
         ap.error('--code-tokens must be positive')
+    if not 1 <= args.penalty_last_n <= 4096:
+        ap.error('--penalty-last-n must be in [1, 4096]')
+    PROTOCOL['nonthinking']['penalty_last_n'] = args.penalty_last_n
     PROTOCOL['code_tokens'] = args.code_tokens
     PROTOCOL['effort'] = args.effort
     for mode in ['nonthinking', 'thinking']:
@@ -129,19 +146,27 @@ def main():
     if args.control_only:
         print(json.dumps(controls, indent=2))
         return
+    runtime = capture(args.url)
     case_path, path = Path(args.cases), Path(args.out)
     digest = hashlib.sha256(case_path.read_bytes()).hexdigest()
     grader_id = subprocess.check_output(['docker', 'image', 'inspect', GRADER,
                                          '--format', '{{.Id}}'], text=True).strip()
     report = {'label': args.label, 'protocol': PROTOCOL, 'cases_sha256': digest,
               'grader_image_id': grader_id, 'controls': controls, 'results': [],
+              'runtime': runtime, 'evaluator_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     if path.exists():
         report = json.loads(path.read_text())
+        require_matching(report, runtime)
         if (report['label'], report['cases_sha256'], report['protocol'], report['grader_image_id']) != (
                 args.label, digest, PROTOCOL, grader_id):
             raise RuntimeError('Resume provenance does not match')
-    completed = {(r['suite'], r['id']) for r in report['results']}
+        if report.get('evaluator_sha256') != hashlib.sha256(Path(__file__).read_bytes()).hexdigest():
+            raise RuntimeError('Evaluator changed; resume requires the original evaluator')
+    completed = {(r['suite'], r['id']) for r in report['results']
+                 if 'pass' in r['verdict'] or r['verdict'].get('status') == 'incomplete'}
+    retries = {(r['suite'], r['id']): r for r in report['results']
+               if (r['suite'], r['id']) not in completed}
     cases = [json.loads(line) for line in case_path.read_text().splitlines()]
     cases = [c for c in cases if not args.suites or c['suite'] in args.suites]
     if args.ids:
@@ -159,12 +184,14 @@ def main():
     prior = {}
     if args.import_from:
         old = json.loads(Path(args.import_from).read_text())
+        require_matching(old, runtime)
         if old['cases_sha256'] != digest or old['grader_image_id'] != grader_id:
             raise RuntimeError('Import source/grader differs')
         prior = {(r['suite'], r['id']): r for r in old['results']}
     for case in cases:
         if (case['suite'], case['id']) in completed:
             continue
+        assert_container(runtime)
         messages, effort, tokens = prompt(case, args.effort)
         sampling = PROTOCOL['nonthinking' if effort == 'none' else 'thinking']
         payload = {'model': 'ulmus', 'messages': messages, **sampling,
@@ -172,9 +199,18 @@ def main():
                    'stream_options': {'include_usage': True}}
         input_hash = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
         old = prior.get((case['suite'], case['id']))
-        if old and old['input_sha256'] == input_hash:
+        retry = retries.get((case['suite'], case['id']))
+        if retry:
+            if retry['input_sha256'] != input_hash:
+                raise RuntimeError('Evaluator retry request differs')
+            response = retry['response']
+            report.setdefault('evaluator_error_history', []).append(retry)
+            report['results'].remove(retry)
+            verdict = score(case, response)
+        elif old and old['input_sha256'] == input_hash:
             response = old['response']
-            verdict = unfinished(response) or old['verdict']
+            # Re-grade archived output rather than importing an old evaluator error.
+            verdict = score(case, response)
         else:
             response = request(args.url, payload)
             try:
@@ -182,6 +218,7 @@ def main():
             except Exception as error:
                 # An evaluator error stops the run; do not count it as a model failure.
                 verdict = {'error': str(error)}
+        assert_container(runtime)
         item = {'suite': case['suite'], 'id': case['id'], 'verdict': verdict,
                 'input_sha256': input_hash,
                 'response': response, 'token_cap': tokens}

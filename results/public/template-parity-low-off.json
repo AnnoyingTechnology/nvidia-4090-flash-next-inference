@@ -1,0 +1,97 @@
+{
+  "scope": "Ten rendered prompt fixtures, low/off; no native inference or quota applied.",
+  "official_template_sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+  "live_template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+  "checks": [
+    {
+      "name": "user",
+      "effort": "low",
+      "identical_rendered_utf8": true,
+      "live_sha256": "64012fe752f5f00303b06929686ce5d4fc8558a42e1d70275d2d4bb920da94a0",
+      "official_sha256": "64012fe752f5f00303b06929686ce5d4fc8558a42e1d70275d2d4bb920da94a0",
+      "actual_newlines": 6,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "system-user",
+      "effort": "low",
+      "identical_rendered_utf8": true,
+      "live_sha256": "2d3349e92b83fdfa1b77cff406cd1beee2b84a590027ef95bfe0470f6ea801fe",
+      "official_sha256": "2d3349e92b83fdfa1b77cff406cd1beee2b84a590027ef95bfe0470f6ea801fe",
+      "actual_newlines": 8,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "multiturn",
+      "effort": "low",
+      "identical_rendered_utf8": true,
+      "live_sha256": "f1c98092061795bc3b4e79c3d669e9c9b5f0f2386098b362de923a437764014e",
+      "official_sha256": "f1c98092061795bc3b4e79c3d669e9c9b5f0f2386098b362de923a437764014e",
+      "actual_newlines": 16,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "tools",
+      "effort": "low",
+      "identical_rendered_utf8": true,
+      "live_sha256": "cdff95c7e48753c0594e4c7fb5d6cfdad3c9b5073f4576a76aadef3738990909",
+      "official_sha256": "cdff95c7e48753c0594e4c7fb5d6cfdad3c9b5073f4576a76aadef3738990909",
+      "actual_newlines": 37,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "image",
+      "effort": "low",
+      "identical_rendered_utf8": true,
+      "live_sha256": "9e31c80b16ce4b07b284f8735ee12ea0888e1bf252878ba3d5bd5643f5994387",
+      "official_sha256": "9e31c80b16ce4b07b284f8735ee12ea0888e1bf252878ba3d5bd5643f5994387",
+      "actual_newlines": 6,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "user",
+      "effort": "none",
+      "identical_rendered_utf8": true,
+      "live_sha256": "13071b0f0e23e97681f6f39247dbb715973302580660a81dbae994fe8064e7d3",
+      "official_sha256": "13071b0f0e23e97681f6f39247dbb715973302580660a81dbae994fe8064e7d3",
+      "actual_newlines": 7,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "system-user",
+      "effort": "none",
+      "identical_rendered_utf8": true,
+      "live_sha256": "e4f90f2750b73f3e7094ba9d5f40000d1e633bf28fe4b494f7a7781d9549b593",
+      "official_sha256": "e4f90f2750b73f3e7094ba9d5f40000d1e633bf28fe4b494f7a7781d9549b593",
+      "actual_newlines": 9,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "multiturn",
+      "effort": "none",
+      "identical_rendered_utf8": true,
+      "live_sha256": "65938bce43f1848b91b822b4c56f72c5ce39ba90542a404379b9096076d4cc2a",
+      "official_sha256": "65938bce43f1848b91b822b4c56f72c5ce39ba90542a404379b9096076d4cc2a",
+      "actual_newlines": 17,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "tools",
+      "effort": "none",
+      "identical_rendered_utf8": true,
+      "live_sha256": "42f8088c90acc0bd4b947f4add3848550a754aa37a86cb5a908f19fc8bbea86f",
+      "official_sha256": "42f8088c90acc0bd4b947f4add3848550a754aa37a86cb5a908f19fc8bbea86f",
+      "actual_newlines": 38,
+      "literal_backslash_n": 0
+    },
+    {
+      "name": "image",
+      "effort": "none",
+      "identical_rendered_utf8": true,
+      "live_sha256": "32e49bf67c052e331eca29122de2f7a3e4df23e0fd10d6faef2ef423dca402a0",
+      "official_sha256": "32e49bf67c052e331eca29122de2f7a3e4df23e0fd10d6faef2ef423dca402a0",
+      "actual_newlines": 7,
+      "literal_backslash_n": 0
+    }
+  ]
+}

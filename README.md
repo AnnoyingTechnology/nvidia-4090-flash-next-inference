@@ -82,7 +82,18 @@ The 24-case frozen LiveCodeBench attempt at **low / 8192 output tokens** is
 **incomplete: 13 finished and passed, 11 exhausted the cap**. It has no usable
 full-deck quality score. A separately labelled 32768-token retry of the
 first capped case also exhausted its cap without producing code. The same
-case finished and passed with thinking off; a full off-mode run is in progress.
+case finished and passed with thinking off. The matched full off-mode runs
+completed naturally on **all 24 cases**: **IQ3_S 14/24, Q4_K_XL 16/24**.
+All 24 request hashes match. Q4 gains four cases and loses two; this small,
+single-seed screen does not establish a broad quantization advantage. Median
+completed-answer latency was **13.83 s IQ3_S / 40.42 s Q4**; total generation
+time **16.06 / 25.32 minutes**. These are answer-length-sensitive quality
+cells, separate from fixed-length decode throughput. Q4 remains a diagnostic
+alternative; the extra latency is substantial. A separately labelled IQ3_S
+low-mode retry with presence penalty 1.5 also exhausted 32768 tokens.
+Q4 completed and passed that same hard low-mode case in **195.24 s / 13,285
+tokens**; this one case suggests a precision-sensitive difference worth
+repeating, while its latency remains far above the off-mode IQ3 answer.
 Capped cases are neither correct nor incorrect, and finished-case counts do
 not establish accuracy for the whole deck. The historical 140-question low
 knowledge attempts also had caps: IQ3_S/Q4 produced 115 correct completed
@@ -90,6 +101,17 @@ answers each, with five/four incomplete cases; their full-deck quality remains
 unqualified. Four practical code functions and eight operations
 decisions passed on content. Published paired full-size coding/knowledge
 references remain the quantization anchor in the quality section below.
+
+The off runs use the official floating sampler values (temperature .7,
+top-p .8, top-k 20, presence penalty 1.5), but Strata's **effective penalty
+window is 64 consumed tokens, including prompt context**. This is not
+established as equivalent to the full-reference harness's penalty semantics.
+The model's low effort is a soft instruction, not a thinking quota. Frozen
+executable DevOps canaries and longer-window sampler checks are the next
+qualification steps. See the [coding evidence](results/public/coding-checkpoint.json).
+Ten low/off prompt fixtures render byte-for-byte identically to the pinned
+official Qwen template, including system, multi-turn, tools and image messages.
+This checks prompt serialization; it does not certify all native numerical paths.
 
 ## Bandwidth reference and remaining headroom
 
