@@ -16,6 +16,7 @@
 !/Dockerfile.ple-bf16
 !/Dockerfile.cpu-quant
 !/Dockerfile.cpu-parity
+!/Dockerfile.eddoursul-native
 !/api-requirements.lock
 !/QUALITY-REFERENCE.json
 !/run.sh

@@ -159,6 +159,7 @@ work, not a claim that an unused RAM allocation makes inference faster.
 | Effective low/stochastic defaults and JSON validator dependency | **9/9 API checks per profile**, upstream 8 tests pass | Identical engine binary; prompt-and-validate JSON, no grammar decoder |
 | Original BF16 ngram table, RAM resident | 107.5 tok/s; 112 correct completed knowledge answers vs 115, with caps in both runs | Fits with about 35.9 GiB RAM available; full-deck quality unqualified, no demonstrated recovery, not selected |
 | CPU activation-quantization parallelization | 107.4 vs subsequent 105.9 tok/s baseline | 18 native-pool parity configurations pass; gain not established, not selected |
+| eddoursul native fork, CUDA 12.4 adaptation | **9/9 component checks pass**, build succeeds | Ordered copies, grouped GEMM fallback, sampler, PLE, QSA, GDN, router and real IQ3/Q4 experts; API/throughput comparison in progress, not selected |
 
 These rows use several protocols. Their percentages are not multiplied, and
 no target-weight or KV precision change is described as lossless. Verified

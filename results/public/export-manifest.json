@@ -187,6 +187,10 @@
       "private_original_sha256": "99afa8958c76695935213e963501be2ea30c9f247f376d2c4d748918ea97477e",
       "public_export_sha256": "fd9e2c180546203de4d16cb230d6f81b66dc565ca626ba50e6fdac259d61c32d"
     },
+    "coding-format-audit.json": {
+      "private_original_sha256": "1b931ae44123a72a3f7b64a955967b9dd25b9ede077f8ed04afec0339011e4ab",
+      "public_export_sha256": "1b931ae44123a72a3f7b64a955967b9dd25b9ede077f8ed04afec0339011e4ab"
+    },
     "practical30-manifest.json": {
       "private_original_sha256": "89f29a429ca45e8ecef5bf3fd931b5cb5b9c51713d572f2ce98edf84d70aa9ea",
       "public_export_sha256": "89f29a429ca45e8ecef5bf3fd931b5cb5b9c51713d572f2ce98edf84d70aa9ea"
@@ -206,6 +210,10 @@
     "quant-tensor-inventory.json": {
       "private_original_sha256": "280f9f337471c580a8fc3b9e54f5525f4aff0f39c5d981f37a430dcfb5a19a8c",
       "public_export_sha256": "280f9f337471c580a8fc3b9e54f5525f4aff0f39c5d981f37a430dcfb5a19a8c"
+    },
+    "eddoursul-native-parity.json": {
+      "private_original_sha256": "1f37b0a6a249c4a10ea8856bb46a012e452024faa65f681cc97a19f70346feb5",
+      "public_export_sha256": "1f37b0a6a249c4a10ea8856bb46a012e452024faa65f681cc97a19f70346feb5"
     }
   }
 }

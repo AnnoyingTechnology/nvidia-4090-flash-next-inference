@@ -1,0 +1,16 @@
+# Alternate native engine behind the already qualified upstream API and vision frontend.
+FROM ulmus/strata:99f3dbd-ownerapi
+WORKDIR /opt/strata-eddoursul
+COPY . .
+RUN git apply .ulmus-overlays/eddoursul-cuda124-compat.patch \
+    && printf '\nadd_executable(native_copy_parity .ulmus-overlays/native_copy_parity.cpp)\ntarget_link_libraries(native_copy_parity PRIVATE strata_engine CUDA::cudart)\nadd_executable(native_grouped_gemm_parity .ulmus-overlays/native_grouped_gemm_parity.cpp)\ntarget_link_libraries(native_grouped_gemm_parity PRIVATE strata_prefill CUDA::cudart)\n' >> CMakeLists.txt
+RUN test "$(sha256sum /opt/strata-build/strata | cut -d ' ' -f 1)" = \
+    a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676
+RUN cmake -S . -B /opt/strata-eddoursul-build -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release -DSTRATA_ENABLE_CUDA=ON \
+    -DCMAKE_CUDA_ARCHITECTURES=89 -DSTRATA_BUILD_TESTS=OFF \
+    -DSTRATA_GGML_DIR=/opt/strata/ref/llama.cpp \
+    && cmake --build /opt/strata-eddoursul-build -j 12 --target \
+    strata native_expert_parity sampler_parity ple_reader_test \
+    qsa_parity gdn_parity router_top10_parity native_copy_parity native_grouped_gemm_parity
+WORKDIR /opt/strata

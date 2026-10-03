@@ -29,6 +29,7 @@ FILES = [
     'practical30-manifest.json', 'practical30-v2-manifest.json', 'practical30-comparison.json',
     'resources-q4-vision-decode.json',
     'quant-tensor-inventory.json',
+    'eddoursul-native-parity.json',
 ]
 
 

@@ -1,0 +1,51 @@
+CUDA compatibility for eddoursul/Strata@3a19944130d93d204a845234bbb61c1f1fb3b57d.
+The existing CUDA 13 batch API stays unchanged. Earlier CUDA uses ordered asynchronous
+copies on the same stream, retaining correctness but losing the batch/overlap hint.
+The CUDA 12.5 grouped GEMM API is guarded; older cuBLAS uses the fork's existing
+per-expert GEMM/side-stream fallback without changing its precision.
+Upstream context is MIT licensed; see NOTICE. This addition is Apache-2.0.
+
+diff --git a/src/core/expert_cache.cpp b/src/core/expert_cache.cpp
+--- a/src/core/expert_cache.cpp
++++ b/src/core/expert_cache.cpp
+@@ -280,11 +280,21 @@ bool ExpertCache::fill_slot(int32_t slot, const uint8_t* host_blob, void* stream, std
+ 
+ bool copy_blobs(void* const* dst, const void* const* src, const size_t* bytes, size_t n, void* stream) {
+     if (n == 0) return true;
++#if CUDART_VERSION >= 13000
+     cudaMemcpyAttributes attr{};
+     attr.srcAccessOrder = cudaMemcpySrcAccessOrderStream;
+     attr.flags = cudaMemcpyFlagPreferOverlapWithCompute;   // the copy engines, beside the kernels
+     size_t first = 0;
+     return cudaMemcpyBatchAsync(dst, src, bytes, n, &attr, &first, 1, (cudaStream_t) stream) == cudaSuccess;
++#else
++    // The source is live until this stream completes, as with srcAccessOrderStream.
++    // UVA chooses H2D/D2D/peer direction; preserve the caller's stream dependencies.
++    for (size_t i = 0; i < n; ++i) {
++        if (cudaMemcpyAsync(dst[i], src[i], bytes[i], cudaMemcpyDefault,
++                            (cudaStream_t) stream) != cudaSuccess) return false;
++    }
++    return true;
++#endif
+ }
+ 
+ bool ExpertCache::fill_slot_blocking(int32_t slot, const uint8_t* host_blob, std::string& err, int64_t bytes) {
+diff --git a/src/prefill/gemm.cu b/src/prefill/gemm.cu
+--- a/src/prefill/gemm.cu
++++ b/src/prefill/gemm.cu
+@@ -99,6 +99,7 @@ void Gemm::f16_grouped(const uint16_t* const* X, const uint16_t* const* W, float* const* Y, const uint16_t* const* X_host,
+                        const uint16_t* const* W_host, float* const* Y_host, const int* rows, int n, int64_t N, int64_t K) {
+     if (n <= 0) return;
+     if (grouped_) {
++#if CUBLAS_VERSION >= 120500
+         // column-major, as f16(): Y_i^T[N, rows] = W_i (K x N col-major, transposed) . X_i^T[K, rows]; a group per problem
+         const std::vector<cublasOperation_t> ta((size_t) n, CUBLAS_OP_T), tb((size_t) n, CUBLAS_OP_N);
+         const std::vector<int> m((size_t) n, (int) N), k((size_t) n, (int) K), ld_wx((size_t) n, (int) K),
+@@ -113,6 +114,7 @@ void Gemm::f16_grouped(const uint16_t* const* X, const uint16_t* const* W, float* const* Y, const uint16_t* const* X_host,
+             CUDA_R_32F, ld_y.data(), n, size.data(), CUBLAS_COMPUTE_32F);
+         if (st == CUBLAS_STATUS_SUCCESS) return;
+         if (st != CUBLAS_STATUS_NOT_SUPPORTED && st != CUBLAS_STATUS_INVALID_VALUE) ck(st, "cublasGemmGroupedBatchedEx");
++#endif
+         grouped_ = false;
+         std::fprintf(stderr, "prefill gemm: cuBLAS does not group FP16 -> FP32 GEMMs here; one call per expert\n");
+     }

@@ -1,0 +1,180 @@
+{
+  "scope": "Diagnostic format audit; original first-block scores retained. No code repaired or prompts changed; alternate blocks graded separately.",
+  "runs": [
+    {
+      "source": "lcb24-iq3s-owner-vision-off-v3.json",
+      "source_sha256": "f9b950c0b5196217577766eab1f858a9ca99d559e5c07d792eef85b4d7cb340b",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "failures": [
+        {
+          "id": "leetcode/3799",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "atcoder/arc196_d",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "atcoder/abc389_e",
+          "complete_python_blocks": 0,
+          "first_block_passed": null,
+          "alternate_blocks": [],
+          "error": "No complete Python code block"
+        },
+        {
+          "id": "atcoder/arc190_d",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "leetcode/3783",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "leetcode/3781",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "leetcode/3794",
+          "complete_python_blocks": 4,
+          "first_block_passed": false,
+          "alternate_blocks": [
+            {
+              "block": 2,
+              "passed": false
+            },
+            {
+              "block": 3,
+              "passed": false
+            },
+            {
+              "block": 4,
+              "passed": false
+            }
+          ],
+          "error": null
+        },
+        {
+          "id": "atcoder/abc392_c",
+          "complete_python_blocks": 0,
+          "first_block_passed": null,
+          "alternate_blocks": [],
+          "error": "No complete Python code block"
+        },
+        {
+          "id": "atcoder/abc391_d",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "atcoder/arc194_a",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        }
+      ]
+    },
+    {
+      "source": "lcb24-q4-owner-vision-off-v3.json",
+      "source_sha256": "3dc1d747662c973a2d400fcc68f78ffa0541458c356064239ff7801be83a66aa",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "failures": [
+        {
+          "id": "atcoder/abc398_a",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "atcoder/abc397_f",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "atcoder/arc196_d",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "atcoder/arc190_d",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "leetcode/3783",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        },
+        {
+          "id": "leetcode/3781",
+          "complete_python_blocks": 2,
+          "first_block_passed": false,
+          "alternate_blocks": [
+            {
+              "block": 2,
+              "passed": false
+            }
+          ],
+          "error": null
+        },
+        {
+          "id": "leetcode/3794",
+          "complete_python_blocks": 5,
+          "first_block_passed": false,
+          "alternate_blocks": [
+            {
+              "block": 2,
+              "passed": false
+            },
+            {
+              "block": 3,
+              "passed": false
+            },
+            {
+              "block": 4,
+              "passed": false
+            },
+            {
+              "block": 5,
+              "passed": false
+            }
+          ],
+          "error": null
+        },
+        {
+          "id": "atcoder/arc194_a",
+          "complete_python_blocks": 1,
+          "first_block_passed": false,
+          "alternate_blocks": [],
+          "error": null
+        }
+      ]
+    }
+  ]
+}

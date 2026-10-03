@@ -76,6 +76,14 @@ unmatched protocol details and local qualification requirements.
   remaining A/B candidate. Published single-3090 IQ3_S thinking decode around 111 tok/s is close to the current
   Ulmus result, while its Q4 result suggests a useful path. Its dramatic gain compares an older upstream base
   without Q4 kernels; Ulmus already runs a newer base. Neither dual-GPU nor cross-CPU numbers transfer directly.
+  The pinned native engine now builds for SM89/CUDA 12.4 behind the existing qualified API/vision frontend.
+  The compatibility patch guards CUDA 13 batch copies and cuBLAS 12.5 grouped GEMMs; older libraries use
+  ordered copies and the fork's existing per-expert GEMM/side-stream fallback. This loses newer batching
+  features, so it is an adapted-fork A/B rather than the author's original software configuration.
+  All **9 component checks pass**, including exact ordered copy checks, four heterogeneous GEMM stream
+  configurations, sampler, PLE reader, QSA/GDN/router, and real native IQ3/Q4 experts. End-to-end API,
+  quality and performance remain separate gates. Build with `bash scripts/build_eddoursul.sh`;
+  the alternate profiles stay experimental until the matched measurements justify selection.
 - [ExLlamaV3's CPU-offload documentation](https://github.com/turboderp-org/exllamav3/blob/d3739fd393337b1ff4d6c2a342b12f0c87a9592f/doc/env_vars.md#cpu-moe-offload)
   specifies mul1-codebook eligibility, CPU resident experts and GPU streamed prefill. It is a plausible supported
   bootstrap, not a measured performance improvement. A separate EXL3 download and source build remain.

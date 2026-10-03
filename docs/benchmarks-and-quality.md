@@ -284,8 +284,8 @@ breakdown. Logs are diagnostic evidence for CPU/GPU overlap and kernel work, not
 3. **A/B eddoursul's Strata fork and improve the measured critical path.** The inspected fork pins to
    `3a19944130d93d204a845234bbb61c1f1fb3b57d`. Its [single-3090 measurements](https://github.com/eddoursul/Strata/blob/custom/docs/COMPARISON.md)
    put IQ3_S near our result and suggest useful Q4 work. Its advertised large gain compares an older
-   upstream without Q4 kernels; we already use a newer baseline. The broad diff has not been built or
-   qualified. Focus on cold-expert kernels, placement and overlapped transfers/GDN work, using profiles
+   upstream without Q4 kernels; we already use a newer baseline. Its CUDA 12.4 adaptation now builds and
+   passes nine component checks; end-to-end A/B is in progress. Focus on cold-expert kernels, placement and overlapped transfers/GDN work, using profiles
    rather than assuming another dramatic doubling. Sensitivity-guided precision restoration of selected
    tensors is more promising to test than automatically restoring the entire PLE table.
 4. **Qualify ExLlamaV3/TabbyAPI as an independent bootstrap.** Source audit at
