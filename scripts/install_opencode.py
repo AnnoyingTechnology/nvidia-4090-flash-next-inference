@@ -1,4 +1,4 @@
-"""Merge the two owned model entries, with a private workspace-local rollback copy."""
+"""Install the owned model entry, with a private workspace-local rollback copy."""
 import argparse
 import datetime
 import json
@@ -35,6 +35,10 @@ def main():
         backup.chmod(0o600)
     providers = config.setdefault('provider', {})
     merge(providers, source['provider'])
+    # Remove our retired output-budget alias; it addresses the same backend model.
+    providers['ai-ulmus-flash-next']['models'].pop('qwen3.8-flash-next-long', None)
+    if config.get('model') == 'ai-ulmus-flash-next/qwen3.8-flash-next-long':
+        config['model'] = 'ai-ulmus-flash-next/qwen3.8-flash-next'
     target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(mode='w', dir=target.parent, prefix='.opencode-', delete=False) as temp:
         json.dump(config, temp, indent=2)

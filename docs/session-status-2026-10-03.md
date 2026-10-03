@@ -1,5 +1,12 @@
 # Paused research status — 2026-10-03
 
+Subsequent serving update: the owner requested OpenCode testing. The selected
+original IQ3 vision profile was started, its 262144-token backend capacity was
+checked and a real OpenCode request returned `READY`. Juniperus now exposes one
+Ulmus Next-Flash model entry with 253952-token client context; the duplicate
+answer-budget alias was removed. Optimization remains paused. Check live state
+before resuming; the shutdown evidence below describes the earlier night pause.
+
 Paused at the owner's request for the night. The owned experiment controller,
 evaluator and `ulmus-inference-test` container are stopped. Live verification
 after stopping shows **2 MiB GPU memory used**, the unchanged **280 W limit**,

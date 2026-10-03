@@ -19,7 +19,8 @@ and [Intel Arc Pro B70](https://github.com/AnnoyingTechnology/intel-arc-b70-llm-
 projects. Their rates concern different models and cannot be treated as a
 same-target comparison.
 
-**Paused for the night, 2026-10-03.** The owned test workload is stopped.
+**Research paused, 2026-10-03.** The selected vision model was subsequently
+started at the owner's request for OpenCode use; optimization tests remain paused.
 Read the [session status](docs/session-status-2026-10-03.md) for completed results,
 unfinished experiments, closed alternatives and the next-session sequence.
 The requested [Claude Opus 5.5 xhigh review](docs/claude-opus-5.5-review-2026-10-03.md)
@@ -264,8 +265,9 @@ hostname. No host path or private address is required by the selected profiles.
 `stop.sh` removes only the owned inference container, preserving models and images.
 
 For OpenCode on Juniperus, the installed model is
-`ai-ulmus-flash-next/qwen3.8-flash-next`, with low/off variants and an
-optional larger output reserve. The prior 27B default is preserved.
+`ai-ulmus-flash-next/qwen3.8-flash-next`, with low/off variants and a
+**253952-token context window**. The duplicate output-budget entry was removed.
+The prior 27B default is preserved.
 [Client configuration and SSH launcher](docs/opencode.md)
 
 ## Production invocation and settings
