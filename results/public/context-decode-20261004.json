@@ -1,0 +1,495 @@
+{
+  "observed_at": "2026-10-04T07:41:31.960773+00:00",
+  "order": [
+    32,
+    64,
+    128,
+    128,
+    64,
+    32,
+    32,
+    64,
+    128
+  ],
+  "sampling": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "presence_penalty": 0,
+    "repetition_penalty": 1,
+    "reasoning_effort": "low",
+    "seed": 42
+  },
+  "decode_tokens": 512,
+  "documents_sha256": {
+    "32": "c73c3d5f87937dec7e9b0afdd12fc8cb7911b6cd0e4d736a0195b58fb8469567",
+    "64": "74f448aaf0bed170c60deecefe1bd7f400311574f83e64c30b205e0c5005b7ff",
+    "128": "22f55cfb5492c63423e5e26d7e06bd4f3e1a4b15d7ba9bfb864d3068313800fd"
+  },
+  "runtime": {
+    "fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+    "identity": {
+      "image_id": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644",
+      "api_command": [
+        "python",
+        "-m",
+        "serve.server",
+        "--engine",
+        "strata",
+        "--config",
+        "/work/profiles/flash-iq3s-256k-vision-tune-ownervision.json",
+        "--port",
+        "19623"
+      ],
+      "artifacts": {
+        "config_sha256": "33f8f4495a09f4ba22055d93d0208d39416921da5ba43321fe5bde71b1a6c71f",
+        "engine_config": {
+          "exe": "/opt/strata-build/strata",
+          "args": [
+            "--pack",
+            "/work/packs/iq3s",
+            "--native",
+            "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+            "--expert-profile",
+            "/opt/strata/data/expert-profile.bin",
+            "--expert-cache",
+            "auto",
+            "--ple-io",
+            "ram",
+            "--prefill",
+            "auto:32768",
+            "--spec",
+            "4",
+            "--spec-min-p",
+            "0.7",
+            "--mtp",
+            "/work/mtp/rt",
+            "--max-context",
+            "262144",
+            "--kv",
+            "int8",
+            "--pool-workers",
+            "11",
+            "--stats",
+            "--kv-resident",
+            "32768",
+            "--pcie-frac",
+            "0.35",
+            "--vision"
+          ],
+          "cwd": "/opt/strata",
+          "tokenizer": "/work/packs/iq3s/tokenizer",
+          "model_name": "Qwen3.8-Flash-Next",
+          "log": "/work/results/flash-iq3s-256k-vision-tune-ownervision-engine.log",
+          "host": "0.0.0.0",
+          "port": 19623,
+          "aliases": [
+            "ulmus"
+          ],
+          "vision": {
+            "exe": "/opt/vision-build/bin/strata-vision",
+            "mmproj": "/work/models/gsq-iq3_s/mmproj-Qwen3.8-Flash-Next-BF16.gguf",
+            "model": "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+            "gpu": true,
+            "max_tokens": 4096,
+            "threads": 12
+          },
+          "sampling": {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0,
+            "presence_penalty": 0,
+            "repetition_penalty": 1
+          }
+        },
+        "native_sha256": "a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676",
+        "native_command": [
+          "/opt/strata-build/strata",
+          "--serve",
+          "--pack",
+          "/work/packs/iq3s",
+          "--native",
+          "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+          "--expert-profile",
+          "/opt/strata/data/expert-profile.bin",
+          "--expert-cache",
+          "auto",
+          "--ple-io",
+          "ram",
+          "--prefill",
+          "auto:32768",
+          "--spec",
+          "4",
+          "--spec-min-p",
+          "0.7",
+          "--mtp",
+          "/work/mtp/rt",
+          "--max-context",
+          "262144",
+          "--kv",
+          "int8",
+          "--pool-workers",
+          "11",
+          "--stats",
+          "--kv-resident",
+          "32768",
+          "--pcie-frac",
+          "0.35",
+          "--vision"
+        ],
+        "api_sources": {
+          "server.py": "fc85cfd3a5b0379c8482de7a81673cae76299751aa5fe614413bc01f1fa54408",
+          "frontend.py": "e7b295d5240fac3b1bec1736e2c8d468030f8fe0c96bcc6a6b1570301258f3cf",
+          "structured.py": "bd45a0ed7993553a208fcc1584dc4f763e97a47e2da739b4897efc025ca03fc4"
+        },
+        "tokenizer": [
+          {
+            "path": "/work/packs/iq3s/tokenizer/chat_template.jinja",
+            "size": 9993,
+            "mtime_ns": 1791014650195597076,
+            "device": 66307,
+            "inode": 50597442,
+            "sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/merges.txt",
+            "size": 3353258,
+            "mtime_ns": 1791014650055511675,
+            "device": 66307,
+            "inode": 50597439,
+            "sha256": "4ba698529766c7a2f5052083ea10cdf2485577f5237a332ee291054eb11e3332"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/token_type.json",
+            "size": 744960,
+            "mtime_ns": 1791014650063356955,
+            "device": 66307,
+            "inode": 50597440,
+            "sha256": "5088c8c298fc06af8382ddb3b76c888703ac2634e82263b97eedcc2ad202738b"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/tokenizer.json",
+            "size": 541,
+            "mtime_ns": 1791014650063520285,
+            "device": 66307,
+            "inode": 50597441,
+            "sha256": "c0bd435efbc6c3b28964b47999afe16c4ad268c7c7c4e8cb3af410796a6f30bf"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/vocab.json",
+            "size": 5737005,
+            "mtime_ns": 1791014649999896481,
+            "device": 66307,
+            "inode": 50597438,
+            "sha256": "4ba64f0332abcfb0b600b7df1537d1e836e68009d5fb7cdb77339738dc6365c4"
+          }
+        ],
+        "target_shards": [
+          {
+            "path": "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+            "size": 54817524224,
+            "mtime_ns": 1791014392169033894,
+            "device": 66307,
+            "inode": 43911525
+          },
+          {
+            "path": "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00002-of-00002.gguf",
+            "size": 28800138432,
+            "mtime_ns": 1791013357864759189,
+            "device": 66307,
+            "inode": 43911526
+          }
+        ],
+        "pack": [
+          {
+            "path": "/work/packs/iq3s/conversions.json",
+            "size": 306,
+            "mtime_ns": 1791014649574054601,
+            "device": 66307,
+            "inode": 50597436,
+            "sha256": "51df3cd6ffd0d38c2da8e2d3a95a604b4a96c20b06fc639a9bf477282a42b86a"
+          },
+          {
+            "path": "/work/packs/iq3s/dense.bin",
+            "size": 1538035200,
+            "mtime_ns": 1791014649572798218,
+            "device": 66307,
+            "inode": 50597434
+          },
+          {
+            "path": "/work/packs/iq3s/index.txt",
+            "size": 93685,
+            "mtime_ns": 1791014649573860671,
+            "device": 66307,
+            "inode": 50597435,
+            "sha256": "b2a014878c3b61d6a6f915e194055a5e68ede34f9465dd1cb13249d902f008ac"
+          },
+          {
+            "path": "/work/packs/iq3s/native_experts.txt",
+            "size": 3304,
+            "mtime_ns": 1791014650218203876,
+            "device": 66307,
+            "inode": 50597443,
+            "sha256": "d9ac2dfa3ee63c55c9c6a6db26f72da0cec0ee41733f007e5cbbbba71617aa5d"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/chat_template.jinja",
+            "size": 9993,
+            "mtime_ns": 1791014650195597076,
+            "device": 66307,
+            "inode": 50597442,
+            "sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/merges.txt",
+            "size": 3353258,
+            "mtime_ns": 1791014650055511675,
+            "device": 66307,
+            "inode": 50597439,
+            "sha256": "4ba698529766c7a2f5052083ea10cdf2485577f5237a332ee291054eb11e3332"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/token_type.json",
+            "size": 744960,
+            "mtime_ns": 1791014650063356955,
+            "device": 66307,
+            "inode": 50597440,
+            "sha256": "5088c8c298fc06af8382ddb3b76c888703ac2634e82263b97eedcc2ad202738b"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/tokenizer.json",
+            "size": 541,
+            "mtime_ns": 1791014650063520285,
+            "device": 66307,
+            "inode": 50597441,
+            "sha256": "c0bd435efbc6c3b28964b47999afe16c4ad268c7c7c4e8cb3af410796a6f30bf"
+          },
+          {
+            "path": "/work/packs/iq3s/tokenizer/vocab.json",
+            "size": 5737005,
+            "mtime_ns": 1791014649999896481,
+            "device": 66307,
+            "inode": 50597438,
+            "sha256": "4ba64f0332abcfb0b600b7df1537d1e836e68009d5fb7cdb77339738dc6365c4"
+          }
+        ],
+        "mtp": [
+          {
+            "path": "/work/mtp/rt/dense.bin",
+            "size": 116099072,
+            "mtime_ns": 1791013028837760687,
+            "device": 66307,
+            "inode": 50593795
+          },
+          {
+            "path": "/work/mtp/rt/dense.txt",
+            "size": 1851,
+            "mtime_ns": 1791013028839004228,
+            "device": 66307,
+            "inode": 50593796,
+            "sha256": "991456cf4eb266eb8a888c349e548d11bc640f5dbd9149439aa9786af0f732fd"
+          },
+          {
+            "path": "/work/mtp/rt/draft_vocab.bin",
+            "size": 425196,
+            "mtime_ns": 1791013028852758839,
+            "device": 66307,
+            "inode": 50593797,
+            "sha256": "b1e1d3a7a9e4bf862dcd5923ce661fb59bbd07907e594df5cf86a62ac235cb91"
+          },
+          {
+            "path": "/work/mtp/rt/experts.bin",
+            "size": 707788800,
+            "mtime_ns": 1791013028401763621,
+            "device": 66307,
+            "inode": 50593794
+          }
+        ],
+        "expert_profile": [
+          {
+            "path": "/opt/strata/data/expert-profile.bin",
+            "size": 196632,
+            "mtime_ns": 1791011565000000000,
+            "device": 58,
+            "inode": 4329506,
+            "sha256": "8f59b4aa8873209dff11c11e37bcda9529a1335b724a1afeea37bf6388975baf"
+          }
+        ],
+        "vision_artifacts": {
+          "native_sha256": "a8e4acaa346ec86adfc8eee20e1345b54246f3c3673e16aba33da83d487c7191",
+          "projector": {
+            "path": "/work/models/gsq-iq3_s/mmproj-Qwen3.8-Flash-Next-BF16.gguf",
+            "size": 907543008,
+            "mtime_ns": 1791013513768906344,
+            "device": 66307,
+            "inode": 43914610
+          }
+        },
+        "shared_defaults_sha256": "337131b0c698d45b52a847330b504cfbc025cac9cf28fdc9b3ab6702073af2ed"
+      },
+      "api_properties": {
+        "default_generation_settings": {
+          "n_ctx": 262144,
+          "params": {
+            "temperature": 1.0,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0.0,
+            "presence_penalty": 0.0,
+            "repeat_penalty": 1.0,
+            "n_predict": 8192
+          }
+        },
+        "total_slots": 1,
+        "model_alias": "Qwen3.8-Flash-Next",
+        "model_path": "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+        "build_info": "Strata 0.1.38",
+        "modalities": {
+          "vision": true
+        }
+      },
+      "chat_template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce"
+    },
+    "container_id": "0bd57b84e1bdb8b7c568591d5633280cb9a3c8dcc6cf6a3fdbdf4d64d88384c2",
+    "artifact_identity_policy": "Small files content-hashed; large files identified by observed inode/device/size/mtime. This is a run identity, not fresh verification of published weight hashes."
+  },
+  "cells": [
+    {
+      "context_k": 32,
+      "question": "List the main components this document describes and explain each one.",
+      "prompt_tokens": 31803,
+      "reused_tokens": 0,
+      "read_tokens": 31803,
+      "prompt_ms": 6643.4,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 105.7,
+      "draft_n": 400,
+      "draft_n_accepted": 302,
+      "median_power_w": 249.83,
+      "input_sha256": "ec336be68dd06efc05ffff21a3852688aafb406c23717cedef27ae9ba1a8f6d0"
+    },
+    {
+      "context_k": 64,
+      "question": "List the main components this document describes and explain each one.",
+      "prompt_tokens": 64571,
+      "reused_tokens": 16384,
+      "read_tokens": 48187,
+      "prompt_ms": 10268.2,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 115.6,
+      "draft_n": 410,
+      "draft_n_accepted": 294,
+      "median_power_w": 269.43499999999995,
+      "input_sha256": "fd55c034a290e327abfdbe05f968e2c1819097f5f36e3ce4f20b25bf2d75a05c"
+    },
+    {
+      "context_k": 128,
+      "question": "List the main components this document describes and explain each one.",
+      "prompt_tokens": 130107,
+      "reused_tokens": 49152,
+      "read_tokens": 80955,
+      "prompt_ms": 18158.9,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 106.2,
+      "draft_n": 392,
+      "draft_n_accepted": 283,
+      "median_power_w": 273.58500000000004,
+      "input_sha256": "0c284e6152ea6e5b62fd459d1b5072ca150f5e250a49790d091753526bed8d3f"
+    },
+    {
+      "context_k": 128,
+      "question": "Describe the structure of this document section by section.",
+      "prompt_tokens": 130105,
+      "reused_tokens": 114688,
+      "read_tokens": 15417,
+      "prompt_ms": 3911.9,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 103.4,
+      "draft_n": 379,
+      "draft_n_accepted": 299,
+      "median_power_w": 240.78,
+      "input_sha256": "79d25ea63a6de5982732ddf4d1131ef578a7a0cd76128fdf3450177517318290"
+    },
+    {
+      "context_k": 64,
+      "question": "Describe the structure of this document section by section.",
+      "prompt_tokens": 64569,
+      "reused_tokens": 16384,
+      "read_tokens": 48185,
+      "prompt_ms": 10300.7,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 104.4,
+      "draft_n": 395,
+      "draft_n_accepted": 286,
+      "median_power_w": 268.39,
+      "input_sha256": "07ff36f86d428bfd5a83734afce25eb77ba35234a96754957378fc3c97acc452"
+    },
+    {
+      "context_k": 32,
+      "question": "Describe the structure of this document section by section.",
+      "prompt_tokens": 31801,
+      "reused_tokens": 16384,
+      "read_tokens": 15417,
+      "prompt_ms": 3491.1,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 110.5,
+      "draft_n": 403,
+      "draft_n_accepted": 308,
+      "median_power_w": 246.01,
+      "input_sha256": "1480092d7bc2812933c2b630c785b89ce6f871239824d8ca2e8d59455603e89f"
+    },
+    {
+      "context_k": 32,
+      "question": "Explain what an operator should check first when following this document, and why.",
+      "prompt_tokens": 31806,
+      "reused_tokens": 16384,
+      "read_tokens": 15422,
+      "prompt_ms": 3514.8,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 111.3,
+      "draft_n": 383,
+      "draft_n_accepted": 293,
+      "median_power_w": 249.14,
+      "input_sha256": "eaed436f63574258959fd49ca72e899e63ac97db22bad40892a445f43db066be"
+    },
+    {
+      "context_k": 64,
+      "question": "Explain what an operator should check first when following this document, and why.",
+      "prompt_tokens": 64574,
+      "reused_tokens": 16384,
+      "read_tokens": 48190,
+      "prompt_ms": 10361.9,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 102.3,
+      "draft_n": 381,
+      "draft_n_accepted": 275,
+      "median_power_w": 270.48,
+      "input_sha256": "31052642472e58a23a6298ec0d8fcd1ed1183d1b7a2ae8525236ca860893ba7e"
+    },
+    {
+      "context_k": 128,
+      "question": "Explain what an operator should check first when following this document, and why.",
+      "prompt_tokens": 130110,
+      "reused_tokens": 49152,
+      "read_tokens": 80958,
+      "prompt_ms": 18154.7,
+      "completion_tokens": 512,
+      "finish_reason": "length",
+      "decode_tok_s": 99.6,
+      "draft_n": 384,
+      "draft_n_accepted": 280,
+      "median_power_w": 274.68,
+      "input_sha256": "bc168ad04eb195cf6354bd95880377a784897ec70811a72140cbac88792ed254"
+    }
+  ]
+}

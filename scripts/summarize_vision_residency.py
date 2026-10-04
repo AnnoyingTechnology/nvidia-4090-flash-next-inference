@@ -117,9 +117,11 @@ def main():
     check_runtimes(text, vision)
     sides = {side: side_summary([r for r in runs if r['side'] == side]) for side in ['text', 'vision']}
     t, v = sides['text'], sides['vision']
-    result = {'scope': 'Original IQ3 text-only versus GPU BF16 vision profile on the same engine, '
-            'weights and settings; the vision worker reduces the expert cache allocated at launch. '
+    encoder = 'GPU' if vision[0]['runtime']['identity']['artifacts']['engine_config']['vision']['gpu'] else 'CPU'
+    result = {'scope': f'Original IQ3 text-only versus {encoder} BF16 vision profile on the same engine, '
+            'weights and settings; a GPU vision worker reduces the expert cache allocated at launch. '
             'Fresh launch per cell; benchmark runs before any other request.',
+        'vision_encoder': encoder,
         'protocol': {key: perfs[0][key] for key in ['sampling', 'tune', 'decode_tokens', 'paired_id']},
         'order': [r['side'] for r in runs], 'runs': list(runs), 'sides': sides,
         'decode_gap_percent': 100 * (t['median_of_launch_medians_tok_s'] - v['median_of_launch_medians_tok_s'])

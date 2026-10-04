@@ -1,0 +1,584 @@
+{
+  "cases_sha256": "8def474d906672e145926973f4422bda9909e1a4d70c394d4c5edb2799437298",
+  "scorer_sha256": "e4f8242e8fcf69475b1b9597d9f2c49c5f9745d64686436eadd49060f03f0b35",
+  "method": "Post-run derivation, uniformly applied to every original response. Exact object keys; typed booleans; exact numeric strings accepted; trailing % accepted only for use_percent/busy_percent. Original typed verdicts and responses remain unchanged.",
+  "reason": "Frozen prompts request displayed numbers but do not mandate numeric JSON types.",
+  "runs": [
+    {
+      "source": "vision15-iq3s-gpuvision-low-20261004.json",
+      "source_sha256": "3be05fb026ee6bde3a99c79337422dd70f6f8ce4c222524f65a0f7e8924ff04c",
+      "model": "Qwen3.8-Flash-Next-IQ3_S-gpuvision4096",
+      "effort": "low",
+      "summary": {
+        "image_content_correct": 15,
+        "total": 15,
+        "field_correct": 34,
+        "field_total": 34,
+        "typed_contract_correct": 14,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0,
+        "first_token_median_s": 1.5680773240001145,
+        "first_token_max_s": 1.8140094729997145
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.8140094729997145,
+          "total_s": 3.288175413999852
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": 91
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.727604510000674,
+          "total_s": 2.5304878930000996
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.7179895179997402,
+          "total_s": 3.7362290479995863
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.5716177920003247,
+          "total_s": 3.242116360000182
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.166672952999761,
+          "total_s": 1.974697329999799
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.5465073670002312,
+          "total_s": 2.6347961720002786
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.5813375730003827,
+          "total_s": 3.007521921999796
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.5967432000006738,
+          "total_s": 2.694577311000103
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": 5432
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.521466324999892,
+          "total_s": 2.71241167900007
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false,
+          "ttft_s": 1.5680773240001145,
+          "total_s": 2.731501451999975
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.5756363359996612,
+          "total_s": 2.5352915940002276
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.5582885809999425,
+          "total_s": 2.7567586129998745
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.1198797079996439,
+          "total_s": 2.655338335000124
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": true
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 1
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 1.0982399449994773,
+          "total_s": 2.0015968249999787
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 0.9139653000001999,
+          "total_s": 1.6672900920002576
+        }
+      ]
+    },
+    {
+      "source": "vision15-iq3s-cpuvision-low-20261004.json",
+      "source_sha256": "7d87c3dd26866010d114ab0dcec6097d520f162487313c475c7dd79aa44829aa",
+      "model": "Qwen3.8-Flash-Next-IQ3_S-cpuvision4096",
+      "effort": "low",
+      "summary": {
+        "image_content_correct": 15,
+        "total": 15,
+        "field_correct": 34,
+        "field_total": 34,
+        "typed_contract_correct": 14,
+        "plain_json": 15,
+        "access_or_transport_errors": 0,
+        "capped": 0,
+        "first_token_median_s": 35.54019681699947,
+        "first_token_max_s": 49.371680340999774
+      },
+      "results": [
+        {
+          "id": "nginx-error",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "file": true,
+            "line": true,
+            "directive": true
+          },
+          "answer": {
+            "file": "/etc/nginx/conf.d/api.conf",
+            "line": 17,
+            "directive": "prox_pass"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 49.09305525699983,
+          "total_s": 50.492100897
+        },
+        {
+          "id": "disk-usage",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "mount": true,
+            "use_percent": true
+          },
+          "answer": {
+            "mount": "/srv/data",
+            "use_percent": 91
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 49.18561679000004,
+          "total_s": 49.9677516820002
+        },
+        {
+          "id": "service-ports",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "non_loopback": true
+          },
+          "answer": {
+            "non_loopback": false
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 49.371680340999774,
+          "total_s": 51.196010532999935
+        },
+        {
+          "id": "request-path",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "path": true
+          },
+          "answer": {
+            "path": [
+              "Browser",
+              "Edge",
+              "API",
+              "Database"
+            ]
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 35.8026227549999,
+          "total_s": 36.85823602099981
+        },
+        {
+          "id": "printed-code",
+          "category": "screenshot/OCR",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "code": true,
+            "left": true,
+            "right": true
+          },
+          "answer": {
+            "code": "ULMUS-731",
+            "left": "red",
+            "right": "blue"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 8.917945661999966,
+          "total_s": 9.686463308000384
+        },
+        {
+          "id": "git-diff",
+          "category": "code screenshot",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "answer": {
+            "allow_guest": true,
+            "enables_guest_access": true
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 35.60965457700013,
+          "total_s": 36.73437699799979
+        },
+        {
+          "id": "latency-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "service": true,
+            "time": true
+          },
+          "answer": {
+            "service": "api-east",
+            "time": "09:10"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 35.61939506899989,
+          "total_s": 36.88635006599998
+        },
+        {
+          "id": "capacity-chart",
+          "category": "chart",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "device": true,
+            "busy_percent": true
+          },
+          "answer": {
+            "device": "GPU",
+            "busy_percent": 97
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 35.66365052099991,
+          "total_s": 36.610543944000256
+        },
+        {
+          "id": "network-boundary",
+          "category": "diagram",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "direct_allowed": true,
+            "api_db_port": true
+          },
+          "answer": {
+            "direct_allowed": false,
+            "api_db_port": 5432
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 35.54019681699947,
+          "total_s": 36.6421768059995
+        },
+        {
+          "id": "invoice",
+          "category": "document",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "invoice": true,
+            "currency": true,
+            "total_due": true
+          },
+          "answer": {
+            "invoice": "LAB-2026-017",
+            "currency": "EUR",
+            "total_due": "480.00"
+          },
+          "original_typed_contract_correct": false,
+          "ttft_s": 33.75422483500006,
+          "total_s": 34.76890324899978
+        },
+        {
+          "id": "untrusted-poster",
+          "category": "document/instruction boundary",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "ticket": true,
+            "service": true
+          },
+          "answer": {
+            "ticket": "OPS-4827",
+            "service": "queue-worker"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 35.51972018200013,
+          "total_s": 36.13820579900039
+        },
+        {
+          "id": "shape-count",
+          "category": "spatial/counting",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "red_triangles": true,
+            "red_circles": true
+          },
+          "answer": {
+            "red_triangles": 4,
+            "red_circles": 1
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 31.407663949999915,
+          "total_s": 33.00005205799971
+        },
+        {
+          "id": "photo-astronaut",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "worn_helmet": true,
+            "held_helmet": true,
+            "suit_color": true
+          },
+          "answer": {
+            "worn_helmet": false,
+            "held_helmet": true,
+            "suit_color": "orange"
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 5.0249261750004734,
+          "total_s": 6.36465284499991
+        },
+        {
+          "id": "photo-coffee",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "cups": true,
+            "saucers": true,
+            "spoons": true
+          },
+          "answer": {
+            "cups": 1,
+            "saucers": 1,
+            "spoons": 1
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 4.81048384099995,
+          "total_s": 5.613842671999919
+        },
+        {
+          "id": "photo-chelsea",
+          "category": "photograph",
+          "content_correct": true,
+          "plain_json": true,
+          "field_correct": {
+            "animal": true,
+            "visible_eyes": true,
+            "people": true
+          },
+          "answer": {
+            "animal": "cat",
+            "visible_eyes": 2,
+            "people": 0
+          },
+          "original_typed_contract_correct": true,
+          "ttft_s": 2.1929453140000987,
+          "total_s": 2.824829590000263
+        }
+      ]
+    }
+  ]
+}

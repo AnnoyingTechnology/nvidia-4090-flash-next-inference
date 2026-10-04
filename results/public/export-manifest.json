@@ -254,6 +254,18 @@
     "short-read-comparison.json": {
       "private_original_sha256": "9077d7335bef1982a797495eacbbf7017843fe4fcd9953979d11aadadd855228",
       "public_export_sha256": "9077d7335bef1982a797495eacbbf7017843fe4fcd9953979d11aadadd855228"
+    },
+    "cpuvision-residency-comparison.json": {
+      "private_original_sha256": "d9991bff0f0abd4a1e986033c605328d0c2094f663adb9b37eba3e90495da74d",
+      "public_export_sha256": "d9991bff0f0abd4a1e986033c605328d0c2094f663adb9b37eba3e90495da74d"
+    },
+    "vision15-cpu-gpu-20261004.json": {
+      "private_original_sha256": "f71e68b91c1108136b9d5b39ebf3d88f4b8101cf68d952db7c059a5c54595480",
+      "public_export_sha256": "f71e68b91c1108136b9d5b39ebf3d88f4b8101cf68d952db7c059a5c54595480"
+    },
+    "context-decode-20261004.json": {
+      "private_original_sha256": "bd12955a2ab831078038baa619866c607f98a5c4cdaf53a340baabb622ea03a4",
+      "public_export_sha256": "e0766af23d90719d677070e5511936da96e3c18a324e8362ede1514e8771276e"
     }
   }
 }

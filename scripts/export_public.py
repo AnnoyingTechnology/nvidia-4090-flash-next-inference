@@ -38,6 +38,8 @@ FILES = [
     'precision-iq3-head-comparison.json',
     'sampled-iq3s-workers6spec4.json', 'sampled-iq3s-workers11spec4.json',
     'vision-residency-comparison.json', 'short-read-comparison.json',
+    'cpuvision-residency-comparison.json', 'vision15-cpu-gpu-20261004.json',
+    'context-decode-20261004.json',
 ]
 
 

@@ -1,0 +1,250 @@
+{
+  "scope": "Original IQ3 text-only versus CPU BF16 vision profile on the same engine, weights and settings; a GPU vision worker reduces the expert cache allocated at launch. Fresh launch per cell; benchmark runs before any other request.",
+  "vision_encoder": "CPU",
+  "protocol": {
+    "sampling": {
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0,
+      "presence_penalty": 0,
+      "repetition_penalty": 1,
+      "reasoning_effort": "low",
+      "seed": 42
+    },
+    "tune": {},
+    "decode_tokens": 512,
+    "paired_id": "vision-residency-v1"
+  },
+  "order": [
+    "text",
+    "vision",
+    "vision",
+    "text"
+  ],
+  "runs": [
+    {
+      "source": "cpuvision-residency-1-flash-iq3s-256k-tune-ownertext-perf.json",
+      "profile": "flash-iq3s-256k-tune-ownertext",
+      "side": "text",
+      "started_at": "2026-10-04T07:27:08.051179+00:00",
+      "sha256": {
+        "cpuvision-residency-1-flash-iq3s-256k-tune-ownertext-perf.json": "88afc257398aa3a4c58b5489b8e9479d93e55d6e7d4df1d3c4c281f4394ddc8e",
+        "cpuvision-residency-1-flash-iq3s-256k-tune-ownertext-api.json": "2db1f1b608f55d37ac86ea1b1a62792729be32e4b312bdc81b05a64c5907a761",
+        "cpuvision-residency-1-flash-iq3s-256k-tune-ownertext-engine.log": "39d920be7e6231b1b167f039db731484f7aa408fa15590b6388e4f9030b1e0a8"
+      },
+      "runtime_fingerprint": "3b4d85f018ca6e8dfc8b0782e0393f8d741508456a5bf6c00216830da3b733ef",
+      "expert_cache": {
+        "slots": 8606,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.8,
+        106.3,
+        123.1,
+        118.0,
+        110.0,
+        118.4
+      ],
+      "decode_median_tok_s": 118.2,
+      "decode_hit_rate": [
+        0.9125492765904888,
+        0.900602966012244,
+        0.9109838796895781,
+        0.889855794021942,
+        0.9049930316954368,
+        0.910160690802955
+      ],
+      "decode_hit_rate_aggregate": 0.9048213175876609,
+      "aggregate_draft_acceptance": 0.7417820069204152,
+      "short_prompt_ttft_median_s": 0.537118085999964,
+      "prefill_tok_s": [
+        4824.0,
+        4819.3
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23970.0,
+      "decode_median_board_power_w": 235.2775
+    },
+    {
+      "source": "cpuvision-residency-2-flash-iq3s-256k-vision-tune-ownercpuvision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownercpuvision",
+      "side": "vision",
+      "started_at": "2026-10-04T07:28:18.936891+00:00",
+      "sha256": {
+        "cpuvision-residency-2-flash-iq3s-256k-vision-tune-ownercpuvision-perf.json": "86279e70dc940af964e4569e22b5c9e47f987b3e2c0efeef9db92aa1eacda95e",
+        "cpuvision-residency-2-flash-iq3s-256k-vision-tune-ownercpuvision-api.json": "4afbb531f59c6253056318139f9a0ed5881f662711401738f749f5551f0ee495",
+        "cpuvision-residency-2-flash-iq3s-256k-vision-tune-ownercpuvision-engine.log": "baee0745bcf588a8a93d1f9c2560fa847b359469e1611a4dd1fcceaf48fc2081"
+      },
+      "runtime_fingerprint": "e68fe7141a3051abd81ceb0b014a909a4ecedb972d2c832e82f6c05f1133c388",
+      "expert_cache": {
+        "slots": 8604,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        123.4,
+        115.2,
+        105.6,
+        109.6,
+        104.2,
+        119.5
+      ],
+      "decode_median_tok_s": 112.4,
+      "decode_hit_rate": [
+        0.8981168689870189,
+        0.9065882303682459,
+        0.8909730787573799,
+        0.8562495172023116,
+        0.8997137592722279,
+        0.918055929477223
+      ],
+      "decode_hit_rate_aggregate": 0.8952910781889858,
+      "aggregate_draft_acceptance": 0.7347807577692635,
+      "short_prompt_ttft_median_s": 0.5342025379998177,
+      "prefill_tok_s": [
+        4799.5,
+        4781.1
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 236.845
+    },
+    {
+      "source": "cpuvision-residency-3-flash-iq3s-256k-vision-tune-ownercpuvision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownercpuvision",
+      "side": "vision",
+      "started_at": "2026-10-04T07:29:30.523714+00:00",
+      "sha256": {
+        "cpuvision-residency-3-flash-iq3s-256k-vision-tune-ownercpuvision-perf.json": "0cfc349d8d9a548fa89e67a9dc1588bd18282bf0e07a62440d02af220e9215ac",
+        "cpuvision-residency-3-flash-iq3s-256k-vision-tune-ownercpuvision-api.json": "e18f9fefbc98256e8cbaf0ea77563a50878b7306dd6563c1b926fb31fe102791",
+        "cpuvision-residency-3-flash-iq3s-256k-vision-tune-ownercpuvision-engine.log": "cc6ef7041f34f85a03278113fc3378b79a48b0bb354720ae0d9a0f7a70154ae4"
+      },
+      "runtime_fingerprint": "e68fe7141a3051abd81ceb0b014a909a4ecedb972d2c832e82f6c05f1133c388",
+      "expert_cache": {
+        "slots": 8604,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        123.3,
+        105.1,
+        114.3,
+        114.6,
+        105.8,
+        119.8
+      ],
+      "decode_median_tok_s": 114.44999999999999,
+      "decode_hit_rate": [
+        0.8981168689870189,
+        0.9058486944791113,
+        0.8946537325538413,
+        0.8540081172233761,
+        0.8878381767772286,
+        0.9232955233799813
+      ],
+      "decode_hit_rate_aggregate": 0.8946564288079654,
+      "aggregate_draft_acceptance": 0.747431506849315,
+      "short_prompt_ttft_median_s": 0.5438667880002868,
+      "prefill_tok_s": [
+        4793.0,
+        4782.1
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 231.525
+    },
+    {
+      "source": "cpuvision-residency-4-flash-iq3s-256k-tune-ownertext-perf.json",
+      "profile": "flash-iq3s-256k-tune-ownertext",
+      "side": "text",
+      "started_at": "2026-10-04T07:30:42.364352+00:00",
+      "sha256": {
+        "cpuvision-residency-4-flash-iq3s-256k-tune-ownertext-perf.json": "d1a20bd9ca5a14914dd18762a20ae221053ed48ad0dc331f0181f533acbeb126",
+        "cpuvision-residency-4-flash-iq3s-256k-tune-ownertext-api.json": "886957e9ba206162c29363a271c391b25018f0faf020cd074971ebbf6b226b86",
+        "cpuvision-residency-4-flash-iq3s-256k-tune-ownertext-engine.log": "6c032ab3e7ea6ddfafcaee06d2615f1b89a776f381d89620010887481c9da9fc"
+      },
+      "runtime_fingerprint": "3b4d85f018ca6e8dfc8b0782e0393f8d741508456a5bf6c00216830da3b733ef",
+      "expert_cache": {
+        "slots": 8606,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.9,
+        109.4,
+        116.2,
+        121.4,
+        105.2,
+        116.5
+      ],
+      "decode_median_tok_s": 116.35,
+      "decode_hit_rate": [
+        0.9125492765904888,
+        0.9084331885890178,
+        0.9253965855869467,
+        0.8993672708375761,
+        0.9134420271242166,
+        0.8985455745361322
+      ],
+      "decode_hit_rate_aggregate": 0.9098618328812977,
+      "aggregate_draft_acceptance": 0.7162510748065348,
+      "short_prompt_ttft_median_s": 0.5332911205000528,
+      "prefill_tok_s": [
+        4797.5,
+        4792.8
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23994.0,
+      "decode_median_board_power_w": 247.805
+    }
+  ],
+  "sides": {
+    "text": {
+      "launches": 2,
+      "expert_cache_slots": [
+        8606
+      ],
+      "per_launch_decode_median_tok_s": [
+        118.2,
+        116.35
+      ],
+      "median_of_launch_medians_tok_s": 117.275,
+      "pooled_decode_median_tok_s": 117.25,
+      "decode_hit_rate_median_of_launches": 0.9073415752344793,
+      "short_prompt_ttft_median_s": 0.5352046032500084,
+      "prefill_median_tok_s": 4808.4
+    },
+    "vision": {
+      "launches": 2,
+      "expert_cache_slots": [
+        8604
+      ],
+      "per_launch_decode_median_tok_s": [
+        112.4,
+        114.44999999999999
+      ],
+      "median_of_launch_medians_tok_s": 113.425,
+      "pooled_decode_median_tok_s": 114.44999999999999,
+      "decode_hit_rate_median_of_launches": 0.8949737534984756,
+      "short_prompt_ttft_median_s": 0.5390346630000522,
+      "prefill_median_tok_s": 4787.55
+    }
+  },
+  "decode_gap_percent": 3.2828821146877067,
+  "per_launch_ranges_overlap": false,
+  "interpretation": "Fixed-length 512-token low-reasoning decode counts reasoning and answer tokens. No image request is sent in these cells; image latency is outside this comparison."
+}

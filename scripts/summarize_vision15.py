@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import statistics
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ['vision15-iq3s-none.json', 'vision15-iq3s-low.json',
@@ -75,7 +76,9 @@ def summarize(deck, reports):
                 raise ValueError('Case provenance mismatch: ' + case['id'])
             verdict = score(row['response'].get('content', ''), case['expected'])
             derived.append({'id': case['id'], 'category': case['category'], **verdict,
-                            'original_typed_contract_correct': row['verdict']['strict_correct']})
+                            'original_typed_contract_correct': row['verdict']['strict_correct'],
+                            'ttft_s': row['response'].get('ttft_s'), 'total_s': row['response'].get('total_s')})
+        first = [r['ttft_s'] for r in derived if r['ttft_s'] is not None]
         summaries.append({'source': report_path.name,
             'source_sha256': hashlib.sha256(report_path.read_bytes()).hexdigest(),
             'model': report['protocol']['model'], 'effort': report['protocol']['effort'],
@@ -86,7 +89,9 @@ def summarize(deck, reports):
                 'typed_contract_correct': report['summary']['strict_correct'],
                 'plain_json': sum(r['plain_json'] for r in derived),
                 'access_or_transport_errors': report['summary']['access_or_transport_errors'],
-                'capped': report['summary']['capped']}, 'results': derived})
+                'capped': report['summary']['capped'],
+                'first_token_median_s': statistics.median(first) if first else None,
+                'first_token_max_s': max(first, default=None)}, 'results': derived})
     return {'cases_sha256': digest, 'scorer_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'method': 'Post-run derivation, uniformly applied to every original response. Exact object keys; '
                   'typed booleans; exact numeric strings accepted; trailing % accepted only for '
@@ -100,8 +105,9 @@ def main():
     ap.add_argument('--cases', type=Path, default=ROOT/'fixtures/vision15/cases.jsonl')
     ap.add_argument('--results', type=Path, default=ROOT/'results')
     ap.add_argument('--out', type=Path, default=ROOT/'results/vision15-comparison.json')
+    ap.add_argument('--reports', nargs='+', default=REPORTS, help='Report names under --results')
     args = ap.parse_args()
-    report = summarize(args.cases, [args.results/name for name in REPORTS])
+    report = summarize(args.cases, [args.results/name for name in args.reports])
     args.out.write_text(json.dumps(report, indent=2)+'\n')
     for run in report['runs']:
         print(run['model'], run['effort'], run['summary'])

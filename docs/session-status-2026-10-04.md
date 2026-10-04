@@ -62,12 +62,13 @@ OpenCode; one of ninety low generations here.
   requests as medians. Corrected to the recorded medians: 104.15 tok/s with 6
   workers and 107.1 with 11 at the PCIe .2 / min-p .5 placement.
 
-## Serving state at this checkpoint
+## Serving state
 
-The original IQ3 `ownervision` container launched for this baseline is still
-running on Ulmus loopback port 19623. It is the same profile the OpenCode
-launcher uses, and the launcher reuses it. Stop it with `bash stop.sh` when
-the GPU is needed or the session ends.
+Every experiment chain stops its own launches. The last chain relaunched the
+selected original IQ3 `ownervision` profile, which stays loaded on Ulmus loopback
+port 19623 as the single resident model; the OpenCode launcher reuses it. The
+context-decode probe ran on it afterwards. Stop it with `bash stop.sh` only when
+the GPU is needed or Ulmus is shut down.
 
 ## Completed: matched text/vision decode A/B
 
@@ -186,6 +187,59 @@ expert cache and caps chunks at 2048, likely costing more decode and large-read
 prefill than it saves. Lowering the floor needs upstream engine design.
 [Evidence](../results/public/short-read-comparison.json)
 
+## Completed: CPU vision at 4096 image tokens (the permitted prototype) — rejected
+
+- Decode, matched T C C T: CPU vision keeps 8604 slots (text 8606) but runs
+  **113.4 vs 117.3 tok/s (−3.3%)**, hit rate 89.5 vs 90.7%; ranges do not overlap.
+  The vision-enabled engine path costs something beyond VRAM; not identified.
+  Against this morning's GPU vision median (104.25, another chain) it is about 9% faster.
+- **Image latency**, 15-image deck at low, run back to back the same morning:
+  CPU vision first token **35.5 s median, 49.4 s max**; GPU vision **1.57 s
+  median, 1.81 s max**. Added latency per image: median +34 s, 11 of 15 above
+  30 s. Content is 15/15 on both, so the cost is latency, not accuracy.
+  [Decode](../results/public/cpuvision-residency-comparison.json),
+  [deck](../results/public/vision15-cpu-gpu-20261004.json)
+- Fails the pre-registered thresholds (decode within 3%: 3.3%; no image above
+  30 s) and the owner's no-minute-scale-surprise constraint. **GPU vision stays;
+  its ~9% decode cost is accepted.** Recovering it needs an upstream engine
+  feature (resizing the expert cache when the vision worker is idle), not a local
+  patch or a profile switch.
+
+Setup record:
+
+Profile `…-tune-ownercpuvision` differs from `ownervision` only by
+`vision.gpu: false` (12 encoder threads, same 4096-token budget). One detached
+chain: matched decode cells T C C T (`cpuvision-residency-*`, same paired
+requests), then the 15-image deck at low on CPU vision, then the same deck on
+GPU vision. The chain ends with `ownervision` loaded for serving.
+
+Recommendation thresholds, fixed before launch; the choice remains the owner's:
+recommend CPU vision only if its decode is within 3% of text-only, its median
+per-image first token rises by at most 5 s over GPU vision with no image above
+30 s, and its deck content score is at most one image below GPU vision's.
+
+## Completed: fixed-length decode at 32K, 64K and 128K
+
+`scripts/context_decode_probe.py` on the loaded `ownervision` profile: document
+fixtures of each size plus one of three questions, 512-token low generations,
+order 32/64/128/128/64/32/32/64/128. Rule, fixed before running: if the 64K
+median decode is within 10% of 32K, close long-context paging work. If not, the
+next candidate is the supported `--kv-resident` window, a VRAM trade against
+expert-cache slots that needs its own matched A/B.
+
+| Context (prompt tokens) | Decode tok/s, three questions | Median | Draft acceptance | Board power |
+|---|---|---:|---:|---:|
+| 32K (31803) | 105.7 / 110.5 / 111.3 | 110.5 | 76.1% | 246–250 W |
+| 64K (64571) | 115.6 / 104.4 / 102.3 | 104.4 (−5.5%) | 72.1% | 268–270 W |
+| 128K (130107) | 106.2 / 103.4 / 99.6 | 103.4 (−6.4%) | 74.6% | 241–275 W |
+
+All nine cells stop at exactly 512 tokens. **Long-context paging work is closed**:
+64K is within 10% of 32K. The 17% band slowdown in the real session was mostly
+content and answer-length confounding. Per-question spread (about ±6%) exceeds
+the context effect, so the medians are indicative. Observation, not a cause:
+board power approaches the 280 W limit at 64K and above.
+[Evidence](../results/public/context-decode-20261004.json)
+
 ## Planned: second R&D machine
 
 Owner request: later test this stack on an i7-6900K / X99 machine with three
@@ -194,16 +248,13 @@ in the Ulmus skill's `model-experiments.md`; nothing is probed yet.
 
 ## Next options
 
-The matched A/B and the real-session decomposition are done. In recommended order:
+The matched A/B, real-session decomposition, short-read probe, CPU-vision
+prototype and context-decode probe are done. Remaining, in recommended order:
 
-1. The permitted vision prototype, compatible with one resident profile: CPU
-   vision at the selected 4096-token budget. Measure expert-cache slots, matched
-   decode against GPU vision, per-image first-token latency and the 15-image deck.
-   It is an owner trade-off of image latency against about 9% decode; it is not
-   adopted without that decision.
-2. Fixed-length decode at 32K, 64K and 128K context: real sessions run at a
-   51K median, and the confounded band rates fall 17% from 16–32K to 64–128K.
-3. Time-boxed critical-path trace (about 300 speculative windows), no sweeps.
+1. Time-boxed critical-path trace (about 300 speculative windows), no sweeps.
+2. Optionally, an upstream feature request with the measured evidence: a
+   smaller per-request batched-read floor and an expert cache that can use the
+   vision worker's VRAM while no image is pending. Outward-facing: owner approval first.
 
 The second R&D machine, ExLlamaV3/TabbyAPI, c2, 397B and DeepSeek 4.1 Flash
 remain later experiments.
