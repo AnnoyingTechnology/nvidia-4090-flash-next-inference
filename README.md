@@ -20,7 +20,9 @@ and [Intel Arc Pro B70](https://github.com/AnnoyingTechnology/intel-arc-b70-llm-
 projects. Their rates concern different models and cannot be treated as a
 same-target comparison.
 
-**Checkpoint, 2026-10-04 — exploration completed.** Selected profile is now
+**Frozen checkpoint, 2026-10-04.** The owner has frozen this Ulmus deployment
+as-is. Do not resume tuning or alter its serving configuration without a new
+explicit request. Work on other hardware belongs in a separate checkout. Selected profile is
 `flash-iq3s-256k-vision-tune-owneradapt24`: the qualified lend-VRAM v4 image,
 with expert-cache updates capped at 24 experts instead of 96. The model,
 precision, reasoning defaults and context capacity are unchanged.

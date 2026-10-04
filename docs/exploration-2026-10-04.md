@@ -1,6 +1,10 @@
 # Decode exploration — 2026-10-04
 
-## Current checkpoint — completed and selected
+## Current checkpoint — frozen by owner, 2026-10-04
+
+The owner explicitly froze Ulmus as-is after qualification. Keep its service and
+configuration unchanged. Follow-up hardware work must use a separate checkout
+and deployment. Resume Ulmus optimization only on a new explicit request.
 
 **Selected and serving:** `flash-iq3s-256k-vision-tune-owneradapt24`, same qualified
 v4 image `ulmus/strata:99f3dbd-lendvram`, with `--adapt-swaps 24`. Original
