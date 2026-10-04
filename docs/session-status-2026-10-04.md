@@ -69,6 +69,101 @@ running on Ulmus loopback port 19623. It is the same profile the OpenCode
 launcher uses, and the launcher reuses it. Stop it with `bash stop.sh` when
 the GPU is needed or the session ends.
 
+## Completed: matched text/vision decode A/B
+
+Checkpoint `c437cbb` (seed baseline, fingerprint fix) is pushed. Six fresh
+launches, order T V V T T V, all 9/9 API checks, identical request hashes:
+
+| | Text-only | GPU vision |
+|---|---:|---:|
+| Expert-cache slots | 8606 (16.32 GiB) | 7603–7605 (14.42 GiB) |
+| Decode hit rate, median of launches | 91.0% | 87.3% |
+| Per-launch decode medians, tok/s | 116.85 / 112.45 / 114.85 | 104.25 / 106.45 / 104.25 |
+| Median of launch medians | **114.85** | **104.25 (−9.2%)** |
+| Uncached ~32K prefill | 4799 tok/s | 4737 tok/s |
+| Short-prompt first token | 0.53 s | 0.59 s |
+
+Ranges do not overlap. Under the rule below, 9.2% permits one design memo and
+one time-boxed prototype. Existing evidence for the memo: a CPU-vision launch on
+2026-10-03 got 8604 slots, matching text-only, but used a 1024-token image budget
+with no warm-up; its one image canary failed a strict exact-reply check. CPU
+vision at the selected 4096 budget has no measured accuracy or image latency.
+The pre-registered rejection bound (image first-token latency +100 ms) was written
+for a GPU cache-refit prototype; CPU vision would almost certainly exceed it, so
+choosing it would be an owner trade-off of image latency against ~9% decode.
+[Evidence](../results/public/vision-residency-comparison.json)
+
+Protocol: original IQ3 `ownertext` versus `ownervision`, fresh launch per cell in
+counterbalanced order T V V T T V. Each cell runs the paired `bench.py`
+protocol first (three warmups, six 512-token low decode cells, two uncached
+~32K prefills, seed 42, paired ID `vision-residency-v1`), then the API checks,
+then stops. Per-cell engine-log slices give cache allocation and per-request
+decode hit rates. Runner: `scripts/run_ab_cells.sh`; summary:
+`scripts/summarize_vision_residency.py`.
+
+Decision rule, fixed before the first cell: compare the median of per-launch
+decode medians. A gap below 5%, or overlapping per-launch ranges, closes
+vision-lifetime redesign. A gap of 8% or more permits one design memo and one
+time-boxed prototype, rejected if image first-token latency rises by more than
+about 100 ms or any graph/pointer instability appears; never per-image reload.
+Between 5% and 8%: record it and defer behind workload decomposition.
+
+If interrupted: completed cells are `results/vision-residency-*-{perf,api}.json`
+and `-engine.log` on Ulmus; rerun only missing cells, each from a fresh launch.
+
+## Real-workload engine decomposition (owner's 2026-10-03 OpenCode session)
+
+The engine log of the night serving launch holds per-request metadata only:
+prompt/reused/read tokens, prefill and decode times, hit rates. No prompt or
+response text and no per-request timestamps; it excludes tool and user time and
+includes the short READY check. The private copy is
+`results/opencode-serving-2026-10-03-engine.log`; only aggregates are published.
+
+- 355 requests, 20.4 min engine time: **decode 70.3%, prefill 29.7%**.
+- Prefix reuse **97.0%** of 19.6M prompt tokens. Prompt median 51K, p90 97K,
+  max 111K tokens: real sessions routinely exceed the 32K resident KV window.
+- Generated tokens median 150, p90 466: many short agent turns.
+- **Short increments dominate prefill time.** 327 requests reading under 2000
+  fresh tokens (median 113) took 229.5 s, a 679 ms median: about 19% of engine
+  time. Cost scales with fresh tokens (0–50: 220 ms; 50–200: 632 ms; 500–2000:
+  1382 ms), barely with context (about 0.8 ms per 1K). Small reads run near
+  150–250 tok/s versus about 4.7K tok/s for large prompts.
+- Decode by context band, confounded by content and answer length: 122.0 tok/s
+  at 16–32K, 112.7 at 32–64K, 101.5 at 64–128K; KV VRAM hit rate stays 98–99%.
+
+Against the review's stop rule (decode >70%, reuse >90%, 64K within ~10% of
+32K), decode share and reuse barely pass and the band slowdown exceeds 10%, so
+prefill/paging work stays open.
+
+Source check of pinned Strata `99f3dbd`: the logged prompt time spans lending
+cache slots, reading and refilling them. Upstream's own comment prices the batched
+path at ~300 ms per run (it streams every routed non-resident expert over PCIe)
+plus ~180 ms refill, versus "~16 ms a token" for verify windows. Reads of at most
+`--short-read N` fresh text tokens (default 64, documented CLI option) take the
+windows. On this host decode windows run near 3–4 ms per token, so the break-even
+may sit well above 64; the measured median increment is 113 tokens.
+
+## In progress: `--short-read` break-even probe
+
+`scripts/short_read_probe.py` builds an agent-like chain on a ~64K-token document:
+each turn adds a fixed short assistant reply and a tool message of 1–48 lines,
+seeded order, three repeats. Profiles `…-tune-ownersr0` (always batched) and
+`…-tune-ownersr4096` (always windows) differ from `ownervision` only by
+`--short-read`; launch order sr0, sr4096, sr4096, sr0.
+
+Decision rule, fixed before the first launch: the threshold is the largest
+fresh-token size at which the windows median prompt time is below the batched
+median in both launches of each. Adopt it in the owner profiles only if it cuts
+median prompt time by 20% or more for reads between 65 tokens and the threshold,
+keeps 9/9 API checks, and the thirty canaries at low finish naturally at 28/30 or
+better (inside the measured seed range). Otherwise keep the default 64.
+
+## Planned: second R&D machine
+
+Owner request: later test this stack on an i7-6900K / X99 machine with three
+RTX 3090 (PCIe 3.0 x16, x16, x8) and 96 GB DDR4. Porting gaps and inferences are
+in the Ulmus skill's `model-experiments.md`; nothing is probed yet.
+
 ## Next options
 
 From the 2026-10-03 plan and the annotated review, in recommended order:

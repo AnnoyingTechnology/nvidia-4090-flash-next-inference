@@ -48,9 +48,13 @@ network exposure was changed. The measured profiles are:
 | CPU, same sample | Separate text cell not sampled | **12 core equivalents**; one thread on each physical core busy, SMT siblings mostly idle |
 
 Decode counts reasoning and answer tokens. The speed cells intentionally stop
-at 512 tokens; first streamed token is not a completed answer. The vision
-profile costs about 12% decode in this comparison, but cache history differs,
-so the difference is not an exact isolation of projector residency. No
+at 512 tokens; first streamed token is not a completed answer. The table's
+two columns come from separate runs with different cache histories. A matched
+A/B on 2026-10-04 (three fresh launches per profile, T V V T T V, identical
+requests) isolates GPU vision residency: **114.85 versus 104.25 tok/s (−9.2%)**,
+with 8606 versus about 7604 expert-cache slots and a 91.0% versus 87.3% decode
+hit rate. Per-launch ranges do not overlap; 32K prefill is unchanged.
+[Matched evidence](results/public/vision-residency-comparison.json) No
 wall-plug energy claim or power sweep is inferred from board-power samples.
 The later resource sample covers an active coding decode, so its board draw
 is a different cell. CPU occupancy includes worker polling and coordination;
@@ -371,6 +375,9 @@ repair. No generated operations command was applied to infrastructure.
 4. Build and qualify ExLlamaV3/TabbyAPI with a separate EXL3 checkpoint. Its
    whole-layer CPU offload could win or lose against per-expert caching.
 5. Requalify c2 on selected profiles. Current history parking is not simultaneous serving.
+6. Port and qualify the stack on a second machine: i7-6900K on X99, three RTX 3090
+   (PCIe 3.0 x16/x16/x8) and 96 GB DDR4. It needs an SM86 / AVX2 build; multi-GPU
+   expert placement there is unqualified.
 
 A complete power sweep, practical bandwidth ceiling and exact-context/image
 boundary are not yet measured. The 397B partial-offload probe fit and produced

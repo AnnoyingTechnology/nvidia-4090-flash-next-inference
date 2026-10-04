@@ -246,6 +246,10 @@
     "sampled-iq3s-workers11spec4.json": {
       "private_original_sha256": "65482712fb1ffa6e77424ec4ba9eda47431a8f0db79a00e535e990ff42f83077",
       "public_export_sha256": "bf9918f200a23ce3856ad0b1719ec6c42b5eb9e2a99332190ff2340c6bdf3d3b"
+    },
+    "vision-residency-comparison.json": {
+      "private_original_sha256": "e21ca4a9eb495a52be069fa18d9b767c11bec11a5fe180f0f708f8f5ac68f3c9",
+      "public_export_sha256": "e21ca4a9eb495a52be069fa18d9b767c11bec11a5fe180f0f708f8f5ac68f3c9"
     }
   }
 }

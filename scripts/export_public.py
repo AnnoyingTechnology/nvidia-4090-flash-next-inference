@@ -37,6 +37,7 @@ FILES = [
     'dense-embedding-extraction.json',
     'precision-iq3-head-comparison.json',
     'sampled-iq3s-workers6spec4.json', 'sampled-iq3s-workers11spec4.json',
+    'vision-residency-comparison.json',
 ]
 
 

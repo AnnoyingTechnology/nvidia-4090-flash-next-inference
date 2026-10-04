@@ -1,0 +1,348 @@
+{
+  "scope": "Original IQ3 text-only versus GPU BF16 vision profile on the same engine, weights and settings; the vision worker reduces the expert cache allocated at launch. Fresh launch per cell; benchmark runs before any other request.",
+  "protocol": {
+    "sampling": {
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0,
+      "presence_penalty": 0,
+      "repetition_penalty": 1,
+      "reasoning_effort": "low",
+      "seed": 42
+    },
+    "tune": {},
+    "decode_tokens": 512,
+    "paired_id": "vision-residency-v1"
+  },
+  "order": [
+    "text",
+    "vision",
+    "vision",
+    "text",
+    "text",
+    "vision"
+  ],
+  "runs": [
+    {
+      "source": "vision-residency-1-flash-iq3s-256k-tune-ownertext-perf.json",
+      "profile": "flash-iq3s-256k-tune-ownertext",
+      "side": "text",
+      "started_at": "2026-10-04T07:07:54.970084+00:00",
+      "sha256": {
+        "vision-residency-1-flash-iq3s-256k-tune-ownertext-perf.json": "743af57d207d4d174dec597759e5c42a05d98e314e5d50044dc5ca6584921f4c",
+        "vision-residency-1-flash-iq3s-256k-tune-ownertext-api.json": "588ce0f20db7ff9b922fda84f4703a47a1c2a8e994323bbc0463a25adb2b5db6",
+        "vision-residency-1-flash-iq3s-256k-tune-ownertext-engine.log": "0f4c1290741e06d567f908961580f4a5febeec452fff02d40fa635770e9fbe06"
+      },
+      "runtime_fingerprint": "3b4d85f018ca6e8dfc8b0782e0393f8d741508456a5bf6c00216830da3b733ef",
+      "expert_cache": {
+        "slots": 8606,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        120.1,
+        109.5,
+        116.2,
+        121.4,
+        105.1,
+        117.5
+      ],
+      "decode_median_tok_s": 116.85,
+      "decode_hit_rate": [
+        0.9125492765904888,
+        0.9084331885890178,
+        0.9253965855869467,
+        0.8993672708375761,
+        0.9134420271242166,
+        0.9125274350614758
+      ],
+      "decode_hit_rate_aggregate": 0.912063668286091,
+      "aggregate_draft_acceptance": 0.7126288659793815,
+      "short_prompt_ttft_median_s": 0.5340123670000594,
+      "prefill_tok_s": [
+        4810.7,
+        4797.4
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23994.0,
+      "decode_median_board_power_w": 241.305
+    },
+    {
+      "source": "vision-residency-2-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T07:09:07.633264+00:00",
+      "sha256": {
+        "vision-residency-2-flash-iq3s-256k-vision-tune-ownervision-perf.json": "a32b5aa07311abc2f41cc15975479b15e837abb87c68555828f368abcdb2d807",
+        "vision-residency-2-flash-iq3s-256k-vision-tune-ownervision-api.json": "179f8191273ce6e80d1041e64c6b8e5275930f81f27919ed67741eba85585417",
+        "vision-residency-2-flash-iq3s-256k-vision-tune-ownervision-engine.log": "49d30aef1167204c786582717dfdd09b553732726fe59868a58f8ce83ee89ffe"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7605,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        111.9,
+        99.3,
+        103.5,
+        105.0,
+        99.9,
+        108.0
+      ],
+      "decode_median_tok_s": 104.25,
+      "decode_hit_rate": [
+        0.9006537337230933,
+        0.8833048220727969,
+        0.8555683325312006,
+        0.8354583292564521,
+        0.8760193915490643,
+        0.8860307127416185
+      ],
+      "decode_hit_rate_aggregate": 0.8734295732881552,
+      "aggregate_draft_acceptance": 0.7450022212350067,
+      "short_prompt_ttft_median_s": 0.5914987400001337,
+      "prefill_tok_s": [
+        4735.9,
+        4759.5
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 229.4975
+    },
+    {
+      "source": "vision-residency-3-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T07:10:25.172117+00:00",
+      "sha256": {
+        "vision-residency-3-flash-iq3s-256k-vision-tune-ownervision-perf.json": "692b2878802e41dec5ff1f8e77206079b45f7e0ec692986adba2d77e31f5d823",
+        "vision-residency-3-flash-iq3s-256k-vision-tune-ownervision-api.json": "5f549048893e37fefe93637bb90433007a76a17e4315475b9289187c90edb523",
+        "vision-residency-3-flash-iq3s-256k-vision-tune-ownervision-engine.log": "0903f4f870df4c3459d7207ca0bac9eec894d447109e24f469c802bec88f4412"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7603,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        114.1,
+        93.4,
+        110.7,
+        105.7,
+        100.5,
+        107.2
+      ],
+      "decode_median_tok_s": 106.45,
+      "decode_hit_rate": [
+        0.851304387073479,
+        0.865214112071784,
+        0.8858148696798213,
+        0.8473872085789614,
+        0.8536222791019343,
+        0.8996222994410031
+      ],
+      "decode_hit_rate_aggregate": 0.8677268975663495,
+      "aggregate_draft_acceptance": 0.7414821124361158,
+      "short_prompt_ttft_median_s": 0.5952410180000243,
+      "prefill_tok_s": [
+        4737.6,
+        4737.5
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23992.0,
+      "decode_median_board_power_w": 222.8675
+    },
+    {
+      "source": "vision-residency-4-flash-iq3s-256k-tune-ownertext-perf.json",
+      "profile": "flash-iq3s-256k-tune-ownertext",
+      "side": "text",
+      "started_at": "2026-10-04T07:11:39.737013+00:00",
+      "sha256": {
+        "vision-residency-4-flash-iq3s-256k-tune-ownertext-perf.json": "78448ca28e5e3a558f773a58ffb49c05bbb3b8e19972199b0991a300b22f1e20",
+        "vision-residency-4-flash-iq3s-256k-tune-ownertext-api.json": "3c0e4e5dfacddca4163575956f05ce94f79804689b308900625433efb7112f98",
+        "vision-residency-4-flash-iq3s-256k-tune-ownertext-engine.log": "4d6557fd31c9d420506ce41fa89a3e031bb72e445d6c06ee164df44300167b2f"
+      },
+      "runtime_fingerprint": "3b4d85f018ca6e8dfc8b0782e0393f8d741508456a5bf6c00216830da3b733ef",
+      "expert_cache": {
+        "slots": 8606,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.9,
+        109.0,
+        113.1,
+        119.4,
+        109.9,
+        111.8
+      ],
+      "decode_median_tok_s": 112.44999999999999,
+      "decode_hit_rate": [
+        0.9125492765904888,
+        0.9070369404257881,
+        0.9105730383774245,
+        0.8611949952731435,
+        0.8928942214040307,
+        0.8959265755948901
+      ],
+      "decode_hit_rate_aggregate": 0.8974152832168487,
+      "aggregate_draft_acceptance": 0.7483645878761448,
+      "short_prompt_ttft_median_s": 0.5328637105001235,
+      "prefill_tok_s": [
+        4798.7,
+        4809.7
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23970.0,
+      "decode_median_board_power_w": 239.64499999999998
+    },
+    {
+      "source": "vision-residency-5-flash-iq3s-256k-tune-ownertext-perf.json",
+      "profile": "flash-iq3s-256k-tune-ownertext",
+      "side": "text",
+      "started_at": "2026-10-04T07:12:51.153939+00:00",
+      "sha256": {
+        "vision-residency-5-flash-iq3s-256k-tune-ownertext-perf.json": "2f4a85ff28c66d9e7528e340f60efa15a3a7bf3e9072e5d88628cfd0314d4161",
+        "vision-residency-5-flash-iq3s-256k-tune-ownertext-api.json": "f0182022ac1d0fc2c9fa0564fd83360cb7d1dea187b276a3ed240b79f88fe380",
+        "vision-residency-5-flash-iq3s-256k-tune-ownertext-engine.log": "e4ee8a6bab568ffa94b79bdfde9adf81969a3128c3734a64c69d3c4ec1e088b9"
+      },
+      "runtime_fingerprint": "3b4d85f018ca6e8dfc8b0782e0393f8d741508456a5bf6c00216830da3b733ef",
+      "expert_cache": {
+        "slots": 8606,
+        "gib_rounded_in_engine_log": 16.32
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.7,
+        106.4,
+        114.9,
+        119.7,
+        107.9,
+        114.8
+      ],
+      "decode_median_tok_s": 114.85,
+      "decode_hit_rate": [
+        0.9125492765904888,
+        0.900602966012244,
+        0.9263215575464286,
+        0.9002584678481662,
+        0.8900288204096249,
+        0.9265769067810858
+      ],
+      "decode_hit_rate_aggregate": 0.9095345498123276,
+      "aggregate_draft_acceptance": 0.7037510656436488,
+      "short_prompt_ttft_median_s": 0.5319648949998736,
+      "prefill_tok_s": [
+        4799.1,
+        4743.0
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23970.0,
+      "decode_median_board_power_w": 243.59
+    },
+    {
+      "source": "vision-residency-6-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T07:14:04.493101+00:00",
+      "sha256": {
+        "vision-residency-6-flash-iq3s-256k-vision-tune-ownervision-perf.json": "33d73719dbe0997c185b2b3df7f9219588b77133e174924f7bcdea16f8d65fd3",
+        "vision-residency-6-flash-iq3s-256k-vision-tune-ownervision-api.json": "aeda705c4086f9f8434aafa6fe6831e61f3b0350c5dc7081c831b6bb66ff9aa5",
+        "vision-residency-6-flash-iq3s-256k-vision-tune-ownervision-engine.log": "4cd3e0dd6953c57dafe61fc4c04f1aea158b7a9d2d224298c3891a27c96b1175"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7605,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        111.9,
+        99.2,
+        103.6,
+        104.9,
+        100.0,
+        108.0
+      ],
+      "decode_median_tok_s": 104.25,
+      "decode_hit_rate": [
+        0.9006537337230933,
+        0.8833048220727969,
+        0.8555683325312006,
+        0.8354583292564521,
+        0.8760193915490643,
+        0.8860307127416185
+      ],
+      "decode_hit_rate_aggregate": 0.8734295732881552,
+      "aggregate_draft_acceptance": 0.7450022212350067,
+      "short_prompt_ttft_median_s": 0.5912451480000982,
+      "prefill_tok_s": [
+        4727.4,
+        4716.0
+      ],
+      "prefill_prompt_tokens": 31818,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 232.75
+    }
+  ],
+  "sides": {
+    "text": {
+      "launches": 3,
+      "expert_cache_slots": [
+        8606
+      ],
+      "per_launch_decode_median_tok_s": [
+        116.85,
+        112.44999999999999,
+        114.85
+      ],
+      "median_of_launch_medians_tok_s": 114.85,
+      "pooled_decode_median_tok_s": 114.85,
+      "decode_hit_rate_median_of_launches": 0.9095345498123276,
+      "short_prompt_ttft_median_s": 0.5328637105001235,
+      "prefill_median_tok_s": 4798.9
+    },
+    "vision": {
+      "launches": 3,
+      "expert_cache_slots": [
+        7603,
+        7605
+      ],
+      "per_launch_decode_median_tok_s": [
+        104.25,
+        106.45,
+        104.25
+      ],
+      "median_of_launch_medians_tok_s": 104.25,
+      "pooled_decode_median_tok_s": 104.95,
+      "decode_hit_rate_median_of_launches": 0.8734295732881552,
+      "short_prompt_ttft_median_s": 0.5914987400001337,
+      "prefill_median_tok_s": 4736.7
+    }
+  },
+  "decode_gap_percent": 9.229429690901172,
+  "per_launch_ranges_overlap": false,
+  "interpretation": "Fixed-length 512-token low-reasoning decode counts reasoning and answer tokens. No image request is sent in these cells; image latency is outside this comparison."
+}

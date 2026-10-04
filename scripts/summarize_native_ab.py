@@ -11,6 +11,25 @@ def read(path):
     return json.loads(path.read_text())
 
 
+def check_cells(left, right):
+    """Require complete, paired, fixed-length decode and uncached prefill cells."""
+    for group, count in [('warmups', 3), ('decode', 6), ('prefill', 2)]:
+        if any(len(r[group]) != count for r in [left, right]):
+            raise ValueError('Incomplete benchmark group: ' + group)
+        for a, b in zip(left[group], right[group]):
+            if a['input_sha256'] != b['input_sha256']:
+                raise ValueError('Paired request hash differs: ' + group)
+            if any('error' in r or not r.get('timings') for r in [a, b]):
+                raise ValueError('Missing timings or errored request')
+            if a['usage']['prompt_tokens'] != b['usage']['prompt_tokens']:
+                raise ValueError('Tokenizer counts differ')
+            if group == 'decode' and any(r['usage']['completion_tokens'] != left['decode_tokens']
+                                         for r in [a, b]):
+                raise ValueError('Decode cell is not the requested fixed length')
+            if group == 'prefill' and any(r['timings']['cache_n'] != 0 for r in [a, b]):
+                raise ValueError('Prefill cell reused prompt cache')
+
+
 def summarize(left_path, right_path, dense_precision=False):
     left, right = read(left_path), read(right_path)
     for key in ['sampling', 'tune', 'decode_tokens', 'paired_id']:
@@ -45,21 +64,7 @@ def summarize(left_path, right_path, dense_precision=False):
             values = [a[key] for a in artifacts]
         if values[0] != values[1]:
             raise ValueError('Runtime inputs differ: ' + key)
-    for group, count in [('warmups', 3), ('decode', 6), ('prefill', 2)]:
-        if any(len(r[group]) != count for r in [left, right]):
-            raise ValueError('Incomplete benchmark group: ' + group)
-        for a, b in zip(left[group], right[group]):
-            if a['input_sha256'] != b['input_sha256']:
-                raise ValueError('Paired request hash differs: ' + group)
-            if any('error' in r or not r.get('timings') for r in [a, b]):
-                raise ValueError('Missing timings or errored request')
-            if a['usage']['prompt_tokens'] != b['usage']['prompt_tokens']:
-                raise ValueError('Tokenizer counts differ')
-            if group == 'decode' and any(r['usage']['completion_tokens'] != left['decode_tokens']
-                                         for r in [a, b]):
-                raise ValueError('Decode cell is not the requested fixed length')
-            if group == 'prefill' and any(r['timings']['cache_n'] != 0 for r in [a, b]):
-                raise ValueError('Prefill cell reused prompt cache')
+    check_cells(left, right)
     runs = []
     for path, report, artifact in zip([left_path, right_path], [left, right], artifacts):
         api_path = path.with_name(path.name.replace('-perf.json', '-api.json'))
