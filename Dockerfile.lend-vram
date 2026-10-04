@@ -1,0 +1,12 @@
+# Ulmus lend-VRAM prototype: the owner image plus a lendable expert-cache tail (engine LEND / RECLAIM),
+# strata-vision UNLOAD / LOAD with a pinned host copy of the projector (llama.cpp mtmd) and the server's
+# vision swap mode. Only the engine and the vision tool are rebuilt; the swap and image-marker server tests
+# run in the build.
+FROM ulmus/strata:99f3dbd-ownerapi
+COPY patches/ulmus-lend-vram.patch patches/llama-mtmd-host-copy.patch /tmp/
+RUN cd /opt/strata && patch -p1 < /tmp/ulmus-lend-vram.patch \
+    && cd /opt/strata/ref/llama.cpp && patch -p1 < /tmp/llama-mtmd-host-copy.patch \
+    && cmake --build /opt/strata-build -j 12 --target strata \
+    && cmake --build /opt/vision-build -j 12 --target strata-vision \
+    && cd /opt/strata && python -m unittest serve.test_server.VisionSwap serve.test_server.ImageMarkers \
+    && rm /tmp/ulmus-lend-vram.patch /tmp/llama-mtmd-host-copy.patch

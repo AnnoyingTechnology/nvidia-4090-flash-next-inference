@@ -1,0 +1,73 @@
+{
+  "scope": "Maximum-budget image staging reliability, not vision quality or matched latency.",
+  "runtime_image_id": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe",
+  "image_pixels": [
+    2048,
+    2048
+  ],
+  "checks": [
+    {
+      "image_sha256": "fa950d4d3882baeed4103fc26a925f180a59a1eb248499b2a4eebf07c1f44cf6",
+      "input_sha256": "e8acdeab4dd021e6bf0407baaed0eb9848e259b30d39eab1429972a5ebe31545",
+      "cached": false,
+      "lend_done": 1,
+      "reclaim_done": 1,
+      "passed": true,
+      "finish_reason": "stop",
+      "content": "READY",
+      "usage": {
+        "prompt_tokens": 4147,
+        "completion_tokens": 38,
+        "total_tokens": 4185,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "ttft_s": 3.638819701001921,
+      "total_s": 3.9859600570016482,
+      "gpu_peak_mib": 24002.0
+    },
+    {
+      "image_sha256": "fa950d4d3882baeed4103fc26a925f180a59a1eb248499b2a4eebf07c1f44cf6",
+      "input_sha256": "e8acdeab4dd021e6bf0407baaed0eb9848e259b30d39eab1429972a5ebe31545",
+      "cached": true,
+      "lend_done": 0,
+      "reclaim_done": 0,
+      "passed": true,
+      "finish_reason": "stop",
+      "content": "READY",
+      "usage": {
+        "prompt_tokens": 4147,
+        "completion_tokens": 38,
+        "total_tokens": 4185,
+        "prompt_tokens_details": {
+          "cached_tokens": 4142
+        }
+      },
+      "ttft_s": 0.09012653000172577,
+      "total_s": 0.4180382800004736,
+      "gpu_peak_mib": 24002.0
+    },
+    {
+      "image_sha256": "8a2063e8f4ec82756bd5ba9969e3205b1f6b714a2ccd50e941ad3aaed1316a3c",
+      "input_sha256": "83031bc523484a8bb20b8e8b0932fd40ef496888195c20983fb4dd6986ccbd5a",
+      "cached": false,
+      "lend_done": 1,
+      "reclaim_done": 1,
+      "passed": true,
+      "finish_reason": "stop",
+      "content": "READY",
+      "usage": {
+        "prompt_tokens": 4147,
+        "completion_tokens": 38,
+        "total_tokens": 4185,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "ttft_s": 3.654818727998645,
+      "total_s": 3.9502289979973284,
+      "gpu_peak_mib": 24002.0
+    }
+  ]
+}

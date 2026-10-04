@@ -2,9 +2,10 @@
 
 This repository records the optimization and bounded quality qualification of
 **Qwen3.8-Flash-Next on one 24 GiB RTX 4090, Ryzen 7900 and 192 GB RAM**.
-The selected unpruned GSQ IQ3_S path measured **110.8 tok/s** for text and
-**97.65 tok/s with GPU vision enabled**, with roughly **4,700–4,800 tok/s**
-on uncached 32K prefill, at an unchanged **280 W GPU limit**.
+The selected unpruned GSQ IQ3_S path with on-demand GPU vision measured
+**120.10 tok/s at 32K** and **112.55 tok/s at 128K** in the latest matched
+context probes, with roughly **4,700–4,800 tok/s** on uncached
+32K prefill, at an unchanged **280 W GPU limit**.
 
 The stack is based on pinned [Strata](https://github.com/Niko1221/Strata),
 compiled for CUDA 12.4 / SM89. All experts and the ngram table stay in RAM;
@@ -19,19 +20,98 @@ and [Intel Arc Pro B70](https://github.com/AnnoyingTechnology/intel-arc-b70-llm-
 projects. Their rates concern different models and cannot be treated as a
 same-target comparison.
 
-**Research resumed, 2026-10-04.** The current
-[session status](docs/session-status-2026-10-04.md) is the resume point: live state,
-the original IQ3 seed-variance baseline in progress and its decision rule.
-The [2026-10-03 status](docs/session-status-2026-10-03.md) keeps completed results,
-unfinished experiments, closed alternatives and the original next-session sequence.
-The requested [Claude Opus 5.5 xhigh review](docs/claude-opus-5.5-review-2026-10-03.md)
-is logged with qualifications; it adds advice, not measurements.
+**Checkpoint, 2026-10-04 — exploration completed.** Selected profile is now
+`flash-iq3s-256k-vision-tune-owneradapt24`: the qualified lend-VRAM v4 image,
+with expert-cache updates capped at 24 experts instead of 96. The model,
+precision, reasoning defaults and context capacity are unchanged.
+OpenCode has been verified through the normal launcher; no experiments remain running.
+[Resumption record and decisions](docs/exploration-2026-10-04.md),
+[selection checks](results/public/adapt24-selection-20261004.json).
+
+| Latest matched ABBA, low reasoning | V4 / 96 swaps | V4 / 24 swaps | Change |
+|---|---:|---:|---:|
+| 32K context, median of launch medians | 119.05 tok/s | 120.10 tok/s | +0.88% |
+| 128K context, median of launch medians | 107.95 tok/s | 112.55 tok/s | +4.26% |
+| Equal-output aggregate over the mixed deck | 113.29 tok/s | 118.69 tok/s | +4.77% |
+
+Two fresh launches per side, identical inputs/build/sampling, API 9/9 on all
+launches. Candidate launch medians exceed baseline ranges at both contexts,
+though the 32K margin is tiny. These are workload-specific measurements, not a
+universal gain. Practical30 **29/30** at low, all naturally completed, matching
+baseline's score; different failed cases remain within known seed variation.
+The fifteen-image deck matches baseline **14/15**, all natural; new/cached/new
+maximum-budget staging passes 3/3. Candidate median canary answer time is 8.62 s
+versus 9.13 s, but differing output trajectories prevent attributing all of that
+to decoder speed. [Performance](results/public/adapt-batch-20261004-summary.json),
+[canaries](results/public/practical30-adapt24-comparison.json),
+[vision](results/public/vision15-adapt24-low.json).
+
+Profiling found about 1.1 ms/window awaiting cache updates; smaller batches
+reduce the amount copied per adaptation, trading slower adaptation for less
+potential exposed waiting. CPU wait is only 0.63–0.94 ms/window, so expanding
+CPU weights is deprioritized. Offline cross-layer cache allocation reduced
+misses only 0.4–2.9%, insufficient to justify implementation on this deck.
+Firmware reports DDR5-3600 across four 48 GiB DIMMs. A short sequential-read
+probe measured 51.84 GB/s on one thread and 43.29 on twelve; this is synthetic
+bandwidth, not inference bandwidth. No hardware setting changed.
+[Diagnostics](results/public/decode-diagnostics-20261004-summary.json),
+[RAM](results/public/host-memory-20261004-summary.json).
+
+The following v4-versus-resident results predate this batch-size refinement;
+do not multiply gains across the different workloads.
+
+**Earlier decision: select lend-VRAM v4**, original profile `flash-iq3s-256k-vision-tune-ownerswap`.
+The same IQ3 target stays loaded. Between images the encoder lends its GPU
+memory to the expert cache: about **8,379 slots versus 7,603–7,605** with resident
+vision. The owner accepts the measured **+93 ms median per new, uncached image**
+(worst individual paired increase **+118 ms**); cached images bypass staging.
+
+| Matched low-reasoning decode | Resident vision | V4 swap | Change |
+|---|---:|---:|---:|
+| Original requests replayed, two launches per build | 102.50 tok/s | 108.83 tok/s | **+6.17%** |
+| 64K context, S V V S, three questions per launch | 103.05 tok/s | 110.0 tok/s | **+6.74%** |
+| 128K context, one launch per side, three questions | 99.7 tok/s | 104.5 tok/s | **+4.81%** |
+| Separate changed-prefix screen, V S S V | 107.325 tok/s | 105.1 tok/s | **−2.07%** |
+
+The original-request and 64K launch ranges do not overlap. The 128K pair is a
+small regression screen, not proof of a repeatable gain. All hashes match within
+each A/B; all API checks pass. The changed prefix means the negative screen does
+not isolate a v4 code regression, but it remains evidence that gains vary by
+workload. V3 recovered +5.68% on the original requests and produced identical
+paired completions to v4; v4 has lower image overhead.
+[Replay](results/public/swap-prefix-control-comparison.json),
+[64K](results/public/swap64-comparison.json), [128K](results/public/swap128-comparison.json),
+[negative screen](results/public/swap-ab-v4-comparison.json).
+
+V4 scores **29/30 practical DevOps canaries at low**, all naturally completed,
+with valid positive/negative grader controls. Resident IQ3 scores 28/29/30
+across seeds 42/7/123; these results show no resolved quality regression, rather
+than an improvement or full-size parity. The matched image deck gives **14/15
+content on every launch**, all sixty natural completions and no swap failure.
+[Canaries](results/public/practical30-swap-v4-comparison.json),
+[image latency/integrity](results/public/swap-deck-partial-comparison.json).
+
+The entire **32K/64K/96K/128K/192K/256K** range remains relevant. Sampled decode
+and configured capacity are separate: 192K/256K v4 speed is unmeasured, and no
+new 250K prefill was run at this checkpoint. The backend remains 262,144 tokens,
+with a 253,952-token OpenCode window. Traced short reads show slot refill is only
+25–31 ms; their floor is expert streaming, so refill tuning is closed.
+The selected launch passes 9/9 API checks and a new/cached/new maximum-budget
+image staging check; OpenCode returned `READY` naturally at low. Loaded after
+these checks: **23.44 GiB VRAM**, about **81.1 GiB engine/vision proportional host
+RAM**, with **102.7 GiB host RAM available**. Idle CPU was 0.24%; the earlier
+active-decode sample used about twelve core equivalents. The 54.3 GiB cgroup
+counter here excludes some already-resident file pages charged elsewhere.
+[Serving API](results/public/swap-v4-serving-api.json),
+[staging](results/public/swap-v4-large-image-smoke.json),
+[handoff and next options](docs/handoff-2026-10-04.md).
 
 ## Result
 
 The recorded profiles expose model `Qwen3.8-Flash-Next`, alias `ulmus`, through
 an OpenAI-compatible API on **127.0.0.1:19623**. No production service or
-network exposure was changed. The measured profiles are:
+network exposure was changed. The following table preserves the **2026-10-03
+baseline**; the selected 2026-10-04 swap measurements are above:
 
 | Measurement at 280 W limit | Text profile | GPU vision profile |
 |---|---:|---:|
@@ -257,12 +337,15 @@ adaptation enabled. This does not identify the cause of the remaining stall.
 
 ## Profiles and quick operations
 
-The two owner profiles share GSQ IQ3_S and the release's IQ4_NL table:
+The owner profiles share GSQ IQ3_S and the release's IQ4_NL table. One
+vision-capable model remains loaded; routine use does not switch profiles:
 
 | Profile | Purpose |
 |---|---|
 | `flash-iq3s-256k-tune-ownertext` | Faster text-only code, operations and agent work |
-| `flash-iq3s-256k-vision-tune-ownervision` | General assistant including GPU BF16 vision, 4096-token image budget |
+| `flash-iq3s-256k-vision-tune-ownervision` | Preserved resident-GPU-vision baseline and rollback |
+| `flash-iq3s-256k-vision-tune-owneradapt24` | Selected v4, 24-expert update batches; GPU BF16 vision on demand, 4096-token image budget |
+| `flash-iq3s-256k-vision-tune-ownerswap` | Original v4 / 96-expert batch rollback |
 
 On an NVIDIA Linux host with Docker and the NVIDIA Container Toolkit:
 
@@ -270,9 +353,10 @@ On an NVIDIA Linux host with Docker and the NVIDIA Container Toolkit:
 git clone https://github.com/AnnoyingTechnology/nvidia-4090-flash-next-inference
 cd nvidia-4090-flash-next-inference
 bash scripts/build.sh
+docker build -f Dockerfile.lend-vram -t ulmus/strata:99f3dbd-lendvram .
 python3 scripts/prepare_models.py
 bash scripts/prepare_packs.sh
-bash run.sh flash-iq3s-256k-vision-tune-ownervision
+bash run.sh flash-iq3s-256k-vision-tune-owneradapt24
 python3 wait_ready.py
 curl -fsS http://127.0.0.1:19623/health
 ```
@@ -389,6 +473,7 @@ experiment. [Research and alternatives](docs/research-and-pitfalls.md)
 
 ## Documentation
 
+- [Current handoff](docs/handoff-2026-10-04.md): selected serving state, decisions and next-agent questions.
 - [Architecture](docs/architecture.md): pinned sources, model hashes and placement.
 - [Benchmarks and quality](docs/benchmarks-and-quality.md): protocols, full-size references and caveats.
 - [Operations](docs/operations.md): build, start, requests, measurements and rollback.

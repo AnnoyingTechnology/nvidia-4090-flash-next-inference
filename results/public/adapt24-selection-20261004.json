@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-10-04T11:58:58.481685+00:00",
+  "decision": "Selected and serving; launcher verified through OpenCode.",
+  "profile": "flash-iq3s-256k-vision-tune-owneradapt24",
+  "rollback_profile": "flash-iq3s-256k-vision-tune-ownerswap",
+  "image_id": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe",
+  "change": "Same v4 engine/weights; --adapt-swaps 24 instead of default 96. Smaller update batches trade adaptation speed for less potential exposed transfer wait.",
+  "qualified_contexts_k": [
+    32,
+    128
+  ],
+  "unmeasured_context_throughput_k": [
+    64,
+    96,
+    192,
+    256
+  ],
+  "backend_context": 262144,
+  "client_context": 253952,
+  "canaries": {
+    "passed": 29,
+    "total": 30,
+    "all_natural": true,
+    "failed_case": "literal-endpoint"
+  },
+  "vision": {
+    "passed": 14,
+    "total": 15,
+    "all_natural": true
+  },
+  "api": {
+    "passed": 9,
+    "total": 9
+  },
+  "large_image_staging": {
+    "passed": 3,
+    "total": 3
+  },
+  "opencode": {
+    "text": "READY",
+    "finish": "stop",
+    "tools_used": false,
+    "private_capture_sha256": "31a1b0aa77ca52a447f0b5f405e12aeecadd841ab3cc7980afa27d93ce3dd0c9"
+  },
+  "observed_gpu_memory_mib": 23966,
+  "power_limit_w": 280,
+  "sources_sha256": {
+    "adapt-batch-20261004-summary.json": "048704cacf085995d1aed70671f225dbae58f110c413bded19a9f34bd4a3fde5",
+    "practical30-adapt24-comparison.json": "fb06e6a3d0a2f2323d2a9fbc010625111aff77b3807023baf8413c53445c42cf",
+    "vision15-adapt24-low.json": "66726a03398c8191085b5fe8dc040204214ce99671191282aeb81db2f40384cc",
+    "adapt24-large-image-20261004.json": "31ccaf99e93b79cc6d70cde8bc5fa9581ac637cf232cdfd645f6060b8d9c5139",
+    "adapt24-final-api.json": "99573f23832b4f2109352d846208b9d5a937c2056b53dab50198f77cff01ea4f"
+  }
+}

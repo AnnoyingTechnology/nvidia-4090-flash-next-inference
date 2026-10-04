@@ -12,6 +12,25 @@ profile switch. It preserves model files and images. The 175 GiB container
 memory budget is for this 192 GB host; smaller machines need separate tuning.
 No power policy, driver, firewall or automatic startup is changed by these tools.
 
+The selected profile is `flash-iq3s-256k-vision-tune-owneradapt24`, using the locally
+built `ulmus/strata:99f3dbd-lendvram` v4 image. Build it with
+`docker build -f Dockerfile.lend-vram -t ulmus/strata:99f3dbd-lendvram .`
+after the base owner image. Do not build during a performance measurement.
+One target model stays loaded; image staging lends/reclaims its expert-cache
+tail under the request FIFO. The measured additional delay is about 93 ms per
+uncached image; cached images do not LOAD/LEND again.
+
+For batch-size rollback, stop the owned workload, start
+`flash-iq3s-256k-vision-tune-ownerswap` (original v4, 96 swaps) and update both
+launcher profile occurrences. For a full vision-swap rollback, start
+`flash-iq3s-256k-vision-tune-ownervision` and wait for readiness. Change both
+selected-profile occurrences in `scripts/opencode.sh` back to that resident
+profile before using the launcher. Do not restart the preserved 27B service as
+an incidental fallback. Older experiment runners restore resident vision; the resumed diagnostic runners
+restore original v4 with 96 swaps. After either, explicitly restore selected
+`owneradapt24` before opening OpenCode. The final vision-qualification runner
+leaves the candidate running only on success.
+
 ## Requests
 
 ```bash
@@ -42,7 +61,7 @@ docker run --rm --user "$(id -u):$(id -g)" \
   --mount "type=bind,src=$PWD,dst=/work" \
   ulmus/strata:99f3dbd-ownerapi python /work/fixtures.py \
   --tokenizer /work/packs/iq3s/tokenizer --out /work/fixtures
-python3 owner_api_check.py --profile flash-iq3s-256k-vision-tune-ownervision \
+python3 owner_api_check.py --profile flash-iq3s-256k-vision-tune-owneradapt24 \
   --vision --out results/api-check.json
 python3 bench.py --out results/perf.json --repeats 2 --decode-tokens 512 \
   --fixtures fixtures --prefill-k 32 --paired-id owner-profiles-v1 \

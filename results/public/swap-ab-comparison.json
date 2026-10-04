@@ -1,0 +1,926 @@
+{
+  "scope": "Original IQ3 GPU-vision profile with the encoder resident versus the lend-VRAM swap prototype: the encoder frees its weights and work buffers between new images and the engine lends it the expert cache's tail per new image. Same weights, settings and requests; fresh launch per cell.",
+  "runtime": {
+    "engine_binary_differs": true,
+    "lend_vram_args": [
+      "--lend-vram-mib",
+      "1574"
+    ]
+  },
+  "order": [
+    "resident",
+    "swap",
+    "swap",
+    "resident",
+    "resident",
+    "swap"
+  ],
+  "runs": [
+    {
+      "source": "swap-residency-1-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T09:30:07.195780+00:00",
+      "sha256": {
+        "swap-residency-1-flash-iq3s-256k-vision-tune-ownervision-perf.json": "223495c745d0680781cd2eaaf8363773e8ce823845bb58d26f8133905f96850a",
+        "swap-residency-1-flash-iq3s-256k-vision-tune-ownervision-api.json": "b8781c81c60b35a17558b6e637b3214300ead99562d02499c5475e4af40bf977",
+        "swap-residency-1-flash-iq3s-256k-vision-tune-ownervision-engine.log": "ed37d3acfc397f7848c51b6039e80f2d794e62c1801015f0870e308cd6b59ab9"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7605,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        111.6,
+        95.5,
+        100.6,
+        101.4,
+        93.1,
+        111.7
+      ],
+      "decode_median_tok_s": 101.0,
+      "decode_hit_rate": [
+        0.8275146194196605,
+        0.8490998835495231,
+        0.8541948402751945,
+        0.7863284849941901,
+        0.8530664855167128,
+        0.8848393412001365
+      ],
+      "decode_hit_rate_aggregate": 0.8438778361086948,
+      "aggregate_draft_acceptance": 0.7839965019676433,
+      "short_prompt_ttft_median_s": 0.592265272000077,
+      "prefill_tok_s": [
+        4735.7,
+        4751.4
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23972.0,
+      "decode_median_board_power_w": 211.2725
+    },
+    {
+      "source": "swap-residency-2-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T09:31:25.022392+00:00",
+      "sha256": {
+        "swap-residency-2-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "2fe41aa97639627863896f69164abdf938a7cfdf7ff96240c52da4f1e4292e5d",
+        "swap-residency-2-flash-iq3s-256k-vision-tune-ownerswap-api.json": "a07a80e5f44de247190f21e96c630b45be930d0b5de3263635e470a16e03ac34",
+        "swap-residency-2-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "6212e72eb94d2d0c20daeece3193d0dff8787c2f33b66c414c4b94ded2959f51"
+      },
+      "runtime_fingerprint": "1d93bdddef21a2473214138d8129bb33942b00dd9e66801c161b0edbea8c4d91",
+      "expert_cache": {
+        "slots": 8381,
+        "gib_rounded_in_engine_log": 15.9
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.6,
+        104.6,
+        111.8,
+        106.7,
+        107.6,
+        100.9
+      ],
+      "decode_median_tok_s": 107.15,
+      "decode_hit_rate": [
+        0.8654841093865484,
+        0.8719925675170594,
+        0.880021798923221,
+        0.8414025314798722,
+        0.8926327156193395,
+        0.8933054724979944
+      ],
+      "decode_hit_rate_aggregate": 0.8747716209633378,
+      "aggregate_draft_acceptance": 0.753839590443686,
+      "short_prompt_ttft_median_s": 0.5469593450006869,
+      "prefill_tok_s": [
+        4751.6,
+        4758.0
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23972.0,
+      "decode_median_board_power_w": 228.5975
+    },
+    {
+      "source": "swap-residency-3-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T09:32:40.588555+00:00",
+      "sha256": {
+        "swap-residency-3-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "f0613bb25e41afc17cacaf11e48c8dd3add709eef89dde870c327f495f600679",
+        "swap-residency-3-flash-iq3s-256k-vision-tune-ownerswap-api.json": "450ac88e701e029d6278d16030d8d08217baf9cf5006b6e4078ef3097b689d79",
+        "swap-residency-3-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "cd3b0140cbf95e8c8c8ed10efcb447fe24d852c9da2da971bf830b6d35f2d7c8"
+      },
+      "runtime_fingerprint": "1d93bdddef21a2473214138d8129bb33942b00dd9e66801c161b0edbea8c4d91",
+      "expert_cache": {
+        "slots": 8381,
+        "gib_rounded_in_engine_log": 15.9
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.9,
+        96.3,
+        101.4,
+        111.5,
+        102.0,
+        103.8
+      ],
+      "decode_median_tok_s": 102.9,
+      "decode_hit_rate": [
+        0.8654841093865484,
+        0.8600466005536767,
+        0.8701767076573318,
+        0.8281462279619595,
+        0.8785510631719968,
+        0.8830655146114454
+      ],
+      "decode_hit_rate_aggregate": 0.8650811802368823,
+      "aggregate_draft_acceptance": 0.745777027027027,
+      "short_prompt_ttft_median_s": 0.5546815095003694,
+      "prefill_tok_s": [
+        4762.5,
+        4770.3
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23972.0,
+      "decode_median_board_power_w": 226.7475
+    },
+    {
+      "source": "swap-residency-4-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T09:33:56.661607+00:00",
+      "sha256": {
+        "swap-residency-4-flash-iq3s-256k-vision-tune-ownervision-perf.json": "2abc404e9da294b04cbd175e1810b7b3d3d3eeda98f2e1ac46cc1f7f46d4cf50",
+        "swap-residency-4-flash-iq3s-256k-vision-tune-ownervision-api.json": "18654b81dc83785b00b0c6737fbd20328e324f2208c946c545313abedbc35abd",
+        "swap-residency-4-flash-iq3s-256k-vision-tune-ownervision-engine.log": "790136461e01b5b0df4f1cfee03b8bf651008c768a4108b41b0dc641a96d5f75"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7605,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        111.7,
+        95.3,
+        100.4,
+        101.3,
+        93.0,
+        111.5
+      ],
+      "decode_median_tok_s": 100.85,
+      "decode_hit_rate": [
+        0.8275146194196605,
+        0.8490998835495231,
+        0.8541948402751945,
+        0.7863284849941901,
+        0.8530664855167128,
+        0.8848393412001365
+      ],
+      "decode_hit_rate_aggregate": 0.8438778361086948,
+      "aggregate_draft_acceptance": 0.7839965019676433,
+      "short_prompt_ttft_median_s": 0.5944714844999908,
+      "prefill_tok_s": [
+        4745.1,
+        4752.6
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23972.0,
+      "decode_median_board_power_w": 219.1175
+    },
+    {
+      "source": "swap-residency-5-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T09:35:15.456074+00:00",
+      "sha256": {
+        "swap-residency-5-flash-iq3s-256k-vision-tune-ownervision-perf.json": "6bd9f8a93d81ca3ce2d1a4f17f7e5f9484107e1f702c3c2858d67622639bc415",
+        "swap-residency-5-flash-iq3s-256k-vision-tune-ownervision-api.json": "e62b0079611870b8d8f16eb90e480cc9be205fcaa928817d04f4385f19a2220b",
+        "swap-residency-5-flash-iq3s-256k-vision-tune-ownervision-engine.log": "09f4f58e702d52a8ae53dcb4c9d2718e306c6c37e16e2d97566bcde1ea18f563"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7603,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        109.7,
+        94.7,
+        105.4,
+        111.6,
+        98.9,
+        97.7
+      ],
+      "decode_median_tok_s": 102.15,
+      "decode_hit_rate": [
+        0.8301468860390848,
+        0.8520622477438277,
+        0.8896953222032145,
+        0.8459052367588225,
+        0.8606445537374425,
+        0.8553432364746647
+      ],
+      "decode_hit_rate_aggregate": 0.8563878988596156,
+      "aggregate_draft_acceptance": 0.743322203672788,
+      "short_prompt_ttft_median_s": 0.5813999039992268,
+      "prefill_tok_s": [
+        4756.8,
+        4737.5
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23968.0,
+      "decode_median_board_power_w": 223.8675
+    },
+    {
+      "source": "swap-residency-6-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T09:36:33.267697+00:00",
+      "sha256": {
+        "swap-residency-6-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "9199fc1a907bb00fb2182797fbcc0fabc44212afa0c0eb49dde16d3d89b72283",
+        "swap-residency-6-flash-iq3s-256k-vision-tune-ownerswap-api.json": "2fa943e1cf522f9840316d60b0e7a3579145d433bd64d24139d390d673b7b530",
+        "swap-residency-6-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "d57651dd2b696b60e41a0d6630d9faeedb82d6b9aa73d26474113445cce69f05"
+      },
+      "runtime_fingerprint": "1d93bdddef21a2473214138d8129bb33942b00dd9e66801c161b0edbea8c4d91",
+      "expert_cache": {
+        "slots": 8381,
+        "gib_rounded_in_engine_log": 15.9
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        119.9,
+        104.6,
+        111.9,
+        106.7,
+        107.6,
+        100.8
+      ],
+      "decode_median_tok_s": 107.15,
+      "decode_hit_rate": [
+        0.8654841093865484,
+        0.8719925675170594,
+        0.880021798923221,
+        0.8414025314798722,
+        0.8926327156193395,
+        0.8933054724979944
+      ],
+      "decode_hit_rate_aggregate": 0.8747716209633378,
+      "aggregate_draft_acceptance": 0.753839590443686,
+      "short_prompt_ttft_median_s": 0.5481311489993459,
+      "prefill_tok_s": [
+        4724.1,
+        4742.2
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23972.0,
+      "decode_median_board_power_w": 232.35250000000002
+    }
+  ],
+  "sides": {
+    "resident": {
+      "launches": 3,
+      "expert_cache_slots": [
+        7603,
+        7605
+      ],
+      "per_launch_decode_median_tok_s": [
+        101.0,
+        100.85,
+        102.15
+      ],
+      "median_of_launch_medians_tok_s": 101.0,
+      "pooled_decode_median_tok_s": 100.94999999999999,
+      "decode_hit_rate_median_of_launches": 0.8438778361086948,
+      "short_prompt_ttft_median_s": 0.592265272000077,
+      "prefill_median_tok_s": 4748.25
+    },
+    "swap": {
+      "launches": 3,
+      "expert_cache_slots": [
+        8381
+      ],
+      "per_launch_decode_median_tok_s": [
+        107.15,
+        102.9,
+        107.15
+      ],
+      "median_of_launch_medians_tok_s": 107.15,
+      "pooled_decode_median_tok_s": 106.7,
+      "decode_hit_rate_median_of_launches": 0.8747716209633378,
+      "short_prompt_ttft_median_s": 0.5481311489993459,
+      "prefill_median_tok_s": 4754.8
+    }
+  },
+  "decode_gain_percent": 6.0891089108910945,
+  "per_launch_ranges_overlap": false,
+  "decks": [
+    {
+      "source": "vision15-swap-ab-1-swap.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-swap",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "aa9f7f921582103fd0b414bf272f9125606ccb1d83dd839763ddd3f88871b431",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 2.00148838899986,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.9171278360008728,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.9071022829994035,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.7421758339987719,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.3638923449998401,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.7309766939997644,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.767156795000119,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.775911017000908,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.7186826649995055,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.760158480001337,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.7547075940001378,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.7485211189996335,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.306843131000278,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.294909837000887,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 1.1105812280002283,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.5,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": [
+          812
+        ]
+      }
+    },
+    {
+      "source": "vision15-swap-ab-2-gpuvision.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-gpuvision",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "7aabc7f95c6500ed390c722cb24cbb4cc285939f25b369206269588a6b020388",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 1.815535521000129,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.7256827950004663,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.7185729339998943,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.5677131389984424,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.168823011999848,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.5552691930006404,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.5842960449990642,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.597977092000292,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.5273554420000437,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.5708932889992866,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.5743157280012383,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.5634537000005366,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.121656000999792,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.1003033550005057,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 0.9147269669992966,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 0,
+        "failed": 0,
+        "lend_ms_median": 0,
+        "reclaim_ms_median": 0,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": []
+      }
+    },
+    {
+      "source": "vision15-swap-ab-3-gpuvision.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-gpuvision",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "bbb137aac9857bb4a8902c964f6cc6daaa745c6efdca5e9d12437363f8ac5716",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 1.8143113629994332,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.719582134999655,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.7160488230001647,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.5679251239998848,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.166594502999942,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.553512574000706,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.5809627210001054,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.5967232319999312,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.5204881310000928,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.5756879529999424,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.5761735090000002,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.5509427350007172,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.1208108720002201,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.0977144509997743,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 0.913653470999634,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 0,
+        "failed": 0,
+        "lend_ms_median": 0,
+        "reclaim_ms_median": 0,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": []
+      }
+    },
+    {
+      "source": "vision15-swap-ab-4-swap.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-swap",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "c6e6e37eb4f611098ef3dcb0f20320f966c15868ad0dedadb51337105a8dab49",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 2.0015059069992276,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.922653920999437,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.917774963998454,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.7490249599995877,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.361354313999982,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.7483933200001047,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.7695927420008957,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.7921666149995872,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.718830533000073,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.7805910950010002,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.7759579279991158,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.755875817998458,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.319582961001288,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.3028790099997423,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 1.1127863929996238,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.0,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": [
+          812
+        ]
+      }
+    }
+  ],
+  "deck_order": [
+    "swap",
+    "resident",
+    "resident",
+    "swap"
+  ],
+  "image_first_token": {
+    "per_case": {
+      "nginx-error": {
+        "resident_ttft_s": 1.814923441999781,
+        "swap_ttft_s": 2.001497147999544,
+        "delta_ms": 186.57370599976275
+      },
+      "disk-usage": {
+        "resident_ttft_s": 1.7226324650000606,
+        "swap_ttft_s": 1.919890878500155,
+        "delta_ms": 197.25841350009432
+      },
+      "service-ports": {
+        "resident_ttft_s": 1.7173108785000295,
+        "swap_ttft_s": 1.9124386234989288,
+        "delta_ms": 195.1277449988993
+      },
+      "request-path": {
+        "resident_ttft_s": 1.5678191314991636,
+        "swap_ttft_s": 1.7456003969991798,
+        "delta_ms": 177.78126550001616
+      },
+      "printed-code": {
+        "resident_ttft_s": 1.167708757499895,
+        "swap_ttft_s": 1.362623329499911,
+        "delta_ms": 194.91457200001605
+      },
+      "git-diff": {
+        "resident_ttft_s": 1.5543908835006732,
+        "swap_ttft_s": 1.7396850069999346,
+        "delta_ms": 185.29412349926133
+      },
+      "latency-chart": {
+        "resident_ttft_s": 1.5826293829995848,
+        "swap_ttft_s": 1.7683747685005073,
+        "delta_ms": 185.74538550092257
+      },
+      "capacity-chart": {
+        "resident_ttft_s": 1.5973501620001116,
+        "swap_ttft_s": 1.7840388160002476,
+        "delta_ms": 186.688654000136
+      },
+      "network-boundary": {
+        "resident_ttft_s": 1.5239217865000683,
+        "swap_ttft_s": 1.7187565989997893,
+        "delta_ms": 194.834812499721
+      },
+      "invoice": {
+        "resident_ttft_s": 1.5732906209996145,
+        "swap_ttft_s": 1.7703747875011686,
+        "delta_ms": 197.08416650155414
+      },
+      "untrusted-poster": {
+        "resident_ttft_s": 1.5752446185006193,
+        "swap_ttft_s": 1.7653327609996268,
+        "delta_ms": 190.08814249900752
+      },
+      "shape-count": {
+        "resident_ttft_s": 1.557198217500627,
+        "swap_ttft_s": 1.7521984684990457,
+        "delta_ms": 195.00025099841878
+      },
+      "photo-astronaut": {
+        "resident_ttft_s": 1.121233436500006,
+        "swap_ttft_s": 1.313213046000783,
+        "delta_ms": 191.97960950077686
+      },
+      "photo-coffee": {
+        "resident_ttft_s": 1.09900890300014,
+        "swap_ttft_s": 1.2988944235003146,
+        "delta_ms": 199.8855205001746
+      },
+      "photo-chelsea": {
+        "resident_ttft_s": 0.9141902189994653,
+        "swap_ttft_s": 1.111683810499926,
+        "delta_ms": 197.49359150046075
+      }
+    },
+    "median_delta_ms": 194.834812499721,
+    "max_delta_ms": 199.8855205001746,
+    "content_correct": {
+      "resident": [
+        14,
+        14
+      ],
+      "swap": [
+        14,
+        14
+      ]
+    },
+    "lend_reclaim": [
+      {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.5,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": [
+          812
+        ]
+      },
+      {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.0,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": [
+          812
+        ]
+      }
+    ]
+  }
+}

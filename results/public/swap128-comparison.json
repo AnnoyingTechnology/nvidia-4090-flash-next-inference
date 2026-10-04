@@ -1,0 +1,208 @@
+{
+  "scope": "Matched 128K context, three fixed 512-token decode samples per fresh launch.",
+  "launch_order": [
+    "resident",
+    "swap"
+  ],
+  "replication_limit": "A single launch per side cannot establish a repeatable gain.",
+  "completion_policy": "Length stops are intentional performance probes; no quality score is inferred.",
+  "request_checks": {
+    "sampling": {
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0,
+      "presence_penalty": 0,
+      "repetition_penalty": 1,
+      "reasoning_effort": "low",
+      "seed": 42
+    },
+    "documents_sha256": {
+      "128": "22f55cfb5492c63423e5e26d7e06bd4f3e1a4b15d7ba9bfb864d3068313800fd"
+    },
+    "questions": [
+      [
+        "List the main components this document describes and explain each one.",
+        "0c284e6152ea6e5b62fd459d1b5072ca150f5e250a49790d091753526bed8d3f",
+        130107
+      ],
+      [
+        "Describe the structure of this document section by section.",
+        "79d25ea63a6de5982732ddf4d1131ef578a7a0cd76128fdf3450177517318290",
+        130105
+      ],
+      [
+        "Explain what an operator should check first when following this document, and why.",
+        "bc168ad04eb195cf6354bd95880377a784897ec70811a72140cbac88792ed254",
+        130110
+      ]
+    ]
+  },
+  "runtime_checks": {
+    "engine_binary_differs": true,
+    "image_ids": {
+      "resident": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644",
+      "swap": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe"
+    },
+    "native_sha256": {
+      "resident": "a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676",
+      "swap": "c8036c3b4f539701061835677377a564a6728aefa88435b390ac93729cfd3a29"
+    },
+    "lend_vram_args": [
+      "--lend-vram-mib",
+      "1574"
+    ]
+  },
+  "runs": [
+    {
+      "source": "swap128-control-1-resident.json",
+      "source_sha256": "2b14684142d5d6ceb7c0181890815a5625f537a0496752d5164c011012b742c2",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "resident",
+      "api": {
+        "passed": 9,
+        "total": 9
+      },
+      "cells": [
+        {
+          "context_k": 128,
+          "question": "List the main components this document describes and explain each one.",
+          "prompt_tokens": 130107,
+          "reused_tokens": 0,
+          "read_tokens": 130107,
+          "prompt_ms": 28050.8,
+          "completion_tokens": 512,
+          "finish_reason": "length",
+          "decode_tok_s": 103.4,
+          "draft_n": 400,
+          "draft_n_accepted": 292,
+          "median_power_w": 273.77,
+          "input_sha256": "0c284e6152ea6e5b62fd459d1b5072ca150f5e250a49790d091753526bed8d3f"
+        },
+        {
+          "context_k": 128,
+          "question": "Describe the structure of this document section by section.",
+          "prompt_tokens": 130105,
+          "reused_tokens": 114688,
+          "read_tokens": 15417,
+          "prompt_ms": 3955.1,
+          "completion_tokens": 512,
+          "finish_reason": "length",
+          "decode_tok_s": 99.7,
+          "draft_n": 382,
+          "draft_n_accepted": 291,
+          "median_power_w": 237.04,
+          "input_sha256": "79d25ea63a6de5982732ddf4d1131ef578a7a0cd76128fdf3450177517318290"
+        },
+        {
+          "context_k": 128,
+          "question": "Explain what an operator should check first when following this document, and why.",
+          "prompt_tokens": 130110,
+          "reused_tokens": 114688,
+          "read_tokens": 15422,
+          "prompt_ms": 3954.4,
+          "completion_tokens": 512,
+          "finish_reason": "length",
+          "decode_tok_s": 93.1,
+          "draft_n": 376,
+          "draft_n_accepted": 274,
+          "median_power_w": 239.05,
+          "input_sha256": "bc168ad04eb195cf6354bd95880377a784897ec70811a72140cbac88792ed254"
+        }
+      ],
+      "median_decode_tok_s": 99.7,
+      "draft_acceptance": 0.7400690846286702
+    },
+    {
+      "source": "swap128-control-2-swap.json",
+      "source_sha256": "40ca8b2d4a2da12db1ed3fde5a40b66b88b2d982d3c18d57c94d93f14e9a0cec",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "swap",
+      "api": {
+        "passed": 9,
+        "total": 9
+      },
+      "cells": [
+        {
+          "context_k": 128,
+          "question": "List the main components this document describes and explain each one.",
+          "prompt_tokens": 130107,
+          "reused_tokens": 0,
+          "read_tokens": 130107,
+          "prompt_ms": 28124.5,
+          "completion_tokens": 512,
+          "finish_reason": "length",
+          "decode_tok_s": 110.2,
+          "draft_n": 396,
+          "draft_n_accepted": 302,
+          "median_power_w": 274.4,
+          "input_sha256": "0c284e6152ea6e5b62fd459d1b5072ca150f5e250a49790d091753526bed8d3f"
+        },
+        {
+          "context_k": 128,
+          "question": "Describe the structure of this document section by section.",
+          "prompt_tokens": 130105,
+          "reused_tokens": 114688,
+          "read_tokens": 15417,
+          "prompt_ms": 3911.9,
+          "completion_tokens": 512,
+          "finish_reason": "length",
+          "decode_tok_s": 104.5,
+          "draft_n": 400,
+          "draft_n_accepted": 296,
+          "median_power_w": 245.53,
+          "input_sha256": "79d25ea63a6de5982732ddf4d1131ef578a7a0cd76128fdf3450177517318290"
+        },
+        {
+          "context_k": 128,
+          "question": "Explain what an operator should check first when following this document, and why.",
+          "prompt_tokens": 130110,
+          "reused_tokens": 114688,
+          "read_tokens": 15422,
+          "prompt_ms": 3924.3,
+          "completion_tokens": 512,
+          "finish_reason": "length",
+          "decode_tok_s": 96.9,
+          "draft_n": 359,
+          "draft_n_accepted": 249,
+          "median_power_w": 249.15,
+          "input_sha256": "bc168ad04eb195cf6354bd95880377a784897ec70811a72140cbac88792ed254"
+        }
+      ],
+      "median_decode_tok_s": 104.5,
+      "draft_acceptance": 0.7333333333333333
+    }
+  ],
+  "sides": {
+    "resident": {
+      "launch_decode_medians": [
+        99.7
+      ],
+      "median_decode_tok_s": 99.7,
+      "launch_range": [
+        99.7,
+        99.7
+      ],
+      "draft_acceptance": 0.7400690846286702
+    },
+    "swap": {
+      "launch_decode_medians": [
+        104.5
+      ],
+      "median_decode_tok_s": 104.5,
+      "launch_range": [
+        104.5,
+        104.5
+      ],
+      "draft_acceptance": 0.7333333333333333
+    }
+  },
+  "decode_delta_percent": 4.81444332998997,
+  "qualification_rule": {
+    "registered_before_launch": true,
+    "maximum_decode_regression_percent": 5,
+    "all_api_checks_pass": true,
+    "matched_requests": true,
+    "passed": true
+  }
+}

@@ -1,0 +1,972 @@
+diff --git a/include/strata/core/expert_cache.hpp b/include/strata/core/expert_cache.hpp
+index 4a70835..d70ab6e 100644
+--- a/include/strata/core/expert_cache.hpp
++++ b/include/strata/core/expert_cache.hpp
+@@ -158,7 +158,46 @@ public:
+     /// Slots filled so far, for the startup report.
+     int64_t fills() const { return fills_; }
+ 
++    /// **A LENDABLE TAIL (--lend-vram-mib).**  Set before `open`: the last `bytes` of the arena (rounded up to whole
++    /// chunks of the driver's mapping granularity) can be handed back to the driver between requests, so another
++    /// process on the same card - the GPU image encoder - can use them, and taken back afterwards.  The arena is
++    /// then one reserved virtual range backed by one physical allocation plus one per tail chunk: every slot
++    /// address, and every CUDA graph that holds one, stays valid while chunks are lent; only the lent chunks'
++    /// CONTENTS are lost, so the caller must stop using their slots before `lend_tail` and refill them after
++    /// `reclaim_tail`.  CUDA only; 0 (the default) keeps the single `cudaMalloc`.
++    void set_lendable_tail(int64_t bytes) { lend_want_ = bytes > 0 ? bytes : 0; }
++    /// The bytes that can be lent (0: none) and the bytes lent now.
++    int64_t lendable_bytes() const { return chunk_bytes_ * (int64_t) h_chunks_.size(); }
++    int64_t lent_bytes() const { return chunk_bytes_ * lent_chunks_; }
++    bool tail_lent() const { return tail_lent_; }
++    /// The first slot that ends inside the lent part: slots `[first_lent_slot(), slots())` lost their bytes.
++    /// `slots()` while nothing is lent.
++    int32_t first_lent_slot() const;
++    /// The slots that would lose their bytes if `bytes` were lent (whole chunks from the end).
++    int32_t first_slot_for_lend(int64_t bytes) const;
++    /// Unmaps and frees the last whole chunks covering at least `bytes` (0: none, still counts as lent; at most the
++    /// whole tail).  The device must be idle.  False with `err`: the chunks already handed back stay lent.
++    bool lend_tail(int64_t bytes, std::string& err);
++    /// Allocates and maps every lent chunk again (contents undefined).  False with `err` (another process still
++    /// holds the memory): what could not be mapped stays lent.
++    bool reclaim_tail(std::string& err);
++    /// The last reclaim's driver steps, in ms: create (physical allocation), map, set access.
++    const double* reclaim_steps_ms() const { return reclaim_ms_; }
++
+ private:
++    bool open_vmm(uint64_t want, std::string& err);
++    void close_vmm();
++    int32_t first_slot_ending_after(uint64_t offset) const;
++    int64_t lend_want_ = 0;            ///< requested lendable bytes (set_lendable_tail)
++    int64_t chunk_bytes_ = 0;          ///< size of one tail chunk
++    int64_t lent_chunks_ = 0;          ///< tail chunks lent now (from the end)
++    bool tail_lent_ = false;
++    bool vmm_ = false;                 ///< the arena is a VMM reservation, not a cudaMalloc
++    uint64_t va_bytes_ = 0;            ///< reserved (granularity-rounded) size
++    uint64_t main_bytes_ = 0;          ///< [0, main_bytes_): one allocation; the tail chunks follow it
++    unsigned long long h_main_ = 0;    ///< CUmemGenericAllocationHandle of the main part
++    std::vector<unsigned long long> h_chunks_;   ///< the tail chunks' handles, 0 while lent
++    double reclaim_ms_[3] = {0, 0, 0};
+ #if defined(STRATA_USE_HIP)
+     bool ensure_blocking_staging(std::size_t bytes, std::string& err);
+     uint8_t* blocking_staging_ = nullptr;
+diff --git a/serve/server.py b/serve/server.py
+index 46e3fc3..65b837a 100644
+--- a/serve/server.py
++++ b/serve/server.py
+@@ -59,6 +59,8 @@ from serve.structured import StructuredOutputError, prepare_format, validated_js
+ IM_END = "<|im_end|>"
+ IMAGE_PAD = "<|image_pad|>"
+ VISION_START = "<|vision_start|>"
++# Ulmus swap mode: the engine lends the encoder its measured release plus this (allocation granularity, pools)
++SWAP_MARGIN_MIB = 64
+ # #123: what closes the thinking when it reaches reasoning_budget_tokens (the model's own end-of-thinking tag after it)
+ REASONING_WRAP_UP = "\n\nI have thought about this long enough; time to give my answer.\n</think>\n\n"
+ LOOPBACK_NAMES = ("localhost", "127.0.0.1", "::1")
+@@ -597,6 +599,32 @@ class StrataEngine:
+                     if not self.can_stop:
+                         heard = time.monotonic()
+ 
++    def lend_vram(self, reclaim: bool = False, need_mib: int = 0, timeout: float = 60.0) -> str:
++        """Ulmus --lend-vram-mib: LEND the image encoder the VRAM it needs between requests (the engine counts its own
++        free VRAM and hands back only the rest of `need_mib` from its expert cache's tail; 0 = the whole tail), or
++        RECLAIM it.  The caller holds the service FIFO (no request runs).  Returns the LENT/RECLAIMED line."""
++        word = "RECLAIM" if reclaim else (f"LEND {int(need_mib)}" if need_mib > 0 else "LEND")
++        try:
++            self.proc.stdin.write(word + "\n")
++            self.proc.stdin.flush()
++        except OSError:
++            raise EngineDied(f"the engine stopped unexpectedly (exit code {self.exit_code()})") from None
++        deadline = time.monotonic() + timeout
++        while True:
++            left = deadline - time.monotonic()
++            if left <= 0:
++                raise self._silent(f"the engine did not answer {word} within {timeout:.0f} s")
++            try:
++                line = self.lines.get(timeout=left)
++            except queue.Empty:
++                continue
++            if line is None:
++                raise EngineDied(f"the engine stopped unexpectedly (exit code {self.exit_code()})")
++            if line.startswith(("LENT ", "RECLAIMED ")):
++                return line
++            if line.startswith("ERR"):
++                raise RuntimeError(line[4:].strip())
++
+     def _silent(self, what: str) -> EngineSilent:
+         """#481: end an engine that lost step with the server (its main thread waits for a command the server never
+         sends), so the next request starts it again: killed now, its GPU and RAM go back with the process."""
+@@ -653,6 +681,8 @@ class Vision:
+     lines and writes each image's embeddings; results are cached by the image's hash, so a conversation that
+     sends the same picture again (every turn, with most clients) encodes it once."""
+ 
++    swap, lend_mib, loaded = False, 0, True             # Ulmus swap mode (below); class defaults for bare instances
++
+     def __init__(self, cfg: dict, log=None, env: dict | None = None):
+         args = [cfg["exe"], "--mmproj", cfg["mmproj"], "--model", cfg["model"]]
+         if cfg.get("gpu"):
+@@ -661,9 +691,17 @@ class Vision:
+             args += ["--threads", str(cfg["threads"])]
+         if cfg.get("max_tokens"):
+             args += ["--max-tokens", str(cfg["max_tokens"])]
++        if cfg.get("swap") and cfg.get("gpu"):
++            args.append("--host-copy")                   # a LOAD per new image reads pinned RAM, not the file
+         self.dir = Path(tempfile.mkdtemp(prefix="strata-vision-"))
+         self.spawn = (args, log, env)                   # to start it again after an unload
+         self.stopped = False
++        # Ulmus "swap": between images the encoder frees its weights and work buffers (UNLOAD), and the engine's
++        # expert cache uses that VRAM; a new image borrows it back (engine LEND, encoder LOAD ... UNLOAD, RECLAIM).
++        # lend_mib, measured at the first start (the warm-up encodes the largest picture), sizes the engine's tail.
++        self.swap = bool(cfg.get("swap"))
++        self.lend_mib = 0
++        self.loaded = True
+         self._start()
+         self.lock = threading.Lock()
+         self.cache: dict[str, tuple[Path, int]] = {}
+@@ -677,6 +715,53 @@ class Vision:
+         if not line.startswith("READY"):
+             raise RuntimeError("the vision encoder did not start: " + line.strip())
+         self.stopped = False
++        self.loaded = True
++        if self.swap:
++            freed = self._unload_encoder()
++            if not self.lend_mib:
++                self.lend_mib = freed + SWAP_MARGIN_MIB
++
++    def _command(self, word: str, expect: str) -> str:
++        self.proc.stdin.write(word + "\n")
++        self.proc.stdin.flush()
++        line = self.proc.stdout.readline().strip()
++        if not line.startswith(expect):
++            raise ValueError(f"the vision encoder answered {word} with: {line or 'nothing (it stopped)'}")
++        return line
++
++    def _unload_encoder(self) -> int:
++        """-> MiB of VRAM the encoder gave back."""
++        f = self._command("UNLOAD", "UNLOADED").split()
++        self.loaded = False
++        return int(f[2]) if len(f) > 2 else 0
++
++    def _swap_in(self, engine):
++        lent = engine is not None and engine.alive()
++        if lent:
++            engine.lend_vram(need_mib=self.lend_mib)
++        try:
++            self._command("LOAD", "LOADED")
++            self.loaded = True
++        except Exception:
++            if lent:
++                engine.lend_vram(reclaim=True)
++            raise
++        return lent
++
++    def _swap_out(self, engine, lent: bool):
++        try:
++            if self.loaded and self.alive():
++                self._unload_encoder()
++        finally:
++            if lent:
++                for attempt in range(5):               # memory the encoder just gave back can take a moment
++                    try:
++                        engine.lend_vram(reclaim=True)
++                        break
++                    except RuntimeError:
++                        if attempt == 4:
++                            raise
++                        time.sleep(0.2)
+ 
+     def alive(self) -> bool:
+         return not self.stopped and self.proc.poll() is None
+@@ -737,27 +822,44 @@ class Vision:
+ 
+     def encode(self, source: str) -> tuple[Path, int]:
+         """-> (embeddings file, number of image tokens)."""
+-        data = self.normalize(self.load(source))
+-        key = hashlib.sha256(data).hexdigest()[:32]
++        return self.encode_all([source])[0]
++
++    def encode_all(self, sources: list, engine=None) -> list[tuple[Path, int]]:
++        """-> (embeddings file, number of image tokens) per source.  In swap mode the images not cached yet are encoded
++        in one LOAD ... UNLOAD, inside one engine LEND ... RECLAIM; the caller holds the service FIFO."""
++        datas = [self.normalize(self.load(src)) for src in sources]
++        keys = [hashlib.sha256(d).hexdigest()[:32] for d in datas]
+         with self.lock:
+-            if key in self.cache:
+-                return self.cache[key]
+-            img, out = self.dir / f"{key}.img", self.dir / f"{key}.sve"
+-            img.write_bytes(data)
+-            try:
+-                self.proc.stdin.write(f"ENC {img} {out}\n")
+-                self.proc.stdin.flush()
+-                line = self.proc.stdout.readline().strip()
+-            finally:                                                   # #352: also when the encoder's pipe is gone
+-                img.unlink(missing_ok=True)
+-            if not line.startswith("OK"):
+-                raise ValueError("the image could not be read: " + (line[4:] if line.startswith("ERR") else
+-                                                                     "the vision encoder stopped"))
+-            self.cache[key] = (out, int(line.split()[1]))
+-            if len(self.cache) > 64:                                   # oldest first
+-                old = next(iter(self.cache))
+-                self.cache.pop(old)[0].unlink(missing_ok=True)
+-            return self.cache[key]
++            done = {k: self.cache[k] for k in keys if k in self.cache}
++            todo = {k: d for k, d in zip(keys, datas) if k not in done}
++            if todo:
++                lent = self._swap_in(engine) if self.swap and not self.loaded else False
++                try:
++                    for k, d in todo.items():
++                        done[k] = self._encode_one(k, d)
++                finally:
++                    if self.swap:
++                        self._swap_out(engine, lent)
++            return [done[k] for k in keys]
++
++    def _encode_one(self, key: str, data: bytes) -> tuple[Path, int]:
++        """The caller holds self.lock and the encoder is loaded."""
++        img, out = self.dir / f"{key}.img", self.dir / f"{key}.sve"
++        img.write_bytes(data)
++        try:
++            self.proc.stdin.write(f"ENC {img} {out}\n")
++            self.proc.stdin.flush()
++            line = self.proc.stdout.readline().strip()
++        finally:                                                   # #352: also when the encoder's pipe is gone
++            img.unlink(missing_ok=True)
++        if not line.startswith("OK"):
++            raise ValueError("the image could not be read: " + (line[4:] if line.startswith("ERR") else
++                                                                 "the vision encoder stopped"))
++        self.cache[key] = (out, int(line.split()[1]))
++        if len(self.cache) > 64:                                   # oldest first
++            old = next(iter(self.cache))
++            self.cache.pop(old)[0].unlink(missing_ok=True)
++        return self.cache[key]
+ 
+     def close(self):
+         try:
+@@ -1076,6 +1178,8 @@ class Service:
+                 raise GpuBusy(f"the GPU is in use by another program: {free} MiB of VRAM free, the model needs "
+                               f"{self.min_free_vram_mib} (min_free_vram_mib) - it stays unloaded until that is free")
+         if self._vision_down():                         # first, as at a start: a GPU encoder takes its VRAM before
++            if getattr(self.vision, "swap", False) and self.loaded():   # the engine sizes its cache - in swap mode
++                self.engine.unload()                    # the engine holds that VRAM, so it starts again after
+             print("[strata] starting the vision encoder again ...", flush=True)   # the engine sizes its cache
+             self.vision.restart()
+         if self.loaded():
+@@ -1352,7 +1456,8 @@ class Service:
+             # "reading the prompt" with CPU and GPU busy, for good (reproduced).  So encoding takes its turn in the
+             # same FIFO as the requests.
+             with self.fifo:
+-                encoded = [self.vision.encode(src) for src in images]
++                encode_all = getattr(self.vision, "encode_all", None)
++                encoded = encode_all(images, self.engine) if encode_all else [self.vision.encode(s) for s in images]
+             # one <|image_pad|> per image -> one per image token.  Only the markers the template writes for an image
+             # (right after <|vision_start|>) are images: the same text inside a message (an agent reading these docs,
+             # #150) is kept as plain text, or it took an image's place and the counts no longer matched.
+@@ -2922,7 +3027,11 @@ def main() -> int:
+             silence = engine_silence_s(cfg)             # #481: checked before the (minutes-long) start
+         except ValueError as e:
+             raise SystemExit(f"[strata] config {e}")
+-        engine = StrataEngine(exe, engine_args(cfg), cwd=cfg.get("cwd"), log=cfg.get("log"), env=env, lazy=lazy)
++        args = engine_args(cfg)
++        if vision is not None and vision.swap:          # Ulmus: the encoder's VRAM is lent to it per new image
++            args += ["--lend-vram-mib", str(vision.lend_mib)]
++            print(f"[strata] vision swap: the engine lends the encoder {vision.lend_mib} MiB per new image", flush=True)
++        engine = StrataEngine(exe, args, cwd=cfg.get("cwd"), log=cfg.get("log"), env=env, lazy=lazy)
+         engine.silence_s = silence                      # an attribute of its own: restart() keeps it
+         warn_tight_ram(engine.info.get("arena_mib"))
+         note = desktop_vram_note(cfg.get("backend"), engine.info.get("vram_free_mib"), engine.spawn[1],
+diff --git a/serve/test_server.py b/serve/test_server.py
+index 60a1926..b925fbf 100644
+--- a/serve/test_server.py
++++ b/serve/test_server.py
+@@ -20,7 +20,8 @@ from unittest import mock
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ from serve.frontend import ChatTemplate  # noqa: E402
+-from serve.server import (CTX_SLACK, ByteTokenizer, EngineDied, GpuBusy, MockEngine, Service, StrataEngine,  # noqa: E402
++from serve.server import (CTX_SLACK, SWAP_MARGIN_MIB, ByteTokenizer, EngineDied, GpuBusy, MockEngine,  # noqa: E402
++                          Service, StrataEngine, Vision,
+                           engine_args, prompt_tokens_seen, request_timings, serve, start_failure_hint)
+ from types import SimpleNamespace  # noqa: E402
+ 
+@@ -212,6 +213,74 @@ class FitMaxTokens(unittest.TestCase):
+         self.assertIn("no room to answer", b["error"]["message"])
+ 
+ 
++class VisionSwap(unittest.TestCase):
++    """Ulmus swap mode: a new image is encoded inside one engine LEND ... RECLAIM, between LOAD and UNLOAD."""
++
++    ENCODER = r"""
++import sys
++print("READY 8", flush=True)
++for line in sys.stdin:
++    w = line.split()
++    if not w or w[0] == "QUIT":
++        break
++    if w[0] == "UNLOAD":
++        print("UNLOADED 6.0 1500", flush=True)
++    elif w[0] == "LOAD":
++        print("ERR cannot load" if "fail-load" in sys.argv else "LOADED 120.0", flush=True)
++    elif w[0] == "ENC":
++        open(w[2], "wb").write(b"rows")
++        print("OK 3 3 1 5", flush=True)
++"""
++
++    class Engine:
++        def __init__(self, log):
++            self.log = log
++
++        def alive(self):
++            return True
++
++        def lend_vram(self, reclaim=False, need_mib=0):
++            self.log.append("RECLAIM" if reclaim else "LEND")
++            assert reclaim or need_mib == 1500 + SWAP_MARGIN_MIB
++            return "RECLAIMED 1 1 1" if reclaim else "LENT 1 1 1"
++
++    def vision(self, d, mmproj="m.gguf"):
++        script = Path(d) / "encoder.py"
++        script.write_text("#!" + sys.executable + "\n" + self.ENCODER)
++        script.chmod(0o755)
++        return Vision({"exe": str(script), "mmproj": mmproj, "model": "m", "swap": True})
++
++    def test_new_images_borrow_once_and_cached_images_do_not(self):
++        import tempfile
++        with tempfile.TemporaryDirectory() as d:
++            v = self.vision(d)
++            self.assertEqual(v.lend_mib, 1500 + SWAP_MARGIN_MIB)
++            self.assertFalse(v.loaded)
++            log = []
++            a, b = (Path(d) / "a.png", Path(d) / "b.png")
++            a.write_bytes(b"\x89PNG\r\n\x1a\nA")
++            b.write_bytes(b"\x89PNG\r\n\x1a\nB")
++            out = v.encode_all([str(a), str(b), str(a)], self.Engine(log))
++            self.assertEqual([n for _, n in out], [3, 3, 3])
++            self.assertEqual(log, ["LEND", "RECLAIM"])
++            self.assertFalse(v.loaded)
++            v.encode_all([str(b)], self.Engine(log))
++            self.assertEqual(log, ["LEND", "RECLAIM"])          # cached: nothing borrowed
++            v.close()
++
++    def test_a_failed_load_gives_the_vram_back(self):
++        import tempfile
++        with tempfile.TemporaryDirectory() as d:
++            v = self.vision(d, mmproj="fail-load")
++            log = []
++            img = Path(d) / "c.png"
++            img.write_bytes(b"\x89PNG\r\n\x1a\nC")
++            with self.assertRaises(ValueError):
++                v.encode_all([str(img)], self.Engine(log))
++            self.assertEqual(log, ["LEND", "RECLAIM"])
++            v.close()
++
++
+ class ImageMarkers(unittest.TestCase):
+     """#150: the text "<|image_pad|>" inside a message is text, not an image's place."""
+ 
+diff --git a/src/core/expert_cache.cpp b/src/core/expert_cache.cpp
+index dc64443..83c8e1b 100644
+--- a/src/core/expert_cache.cpp
++++ b/src/core/expert_cache.cpp
+@@ -2,8 +2,12 @@
+ #include "strata/core/expert_cache.hpp"
+ 
+ #include <cuda_runtime.h>
++#if !defined(STRATA_USE_HIP)
++#include <cuda.h>
++#endif
+ 
+ #include <algorithm>
++#include <chrono>
+ #include <cstdio>
+ #include <filesystem>
+ #include <utility>
+@@ -11,6 +15,64 @@
+ 
+ namespace strata::core {
+ 
++#if !defined(STRATA_USE_HIP)
++namespace {
++
++// The driver's virtual-memory calls behind --lend-vram-mib, resolved through the runtime: the engine links the CUDA
++// runtime only, and every driver the CUDA 12 runtime runs on has them.
++struct Vmm {
++    CUresult (*granularity)(size_t*, const CUmemAllocationProp*, CUmemAllocationGranularity_flags) = nullptr;
++    CUresult (*reserve)(CUdeviceptr*, size_t, size_t, CUdeviceptr, unsigned long long) = nullptr;
++    CUresult (*free_va)(CUdeviceptr, size_t) = nullptr;
++    CUresult (*create)(CUmemGenericAllocationHandle*, size_t, const CUmemAllocationProp*, unsigned long long) = nullptr;
++    CUresult (*release)(CUmemGenericAllocationHandle) = nullptr;
++    CUresult (*map)(CUdeviceptr, size_t, size_t, CUmemGenericAllocationHandle, unsigned long long) = nullptr;
++    CUresult (*unmap)(CUdeviceptr, size_t) = nullptr;
++    CUresult (*set_access)(CUdeviceptr, size_t, const CUmemAccessDesc*, size_t) = nullptr;
++    bool ok = false;
++};
++
++const Vmm& vmm() {
++    static const Vmm v = [] {
++        Vmm r;
++        auto get = [](const char* name, void** fn) {
++            cudaDriverEntryPointQueryResult q = cudaDriverEntryPointSymbolNotFound;
++            return cudaGetDriverEntryPoint(name, fn, cudaEnableDefault, &q) == cudaSuccess &&
++                   q == cudaDriverEntryPointSuccess && *fn != nullptr;
++        };
++        r.ok = get("cuMemGetAllocationGranularity", (void**) &r.granularity) &&
++               get("cuMemAddressReserve", (void**) &r.reserve) && get("cuMemAddressFree", (void**) &r.free_va) &&
++               get("cuMemCreate", (void**) &r.create) && get("cuMemRelease", (void**) &r.release) &&
++               get("cuMemMap", (void**) &r.map) && get("cuMemUnmap", (void**) &r.unmap) &&
++               get("cuMemSetAccess", (void**) &r.set_access);
++        return r;
++    }();
++    return v;
++}
++
++CUmemAllocationProp device_prop(int dev) {
++    CUmemAllocationProp p{};
++    p.type = CU_MEM_ALLOCATION_TYPE_PINNED;
++    p.location.type = CU_MEM_LOCATION_TYPE_DEVICE;
++    p.location.id = dev;
++    return p;
++}
++
++CUmemAccessDesc device_rw(int dev) {
++    CUmemAccessDesc a{};
++    a.location.type = CU_MEM_LOCATION_TYPE_DEVICE;
++    a.location.id = dev;
++    a.flags = CU_MEM_ACCESS_FLAGS_PROT_READWRITE;
++    return a;
++}
++
++std::string cu_failed(const char* what, CUresult r) {
++    return std::string("ExpertCache: ") + what + " failed (CUresult " + std::to_string((int) r) + ")";
++}
++
++}  // namespace
++#endif
++
+ bool read_expert_profile(const std::string& path, int64_t n_layers, int64_t n_expert,
+                          std::vector<std::pair<int32_t, int32_t>>& ranked, int64_t& slots, std::string& err) {
+     std::FILE* f = std::fopen(path.c_str(), "rb");
+@@ -193,7 +255,9 @@ bool ExpertCache::open(int64_t n_slots, int64_t n_layers, int64_t n_expert, int6
+         }
+     }
+ 
+-    if (cudaMalloc((void**) &base_, (size_t) want) != cudaSuccess) {
++    if (lend_want_ > 0) {
++        if (!open_vmm(want, err)) return false;
++    } else if (cudaMalloc((void**) &base_, (size_t) want) != cudaSuccess) {
+         base_ = nullptr;
+         char buf[256];
+         std::snprintf(buf, sizeof buf, "ExpertCache: cudaMalloc(%.2f GiB) failed: %s",
+@@ -273,10 +337,12 @@ void ExpertCache::close() {
+     blocking_staging_bytes_ = 0;
+ #endif
+     off_.clear();
+-    if (base_ != nullptr) {
++    if (vmm_) {
++        close_vmm();
++    } else if (base_ != nullptr) {
+         cudaFree(base_);
+-        base_ = nullptr;
+     }
++    base_ = nullptr;
+     residency_.clear();
+     slots_ = 0;
+     n_layers_ = 0;
+@@ -288,6 +354,221 @@ void ExpertCache::close() {
+     layer_next_.clear();
+ }
+ 
++bool ExpertCache::open_vmm(uint64_t want, std::string& err) {
++#if defined(STRATA_USE_HIP)
++    (void) want;
++    err = "ExpertCache: --lend-vram-mib needs CUDA's virtual memory management, which this HIP build does not use";
++    return false;
++#else
++    const Vmm& v = vmm();
++    if (!v.ok) {
++        err = "ExpertCache: the CUDA driver's virtual-memory calls are unavailable, so --lend-vram-mib cannot be used";
++        return false;
++    }
++    int dev = 0;
++    if (cudaGetDevice(&dev) != cudaSuccess) {
++        err = "ExpertCache: cudaGetDevice failed";
++        return false;
++    }
++    const CUmemAllocationProp prop = device_prop(dev);
++    size_t gran = 0;
++    CUresult r = v.granularity(&gran, &prop, CU_MEM_ALLOC_GRANULARITY_RECOMMENDED);
++    if (r != CUDA_SUCCESS || gran == 0) {
++        err = cu_failed("cuMemGetAllocationGranularity", r);
++        return false;
++    }
++    // 64 MiB chunks: a lend hands back only what the borrower is short of, at a few dozen driver calls at most
++    const uint64_t chunk = (((uint64_t) 64 << 20) + gran - 1) / gran * gran;
++    const uint64_t n_chunks = ((uint64_t) lend_want_ + chunk - 1) / chunk;
++    const uint64_t tail = n_chunks * chunk;
++    const uint64_t total = std::max<uint64_t>((want + gran - 1) / gran * gran, tail + gran);
++    if (tail + gran > (want + gran - 1) / gran * gran) {
++        char buf[200];
++        std::snprintf(buf, sizeof buf, "ExpertCache: a lendable tail of %.0f MiB does not fit in a %.0f MiB cache",
++                      (double) tail / 1048576.0, (double) want / 1048576.0);
++        err = buf;
++        return false;
++    }
++    const uint64_t main = total - tail;
++    const CUmemAccessDesc rw = device_rw(dev);
++    CUdeviceptr va = 0;
++    CUmemGenericAllocationHandle hm = 0;
++    std::vector<unsigned long long> hc((size_t) n_chunks, 0);
++    bool reserved = false, main_mapped = false;
++    size_t mapped_chunks = 0;
++    const char* step = "cuMemAddressReserve";
++    if ((r = v.reserve(&va, total, gran, 0, 0)) == CUDA_SUCCESS) {
++        reserved = true;
++        step = "cuMemCreate (cache)";
++        if ((r = v.create(&hm, main, &prop, 0)) == CUDA_SUCCESS) {
++            step = "cuMemMap (cache)";
++            if ((r = v.map(va, main, 0, hm, 0)) == CUDA_SUCCESS) {
++                main_mapped = true;
++                for (size_t j = 0; j < hc.size() && r == CUDA_SUCCESS; ++j) {
++                    CUmemGenericAllocationHandle h = 0;
++                    step = "cuMemCreate (lendable tail)";
++                    if ((r = v.create(&h, chunk, &prop, 0)) != CUDA_SUCCESS) break;
++                    hc[j] = h;
++                    step = "cuMemMap (lendable tail)";
++                    if ((r = v.map(va + main + j * chunk, chunk, 0, h, 0)) == CUDA_SUCCESS) ++mapped_chunks;
++                }
++                if (r == CUDA_SUCCESS) {
++                    step = "cuMemSetAccess";
++                    r = v.set_access(va, total, &rw, 1);
++                }
++            }
++        }
++    }
++    if (r != CUDA_SUCCESS) {
++        for (size_t j = 0; j < mapped_chunks; ++j) v.unmap(va + main + j * chunk, chunk);
++        for (const unsigned long long h : hc)
++            if (h) v.release(h);
++        if (main_mapped) v.unmap(va, main);
++        if (hm) v.release(hm);
++        if (reserved) v.free_va(va, total);
++        err = cu_failed(step, r) + " for a " + std::to_string((long long) (total >> 20)) + " MiB cache";
++        return false;
++    }
++    base_ = reinterpret_cast<uint8_t*>(va);
++    vmm_ = true;
++    va_bytes_ = total;
++    main_bytes_ = main;
++    chunk_bytes_ = (int64_t) chunk;
++    h_main_ = hm;
++    h_chunks_ = std::move(hc);
++    lent_chunks_ = 0;
++    tail_lent_ = false;
++    return true;
++#endif
++}
++
++void ExpertCache::close_vmm() {
++#if !defined(STRATA_USE_HIP)
++    const Vmm& v = vmm();
++    const CUdeviceptr va = reinterpret_cast<CUdeviceptr>(base_);
++    cudaDeviceSynchronize();
++    for (size_t j = 0; j < h_chunks_.size(); ++j)
++        if (h_chunks_[j]) {
++            v.unmap(va + (CUdeviceptr) (main_bytes_ + j * (uint64_t) chunk_bytes_), (size_t) chunk_bytes_);
++            v.release(h_chunks_[j]);
++        }
++    if (h_main_) {
++        v.unmap(va, (size_t) main_bytes_);
++        v.release(h_main_);
++    }
++    v.free_va(va, (size_t) va_bytes_);
++#endif
++    vmm_ = false;
++    tail_lent_ = false;
++    lent_chunks_ = 0;
++    va_bytes_ = 0;
++    main_bytes_ = 0;
++    chunk_bytes_ = 0;
++    h_main_ = 0;
++    h_chunks_.clear();
++}
++
++int32_t ExpertCache::first_slot_ending_after(uint64_t offset) const {
++    if (!off_.empty()) {   // the first slot whose end lies past `offset`
++        const auto it = std::upper_bound(off_.begin() + 1, off_.end(), offset);
++        return (int32_t) std::min<int64_t>((int64_t) (it - off_.begin()) - 1, slots_);
++    }
++    return (int32_t) std::min<int64_t>((int64_t) offset / blob_, slots_);
++}
++
++int32_t ExpertCache::first_slot_for_lend(int64_t bytes) const {
++    if (!vmm_ || h_chunks_.empty() || bytes <= 0) return (int32_t) slots_;
++    const int64_t k = std::min<int64_t>((bytes + chunk_bytes_ - 1) / chunk_bytes_, (int64_t) h_chunks_.size());
++    return first_slot_ending_after(va_bytes_ - (uint64_t) (k * chunk_bytes_));
++}
++
++int32_t ExpertCache::first_lent_slot() const {
++    if (!tail_lent_ || lent_chunks_ <= 0) return (int32_t) slots_;
++    return first_slot_ending_after(va_bytes_ - (uint64_t) (lent_chunks_ * chunk_bytes_));
++}
++
++bool ExpertCache::lend_tail(int64_t bytes, std::string& err) {
++#if defined(STRATA_USE_HIP)
++    (void) bytes;
++    err = "ExpertCache: nothing to lend in a HIP build";
++    return false;
++#else
++    if (!vmm_ || h_chunks_.empty()) { err = "ExpertCache: no lendable tail (--lend-vram-mib)"; return false; }
++    if (tail_lent_) { err = "ExpertCache: the tail is already lent"; return false; }
++    const int64_t n = (int64_t) h_chunks_.size();
++    const int64_t k = bytes <= 0 ? 0 : std::min<int64_t>((bytes + chunk_bytes_ - 1) / chunk_bytes_, n);
++    const cudaError_t s = cudaDeviceSynchronize();   // nothing may still read or write the lent chunks
++    if (s != cudaSuccess) { err = std::string("ExpertCache: lend: ") + cudaGetErrorString(s); return false; }
++    const Vmm& v = vmm();
++    tail_lent_ = true;
++    lent_chunks_ = 0;
++    for (int64_t j = n - 1; j >= n - k; --j) {   // from the end, so what is lent is always one suffix
++        const CUdeviceptr at = reinterpret_cast<CUdeviceptr>(base_) + (CUdeviceptr) (main_bytes_ + (uint64_t) j * chunk_bytes_);
++        CUresult r = v.unmap(at, (size_t) chunk_bytes_);
++        if (r != CUDA_SUCCESS) {
++            err = cu_failed("cuMemUnmap (lend)", r);
++            if (lent_chunks_ == 0) tail_lent_ = false;   // nothing handed back: not lent at all
++            return false;
++        }
++        ++lent_chunks_;
++        r = v.release(h_chunks_[(size_t) j]);
++        h_chunks_[(size_t) j] = 0;
++        if (r != CUDA_SUCCESS) { err = cu_failed("cuMemRelease (lend)", r); return false; }
++    }
++    return true;
++#endif
++}
++
++bool ExpertCache::reclaim_tail(std::string& err) {
++#if defined(STRATA_USE_HIP)
++    err = "ExpertCache: nothing to reclaim in a HIP build";
++    return false;
++#else
++    if (!vmm_ || !tail_lent_) { err = "ExpertCache: the tail is not lent"; return false; }
++    int dev = 0;
++    if (cudaGetDevice(&dev) != cudaSuccess) { err = "ExpertCache: cudaGetDevice failed"; return false; }
++    const Vmm& v = vmm();
++    const CUmemAllocationProp prop = device_prop(dev);
++    const CUmemAccessDesc rw = device_rw(dev);
++    using Ms = std::chrono::duration<double, std::milli>;
++    reclaim_ms_[0] = reclaim_ms_[1] = reclaim_ms_[2] = 0.0;
++    const int64_t n = (int64_t) h_chunks_.size();
++    for (int64_t j = n - lent_chunks_; j < n; ++j) {   // the lent suffix, lowest address first
++        const CUdeviceptr at = reinterpret_cast<CUdeviceptr>(base_) + (CUdeviceptr) (main_bytes_ + (uint64_t) j * chunk_bytes_);
++        CUmemGenericAllocationHandle h = 0;
++        auto t = std::chrono::steady_clock::now();
++        CUresult r = v.create(&h, (size_t) chunk_bytes_, &prop, 0);
++        if (r != CUDA_SUCCESS) {   // [j, n) stays lent: still one suffix
++            lent_chunks_ = n - j;
++            err = cu_failed("cuMemCreate (reclaim)", r);
++            return false;
++        }
++        auto t1 = std::chrono::steady_clock::now();
++        if ((r = v.map(at, (size_t) chunk_bytes_, 0, h, 0)) != CUDA_SUCCESS) {
++            v.release(h);
++            lent_chunks_ = n - j;
++            err = cu_failed("cuMemMap (reclaim)", r);
++            return false;
++        }
++        auto t2 = std::chrono::steady_clock::now();
++        if ((r = v.set_access(at, (size_t) chunk_bytes_, &rw, 1)) != CUDA_SUCCESS) {
++            v.unmap(at, (size_t) chunk_bytes_);
++            v.release(h);
++            lent_chunks_ = n - j;
++            err = cu_failed("cuMemSetAccess (reclaim)", r);
++            return false;
++        }
++        reclaim_ms_[0] += Ms(t1 - t).count();
++        reclaim_ms_[1] += Ms(t2 - t1).count();
++        reclaim_ms_[2] += Ms(std::chrono::steady_clock::now() - t2).count();
++        h_chunks_[(size_t) j] = h;
++    }
++    lent_chunks_ = 0;
++    tail_lent_ = false;
++    return true;
++#endif
++}
++
+ /// R4.2g.  Layer `l` owns `[l*q, (l+1)*q)` with `q = slots_ / n_layers_`; the LAST layer takes whatever is
+ /// left over, so the ranges always cover `0..slots_` exactly and no slot is orphaned by the division.
+ void ExpertCache::layer_slot_range(int64_t layer, int64_t& lo, int64_t& hi) const {
+diff --git a/src/program/generate.cpp b/src/program/generate.cpp
+index a7c77d0..fcd4294 100644
+--- a/src/program/generate.cpp
++++ b/src/program/generate.cpp
+@@ -417,6 +417,9 @@ struct Options {
+     /// result) goes through the verify windows, S tokens at a time, instead of the batched prompt path (0 = always
+     /// the batched path)
+     int64_t short_read = 64;
++    /// --serve: this many MiB at the end of the expert cache can be lent to another process on the card between
++    /// requests (LEND / RECLAIM lines; the GPU image encoder): 0 = off.  See ExpertCache::set_lendable_tail.
++    int64_t lend_vram_mib = 0;
+     /// The suffix drafter (prompt lookup): when the text being written repeats an earlier stretch of the context (code
+     /// edits, quoted input, tool-call JSON) by at least this many tokens, the window may be filled with what followed
+     /// it there instead of the MTP's drafts, where the MTP's own first guess agrees and the draft policy expects it to
+@@ -519,6 +522,8 @@ void usage() {
+                  "  --turn-token ID      --serve: the token that opens a chat turn (default 248045, <|im_start|>)\n"
+                  "  --short-read N       --serve: read at most N fresh text tokens through the decode windows instead\n"
+                  "                       of the batched prompt path (default 64, 0 = off)\n"
++                 "  --lend-vram-mib N    --serve: the last N MiB of the expert cache can be lent to another process on\n"
++                 "                       the GPU between requests (LEND / RECLAIM lines; 0 = off, single GPU only)\n"
+                  "  --suffix-draft N     prompt lookup: draft from an earlier repeat of the last N+ tokens of context\n"
+                  "                       when it pays (default 3; 0 = MTP only)\n"
+                  "  --mtp-max-t M        cap the MTP's windows at M tokens (0 = --spec; longer ones come from suffixes)\n"
+@@ -1249,6 +1254,7 @@ int main(int argc, char** argv) {
+         else if (a == "--prompt-cache-root") o.prompt_cache_root = std::max(0LL, std::atoll(next("--prompt-cache-root")));
+         else if (a == "--turn-token") o.turn_token = std::atoll(next("--turn-token"));
+         else if (a == "--short-read") o.short_read = std::max(0LL, std::atoll(next("--short-read")));
++        else if (a == "--lend-vram-mib") o.lend_vram_mib = std::max(0LL, std::atoll(next("--lend-vram-mib")));
+         else if (a == "--suffix-draft") o.suffix_draft = std::max(0, std::atoi(next("--suffix-draft")));
+         else if (a == "--mtp-max-t") o.mtp_max_t = std::max(0, std::atoi(next("--mtp-max-t")));
+         else if (a == "--control-vector") o.cvec_files.push_back({next("--control-vector"), 1.0f});
+@@ -2984,6 +2990,13 @@ int main(int argc, char** argv) {
+         int fake_fails = std::getenv("STRATA_TEST_CACHE_FAIL") ? std::atoi(std::getenv("STRATA_TEST_CACHE_FAIL")) : 0;
+         int failed = 0;
+         int zero_reads = 0;
++        if (o.lend_vram_mib > 0) {
++            if (!o.serve || multi_gpu || o.peer_device >= 0) {
++                std::fprintf(stderr, "strata generate: --lend-vram-mib works with --serve on one GPU only\n");
++                return 1;
++            }
++            xcache.set_lendable_tail(o.lend_vram_mib << 20);
++        }
+         for (int attempt = 0;; ++attempt) {
+             bool ok = false;
+             if (fake_fails > 0) {
+@@ -5044,7 +5057,103 @@ int main(int argc, char** argv) {
+         bool mrope_identity = true;
+         std::vector<float> img_rows;
+         std::vector<const float*> row_ptr;
++        // Ulmus --lend-vram-mib: LEND hands the expert cache's tail to another process on the card (the GPU image
++        // encoder) between requests; RECLAIM maps it again and refills the experts it held, from the same host
++        // blobs a lent prompt slot is refilled from.  While it is lent those experts are not resident (the table on
++        // the device says so) and no request runs.  The slot addresses never change (ExpertCache::set_lendable_tail).
++        std::vector<std::pair<int32_t, int32_t>> vram_lent;   // (residency index, slot) the lent chunks held
++        // `need`: the bytes the borrower must find free (LEND <MiB>; 0 = the whole tail).  While the tail is lent the
++        // engine runs nothing, so the VRAM it leaves free counts too, down to kLendKeepFree: only the rest is lent.
++        constexpr int64_t kLendKeepFree = (int64_t) 256 << 20;
++        auto lend_vram = [&](int64_t need, int64_t& n, std::string& e) -> bool {
++            if (xcache.lendable_bytes() <= 0) { e = "nothing to lend: the engine was started without --lend-vram-mib"; return false; }
++            if (xcache.tail_lent()) { e = "the expert cache's tail is already lent"; return false; }
++            if (host_res.empty() || srcp == nullptr) { e = "lending needs the profile-filled expert cache"; return false; }
++            for (const PfPart& p : pf_parts)
++                if (!p.lent.empty()) { e = "the prompt path still holds lent slots"; return false; }
++            apply_pending(true);   // adaptive swaps in flight land first
++            int64_t bytes = xcache.lendable_bytes();
++            if (need > 0) {
++                size_t free_b = 0, total_b = 0;
++                if (cudaMemGetInfo(&free_b, &total_b) != cudaSuccess) { e = "cudaMemGetInfo failed"; return false; }
++                bytes = std::max<int64_t>(0, need - std::max<int64_t>(0, (int64_t) free_b - kLendKeepFree));
++                if (bytes > xcache.lendable_bytes()) {
++                    e = "the borrower needs " + std::to_string((long long) (bytes >> 20)) + " MiB more than is free, "
++                        "but only " + std::to_string((long long) (xcache.lendable_bytes() >> 20)) + " MiB can be lent";
++                    return false;
++                }
++            }
++            const int32_t first = xcache.first_slot_for_lend(bytes);
++            std::vector<std::pair<int32_t, int32_t>> take;
++            for (size_t i = 0; i < host_res.size(); ++i) {
++                if (host_res[i] < first) continue;
++                if (srcp->blob((int64_t) i / g.n_expert, (int64_t) i % g.n_expert) == nullptr) {
++                    e = "an expert in the lendable tail has no host copy to refill it from";
++                    return false;
++                }
++                take.emplace_back((int32_t) i, host_res[i]);
++            }
++            for (const auto& [i, slot] : take) host_res[(size_t) i] = strata::core::kNotResident;
++            res_upload();
++            const bool lent = xcache.lend_tail(bytes, e);
++            if (!lent && !xcache.tail_lent()) {   // nothing was unmapped: the experts stay where they are
++                for (const auto& [i, slot] : take) host_res[(size_t) i] = slot;
++                res_upload();
++                return false;
++            }
++            vram_lent = std::move(take);         // (part) unmapped: RECLAIM restores it
++            n = (int64_t) vram_lent.size();
++            return lent;
++        };
++        auto reclaim_vram = [&](int64_t& n, std::string& e) -> bool {
++            if (!xcache.tail_lent()) { e = "the expert cache's tail is not lent"; return false; }
++            const auto t_map = Clock::now();
++            if (!xcache.reclaim_tail(e)) return false;   // another process still holds it: it stays lent
++            const double map_ms = std::chrono::duration<double, std::milli>(Clock::now() - t_map).count();
++            const auto& lay = strata::kernels::cpu::expert_layout();
++            auto blob_of = [&](int32_t i) { return srcp->blob((int64_t) i / g.n_expert, (int64_t) i % g.n_expert); };
++            auto bytes_of = [&](int32_t i) { return (int64_t) lay.blob_bytes((int64_t) i / g.n_expert); };
++            std::vector<std::pair<int32_t, int32_t>> back = std::move(vram_lent);
++            vram_lent.clear();
++            for (const auto& [i, slot] : back)
++                if (!xcache.fill_slot_queued(slot, blob_of(i), e, bytes_of(i))) return false;
++            if (!xcache.sync_queued(e)) return false;
++            // the bytes, not only the table, must say the cache holds what it claims: read two of them back
++            if (!back.empty())
++                for (const auto& [i, slot] : {back.front(), back.back()})
++                    if (!xcache.verify_slot(slot, blob_of(i), e, bytes_of(i))) return false;
++            for (const auto& [i, slot] : back) host_res[(size_t) i] = slot;
++            res_upload();
++            n = (int64_t) back.size();
++            const double* steps = xcache.reclaim_steps_ms();
++            std::fprintf(stderr, "strata serve: RECLAIM mapped the tail in %.1f ms (create %.1f, map %.1f, access %.1f), "
++                                 "refilled and verified in %.1f ms\n", map_ms, steps[0], steps[1], steps[2],
++                         std::chrono::duration<double, std::milli>(Clock::now() - t_map).count() - map_ms);
++            return true;
++        };
+         while (next_line(line)) {
++            const bool lend_line = line == "LEND" || line.rfind("LEND ", 0) == 0;
++            if (lend_line || line == "RECLAIM") {
++                const auto tl = Clock::now();
++                std::string e;
++                int64_t n_slots = 0;
++                const int64_t need = lend_line && line.size() > 5 ? (int64_t) std::atoll(line.c_str() + 5) << 20 : 0;
++                const bool ok = lend_line ? lend_vram(need, n_slots, e) : reclaim_vram(n_slots, e);
++                const double ms = std::chrono::duration<double, std::milli>(Clock::now() - tl).count();
++                const long long lent_mib = (long long) (xcache.lent_bytes() >> 20);
++                if (ok)
++                    std::printf("%s %lld %lld %.1f\n", lend_line ? "LENT" : "RECLAIMED", lent_mib,
++                                (long long) n_slots, ms);
++                else
++                    std::printf("ERR %s: %s\n", lend_line ? "lending VRAM failed" : "reclaiming VRAM failed",
++                                e.c_str());
++                std::fprintf(stderr, "strata serve: %s %s, %lld MiB, %lld slots, %.1f ms%s%s\n",
++                             lend_line ? "LEND" : "RECLAIM", ok ? "done" : "FAILED", lend_line ? lent_mib : 0LL,
++                             (long long) n_slots, ms, ok ? "" : ": ", ok ? "" : e.c_str());
++                std::fflush(stdout);
++                std::fflush(stderr);
++                continue;
++            }
+             // #477: every --expert-profile-save-every minutes, before the next request (at QUIT: after the loop)
+             if (!heat.empty() && line != "QUIT" && o.expert_profile_save_min > 0 &&
+                 Clock::now() - profile_saved_at >= std::chrono::duration<double>(o.expert_profile_save_min * 60.0))
+@@ -5057,6 +5166,11 @@ int main(int argc, char** argv) {
+             } busy_scope;
+             stop_req.store(false);   // a STOP that arrived between requests is stale
+             err.clear();
++            if (xcache.tail_lent()) {
++                std::printf("ERR the expert cache's tail is lent to another process; RECLAIM it first\n");
++                std::fflush(stdout);
++                continue;
++            }
+             const bool geni = line.rfind("GENI ", 0) == 0;
+             if (!geni && line.rfind("GEN ", 0) != 0) {
+                 std::printf("ERR expected: GEN <max_new> <id,id,...> or GENI <max_new> <file> <id,id,...>\n");
+diff --git a/tools/vision/strata_vision.cpp b/tools/vision/strata_vision.cpp
+index 6be3f44..91dfb74 100644
+--- a/tools/vision/strata_vision.cpp
++++ b/tools/vision/strata_vision.cpp
+@@ -5,13 +5,17 @@
+ // rows at the image's pad tokens and gives them their 2-D M-RoPE positions (see --serve GENI in generate.cpp).
+ //
+ //   strata-vision --mmproj <mmproj.gguf> --model <text model .gguf, first split> [--gpu] [--threads N]
+-//                 [--max-tokens N] [--flash-attn on|off|auto]
++//                 [--max-tokens N] [--flash-attn on|off|auto] [--host-copy]
++//   --host-copy keeps the projector's weights in pinned host memory, so a LOAD after UNLOAD does not read the file.
+ //
+ // Resident: prints "READY <n_embd>", then per stdin line
+ //   ENC <image path> <output path>   ->  "OK <n_tokens> <nx> <ny> <ms>"  or  "ERR <message>"
++//   UNLOAD  ->  "UNLOADED <ms> <MiB freed>"   frees the encoder (weights, work buffers, backend); the CUDA context
++//   LOAD    ->  "LOADED <ms>"                 stays.  The server lends the engine's VRAM around LOAD..UNLOAD.
+ //   QUIT
+ // The output file is  int32 {0x31455653 'SVE1', n_tokens, nx, ny, n_embd}  then float32 [n_tokens][n_embd],
+ // row i at grid position (x = i % nx, y = i / nx).  The text model is opened vocab-only (no weights).
++#include "ggml-backend.h"
+ #include "gguf.h"
+ #include "llama.h"
+ #include "mtmd.h"
+@@ -36,6 +40,18 @@ void quiet_log(ggml_log_level level, const char* text, void*) {
+ 
+ // "ENC <image> <out>": paths may contain spaces, so the image path ends at the last " " before the output path;
+ // the server always writes paths without spaces, but a user calling the tool by hand might not
++// free memory on the first GPU the backends list (-1 without one)
++int64_t gpu_free_bytes() {
++    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
++        ggml_backend_dev_t d = ggml_backend_dev_get(i);
++        if (ggml_backend_dev_type(d) != GGML_BACKEND_DEVICE_TYPE_GPU) continue;
++        size_t free_b = 0, total_b = 0;
++        ggml_backend_dev_memory(d, &free_b, &total_b);
++        return (int64_t) free_b;
++    }
++    return -1;
++}
++
+ bool parse_enc(const std::string& line, std::string& img, std::string& out) {
+     if (line.rfind("ENC ", 0) != 0) return false;
+     const std::string rest = line.substr(4);
+@@ -50,7 +66,7 @@ bool parse_enc(const std::string& line, std::string& img, std::string& out) {
+ 
+ int main(int argc, char** argv) {
+     std::string mmproj, model;
+-    bool gpu = false;
++    bool gpu = false, host_copy = false;
+     int threads = 0, max_tokens = 0;
+     llama_flash_attn_type fa = LLAMA_FLASH_ATTN_TYPE_AUTO;
+     for (int i = 1; i < argc; ++i) {
+@@ -62,6 +78,7 @@ int main(int argc, char** argv) {
+         if (a == "--mmproj") mmproj = next();
+         else if (a == "--model") model = next();
+         else if (a == "--gpu") gpu = true;
++        else if (a == "--host-copy") host_copy = true;
+         else if (a == "--threads") threads = std::atoi(next().c_str());
+         else if (a == "--max-tokens") max_tokens = std::atoi(next().c_str());
+         else if (a == "--flash-attn") {   // FA keeps K and V in FP16; off = the attention in FP32
+@@ -73,7 +90,7 @@ int main(int argc, char** argv) {
+     }
+     if (mmproj.empty() || model.empty()) {
+         std::fprintf(stderr, "usage: strata-vision --mmproj <mmproj.gguf> --model <model.gguf> [--gpu] [--threads N] "
+-                             "[--max-tokens N] [--flash-attn on|off|auto]\n");
++                             "[--max-tokens N] [--flash-attn on|off|auto] [--host-copy]\n");
+         return 2;
+     }
+     // On the CPU the GPU stays unseen: a CUDA build otherwise opens a context there (measured: 0.4-0.7 GB of VRAM,
+@@ -98,12 +115,15 @@ int main(int argc, char** argv) {
+     cp.use_gpu = gpu;
+     cp.print_timings = false;
+     cp.warmup = false;
++    cp.keep_host_copy = host_copy && gpu;
+     cp.flash_attn_type = fa;
+     // on the CPU without --threads: one per core (mtmd's own default is 4 threads)
+     if (threads <= 0 && !gpu) threads = std::max(1u, std::thread::hardware_concurrency() / 2);
+     if (threads > 0) cp.n_threads = threads;
+     if (max_tokens > 0) cp.image_max_tokens = max_tokens;
+-    mtmd_context* ctx = mtmd_init_from_file(mmproj.c_str(), text, cp);
++    // UNLOAD frees the encoder's weights, work buffers and backend (the CUDA context stays); LOAD opens it again
++    auto open_encoder = [&]() { return mtmd_init_from_file(mmproj.c_str(), text, cp); };
++    mtmd_context* ctx = open_encoder();
+     if (!ctx || !mtmd_support_vision(ctx)) {
+         std::printf("ERR cannot load the vision encoder %s\n", mmproj.c_str());
+         std::fflush(stdout);
+@@ -153,6 +173,22 @@ int main(int argc, char** argv) {
+     while (std::getline(std::cin, line)) {
+         while (!line.empty() && (line.back() == '\r' || line.back() == '\n')) line.pop_back();
+         if (line == "QUIT") break;
++        if (line == "UNLOAD" || line == "LOAD") {
++            const auto tl = std::chrono::steady_clock::now();
++            const int64_t free0 = gpu_free_bytes();
++            if (line == "UNLOAD" && ctx) { mtmd_free(ctx); ctx = nullptr; }
++            if (line == "LOAD" && !ctx) ctx = open_encoder();
++            const double ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - tl).count();
++            const int64_t freed = free0 >= 0 ? gpu_free_bytes() - free0 : 0;
++            if (line == "LOAD" && !ctx) std::printf("ERR cannot load the vision encoder %s\n", mmproj.c_str());
++            else if (line == "LOAD") std::printf("LOADED %.1f\n", ms);
++            else std::printf("UNLOADED %.1f %lld\n", ms, (long long) std::max<int64_t>(0, freed >> 20));
++            std::fprintf(stderr, "strata-vision: %s in %.1f ms (%lld MiB of VRAM %s)\n", line.c_str(), ms,
++                         (long long) (std::llabs(freed) >> 20), freed >= 0 ? "freed" : "taken");
++            std::fflush(stdout);
++            continue;
++        }
++        if (!ctx) { std::printf("ERR the vision encoder is unloaded; send LOAD first\n"); std::fflush(stdout); continue; }
+         std::string img, out;
+         if (!parse_enc(line, img, out)) { std::printf("ERR expected: ENC <image> <output>\n"); std::fflush(stdout); continue; }
+         const auto t0 = std::chrono::steady_clock::now();
+@@ -198,7 +234,7 @@ int main(int argc, char** argv) {
+         mtmd_bitmap_free(bw.bitmap);
+         if (bw.video_ctx) mtmd_helper_video_free(bw.video_ctx);
+     }
+-    mtmd_free(ctx);
++    if (ctx) mtmd_free(ctx);
+     llama_model_free(text);
+     llama_backend_free();
+     return 0;

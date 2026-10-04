@@ -9,6 +9,7 @@ task_library=${ULMUS_LIBRARY:-$task_root/models}
 task_profile=${1:?usage: run.sh flash-q4|flash-iq3s}
 case "$task_profile" in
     *-tune-ownertext|*-tune-ownervision|*-tune-ownerq4|*-tune-ownerq4static|*-tune-ownerhead|*-tune-ownerembedhead|*-tune-ownersr[0-9]*|*-tune-ownercpuvision) task_default_image=ulmus/strata:99f3dbd-ownerapi ;;
+    *-tune-ownerswap|*-tune-owneradapt24) task_default_image=ulmus/strata:99f3dbd-lendvram ;;
     *-tune-eddoursultext|*-tune-eddoursulvision|*-tune-eddoursulq4|*-tune-eddoursulq4static) task_default_image=ulmus/strata:eddoursul-3a199-native ;;
     *) task_default_image=ulmus/strata:99f3dbd-cu124-sm89 ;;
 esac
@@ -33,6 +34,9 @@ if test "${ULMUS_VERIFY_PROFILE:-0}" = 1; then
     task_env+=(--env STRATA_VERIFY_PROFILE=1 --env STRATA_DECODE_TIMING=1)
 elif test "${ULMUS_DECODE_TIMING:-0}" = 1; then
     task_env+=(--env STRATA_DECODE_TIMING=1)
+fi
+if test "${ULMUS_TRACE:-0}" = 1; then
+    task_env+=(--env STRATA_TRACE=1)
 fi
 if test -n "${ULMUS_POOL_QUANT_THRESH:-}"; then
     [[ "$ULMUS_POOL_QUANT_THRESH" =~ ^[0-9]+$ ]] || exit 2

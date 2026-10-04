@@ -1,0 +1,584 @@
+{
+  "scope": "Image first-token latency only: resident GPU vision versus the swap prototype",
+  "decks": [
+    {
+      "source": "vision15-async-1-swap.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-swap",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "8636bc5770249140ab0ccea155f96a4c24d6dd6e5ad777788f4c10d91d46ce03",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 1.9133800959989458,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.8326947669993388,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.8245543930006534,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.6647976799995376,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.2768652100003237,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.6602754030009237,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.6831159209996258,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.694236405999618,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.6303783340008522,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.6864840609996463,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.6817513549995056,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.660602519999884,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.2349540369996248,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.2116219100007584,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 1.0244990029987093,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.8,
+        "reclaim_map_ms_median": 22.9,
+        "reclaim_refill_ms_median": 63.9,
+        "slots": [
+          812
+        ]
+      }
+    },
+    {
+      "source": "vision15-async-2-gpuvision.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-gpuvision",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "4c9527a3dcf562929c98e2cf74fd24d6995645316ea8eb1ec161bedeadeb417d",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 1.825932338999337,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.7351349839991599,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.726305150999906,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.5777497529998072,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.1754893899997114,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.5618469119999645,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.581907099000091,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.597456540001076,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.5322135749993322,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.5848722899991117,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.582655316000455,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.5686711790003756,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.1287685419993068,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.108957005000775,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 0.9204507440008456,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 0,
+        "failed": 0,
+        "lend_ms_median": 0,
+        "reclaim_ms_median": 0,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": []
+      }
+    },
+    {
+      "source": "vision15-async-3-gpuvision.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-gpuvision",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "e1ee3a8dc17658d5ed826752dd44e7a4c27f94a2262d7f9cdb6a115b340fb26a",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 1.810355001998687,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.7239536100005353,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.7244594180010608,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.5638824210000166,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.1667049710013089,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.5558171619995846,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.5800775949992385,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.5970095809989289,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.5254522409995843,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.5664667140008532,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.5768856489994505,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.5549840280000353,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.1233321580002666,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.101482849000604,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 0.9144626340003015,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 0,
+        "failed": 0,
+        "lend_ms_median": 0,
+        "reclaim_ms_median": 0,
+        "reclaim_map_ms_median": 0,
+        "reclaim_refill_ms_median": 0,
+        "slots": []
+      }
+    },
+    {
+      "source": "vision15-async-4-swap.json",
+      "model_label": "Qwen3.8-Flash-Next-IQ3_S-swap",
+      "summary": {
+        "strict_correct": 14,
+        "content_correct": 14,
+        "total": 15,
+        "field_correct": 33,
+        "field_total": 34,
+        "access_or_transport_errors": 0,
+        "capped": 0
+      },
+      "sha256": "9a2ddd0152daef529ec9ea27e6a7d1cb64f314eb46d562d62430dea60c5dff26",
+      "cases": {
+        "nginx-error": {
+          "ttft_s": 1.9121483039998566,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "disk-usage": {
+          "ttft_s": 1.8329670620005345,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "service-ports": {
+          "ttft_s": 1.8242558670008293,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "request-path": {
+          "ttft_s": 1.6624211960006505,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "printed-code": {
+          "ttft_s": 1.276490233000004,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "git-diff": {
+          "ttft_s": 1.6548122670010343,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "latency-chart": {
+          "ttft_s": 1.6894550850011,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "capacity-chart": {
+          "ttft_s": 1.702366064000671,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "network-boundary": {
+          "ttft_s": 1.6309566110012383,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "invoice": {
+          "ttft_s": 1.6804760049999459,
+          "content_correct": false,
+          "strict_correct": false,
+          "finish": "stop"
+        },
+        "untrusted-poster": {
+          "ttft_s": 1.6886189169999852,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "shape-count": {
+          "ttft_s": 1.6566684850004094,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-astronaut": {
+          "ttft_s": 1.2316468469998654,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-coffee": {
+          "ttft_s": 1.2068887349996658,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        },
+        "photo-chelsea": {
+          "ttft_s": 1.0262294170006498,
+          "content_correct": true,
+          "strict_correct": true,
+          "finish": "stop"
+        }
+      },
+      "lend_reclaim": {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.8,
+        "reclaim_map_ms_median": 22.6,
+        "reclaim_refill_ms_median": 63.9,
+        "slots": [
+          812
+        ]
+      }
+    }
+  ],
+  "image_first_token": {
+    "per_case": {
+      "nginx-error": {
+        "resident_ttft_s": 1.818143670499012,
+        "swap_ttft_s": 1.9127641999994012,
+        "delta_ms": 94.62052950038924
+      },
+      "disk-usage": {
+        "resident_ttft_s": 1.7295442969998476,
+        "swap_ttft_s": 1.8328309144999366,
+        "delta_ms": 103.28661750008905
+      },
+      "service-ports": {
+        "resident_ttft_s": 1.7253822845004834,
+        "swap_ttft_s": 1.8244051300007413,
+        "delta_ms": 99.02284550025797
+      },
+      "request-path": {
+        "resident_ttft_s": 1.570816086999912,
+        "swap_ttft_s": 1.663609438000094,
+        "delta_ms": 92.79335100018216
+      },
+      "printed-code": {
+        "resident_ttft_s": 1.1710971805005101,
+        "swap_ttft_s": 1.276677721500164,
+        "delta_ms": 105.58054099965375
+      },
+      "git-diff": {
+        "resident_ttft_s": 1.5588320369997746,
+        "swap_ttft_s": 1.657543835000979,
+        "delta_ms": 98.71179800120444
+      },
+      "latency-chart": {
+        "resident_ttft_s": 1.5809923469996647,
+        "swap_ttft_s": 1.686285503000363,
+        "delta_ms": 105.29315600069822
+      },
+      "capacity-chart": {
+        "resident_ttft_s": 1.5972330605000025,
+        "swap_ttft_s": 1.6983012350001445,
+        "delta_ms": 101.06817450014205
+      },
+      "network-boundary": {
+        "resident_ttft_s": 1.5288329079994583,
+        "swap_ttft_s": 1.6306674725010453,
+        "delta_ms": 101.83456450158701
+      },
+      "invoice": {
+        "resident_ttft_s": 1.5756695019999825,
+        "swap_ttft_s": 1.683480032999796,
+        "delta_ms": 107.81053099981364
+      },
+      "untrusted-poster": {
+        "resident_ttft_s": 1.5797704824999528,
+        "swap_ttft_s": 1.6851851359997454,
+        "delta_ms": 105.41465349979262
+      },
+      "shape-count": {
+        "resident_ttft_s": 1.5618276035002054,
+        "swap_ttft_s": 1.6586355025001467,
+        "delta_ms": 96.80789899994124
+      },
+      "photo-astronaut": {
+        "resident_ttft_s": 1.1260503499997867,
+        "swap_ttft_s": 1.233300441999745,
+        "delta_ms": 107.25009199995839
+      },
+      "photo-coffee": {
+        "resident_ttft_s": 1.1052199270006895,
+        "swap_ttft_s": 1.209255322500212,
+        "delta_ms": 104.03539549952256
+      },
+      "photo-chelsea": {
+        "resident_ttft_s": 0.9174566890005735,
+        "swap_ttft_s": 1.0253642099996796,
+        "delta_ms": 107.90752099910605
+      }
+    },
+    "median_delta_ms": 103.28661750008905,
+    "max_delta_ms": 107.90752099910605,
+    "content_correct": {
+      "resident": [
+        14,
+        14
+      ],
+      "swap": [
+        14,
+        14
+      ]
+    },
+    "lend_reclaim": [
+      {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.8,
+        "reclaim_map_ms_median": 22.9,
+        "reclaim_refill_ms_median": 63.9,
+        "slots": [
+          812
+        ]
+      },
+      {
+        "count": 30,
+        "failed": 0,
+        "lend_ms_median": 0.9,
+        "reclaim_ms_median": 86.8,
+        "reclaim_map_ms_median": 22.6,
+        "reclaim_refill_ms_median": 63.9,
+        "slots": [
+          812
+        ]
+      }
+    ]
+  }
+}

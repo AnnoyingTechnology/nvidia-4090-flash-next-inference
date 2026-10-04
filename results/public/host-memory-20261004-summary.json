@@ -1,0 +1,140 @@
+{
+  "configuration": {
+    "observed_at": "2026-10-04T11:28:20.709501+00:00",
+    "source": "SMBIOS type 17; frequency is firmware-reported, not a bandwidth measurement",
+    "memory_devices": [
+      {
+        "locator": "DIMMA1",
+        "size_mib": 49152,
+        "rated_mt_s": 5600,
+        "configured_mt_s": 3600,
+        "data_width_bits": 64
+      },
+      {
+        "locator": "DIMMA2",
+        "size_mib": 49152,
+        "rated_mt_s": 5600,
+        "configured_mt_s": 3600,
+        "data_width_bits": 64
+      },
+      {
+        "locator": "DIMMB1",
+        "size_mib": 49152,
+        "rated_mt_s": 5600,
+        "configured_mt_s": 3600,
+        "data_width_bits": 64
+      },
+      {
+        "locator": "DIMMB2",
+        "size_mib": 49152,
+        "rated_mt_s": 5600,
+        "configured_mt_s": 3600,
+        "data_width_bits": 64
+      }
+    ]
+  },
+  "method": "1 GiB sequential uint64 reduction, six passes, first excluded; gcc -O3 -march=native -fopenmp; OMP_PLACES=cores OMP_PROC_BIND=spread. Model loaded but no requests or compilation during trials. Synthetic ceiling, not inference bandwidth.",
+  "source_sha256": "f12efe0fa05f92030fad1badca3de24df3c880073d5755d1109a339faaaf6388",
+  "trials": [
+    {
+      "threads": 1,
+      "trial": 0,
+      "bytes": 1073741824,
+      "seconds": 0.02352221,
+      "gb_s": 45.647999,
+      "checksum_ok": true
+    },
+    {
+      "threads": 1,
+      "trial": 1,
+      "bytes": 1073741824,
+      "seconds": 0.021653528,
+      "gb_s": 49.587385,
+      "checksum_ok": true
+    },
+    {
+      "threads": 1,
+      "trial": 2,
+      "bytes": 1073741824,
+      "seconds": 0.02071346,
+      "gb_s": 51.837879,
+      "checksum_ok": true
+    },
+    {
+      "threads": 1,
+      "trial": 3,
+      "bytes": 1073741824,
+      "seconds": 0.020611569,
+      "gb_s": 52.094133,
+      "checksum_ok": true
+    },
+    {
+      "threads": 1,
+      "trial": 4,
+      "bytes": 1073741824,
+      "seconds": 0.02060261,
+      "gb_s": 52.116786,
+      "checksum_ok": true
+    },
+    {
+      "threads": 1,
+      "trial": 5,
+      "bytes": 1073741824,
+      "seconds": 0.0207396,
+      "gb_s": 51.772543,
+      "checksum_ok": true
+    },
+    {
+      "threads": 12,
+      "trial": 0,
+      "bytes": 1073741824,
+      "seconds": 0.025559075,
+      "gb_s": 42.010199,
+      "checksum_ok": true
+    },
+    {
+      "threads": 12,
+      "trial": 1,
+      "bytes": 1073741824,
+      "seconds": 0.024666499,
+      "gb_s": 43.53037,
+      "checksum_ok": true
+    },
+    {
+      "threads": 12,
+      "trial": 2,
+      "bytes": 1073741824,
+      "seconds": 0.024931487,
+      "gb_s": 43.067701,
+      "checksum_ok": true
+    },
+    {
+      "threads": 12,
+      "trial": 3,
+      "bytes": 1073741824,
+      "seconds": 0.024925738,
+      "gb_s": 43.077634,
+      "checksum_ok": true
+    },
+    {
+      "threads": 12,
+      "trial": 4,
+      "bytes": 1073741824,
+      "seconds": 0.024801878,
+      "gb_s": 43.292763,
+      "checksum_ok": true
+    },
+    {
+      "threads": 12,
+      "trial": 5,
+      "bytes": 1073741824,
+      "seconds": 0.024777568,
+      "gb_s": 43.335239,
+      "checksum_ok": true
+    }
+  ],
+  "median_gb_s": {
+    "1": 51.837879,
+    "12": 43.292763
+  }
+}

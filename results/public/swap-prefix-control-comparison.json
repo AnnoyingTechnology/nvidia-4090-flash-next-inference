@@ -1,0 +1,471 @@
+{
+  "scope": "Build control on the original swap-ab-v1 requests. Two fresh launches per build; resident, v3, v4, v4, v3, resident. Image latency uses the separately completed decks. This does not make a uniform speed claim across prompts.",
+  "reference": {
+    "source": "swap-residency-1-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+    "sha256": "223495c745d0680781cd2eaaf8363773e8ce823845bb58d26f8133905f96850a"
+  },
+  "protocol": {
+    "sampling": {
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0,
+      "presence_penalty": 0,
+      "repetition_penalty": 1,
+      "reasoning_effort": "low",
+      "seed": 42
+    },
+    "tune": {},
+    "decode_tokens": 512,
+    "paired_id": "swap-ab-v1"
+  },
+  "all_original_request_hashes_match": true,
+  "order": [
+    "resident",
+    "v3",
+    "v4",
+    "v4",
+    "v3",
+    "resident"
+  ],
+  "runs": [
+    {
+      "source": "swap-prefix-control-1-resident-1-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T10:35:57.124998+00:00",
+      "sha256": {
+        "swap-prefix-control-1-resident-1-flash-iq3s-256k-vision-tune-ownervision-perf.json": "fdd247e7043f6c4163a875e7e0e395f8be00c1c32c8f21427a000cafcdc98f3f",
+        "swap-prefix-control-1-resident-1-flash-iq3s-256k-vision-tune-ownervision-api.json": "8065e45c2867d1e9433dec931d683d258dfe6bee2d7dcc630bbafd158bfbcca9",
+        "swap-prefix-control-1-resident-1-flash-iq3s-256k-vision-tune-ownervision-engine.log": "a0d329516a3741c0d99a81df89ca9c44600d12dd09b578d5a7fe57ab1f7ffacf"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7605,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        111.6,
+        95.4,
+        100.4,
+        101.5,
+        93.1,
+        107.8
+      ],
+      "decode_median_tok_s": 100.95,
+      "decode_hit_rate": [
+        0.8275146194196605,
+        0.8490998835495231,
+        0.8541948402751945,
+        0.7863284849941901,
+        0.8530664855167128,
+        0.8855442464172086
+      ],
+      "decode_hit_rate_aggregate": 0.8441427865417429,
+      "aggregate_draft_acceptance": 0.7774376912986445,
+      "short_prompt_ttft_median_s": 0.5929788325001937,
+      "prefill_tok_s": [
+        4737.1,
+        4754.1
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23972.0,
+      "decode_median_board_power_w": 215.1975,
+      "build": "resident",
+      "image_id": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644",
+      "native_sha256": "a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676",
+      "completion_sha256": [
+        "1c1f5005adc25fcf053af865f246cb0c6cb023618c59b4b41830da9911cfe17e",
+        "0b6f314947f126da0220c276ce9c9fed58abe9ee82e3bba0088e52dcb2d3ffe8",
+        "36ff8fae92d352bade829a09cd21b7d16bcb454fa3fefc084e4fdf689c581834",
+        "c54c0c46934c695b3310932f448eb507cf6f5502da915ca12f210b8af67ca851",
+        "e23360fc0261750ae97f97bbac9b11352b6461ea95427d7f2709023aa71fafa3",
+        "5840691bab8b0c1851d2e7939a140765cda11ab7b9f618fb47040e3534a97e34"
+      ]
+    },
+    {
+      "source": "swap-prefix-control-2-v3-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T10:37:15.371233+00:00",
+      "sha256": {
+        "swap-prefix-control-2-v3-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "92f51fbf9ff49a6fb7555742958b04738e652b4556d3a3d77a6bb04b8a015009",
+        "swap-prefix-control-2-v3-1-flash-iq3s-256k-vision-tune-ownerswap-api.json": "5eeea767081cd97eb02c9c35d2bbdf354c5974990ccae66d0f56113df00b7598",
+        "swap-prefix-control-2-v3-1-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "c619d2dd040b09b66d00a16fb1b0c3cb6eb79748a52c770b0ff928d09e2ddd11"
+      },
+      "runtime_fingerprint": "c770920f2d5991f6128c63c9ec5582d53a7d3594a5de5df07e47eb07b209c1dd",
+      "expert_cache": {
+        "slots": 8379,
+        "gib_rounded_in_engine_log": 15.89
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        130.7,
+        107.8,
+        106.8,
+        109.2,
+        104.1,
+        120.1
+      ],
+      "decode_median_tok_s": 108.5,
+      "decode_hit_rate": [
+        0.9148499165813787,
+        0.9029977637856944,
+        0.8815992336655747,
+        0.8129638968120144,
+        0.8727105271678713,
+        0.9158319358201514
+      ],
+      "decode_hit_rate_aggregate": 0.884955736419629,
+      "aggregate_draft_acceptance": 0.7664359861591695,
+      "short_prompt_ttft_median_s": 0.5396087295002872,
+      "prefill_tok_s": [
+        4764.2,
+        4750.4
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 236.09,
+      "build": "v3",
+      "image_id": "sha256:3e3faafd24d367aa999b6b942b6eb7199b653b0df628739f8dc1fbe178c9b2e3",
+      "native_sha256": "112202f10e5b218da7ad4d1fc8076b81198c289d69a5c122684a315d36e1c83a",
+      "completion_sha256": [
+        "3c60b66d216c1a692d03895528634f5e85bd2d0d11212cd4ba616673af75d61a",
+        "d84c16486a2a68806faa58a7e3ef9d5c8c67141e34d2dfa19e42a8a4216e9de2",
+        "05d54cc142d90988a82b840cb8e3011608ee106a2682f93f390f7dfca6aeb567",
+        "0cf6b27569131d48993888a856ebc876b835c5ef671de383849aa98eb4dbe94e",
+        "a146f5c32a270e177b74b5a0cdf651331450371bd2ca72c9c285643460533fbd",
+        "5ad05cfa9b867d5f21212502d674525808dc89ef48fa8b23aba8bb2b28af4804"
+      ]
+    },
+    {
+      "source": "swap-prefix-control-3-v4-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T10:38:29.788933+00:00",
+      "sha256": {
+        "swap-prefix-control-3-v4-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "6da758ab61f3e5a21e5f061ab1eac41f3519e2c03a53095a16bb9404ec9379ac",
+        "swap-prefix-control-3-v4-1-flash-iq3s-256k-vision-tune-ownerswap-api.json": "1bd54541289deed33a6a69c661f80f701d40c581577a1b774d9915a0a73ea87a",
+        "swap-prefix-control-3-v4-1-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "08344bf9e46f1afa226b51569328d61456765bc0e3e6694b0ea529fc4dd42ac4"
+      },
+      "runtime_fingerprint": "4d37e26f44c0878736b836ee3cc21c8cc7a0722d7fc7a7bfcd24b9b7921d256c",
+      "expert_cache": {
+        "slots": 8379,
+        "gib_rounded_in_engine_log": 15.89
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        130.6,
+        107.9,
+        107.0,
+        109.7,
+        104.3,
+        120.2
+      ],
+      "decode_median_tok_s": 108.80000000000001,
+      "decode_hit_rate": [
+        0.9148499165813787,
+        0.9029977637856944,
+        0.8815992336655747,
+        0.8129638968120144,
+        0.8727105271678713,
+        0.9158319358201514
+      ],
+      "decode_hit_rate_aggregate": 0.884955736419629,
+      "aggregate_draft_acceptance": 0.7664359861591695,
+      "short_prompt_ttft_median_s": 0.5390163104993917,
+      "prefill_tok_s": [
+        4741.4,
+        4767.3
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 237.58999999999997,
+      "build": "v4",
+      "image_id": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe",
+      "native_sha256": "c8036c3b4f539701061835677377a564a6728aefa88435b390ac93729cfd3a29",
+      "completion_sha256": [
+        "3c60b66d216c1a692d03895528634f5e85bd2d0d11212cd4ba616673af75d61a",
+        "d84c16486a2a68806faa58a7e3ef9d5c8c67141e34d2dfa19e42a8a4216e9de2",
+        "05d54cc142d90988a82b840cb8e3011608ee106a2682f93f390f7dfca6aeb567",
+        "0cf6b27569131d48993888a856ebc876b835c5ef671de383849aa98eb4dbe94e",
+        "a146f5c32a270e177b74b5a0cdf651331450371bd2ca72c9c285643460533fbd",
+        "5ad05cfa9b867d5f21212502d674525808dc89ef48fa8b23aba8bb2b28af4804"
+      ]
+    },
+    {
+      "source": "swap-prefix-control-4-v4-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T10:39:43.723868+00:00",
+      "sha256": {
+        "swap-prefix-control-4-v4-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "6ed6e7006c72320b6b7bc422e00b98d18f69d59aabec41f4037f1e1d9dc4f9ba",
+        "swap-prefix-control-4-v4-1-flash-iq3s-256k-vision-tune-ownerswap-api.json": "b3e5440ca25877aff113475ea73254b09eddc525562f0b9b20d34a8afa420524",
+        "swap-prefix-control-4-v4-1-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "10f5531dc2fc7b42224b5a0b830e4748ee0bb474d71340b4dbe600476667448d"
+      },
+      "runtime_fingerprint": "4d37e26f44c0878736b836ee3cc21c8cc7a0722d7fc7a7bfcd24b9b7921d256c",
+      "expert_cache": {
+        "slots": 8379,
+        "gib_rounded_in_engine_log": 15.89
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        131.3,
+        108.1,
+        107.0,
+        109.6,
+        104.4,
+        120.2
+      ],
+      "decode_median_tok_s": 108.85,
+      "decode_hit_rate": [
+        0.9148499165813787,
+        0.9029977637856944,
+        0.8815992336655747,
+        0.8129638968120144,
+        0.8727105271678713,
+        0.9158319358201514
+      ],
+      "decode_hit_rate_aggregate": 0.884955736419629,
+      "aggregate_draft_acceptance": 0.7664359861591695,
+      "short_prompt_ttft_median_s": 0.5393903234999016,
+      "prefill_tok_s": [
+        4759.0,
+        4760.2
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 238.325,
+      "build": "v4",
+      "image_id": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe",
+      "native_sha256": "c8036c3b4f539701061835677377a564a6728aefa88435b390ac93729cfd3a29",
+      "completion_sha256": [
+        "3c60b66d216c1a692d03895528634f5e85bd2d0d11212cd4ba616673af75d61a",
+        "d84c16486a2a68806faa58a7e3ef9d5c8c67141e34d2dfa19e42a8a4216e9de2",
+        "05d54cc142d90988a82b840cb8e3011608ee106a2682f93f390f7dfca6aeb567",
+        "0cf6b27569131d48993888a856ebc876b835c5ef671de383849aa98eb4dbe94e",
+        "a146f5c32a270e177b74b5a0cdf651331450371bd2ca72c9c285643460533fbd",
+        "5ad05cfa9b867d5f21212502d674525808dc89ef48fa8b23aba8bb2b28af4804"
+      ]
+    },
+    {
+      "source": "swap-prefix-control-5-v3-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownerswap",
+      "side": "vision",
+      "started_at": "2026-10-04T10:40:58.315400+00:00",
+      "sha256": {
+        "swap-prefix-control-5-v3-1-flash-iq3s-256k-vision-tune-ownerswap-perf.json": "e71e6113635db2f8d3d1b0e339fab438a8e3ac29f192c11dd027b9a346f1c4d5",
+        "swap-prefix-control-5-v3-1-flash-iq3s-256k-vision-tune-ownerswap-api.json": "c4918ce77bfeb1ab1f85ea90ef770f4ad71f75350c3cf7939ffb0187925ae8ef",
+        "swap-prefix-control-5-v3-1-flash-iq3s-256k-vision-tune-ownerswap-engine.log": "ada4c7a9d9683510ea69f7cbd7ffc543ee061ced7766e03a5c54fffb175aa626"
+      },
+      "runtime_fingerprint": "c770920f2d5991f6128c63c9ec5582d53a7d3594a5de5df07e47eb07b209c1dd",
+      "expert_cache": {
+        "slots": 8379,
+        "gib_rounded_in_engine_log": 15.89
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        130.2,
+        107.6,
+        106.5,
+        108.7,
+        103.9,
+        120.0
+      ],
+      "decode_median_tok_s": 108.15,
+      "decode_hit_rate": [
+        0.9148499165813787,
+        0.9029977637856944,
+        0.8815992336655747,
+        0.8129638968120144,
+        0.8727105271678713,
+        0.9158319358201514
+      ],
+      "decode_hit_rate_aggregate": 0.884955736419629,
+      "aggregate_draft_acceptance": 0.7664359861591695,
+      "short_prompt_ttft_median_s": 0.5407014630000049,
+      "prefill_tok_s": [
+        4733.0,
+        4774.6
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23996.0,
+      "decode_median_board_power_w": 238.285,
+      "build": "v3",
+      "image_id": "sha256:3e3faafd24d367aa999b6b942b6eb7199b653b0df628739f8dc1fbe178c9b2e3",
+      "native_sha256": "112202f10e5b218da7ad4d1fc8076b81198c289d69a5c122684a315d36e1c83a",
+      "completion_sha256": [
+        "3c60b66d216c1a692d03895528634f5e85bd2d0d11212cd4ba616673af75d61a",
+        "d84c16486a2a68806faa58a7e3ef9d5c8c67141e34d2dfa19e42a8a4216e9de2",
+        "05d54cc142d90988a82b840cb8e3011608ee106a2682f93f390f7dfca6aeb567",
+        "0cf6b27569131d48993888a856ebc876b835c5ef671de383849aa98eb4dbe94e",
+        "a146f5c32a270e177b74b5a0cdf651331450371bd2ca72c9c285643460533fbd",
+        "5ad05cfa9b867d5f21212502d674525808dc89ef48fa8b23aba8bb2b28af4804"
+      ]
+    },
+    {
+      "source": "swap-prefix-control-6-resident-1-flash-iq3s-256k-vision-tune-ownervision-perf.json",
+      "profile": "flash-iq3s-256k-vision-tune-ownervision",
+      "side": "vision",
+      "started_at": "2026-10-04T10:42:13.293572+00:00",
+      "sha256": {
+        "swap-prefix-control-6-resident-1-flash-iq3s-256k-vision-tune-ownervision-perf.json": "d4f208b3cd1c82f5b1ba5435fe4e89a69003cbe4f7ba262f4b10fd03ade70f36",
+        "swap-prefix-control-6-resident-1-flash-iq3s-256k-vision-tune-ownervision-api.json": "f200b31e8331dc44a8e21ea7577c7446649ded15373f29c61f8df58e324895ce",
+        "swap-prefix-control-6-resident-1-flash-iq3s-256k-vision-tune-ownervision-engine.log": "e4e3d79bad050436a2875483c881a7c5fba03bc98297757f38f5a991047ab6bb"
+      },
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "expert_cache": {
+        "slots": 7603,
+        "gib_rounded_in_engine_log": 14.42
+      },
+      "api_checks": {
+        "passed": 9,
+        "total": 9
+      },
+      "decode_tok_s": [
+        110.4,
+        94.7,
+        105.5,
+        111.8,
+        99.2,
+        102.6
+      ],
+      "decode_median_tok_s": 104.05,
+      "decode_hit_rate": [
+        0.8301468860390848,
+        0.8520622477438277,
+        0.8896953222032145,
+        0.8459052367588225,
+        0.8606445537374425,
+        0.8631744623315165
+      ],
+      "decode_hit_rate_aggregate": 0.8577061581814456,
+      "aggregate_draft_acceptance": 0.749265014699706,
+      "short_prompt_ttft_median_s": 0.5818171355003869,
+      "prefill_tok_s": [
+        4737.1,
+        4751.6
+      ],
+      "prefill_prompt_tokens": 31817,
+      "decode_gpu_peak_mib": 23968.0,
+      "decode_median_board_power_w": 227.2625,
+      "build": "resident",
+      "image_id": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644",
+      "native_sha256": "a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676",
+      "completion_sha256": [
+        "6e1ab3ea5a15042168cc4f71b412e100196aed51d3ef411460226066495ad722",
+        "1c78dfe12dba6e61f79228547c4ed8b8df7de89c0c2e9a1a08d34419023444fd",
+        "168499685b4d8f33b0f8dc713e5b1230c65ac6b00f8f8fdf12d33ad78c962607",
+        "ea5303095372fcba6fc33d45c3e05a638c4fcd53494d089e96d892ed86f76245",
+        "a80129382d158ac65828f9cb29b3e4af863ae03032646b3b5dbda6869c87f4ac",
+        "7172fb3571639d37cc3e3d0b32a9d1c429c9a3abbaf73a23fd4631c72380a667"
+      ]
+    }
+  ],
+  "sides": {
+    "resident": {
+      "launches": 2,
+      "expert_cache_slots": [
+        7603,
+        7605
+      ],
+      "per_launch_decode_median_tok_s": [
+        100.95,
+        104.05
+      ],
+      "median_of_launch_medians_tok_s": 102.5,
+      "pooled_decode_median_tok_s": 102.05,
+      "decode_hit_rate_median_of_launches": 0.8509244723615943,
+      "short_prompt_ttft_median_s": 0.5873979840002903,
+      "prefill_median_tok_s": 4744.35
+    },
+    "v3": {
+      "launches": 2,
+      "expert_cache_slots": [
+        8379
+      ],
+      "per_launch_decode_median_tok_s": [
+        108.5,
+        108.15
+      ],
+      "median_of_launch_medians_tok_s": 108.325,
+      "pooled_decode_median_tok_s": 108.25,
+      "decode_hit_rate_median_of_launches": 0.884955736419629,
+      "short_prompt_ttft_median_s": 0.540155096250146,
+      "prefill_median_tok_s": 4757.299999999999
+    },
+    "v4": {
+      "launches": 2,
+      "expert_cache_slots": [
+        8379
+      ],
+      "per_launch_decode_median_tok_s": [
+        108.80000000000001,
+        108.85
+      ],
+      "median_of_launch_medians_tok_s": 108.825,
+      "pooled_decode_median_tok_s": 108.85,
+      "decode_hit_rate_median_of_launches": 0.884955736419629,
+      "short_prompt_ttft_median_s": 0.5392033169996466,
+      "prefill_median_tok_s": 4759.6
+    }
+  },
+  "comparisons": {
+    "v3": {
+      "decode_gain_percent": 5.682926829268298,
+      "per_launch_ranges_overlap": false,
+      "meets_original_decode_gate": true,
+      "runtime": {
+        "engine_binary_differs": true,
+        "image_ids": {
+          "resident": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644",
+          "swap": "sha256:3e3faafd24d367aa999b6b942b6eb7199b653b0df628739f8dc1fbe178c9b2e3"
+        },
+        "native_sha256": {
+          "resident": "a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676",
+          "swap": "112202f10e5b218da7ad4d1fc8076b81198c289d69a5c122684a315d36e1c83a"
+        },
+        "lend_vram_args": [
+          "--lend-vram-mib",
+          "1574"
+        ]
+      }
+    },
+    "v4": {
+      "decode_gain_percent": 6.170731707317079,
+      "per_launch_ranges_overlap": false,
+      "meets_original_decode_gate": true,
+      "runtime": {
+        "engine_binary_differs": true,
+        "image_ids": {
+          "resident": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644",
+          "swap": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe"
+        },
+        "native_sha256": {
+          "resident": "a4d403dc589c656121c33960314da0fc9e728c60802a07f51d1a62e1cbf5c676",
+          "swap": "c8036c3b4f539701061835677377a564a6728aefa88435b390ac93729cfd3a29"
+        },
+        "lend_vram_args": [
+          "--lend-vram-mib",
+          "1574"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,400 @@
+{
+  "observed_at": "2026-10-04T11:55:46.834508+00:00",
+  "profile": "flash-iq3s-256k-vision-tune-owneradapt24",
+  "profile_sha256": "1615c754242e8f6fcc6577b34198efe581984e8169be2480d5368794395d8c41",
+  "checks": [
+    {
+      "name": "model-context-vision",
+      "passed": true,
+      "evidence": {
+        "status": 200,
+        "body": {
+          "service": "strata",
+          "model": "Qwen3.8-Flash-Next",
+          "loaded": true,
+          "auto_load": true,
+          "structured_output": {
+            "formats": [
+              "json_object",
+              "json_schema"
+            ],
+            "method": "prompt_and_validate",
+            "constrained_decoding": false,
+            "stream_buffered": true
+          },
+          "engine": "0.1.38",
+          "started": 1791114904,
+          "uptime_s": 42,
+          "cache_max_tokens": 262144,
+          "context": {
+            "native": 262144,
+            "max_positions": 262144
+          },
+          "concurrency": {
+            "serving": 1,
+            "requested": 1
+          },
+          "dialects": [
+            "/v1/chat/completions",
+            "/v1/messages"
+          ],
+          "vision": {
+            "enabled": true,
+            "available": true,
+            "error": null
+          },
+          "activity": {
+            "requests": 15,
+            "in_flight": 0,
+            "last_request_at": 1791114946
+          },
+          "last_timings": {
+            "cache_n": 0,
+            "prompt_n": 238,
+            "prompt_ms": 852.0,
+            "prompt_per_token_ms": 3.58,
+            "prompt_per_second": 279.3,
+            "predicted_n": 102,
+            "predicted_ms": 966.0,
+            "predicted_per_token_ms": 9.471,
+            "predicted_per_second": 105.6,
+            "draft_n": 84,
+            "draft_n_accepted": 56,
+            "at": 1791114946
+          },
+          "machine": {
+            "at": 1791114946,
+            "gpu": {
+              "name": "NVIDIA GeForce RTX 4090",
+              "used_mib": 24295.0,
+              "total_mib": 24564.0,
+              "util_pct": 99,
+              "temp_c": 52,
+              "power_w": 224.593
+            },
+            "ram": {
+              "used_gib": 84.9,
+              "total_gib": 187.8
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "sampling-and-output-defaults",
+      "passed": true,
+      "evidence": {
+        "status": 200,
+        "body": {
+          "default_generation_settings": {
+            "n_ctx": 262144,
+            "params": {
+              "temperature": 1.0,
+              "top_p": 0.95,
+              "top_k": 20,
+              "min_p": 0.0,
+              "presence_penalty": 0.0,
+              "repeat_penalty": 1.0,
+              "n_predict": 8192
+            }
+          },
+          "total_slots": 1,
+          "model_alias": "Qwen3.8-Flash-Next",
+          "chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- set sysns = namespace(count=0, text='') %}\n{%- for message in messages %}\n    {%- if sysns.count == loop.index0 and (message.role == 'system' or message.role == 'developer') %}\n        {%- set sys_content = render_content(message.content, false, true)|trim %}\n        {%- if sys_content %}\n            {%- set sysns.text = sysns.text + ('\\n' if sysns.text else '') + sys_content %}\n        {%- endif %}\n        {%- set sysns.count = sysns.count + 1 %}\n    {%- endif %}\n{%- endfor %}\n{%- set num_sys = sysns.count %}\n{%- set merged_system = sysns.text %}\n{%- set reasoning_instructions = '' %}\n{%- if enable_thinking is undefined or enable_thinking is true %}\n    {%- set resolved_reasoning_effort = reasoning_effort|default('xhigh') %}\n    {%- if resolved_reasoning_effort == 'high' %}\n        {%- set resolved_reasoning_effort = 'xhigh' %}\n    {%- endif %}\n    {%- if resolved_reasoning_effort not in ('xhigh', 'medium', 'low') %}\n        {{- raise_exception('Unexpected reasoning effort ' ~ reasoning_effort ~ '. Supported types are xhigh (default), medium, and low.') }}\n    {%- endif %}\n    {%- if resolved_reasoning_effort == 'xhigh' %}\n        {%- set reasoning_instructions = 'Reasoning effort is set to xhigh. Please think carefully through the task, validate key assumptions, consider plausible alternatives, and prioritize correctness, consistency, and clarity in the final answer.' %}\n    {%- elif resolved_reasoning_effort == 'low' %}\n        {%- set reasoning_instructions = 'Reasoning effort is set to low. Keep your thinking brief and focused, moving directly to the conclusion without unnecessary elaboration.' %}\n    {%- endif %}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if reasoning_instructions %}\n        {{- reasoning_instructions + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if merged_system %}\n        {{- '\\n\\n' + merged_system }}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if merged_system %}\n        {{- '<|im_start|>system\\n' + (reasoning_instructions + '\\n\\n' if reasoning_instructions else '')  + merged_system + '<|im_end|>\\n' }}\n    {%- elif reasoning_instructions %}\n        {{- '<|im_start|>system\\n' + reasoning_instructions + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if loop.index0 >= num_sys %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" or message.role == \"developer\" %}\n        {{- raise_exception('System message must be at the beginning.') }}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if preserve_thinking is undefined or preserve_thinking is true or loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if tool_call.name is not defined or tool_call.name is none %}\n                    {{- raise_exception('Tool call is missing a function name.') }}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is mapping %}\n                    {%- for args_name, args_value in tool_call.arguments|items %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | string if args_value is string else args_value | tojson | safe %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- elif tool_call.arguments is string %}\n                    {%- if tool_call.arguments|trim %}\n                        {{- raise_exception('Tool call arguments for function \"' + (tool_call.name | string) + '\" were passed as a JSON string. Parse them into an object before calling apply_chat_template.') }}\n                    {%- endif %}\n                {%- elif tool_call.arguments is defined and tool_call.arguments is not none %}\n                    {{- raise_exception('Tool call arguments for function \"' + (tool_call.name | string) + '\" must be an object/mapping or a JSON string.') }}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- else %}\n        {{- '<think>\\n' }}\n    {%- endif %}\n{%- endif %}\n{#- Unsloth fixes - developer role, merged system messages, tool calling #}",
+          "modalities": {
+            "vision": true
+          },
+          "models_autoload": true,
+          "is_sleeping": false,
+          "model_path": "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+          "build_info": "Strata 0.1.38"
+        }
+      }
+    },
+    {
+      "name": "low-reasoning-default",
+      "passed": true,
+      "evidence": {
+        "status": 200,
+        "body": {
+          "shared": true,
+          "defaults": {
+            "reasoning_effort": "low",
+            "max_tokens": 8192
+          }
+        }
+      }
+    },
+    {
+      "name": "implicit-low-request",
+      "passed": true,
+      "evidence": {
+        "payload": {
+          "model": "ulmus",
+          "messages": [
+            {
+              "role": "user",
+              "content": "In one sentence explain why nginx -t should precede reloading nginx."
+            }
+          ],
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          }
+        },
+        "response": {
+          "ttft_s": 0.47610041400184855,
+          "total_s": 1.8407987960017635,
+          "usage": {
+            "prompt_tokens": 54,
+            "completion_tokens": 118,
+            "total_tokens": 172,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 54,
+            "prompt_ms": 460.2,
+            "prompt_per_token_ms": 8.522,
+            "prompt_per_second": 117.3,
+            "predicted_n": 118,
+            "predicted_ms": 1376.8,
+            "predicted_per_token_ms": 11.668,
+            "predicted_per_second": 85.7,
+            "draft_n": 72,
+            "draft_n_accepted": 60
+          },
+          "content": "Running `nginx -t` first validates the configuration for syntax errors and invalid directives, ensuring that a broken config is never loaded into the running server and thereby avoiding a failed reload that could leave nginx down or serving stale/broken settings.",
+          "reasoning": "The user wants a concise one-sentence explanation of why `nginx -t` should precede `nginx -s reload`. The key reasoning: `nginx -t` validates the configuration syntax and checks for errors before applying changes, preventing a broken config from being loaded into the running server (which could cause downtime or a failed reload).\n",
+          "tool_deltas": [],
+          "finish_reason": "stop",
+          "gpu_peak_mib": 23942.0,
+          "gpu_peak_temperature_c": 52.0,
+          "host_min_available_gib": 102.89288711547852,
+          "median_power_w": 200.51
+        }
+      }
+    },
+    {
+      "name": "explicit-none-override",
+      "passed": true,
+      "evidence": {
+        "payload": {
+          "model": "ulmus",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Return exactly READY and no other characters."
+            }
+          ],
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "reasoning_effort": "none",
+          "temperature": 0,
+          "max_tokens": 32
+        },
+        "response": {
+          "ttft_s": 0.17468745699807187,
+          "total_s": 0.21928967599887983,
+          "usage": {
+            "prompt_tokens": 20,
+            "completion_tokens": 2,
+            "total_tokens": 22,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 20,
+            "prompt_ms": 158.4,
+            "prompt_per_token_ms": 7.92,
+            "prompt_per_second": 126.3,
+            "predicted_n": 2,
+            "predicted_ms": 56.2,
+            "predicted_per_token_ms": 28.1,
+            "predicted_per_second": 35.6,
+            "draft_n": 3,
+            "draft_n_accepted": 3
+          },
+          "content": "READY",
+          "reasoning": "",
+          "tool_deltas": [],
+          "finish_reason": "stop",
+          "gpu_peak_mib": 23942.0,
+          "gpu_peak_temperature_c": 52.0,
+          "host_min_available_gib": 103.01459884643555,
+          "median_power_w": 210.8
+        }
+      }
+    },
+    {
+      "name": "validated-json-schema-sse",
+      "passed": true,
+      "evidence": {
+        "payload": {
+          "model": "ulmus",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Describe a validation-only deployment plan. action must be validate and apply must be false."
+            }
+          ],
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "max_tokens": 2048,
+          "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+              "name": "validation_plan",
+              "strict": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "validate"
+                    ]
+                  },
+                  "apply": {
+                    "type": "boolean",
+                    "const": false
+                  }
+                },
+                "required": [
+                  "action",
+                  "apply"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "response": {
+          "ttft_s": 1.414348024998617,
+          "total_s": 1.4144303049979499,
+          "usage": {
+            "prompt_tokens": 155,
+            "completion_tokens": 95,
+            "total_tokens": 250,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 155,
+            "prompt_ms": 558.7,
+            "prompt_per_token_ms": 3.605,
+            "prompt_per_second": 277.4,
+            "predicted_n": 95,
+            "predicted_ms": 813.8,
+            "predicted_per_token_ms": 8.566,
+            "predicted_per_second": 116.7,
+            "draft_n": 71,
+            "draft_n_accepted": 59
+          },
+          "content": "{\"action\":\"validate\",\"apply\":false}",
+          "reasoning": "The user is asking me to describe a validation-only deployment plan where action must be \"validate\" and apply must be false. They want me to return a JSON object matching the provided schema, with action set to \"validate\" and apply set to false. The schema is very specific - it only allows \"action\" and \"apply\" properties, with action constrained to \"validate\" and apply constrained to false.\n",
+          "tool_deltas": [],
+          "finish_reason": "stop",
+          "gpu_peak_mib": 23942.0,
+          "gpu_peak_temperature_c": 54.0,
+          "host_min_available_gib": 102.88899612426758,
+          "median_power_w": 184.35
+        }
+      }
+    },
+    {
+      "name": "invalid-root-schema-rejected",
+      "passed": true,
+      "evidence": {
+        "status": 400,
+        "body": {
+          "error": {
+            "type": "invalid_request_error",
+            "message": "response_format schema must have type object at its root"
+          }
+        }
+      }
+    },
+    {
+      "name": "unsupported-format-plus-tools-rejected",
+      "passed": true,
+      "evidence": {
+        "status": 400,
+        "body": {
+          "error": {
+            "type": "invalid_request_error",
+            "message": "structured response_format with tools/MCP is not supported"
+          }
+        }
+      }
+    },
+    {
+      "name": "explicit-output-cap-override",
+      "passed": true,
+      "evidence": {
+        "payload": {
+          "model": "ulmus",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Explain DNS resolution in 1000 words."
+            }
+          ],
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "reasoning_effort": "none",
+          "temperature": 0,
+          "max_tokens": 16
+        },
+        "response": {
+          "ttft_s": 0.238445650000358,
+          "total_s": 0.49870863300020574,
+          "usage": {
+            "prompt_tokens": 24,
+            "completion_tokens": 16,
+            "total_tokens": 40,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 24,
+            "prompt_ms": 223.2,
+            "prompt_per_token_ms": 9.3,
+            "prompt_per_second": 107.5,
+            "predicted_n": 16,
+            "predicted_ms": 272.8,
+            "predicted_per_token_ms": 17.05,
+            "predicted_per_second": 58.7,
+            "draft_n": 19,
+            "draft_n_accepted": 9
+          },
+          "content": "The Domain Name System (DNS) is often described as the phonebook of the",
+          "reasoning": "",
+          "tool_deltas": [],
+          "finish_reason": "length",
+          "gpu_peak_mib": 23942.0,
+          "gpu_peak_temperature_c": 52.0,
+          "host_min_available_gib": 102.9697036743164,
+          "median_power_w": 216.95
+        }
+      }
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "total": 9
+  }
+}

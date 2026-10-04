@@ -1,0 +1,222 @@
+{
+  "observed_at": "2026-10-04T09:06:49.794662+00:00",
+  "image": "ulmus/strata:99f3dbd-visionunload",
+  "image_id": "sha256:642d4d60434850d8d6d67af45939dfddd83b8964c185539a69288e73c1859164",
+  "vision_args": [
+    "/opt/vision-build/bin/strata-vision",
+    "--mmproj",
+    "/work/models/gsq-iq3_s/mmproj-Qwen3.8-Flash-Next-BF16.gguf",
+    "--model",
+    "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+    "--gpu",
+    "--max-tokens",
+    "4096",
+    "--threads",
+    "12"
+  ],
+  "idle_vram_mib": 2,
+  "reload": [
+    {
+      "phase": "ready",
+      "line": "READY 2560",
+      "vram_mib": 1948
+    },
+    {
+      "phase": "step",
+      "step": "UNLOAD",
+      "repeat": 0,
+      "reply": "UNLOADED 6.0",
+      "wall_ms": 6.1285339997994015,
+      "vram_mib": 438
+    },
+    {
+      "phase": "step",
+      "step": "LOAD",
+      "repeat": 0,
+      "reply": "LOADED 125.4",
+      "wall_ms": 125.52114299978712,
+      "vram_mib": 1304
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 0,
+      "reply": "OK 1035 45 23 154",
+      "wall_ms": 154.46482399966044,
+      "vram_mib": 1478
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 0,
+      "reply": "OK 1035 45 23 171",
+      "wall_ms": 171.29474099965591,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 0,
+      "reply": "OK 4096 64 64 1868",
+      "wall_ms": 1868.28101699939,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 0,
+      "reply": "OK 4096 64 64 1844",
+      "wall_ms": 1844.1980269999476,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "UNLOAD",
+      "repeat": 1,
+      "reply": "UNLOADED 7.2",
+      "wall_ms": 7.2969060001923935,
+      "vram_mib": 444
+    },
+    {
+      "phase": "step",
+      "step": "LOAD",
+      "repeat": 1,
+      "reply": "LOADED 127.5",
+      "wall_ms": 127.61362500168616,
+      "vram_mib": 1310
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 1,
+      "reply": "OK 1035 45 23 164",
+      "wall_ms": 163.95477500009292,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 1,
+      "reply": "OK 1035 45 23 163",
+      "wall_ms": 163.34376700069697,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 1,
+      "reply": "OK 4096 64 64 1874",
+      "wall_ms": 1873.8299679989723,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 1,
+      "reply": "OK 4096 64 64 1837",
+      "wall_ms": 1836.6542420008045,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "UNLOAD",
+      "repeat": 2,
+      "reply": "UNLOADED 7.0",
+      "wall_ms": 7.110567999916384,
+      "vram_mib": 444
+    },
+    {
+      "phase": "step",
+      "step": "LOAD",
+      "repeat": 2,
+      "reply": "LOADED 125.0",
+      "wall_ms": 125.06966699947952,
+      "vram_mib": 1310
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 2,
+      "reply": "OK 1035 45 23 160",
+      "wall_ms": 160.09750299963343,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 2,
+      "reply": "OK 1035 45 23 162",
+      "wall_ms": 162.2134860008373,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 2,
+      "reply": "OK 4096 64 64 1878",
+      "wall_ms": 1878.2450210001116,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 2,
+      "reply": "OK 4096 64 64 1858",
+      "wall_ms": 1857.8132090005965,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "UNLOAD",
+      "repeat": 3,
+      "reply": "UNLOADED 6.7",
+      "wall_ms": 6.818771998950979,
+      "vram_mib": 444
+    },
+    {
+      "phase": "step",
+      "step": "LOAD",
+      "repeat": 3,
+      "reply": "LOADED 124.1",
+      "wall_ms": 124.15840600078809,
+      "vram_mib": 1310
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 3,
+      "reply": "OK 1035 45 23 165",
+      "wall_ms": 165.58221999912348,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC nginx-error.png",
+      "repeat": 3,
+      "reply": "OK 1035 45 23 163",
+      "wall_ms": 163.3152529993822,
+      "vram_mib": 1484
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 3,
+      "reply": "OK 4096 64 64 1878",
+      "wall_ms": 1877.7110660012113,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "step",
+      "step": "ENC gray-2048.bmp",
+      "repeat": 3,
+      "reply": "OK 4096 64 64 1832",
+      "wall_ms": 1832.5569370008452,
+      "vram_mib": 1954
+    },
+    {
+      "phase": "exited",
+      "code": 0
+    }
+  ],
+  "idle_after_reload_mib": 2
+}

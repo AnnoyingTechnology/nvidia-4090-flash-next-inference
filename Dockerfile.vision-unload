@@ -1,0 +1,7 @@
+# Measurement image: the selected owner image plus in-process UNLOAD/LOAD commands for strata-vision.
+# Only the vision tool is rebuilt; the engine binary and the API layer are unchanged.
+FROM ulmus/strata:99f3dbd-ownerapi
+COPY patches/strata-vision-unload-load.patch /tmp/strata-vision-unload-load.patch
+RUN cd /opt/strata && patch -p1 < /tmp/strata-vision-unload-load.patch \
+    && cmake --build /opt/vision-build -j 12 --target strata-vision \
+    && rm /tmp/strata-vision-unload-load.patch

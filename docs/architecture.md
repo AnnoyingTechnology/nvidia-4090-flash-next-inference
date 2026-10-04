@@ -25,6 +25,51 @@ The owner image adds only hash-locked validator dependencies; no inference or HT
 source changes. The optional BF16 loader and CPU-quantization overlays are retained
 as upstream patches with their MIT notice and pinned heads in the benchmark report.
 
+### Selected lend-VRAM v4 — 2026-10-04
+
+Later qualification selects profile `flash-iq3s-256k-vision-tune-owneradapt24`,
+using the identical v4 image/binaries/weights below, with `--adapt-swaps 24`.
+The original `ownerswap` profile retains its 96-swap default for rollback.
+Matched ABBA gives +0.88% at 32K and +4.26% at 128K; practical30 29/30 natural,
+vision 14/15 natural, all API and maximum-image staging checks pass.
+[Evidence and limitations](exploration-2026-10-04.md).
+
+
+`Dockerfile.lend-vram` adds the engine's CUDA VMM cache tail, vision LOAD/UNLOAD
+and pinned host projector staging to the owner image. V4's measured image ID is
+`sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe`;
+engine SHA-256 `c8036c3b4f539701061835677377a564a6728aefa88435b390ac93729cfd3a29`.
+Its engine/server patch SHA-256 is
+`4edcf118309596200c8bf37c656c072a6602dac4a5f96838a40e956da4ca7105`;
+mtmd host-copy patch SHA-256
+`7c8119143f0b36813ac4bb0194da7a2072024eba13c2514de9c7ee97236ca4f7`.
+Vision binary SHA-256 is
+`4a695b5099016fdc0e2d762ac9a194581eb80cc45d560ee8981a52c8262103f0`.
+These identify the **selected serving image**, profile
+`flash-iq3s-256k-vision-tune-owneradapt24`. The original owner API image remains the
+resident-vision rollback, with unchanged target/projector/defaults. This custom
+engine/server/mtmd patch is additional to the dependency-only owner API base.
+
+The original identical-request replay confirms +6.17% decode; matched 64K
+gives +6.74%, and a single 128K pair gives +4.81%. The changed-prefix screen
+still gives −2.07%: selection does not imply a uniform gain. Practical30 low
+scores 29/30 with all natural completions, inside the original seed range.
+The owner explicitly accepts +93 ms median once per uncached image; the earlier
+100 ms engineering target is superseded. Cached images bypass staging.
+[Replay](../results/public/swap-prefix-control-comparison.json),
+[64K](../results/public/swap64-comparison.json),
+[128K](../results/public/swap128-comparison.json),
+[canaries](../results/public/practical30-swap-v4-comparison.json).
+
+The expert arena has stable CUDA VMM addresses and a lendable tail. Under the
+request FIFO, uncached image groups run LEND → LOAD → encode → UNLOAD → RECLAIM;
+text generation is refused while the tail is lent. The worker keeps a pinned
+host copy of the projector. Partial lending is 1408 MiB on the first image;
+later images lend 1600 MiB. The model is never reloaded for vision. Two new
+maximum-budget 2048×2048 images and one cached repeat pass on the selected
+serving instance, including matched LEND/RECLAIM counts and natural completion.
+[Staging check](../results/public/swap-v4-large-image-smoke.json).
+
 ## Target files
 
 | File suffix / asset | Bytes | SHA-256 |
@@ -44,8 +89,9 @@ and Q2_0 experts for its draft; this is not Q8 reference-target inference.
 - Host RAM: complete expert working set, complete ngram table, bounded pinned
   buffers and long-context state. The disk is a load source, not a decode tier.
 - GPU: dense target work, verified MTP, resident hot experts, KV window and
-  workspaces. The optional GPU BF16 vision encoder reserves its workspace before
-  automatic expert-cache sizing.
+  workspaces. The selected GPU BF16 vision encoder stages only for new images;
+  its cache tail is reclaimed before generation. The preserved resident-vision
+  baseline reserves its encoder workspace before automatic expert-cache sizing.
 - CPU: AVX-512 cold-expert work plus orchestration. PCIe fraction .35 splits
   cold-expert work with streamed GPU execution; it is a measured profile choice.
 - Server: one execution slot with history/prefix reuse. Two independent parked

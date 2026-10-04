@@ -1,0 +1,1413 @@
+{
+  "scope": "Thirty original executable DevOps/Python function canaries; bounded local tasks, not SWE-bench or repository-scale agent performance.",
+  "completion_policy": "Only natural stops graded; all thirty required for full-cohort accuracy.",
+  "runtime_fingerprint_policy": "Recomputed from each stored identity; content-hashed files exclude reboot-dependent overlay device/inode/mtime values.",
+  "runs": [
+    {
+      "label": "practical30-v2-iq3-low",
+      "source": "practical30-v2-iq3-low.json",
+      "source_sha256": "aa44833319378524c367d8c35b3374ad74cb73addc7a125bd8657ee93cde366e",
+      "cases_sha256": "03b7d02ea58fef79b8bcc28a94b5c43a9735168145cd0f50a39f0bb0b44ed0ba",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "protocol": {
+        "effort": "low",
+        "max_tokens": 32768,
+        "seed": 42,
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0,
+        "presence_penalty": 0,
+        "repetition_penalty": 1,
+        "version": 3,
+        "completion_policy": "Natural stop required; incomplete cases withhold full-cohort accuracy"
+      },
+      "controls": {
+        "expected": 30,
+        "positive_passed": 30,
+        "negative_rejected": 30
+      },
+      "coverage": {
+        "expected_cases": 30,
+        "attempted": 30,
+        "completed": 30,
+        "passed": 28,
+        "failed": 2,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 28,
+          "total": 30,
+          "accuracy": 0.9333333333333333
+        }
+      },
+      "completed_answer_median_s": 9.118138073499722,
+      "attempt_wall_s": 355.0741220740092,
+      "results": [
+        {
+          "id": "merge-patch",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 521,
+          "elapsed_s": 5.201295971004583,
+          "reasoning_chars": 1504,
+          "input_sha256": "bf33d84dd5d4933fae8bdea457ffdad7c455caa9d090af796c66976e56d66f41"
+        },
+        {
+          "id": "json-pointer",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2122,
+          "elapsed_s": 19.63403740800277,
+          "reasoning_chars": 6490,
+          "input_sha256": "e4305d2307be6f94c6e73d17fdda1b96bb063bfe7d46089d37d4bf0703e8c0fd"
+        },
+        {
+          "id": "environment-expansion",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1329,
+          "elapsed_s": 12.72960141099611,
+          "reasoning_chars": 3949,
+          "input_sha256": "92d93fd9be4258d3829c05f9e5874469658718c729718a88f36c6b1024cab03f"
+        },
+        {
+          "id": "sandbox-path",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 846,
+          "elapsed_s": 7.9907090369961224,
+          "reasoning_chars": 2413,
+          "input_sha256": "68043a0dc33acadee59b80124bfc0eb0076024020651b7b8354984853301d3ba"
+        },
+        {
+          "id": "numeric-version-sort",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 603,
+          "elapsed_s": 5.926594262004073,
+          "reasoning_chars": 1577,
+          "input_sha256": "a8adfae11534fca6ad949bc6f212fb446d14f062c955f47600018560db0c15dc"
+        },
+        {
+          "id": "dependency-order",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1094,
+          "elapsed_s": 10.285292087006383,
+          "reasoning_chars": 2964,
+          "input_sha256": "473405e65c9b074b76a59a87d0f682c82dd29435e283f773f7b35b22b5f60927"
+        },
+        {
+          "id": "dependency-impact",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 793,
+          "elapsed_s": 7.709886069998902,
+          "reasoning_chars": 2401,
+          "input_sha256": "e00ec83dc694d85a84217c25fbdf84f7467263633261f8ccec3cb6165e9b2a77"
+        },
+        {
+          "id": "first-fit-capacity",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 853,
+          "elapsed_s": 8.519717028997547,
+          "reasoning_chars": 2759,
+          "input_sha256": "93314d7fd78b526326b2206e53b4f011f69999426806ae9942afd10edd6db536"
+        },
+        {
+          "id": "rollout-rounding",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2279,
+          "elapsed_s": 21.52830765899853,
+          "reasoning_chars": 6503,
+          "input_sha256": "8ac766c2e0795f7265589a80aafba79be3c31d4d352399b4420e096301babdcb"
+        },
+        {
+          "id": "path-route",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1774,
+          "elapsed_s": 16.163280557004327,
+          "reasoning_chars": 6357,
+          "input_sha256": "914c6869048f489c7330bc6da869772f18c7562040185e76a6cf6e4193929363"
+        },
+        {
+          "id": "journal-priority",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 852,
+          "elapsed_s": 8.152478233001602,
+          "reasoning_chars": 2498,
+          "input_sha256": "7aa8e0dfd73756af616a6fe957dc720f5160f8cf7f174065832cc058f78e1d29"
+        },
+        {
+          "id": "nearest-rank-percentile",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 720,
+          "elapsed_s": 7.172517054998025,
+          "reasoning_chars": 1901,
+          "input_sha256": "dc76c6e65bb1c9b763ea88a202eeba4e3a0357b5598b48099f501423f52cf7d6"
+        },
+        {
+          "id": "counter-reset-rate",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 810,
+          "elapsed_s": 8.306212893003249,
+          "reasoning_chars": 2285,
+          "input_sha256": "25c175fd5891a97d3a1f06ae91e9a7f3d0520c0cf191d79fd7d87018ba857cef"
+        },
+        {
+          "id": "latest-alert",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 593,
+          "elapsed_s": 6.559778846996778,
+          "reasoning_chars": 2063,
+          "input_sha256": "5befeea1dced2b270f5371a7fbc01ab63b6e48c7d9d82ccf8b90015c868f185a"
+        },
+        {
+          "id": "expiry-cache",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 460,
+          "elapsed_s": 5.289063871001417,
+          "reasoning_chars": 1199,
+          "input_sha256": "1dcd026652929ef64286581eee77be1c5665364e752988778e55d849cf16c09e"
+        },
+        {
+          "id": "token-bucket",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 522,
+          "elapsed_s": 5.281537251001282,
+          "reasoning_chars": 1310,
+          "input_sha256": "ab570e4a9fa238a8f32d200ee6533e095244de49e113f4273dabe0592f6b1920"
+        },
+        {
+          "id": "backoff",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 3294,
+          "elapsed_s": 27.893187509995187,
+          "reasoning_chars": 10526,
+          "input_sha256": "c099b712603fe86bdc9f6aa074d3301ae0af0fdf10177e696a4df278f7ca510c"
+        },
+        {
+          "id": "idempotency-conflicts",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 974,
+          "elapsed_s": 9.898640416999115,
+          "reasoning_chars": 3234,
+          "input_sha256": "f170514afe9f13b0ea7ba7545cab077a07e669782ad38ba84f879607dc52818d"
+        },
+        {
+          "id": "memory-info",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1528,
+          "elapsed_s": 14.834711754003365,
+          "reasoning_chars": 5050,
+          "input_sha256": "654bbbc0d30f260f2855dc43366f2542e7532f67e012776f61dacba9b0a33d50"
+        },
+        {
+          "id": "cgroup-quota",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1268,
+          "elapsed_s": 12.104481018002843,
+          "reasoning_chars": 3848,
+          "input_sha256": "a9d15511f7d2c7a9c2202674c504ac33ab1f4604c3ef8add596a528722e13118"
+        },
+        {
+          "id": "canonical-query",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 867,
+          "elapsed_s": 8.71575417999702,
+          "reasoning_chars": 3003,
+          "input_sha256": "c764fee8e628b30da3090186d59ec43e18a20ae40a0b59120b5da5ee84bd5c2e"
+        },
+        {
+          "id": "duration-milliseconds",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1619,
+          "elapsed_s": 15.12843733200134,
+          "reasoning_chars": 4552,
+          "input_sha256": "601ef4c4cd08a4b7cf6f16ca529f6f57ac84adc3555b72f2c59e67133019af09"
+        },
+        {
+          "id": "literal-endpoint",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 2197,
+          "elapsed_s": 20.388871766001103,
+          "reasoning_chars": 6756,
+          "input_sha256": "ad9f467fb5add9bc7476c59e174a6973f8819abd38dd0204d9f01396805f6099"
+        },
+        {
+          "id": "retry-after",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 2348,
+          "elapsed_s": 22.94596421499591,
+          "reasoning_chars": 7051,
+          "input_sha256": "3c67476b53cc1fdb41e23bffe4718bde752f27b38e04f80437f5214f2c8ae3f6"
+        },
+        {
+          "id": "access-log-summary",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1638,
+          "elapsed_s": 16.033238550000533,
+          "reasoning_chars": 5119,
+          "input_sha256": "e2bbcc450ee4e143b9cf81b6b01659ded0d58743b04d827bcef3715ef4bffe1b"
+        },
+        {
+          "id": "unit-dependencies",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 959,
+          "elapsed_s": 9.32129869399796,
+          "reasoning_chars": 3006,
+          "input_sha256": "d0e13eae7b1613c444c4e81a0bfd706f79d76a18aa8d65db48c0e52cdbac42f3"
+        },
+        {
+          "id": "interval-union",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 637,
+          "elapsed_s": 7.053958144999342,
+          "reasoning_chars": 1750,
+          "input_sha256": "ad1f8d95e0afd09da069880d5a5b6b9402632d10e7573b0bb38e8fded30f6f20"
+        },
+        {
+          "id": "dns-wildcard",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2256,
+          "elapsed_s": 19.46936700700462,
+          "reasoning_chars": 7966,
+          "input_sha256": "482f5ab21f9774ed78020f441df92924286fb318aef3f8eb2e373296c891666f"
+        },
+        {
+          "id": "log-rotation-plan",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 598,
+          "elapsed_s": 5.920924391997687,
+          "reasoning_chars": 1571,
+          "input_sha256": "5fcbd5158be23385118cbd0d641450adfdd8cbbb9b43726af5acb89d6538bab1"
+        },
+        {
+          "id": "typed-json-equality",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1046,
+          "elapsed_s": 8.914977453001484,
+          "reasoning_chars": 2911,
+          "input_sha256": "b9a76b0113c9a2c034e0f7ddca30006a4ebfeff0989490c3338f081052f0acd8"
+        }
+      ]
+    },
+    {
+      "label": "practical30-v2-iq3-low-seed7",
+      "source": "practical30-v2-iq3-low-seed7.json",
+      "source_sha256": "f72a1fdd734aa619e80c58b87028b27ab5db093231019247d61b684d93f9be15",
+      "cases_sha256": "03b7d02ea58fef79b8bcc28a94b5c43a9735168145cd0f50a39f0bb0b44ed0ba",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "protocol": {
+        "effort": "low",
+        "max_tokens": 32768,
+        "seed": 7,
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0,
+        "presence_penalty": 0,
+        "repetition_penalty": 1,
+        "version": 3,
+        "completion_policy": "Natural stop required; incomplete cases withhold full-cohort accuracy"
+      },
+      "controls": {
+        "expected": 30,
+        "positive_passed": 30,
+        "negative_rejected": 30
+      },
+      "coverage": {
+        "expected_cases": 30,
+        "attempted": 30,
+        "completed": 30,
+        "passed": 29,
+        "failed": 1,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 29,
+          "total": 30,
+          "accuracy": 0.9666666666666667
+        }
+      },
+      "completed_answer_median_s": 9.832375434500022,
+      "attempt_wall_s": 367.26124032600046,
+      "results": [
+        {
+          "id": "merge-patch",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1163,
+          "elapsed_s": 10.19705770500002,
+          "reasoning_chars": 4014,
+          "input_sha256": "c651b63d4f3ef391156228d48f43a5de1eefd8e7a196e65fda15076f394f0e65"
+        },
+        {
+          "id": "json-pointer",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1369,
+          "elapsed_s": 12.559443288000011,
+          "reasoning_chars": 3710,
+          "input_sha256": "56d5e2ecb58abd7daaa3164f8110ee1470fb93cdd31816b17fd161bc9ea350ab"
+        },
+        {
+          "id": "environment-expansion",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 1500,
+          "elapsed_s": 14.077252721999912,
+          "reasoning_chars": 4820,
+          "input_sha256": "9b5af282452a8a08c4f80c2d8844ed256769fee2d73b479fc47550959584878d"
+        },
+        {
+          "id": "sandbox-path",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 839,
+          "elapsed_s": 8.026740036000092,
+          "reasoning_chars": 2597,
+          "input_sha256": "4416bddd238637e9ed36c4c8af14dbc050c3092901c958a4a152f10b07a9c27f"
+        },
+        {
+          "id": "numeric-version-sort",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 839,
+          "elapsed_s": 8.479134019000071,
+          "reasoning_chars": 2225,
+          "input_sha256": "caf08db075f0f1ebd8a1db726c9b683235099d6f852da0bb9776abd2075df312"
+        },
+        {
+          "id": "dependency-order",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1032,
+          "elapsed_s": 9.988050422000015,
+          "reasoning_chars": 2692,
+          "input_sha256": "a327c2c4260e98c24b8092c14963436d5039388118d5db913577bb130dd6e5ab"
+        },
+        {
+          "id": "dependency-impact",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 932,
+          "elapsed_s": 9.055047590000072,
+          "reasoning_chars": 2999,
+          "input_sha256": "d6f5ad7082695f0bc87467d6ba9c459d5eeaa23644b9482710de83dcbbd0bb14"
+        },
+        {
+          "id": "first-fit-capacity",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 781,
+          "elapsed_s": 7.603861352999957,
+          "reasoning_chars": 2372,
+          "input_sha256": "ffcaa81fe59d9a57d8ef6b5db8a628769bd5a3d2fc233c2c4dedf53257a0d3b2"
+        },
+        {
+          "id": "rollout-rounding",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2387,
+          "elapsed_s": 21.011451518000058,
+          "reasoning_chars": 6545,
+          "input_sha256": "d87fba0ed77cb2b57b8cc37bfa29c076502a839350e9814bd1caef5b19042176"
+        },
+        {
+          "id": "path-route",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1600,
+          "elapsed_s": 14.339610581000102,
+          "reasoning_chars": 5725,
+          "input_sha256": "10ce97ce78ac2c61ba69154cec187ab45fd87213eda0cf788e0fdbfb92a0a52d"
+        },
+        {
+          "id": "journal-priority",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 810,
+          "elapsed_s": 7.574245201000053,
+          "reasoning_chars": 2428,
+          "input_sha256": "2fe8e01ab4fad43755b63cc94e25b1d684ccac99b17dcfc06def1fc9f5423f50"
+        },
+        {
+          "id": "nearest-rank-percentile",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 543,
+          "elapsed_s": 5.489603178999914,
+          "reasoning_chars": 1225,
+          "input_sha256": "9caf0d1ec778a2bbec28834aac9db9493073a665497ee40de3ca43db8c598698"
+        },
+        {
+          "id": "counter-reset-rate",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 881,
+          "elapsed_s": 8.586960297000019,
+          "reasoning_chars": 2252,
+          "input_sha256": "f51a777a607ab8dcfce41b8bb592bd715fb6da0958df3e74f11cee3ea8316e72"
+        },
+        {
+          "id": "latest-alert",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 586,
+          "elapsed_s": 6.394062304000045,
+          "reasoning_chars": 2020,
+          "input_sha256": "b24b91a5ed934ac9dda440af9051c0aadd1ef7a3da243bdba4be019ad09a94d0"
+        },
+        {
+          "id": "expiry-cache",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 839,
+          "elapsed_s": 8.212955109000063,
+          "reasoning_chars": 2357,
+          "input_sha256": "f0d792ccb23c05c2255aab23a7768566534b36d4688a89159a6cb019965b6632"
+        },
+        {
+          "id": "token-bucket",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 545,
+          "elapsed_s": 5.16623921900009,
+          "reasoning_chars": 1136,
+          "input_sha256": "3b9fb5a28f9be37c484c2415bcffe24634be55592f7e57dd73265c15596de3b2"
+        },
+        {
+          "id": "backoff",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 4974,
+          "elapsed_s": 53.65732545200001,
+          "reasoning_chars": 18251,
+          "input_sha256": "6b5bd092adc22716fe2fdcaf4a82c295484e236e4a3c4066643676e04804504d"
+        },
+        {
+          "id": "idempotency-conflicts",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 874,
+          "elapsed_s": 9.024475359999997,
+          "reasoning_chars": 2978,
+          "input_sha256": "a1053c3c46afcf5d41dcab963c5c6cab3a553fe555cd8368ef6d87db26a2fd28"
+        },
+        {
+          "id": "memory-info",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1547,
+          "elapsed_s": 15.304484030000026,
+          "reasoning_chars": 5191,
+          "input_sha256": "023e3fea252c21b8403f3a1f62afe4acc9e75445723ed16261122a4b111c36a8"
+        },
+        {
+          "id": "cgroup-quota",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1191,
+          "elapsed_s": 11.603617020000002,
+          "reasoning_chars": 3271,
+          "input_sha256": "7121c8ccc81ef5e0c1d84efa21c05ef4fd6b3977a4fb9c13695cc3e8c1b61fce"
+        },
+        {
+          "id": "canonical-query",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 616,
+          "elapsed_s": 6.216921706999983,
+          "reasoning_chars": 1825,
+          "input_sha256": "2bbad01e849ef88e4cc578d9f6153e155612b270ef1ead5eda53926723fafd6b"
+        },
+        {
+          "id": "duration-milliseconds",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1662,
+          "elapsed_s": 14.899132853999959,
+          "reasoning_chars": 4497,
+          "input_sha256": "89e88442cb0ee12699d4045df036c881759d766846b4d3f4fcb79c3653ef824f"
+        },
+        {
+          "id": "literal-endpoint",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2505,
+          "elapsed_s": 22.38041354500001,
+          "reasoning_chars": 7196,
+          "input_sha256": "3a7006b43397977faa1e357e696115d7c4289fabfd60617c4e6e30bed2ba20f1"
+        },
+        {
+          "id": "retry-after",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1422,
+          "elapsed_s": 14.211852863000104,
+          "reasoning_chars": 3601,
+          "input_sha256": "79180326839bfcc681c2ff28ec7abb30fee206819b92dae58c1debf1badd28e1"
+        },
+        {
+          "id": "access-log-summary",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1091,
+          "elapsed_s": 11.59300263,
+          "reasoning_chars": 3277,
+          "input_sha256": "4c676219c245534de464d2cfca408f1033f572642da2c3f06c568a56a75bc303"
+        },
+        {
+          "id": "unit-dependencies",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1077,
+          "elapsed_s": 9.67670044700003,
+          "reasoning_chars": 3416,
+          "input_sha256": "40cd9f789a45b1004d8b29fc0cd4358ac03a7eb24485f9d644884e79126b17b9"
+        },
+        {
+          "id": "interval-union",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 431,
+          "elapsed_s": 4.945700914999975,
+          "reasoning_chars": 1048,
+          "input_sha256": "ae7e6b977da0a87356a1fdf4e482d2b0e79b0936d5e87837c469aef5bf719cca"
+        },
+        {
+          "id": "dns-wildcard",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1945,
+          "elapsed_s": 16.44316761799996,
+          "reasoning_chars": 6834,
+          "input_sha256": "f34544d2aa19166b77b281e946272072bc9e4545fca560d2578d93d942ba1152"
+        },
+        {
+          "id": "log-rotation-plan",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1224,
+          "elapsed_s": 11.323286148999955,
+          "reasoning_chars": 3494,
+          "input_sha256": "e0386bda7c86251edc4ef546d4915e0e29ded7b91c3b47cab5078f83fbbe4606"
+        },
+        {
+          "id": "typed-json-equality",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1133,
+          "elapsed_s": 9.219445192999956,
+          "reasoning_chars": 2949,
+          "input_sha256": "a3fe8d8507b54edca408d483dbd53c90fb5ed08023f3030f60820bd043bf944b"
+        }
+      ]
+    },
+    {
+      "label": "practical30-v2-iq3-low-seed123",
+      "source": "practical30-v2-iq3-low-seed123.json",
+      "source_sha256": "31469bc93d4a785872eede7c072d39e34cce751291e76b7fbd01f2cf97f97d3e",
+      "cases_sha256": "03b7d02ea58fef79b8bcc28a94b5c43a9735168145cd0f50a39f0bb0b44ed0ba",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "protocol": {
+        "effort": "low",
+        "max_tokens": 32768,
+        "seed": 123,
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0,
+        "presence_penalty": 0,
+        "repetition_penalty": 1,
+        "version": 3,
+        "completion_policy": "Natural stop required; incomplete cases withhold full-cohort accuracy"
+      },
+      "controls": {
+        "expected": 30,
+        "positive_passed": 30,
+        "negative_rejected": 30
+      },
+      "coverage": {
+        "expected_cases": 30,
+        "attempted": 30,
+        "completed": 30,
+        "passed": 30,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 30,
+          "total": 30,
+          "accuracy": 1.0
+        }
+      },
+      "completed_answer_median_s": 9.449141289000067,
+      "attempt_wall_s": 411.92941376699923,
+      "results": [
+        {
+          "id": "merge-patch",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 524,
+          "elapsed_s": 5.267257689999951,
+          "reasoning_chars": 1472,
+          "input_sha256": "e0dcb31c8b96a716d6567d6999bce447670b6ab889d6cb7beb4ee849650d5ec8"
+        },
+        {
+          "id": "json-pointer",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2376,
+          "elapsed_s": 20.714868775000014,
+          "reasoning_chars": 6701,
+          "input_sha256": "004c53356e7ef68d375ffba7cf410a8989822b0058fe00caee42761e77c649d6"
+        },
+        {
+          "id": "environment-expansion",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1322,
+          "elapsed_s": 12.706030835000092,
+          "reasoning_chars": 3737,
+          "input_sha256": "f89400a6996e95f802c4cd8dc6f28e90c16b276c77f6b448cf8260db4c0e2ba8"
+        },
+        {
+          "id": "sandbox-path",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 921,
+          "elapsed_s": 8.692843648000007,
+          "reasoning_chars": 2852,
+          "input_sha256": "529af4f1dca5d344926dc7f361f327a092f929e1adcd83cf558170c23d9d4161"
+        },
+        {
+          "id": "numeric-version-sort",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 685,
+          "elapsed_s": 7.020894359999829,
+          "reasoning_chars": 1732,
+          "input_sha256": "16c5f1d0cf4f4c99b8bdbe471edddadd35af0a2e99f6f11f0d47dc7993b38fb7"
+        },
+        {
+          "id": "dependency-order",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 993,
+          "elapsed_s": 9.777102380000088,
+          "reasoning_chars": 2674,
+          "input_sha256": "73702932a64132176384ba4d5510d9d0dbd1677c208e8f8eb558e4636f83a394"
+        },
+        {
+          "id": "dependency-impact",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 820,
+          "elapsed_s": 8.166175235999845,
+          "reasoning_chars": 2442,
+          "input_sha256": "cfe6df1017750e8564fcc0aa6f6f505076a8cd737ef5269bcb13b7a390b5a70d"
+        },
+        {
+          "id": "first-fit-capacity",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1167,
+          "elapsed_s": 11.156525373000022,
+          "reasoning_chars": 3325,
+          "input_sha256": "a5a51126e36a622987dec4efe33e74a8d3d41b8ce93ec1649e284d36e7dbf93e"
+        },
+        {
+          "id": "rollout-rounding",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1743,
+          "elapsed_s": 16.968322326999896,
+          "reasoning_chars": 5085,
+          "input_sha256": "e5ceefbcf330e130f61ce15d309e2209cc145c961a0e2abed293564a3629124b"
+        },
+        {
+          "id": "path-route",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 891,
+          "elapsed_s": 8.562555900999996,
+          "reasoning_chars": 2967,
+          "input_sha256": "9e7f8482c3e9d7bc23a9a674456ba56f6d692509bbaea368933796e65fd41663"
+        },
+        {
+          "id": "journal-priority",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 902,
+          "elapsed_s": 8.492720297000005,
+          "reasoning_chars": 2690,
+          "input_sha256": "2386793c27cd67f1b8cf796edfe0751d43a3b9e0cf6aac63b5beb74d46be9aa7"
+        },
+        {
+          "id": "nearest-rank-percentile",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 610,
+          "elapsed_s": 6.0753708839999945,
+          "reasoning_chars": 1380,
+          "input_sha256": "253548ce8337dee3f9c4456082a7e6de7c40e4858e29f7affb822540419039a2"
+        },
+        {
+          "id": "counter-reset-rate",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 799,
+          "elapsed_s": 8.31499403099997,
+          "reasoning_chars": 2287,
+          "input_sha256": "78ca634bcbe0c500135d840b39791e71e170727cd8d1fabd9f40a2663ab98504"
+        },
+        {
+          "id": "latest-alert",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 511,
+          "elapsed_s": 5.614712151000049,
+          "reasoning_chars": 1646,
+          "input_sha256": "38e5aa9f7a233b9e1969c63398df8f203b26619578581a108a52846cedd552c7"
+        },
+        {
+          "id": "expiry-cache",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 641,
+          "elapsed_s": 6.57590944399999,
+          "reasoning_chars": 1675,
+          "input_sha256": "c0d2be2d6189dcefc6ddcc145b70fbe176d217b90e395361dce0e20c7eae5214"
+        },
+        {
+          "id": "token-bucket",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 495,
+          "elapsed_s": 5.509790563000024,
+          "reasoning_chars": 1257,
+          "input_sha256": "17db259e8080433855fa9da2f293670566cfc2a6c24b2bca5efc683919181fcf"
+        },
+        {
+          "id": "backoff",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 10037,
+          "elapsed_s": 107.35326023400012,
+          "reasoning_chars": 39215,
+          "input_sha256": "dbd8d2c2263ee7e16eab94af12dd68cd2c368dac7d12637e5928deb4630e5eb5"
+        },
+        {
+          "id": "idempotency-conflicts",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1053,
+          "elapsed_s": 10.512329579999914,
+          "reasoning_chars": 3554,
+          "input_sha256": "738308693d0db4d98e4e55e1bf87946290aea9bab2789e400173b6b5cc9df1db"
+        },
+        {
+          "id": "memory-info",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1294,
+          "elapsed_s": 12.81264419199988,
+          "reasoning_chars": 3959,
+          "input_sha256": "84f4bd1e39844ce96436a5ac2eaec158594f3719b5b75addbb0f25418624ff24"
+        },
+        {
+          "id": "cgroup-quota",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1291,
+          "elapsed_s": 12.460376847999896,
+          "reasoning_chars": 3754,
+          "input_sha256": "403d7144065f05709641e5796dfe43fbfcea7d76ce228e3c27360ad97f3600ea"
+        },
+        {
+          "id": "canonical-query",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 773,
+          "elapsed_s": 7.614728219999961,
+          "reasoning_chars": 2168,
+          "input_sha256": "662431b09754566d9712e01268da47700d0f10d89dfacae24886f59bf2c409bb"
+        },
+        {
+          "id": "duration-milliseconds",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2444,
+          "elapsed_s": 21.849629867999965,
+          "reasoning_chars": 7630,
+          "input_sha256": "a136bcf3ae69e1675d3da006fd4d283e80d2d0c492f4f6b14d5c7ccffbd313ac"
+        },
+        {
+          "id": "literal-endpoint",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2333,
+          "elapsed_s": 21.1793485149999,
+          "reasoning_chars": 6918,
+          "input_sha256": "22f76c928fb59232514778c5068c4d018a3b9e8bb2877747250de1ef0483ca84"
+        },
+        {
+          "id": "retry-after",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1429,
+          "elapsed_s": 14.19688931099995,
+          "reasoning_chars": 4941,
+          "input_sha256": "e8b9e251bea3737ccd28ad07a60f2c73ae58ce9513f18d39eaeb4a4297f4dfed"
+        },
+        {
+          "id": "access-log-summary",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1004,
+          "elapsed_s": 9.960706673000004,
+          "reasoning_chars": 2532,
+          "input_sha256": "13badf4d9379e08ad901a472b376554bc53d1de0f543c7dce6d891572541f492"
+        },
+        {
+          "id": "unit-dependencies",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 937,
+          "elapsed_s": 9.121180198000047,
+          "reasoning_chars": 2759,
+          "input_sha256": "b4401bd2bbd672e2c60fed6ca3af35a633a6b3511f213e1c6851aefaf981d8bd"
+        },
+        {
+          "id": "interval-union",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 354,
+          "elapsed_s": 4.085576941999989,
+          "reasoning_chars": 865,
+          "input_sha256": "d3c4a14b3b81845e5e2e7ee64458e72fbdf556cfe8afaf1cd41abd98a8bf7b0f"
+        },
+        {
+          "id": "dns-wildcard",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1640,
+          "elapsed_s": 14.462355765999973,
+          "reasoning_chars": 5902,
+          "input_sha256": "312028c208724f178c731b82cc3fdd23b7f2f4abe16030f5ad8a77063aa5d0d6"
+        },
+        {
+          "id": "log-rotation-plan",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 578,
+          "elapsed_s": 5.463123619000044,
+          "reasoning_chars": 1566,
+          "input_sha256": "416a5fc4e8b8d7dda62d1409c9e2b62af981b87d5dd87954d54cbe50d7f854a6"
+        },
+        {
+          "id": "typed-json-equality",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1353,
+          "elapsed_s": 11.241189905999818,
+          "reasoning_chars": 4259,
+          "input_sha256": "a5b341feb3f1e3102b9a968e27c4975cd3ea434307d492fa0dead3850e55c53d"
+        }
+      ]
+    },
+    {
+      "label": "iq3-swap-v4-low",
+      "source": "practical30-v2-iq3-swap-v4-low.json",
+      "source_sha256": "67088f2bdab98f48727e9ae30d00d1e7bba807e21e54b9fd8d5e196561ab0225",
+      "cases_sha256": "03b7d02ea58fef79b8bcc28a94b5c43a9735168145cd0f50a39f0bb0b44ed0ba",
+      "grader_image_id": "sha256:aaf948b4b19a72a60c191ef093c8d8daa397ebcd77b8d03b1a644f517687f891",
+      "runtime_fingerprint": "4d37e26f44c0878736b836ee3cc21c8cc7a0722d7fc7a7bfcd24b9b7921d256c",
+      "protocol": {
+        "effort": "low",
+        "max_tokens": 32768,
+        "seed": 42,
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0,
+        "presence_penalty": 0,
+        "repetition_penalty": 1,
+        "version": 3,
+        "completion_policy": "Natural stop required; incomplete cases withhold full-cohort accuracy"
+      },
+      "controls": {
+        "expected": 30,
+        "positive_passed": 30,
+        "negative_rejected": 30
+      },
+      "coverage": {
+        "expected_cases": 30,
+        "attempted": 30,
+        "completed": 30,
+        "passed": 29,
+        "failed": 1,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 29,
+          "total": 30,
+          "accuracy": 0.9666666666666667
+        }
+      },
+      "completed_answer_median_s": 9.127326636999896,
+      "attempt_wall_s": 491.95463685499817,
+      "results": [
+        {
+          "id": "merge-patch",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 727,
+          "elapsed_s": 6.989854325000124,
+          "reasoning_chars": 2294,
+          "input_sha256": "bf33d84dd5d4933fae8bdea457ffdad7c455caa9d090af796c66976e56d66f41"
+        },
+        {
+          "id": "json-pointer",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 3575,
+          "elapsed_s": 35.730523723999795,
+          "reasoning_chars": 12591,
+          "input_sha256": "e4305d2307be6f94c6e73d17fdda1b96bb063bfe7d46089d37d4bf0703e8c0fd"
+        },
+        {
+          "id": "environment-expansion",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1937,
+          "elapsed_s": 17.32098033299917,
+          "reasoning_chars": 6409,
+          "input_sha256": "92d93fd9be4258d3829c05f9e5874469658718c729718a88f36c6b1024cab03f"
+        },
+        {
+          "id": "sandbox-path",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1082,
+          "elapsed_s": 9.382226834000903,
+          "reasoning_chars": 3105,
+          "input_sha256": "68043a0dc33acadee59b80124bfc0eb0076024020651b7b8354984853301d3ba"
+        },
+        {
+          "id": "numeric-version-sort",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 763,
+          "elapsed_s": 7.263479125998856,
+          "reasoning_chars": 2126,
+          "input_sha256": "a8adfae11534fca6ad949bc6f212fb446d14f062c955f47600018560db0c15dc"
+        },
+        {
+          "id": "dependency-order",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1011,
+          "elapsed_s": 9.411000179001348,
+          "reasoning_chars": 2759,
+          "input_sha256": "473405e65c9b074b76a59a87d0f682c82dd29435e283f773f7b35b22b5f60927"
+        },
+        {
+          "id": "dependency-impact",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 723,
+          "elapsed_s": 6.933476005999182,
+          "reasoning_chars": 2226,
+          "input_sha256": "e00ec83dc694d85a84217c25fbdf84f7467263633261f8ccec3cb6165e9b2a77"
+        },
+        {
+          "id": "first-fit-capacity",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 908,
+          "elapsed_s": 8.336152580999624,
+          "reasoning_chars": 2829,
+          "input_sha256": "93314d7fd78b526326b2206e53b4f011f69999426806ae9942afd10edd6db536"
+        },
+        {
+          "id": "rollout-rounding",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1946,
+          "elapsed_s": 17.204028276999452,
+          "reasoning_chars": 5155,
+          "input_sha256": "8ac766c2e0795f7265589a80aafba79be3c31d4d352399b4420e096301babdcb"
+        },
+        {
+          "id": "path-route",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1032,
+          "elapsed_s": 9.203609213000163,
+          "reasoning_chars": 3278,
+          "input_sha256": "914c6869048f489c7330bc6da869772f18c7562040185e76a6cf6e4193929363"
+        },
+        {
+          "id": "journal-priority",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 783,
+          "elapsed_s": 7.263635458999488,
+          "reasoning_chars": 2360,
+          "input_sha256": "7aa8e0dfd73756af616a6fe957dc720f5160f8cf7f174065832cc058f78e1d29"
+        },
+        {
+          "id": "nearest-rank-percentile",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 748,
+          "elapsed_s": 6.878836350999336,
+          "reasoning_chars": 1848,
+          "input_sha256": "dc76c6e65bb1c9b763ea88a202eeba4e3a0357b5598b48099f501423f52cf7d6"
+        },
+        {
+          "id": "counter-reset-rate",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1087,
+          "elapsed_s": 9.812430848000076,
+          "reasoning_chars": 3387,
+          "input_sha256": "25c175fd5891a97d3a1f06ae91e9a7f3d0520c0cf191d79fd7d87018ba857cef"
+        },
+        {
+          "id": "latest-alert",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 512,
+          "elapsed_s": 5.142718580000292,
+          "reasoning_chars": 1689,
+          "input_sha256": "5befeea1dced2b270f5371a7fbc01ab63b6e48c7d9d82ccf8b90015c868f185a"
+        },
+        {
+          "id": "expiry-cache",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 675,
+          "elapsed_s": 6.8269059079993895,
+          "reasoning_chars": 1942,
+          "input_sha256": "1dcd026652929ef64286581eee77be1c5665364e752988778e55d849cf16c09e"
+        },
+        {
+          "id": "token-bucket",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 497,
+          "elapsed_s": 4.844855643999836,
+          "reasoning_chars": 1229,
+          "input_sha256": "ab570e4a9fa238a8f32d200ee6533e095244de49e113f4273dabe0592f6b1920"
+        },
+        {
+          "id": "backoff",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 14845,
+          "elapsed_s": 153.44589306799935,
+          "reasoning_chars": 57562,
+          "input_sha256": "c099b712603fe86bdc9f6aa074d3301ae0af0fdf10177e696a4df278f7ca510c"
+        },
+        {
+          "id": "idempotency-conflicts",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 758,
+          "elapsed_s": 7.556152281998948,
+          "reasoning_chars": 2621,
+          "input_sha256": "f170514afe9f13b0ea7ba7545cab077a07e669782ad38ba84f879607dc52818d"
+        },
+        {
+          "id": "memory-info",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1208,
+          "elapsed_s": 10.989373479000278,
+          "reasoning_chars": 3689,
+          "input_sha256": "654bbbc0d30f260f2855dc43366f2542e7532f67e012776f61dacba9b0a33d50"
+        },
+        {
+          "id": "cgroup-quota",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1150,
+          "elapsed_s": 10.717780697001217,
+          "reasoning_chars": 3609,
+          "input_sha256": "a9d15511f7d2c7a9c2202674c504ac33ab1f4604c3ef8add596a528722e13118"
+        },
+        {
+          "id": "canonical-query",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 988,
+          "elapsed_s": 9.064712326999143,
+          "reasoning_chars": 3088,
+          "input_sha256": "c764fee8e628b30da3090186d59ec43e18a20ae40a0b59120b5da5ee84bd5c2e"
+        },
+        {
+          "id": "duration-milliseconds",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 3538,
+          "elapsed_s": 30.257015031000265,
+          "reasoning_chars": 10278,
+          "input_sha256": "601ef4c4cd08a4b7cf6f16ca529f6f57ac84adc3555b72f2c59e67133019af09"
+        },
+        {
+          "id": "literal-endpoint",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 2389,
+          "elapsed_s": 20.268232708998767,
+          "reasoning_chars": 6603,
+          "input_sha256": "ad9f467fb5add9bc7476c59e174a6973f8819abd38dd0204d9f01396805f6099"
+        },
+        {
+          "id": "retry-after",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1918,
+          "elapsed_s": 18.22712408500047,
+          "reasoning_chars": 5385,
+          "input_sha256": "3c67476b53cc1fdb41e23bffe4718bde752f27b38e04f80437f5214f2c8ae3f6"
+        },
+        {
+          "id": "access-log-summary",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 817,
+          "elapsed_s": 7.84178488300131,
+          "reasoning_chars": 1945,
+          "input_sha256": "e2bbcc450ee4e143b9cf81b6b01659ded0d58743b04d827bcef3715ef4bffe1b"
+        },
+        {
+          "id": "unit-dependencies",
+          "status": "failed",
+          "passed": false,
+          "finish_reason": "stop",
+          "completion_tokens": 913,
+          "elapsed_s": 8.351237426999433,
+          "reasoning_chars": 2775,
+          "input_sha256": "d0e13eae7b1613c444c4e81a0bfd706f79d76a18aa8d65db48c0e52cdbac42f3"
+        },
+        {
+          "id": "interval-union",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 326,
+          "elapsed_s": 3.6564210770011414,
+          "reasoning_chars": 710,
+          "input_sha256": "ad1f8d95e0afd09da069880d5a5b6b9402632d10e7573b0bb38e8fded30f6f20"
+        },
+        {
+          "id": "dns-wildcard",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 3028,
+          "elapsed_s": 25.458516665999923,
+          "reasoning_chars": 11172,
+          "input_sha256": "482f5ab21f9774ed78020f441df92924286fb318aef3f8eb2e373296c891666f"
+        },
+        {
+          "id": "log-rotation-plan",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 1026,
+          "elapsed_s": 9.18994094700065,
+          "reasoning_chars": 2925,
+          "input_sha256": "5fcbd5158be23385118cbd0d641450adfdd8cbbb9b43726af5acb89d6538bab1"
+        },
+        {
+          "id": "typed-json-equality",
+          "status": "passed",
+          "passed": true,
+          "finish_reason": "stop",
+          "completion_tokens": 995,
+          "elapsed_s": 8.385738789000243,
+          "reasoning_chars": 2731,
+          "input_sha256": "b9a76b0113c9a2c034e0f7ddca30006a4ebfeff0989490c3338f081052f0acd8"
+        }
+      ]
+    }
+  ],
+  "paired_request_checks": [
+    {
+      "left": "practical30-v2-iq3-low",
+      "right": "iq3-swap-v4-low",
+      "matching_input_hashes": 30
+    }
+  ],
+  "seed_variance": [
+    {
+      "runtime_fingerprint": "4f16d67202df543b5bae94427aba07afe995e851ccc998bdb5c907f12440fe41",
+      "effort": "low",
+      "labels": [
+        "practical30-v2-iq3-low",
+        "practical30-v2-iq3-low-seed7",
+        "practical30-v2-iq3-low-seed123"
+      ],
+      "passed_by_seed": {
+        "42": 28,
+        "7": 29,
+        "123": 30
+      },
+      "all_runs_complete": true,
+      "cases_with_differing_verdicts": [
+        "environment-expansion",
+        "literal-endpoint",
+        "retry-after"
+      ],
+      "cases_failed_by_every_seed": []
+    }
+  ]
+}

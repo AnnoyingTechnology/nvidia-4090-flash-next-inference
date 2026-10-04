@@ -28,23 +28,29 @@ def main():
     ap.add_argument('--url', default='http://127.0.0.1:19623')
     ap.add_argument('--out', type=Path, required=True)
     ap.add_argument('--decode-tokens', type=int, default=512)
+    ap.add_argument('--routing-trace', type=Path, help='Optional engine trace; record request byte boundaries')
+    ap.add_argument('--context-k', type=int, nargs='+', choices=[32, 64, 128],
+                    help='Restrict the existing balanced order to these context sizes')
     args = ap.parse_args()
     if args.out.exists():
         raise SystemExit('Output exists; use a fresh label')
-    documents = {k: Path(f'fixtures/document-{k}k.txt').read_text() for k in sorted(set(ORDER))}
-    report = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'order': ORDER,
+    order = [k for k in ORDER if args.context_k is None or k in args.context_k]
+    documents = {k: Path(f'fixtures/document-{k}k.txt').read_text() for k in sorted(set(order))}
+    report = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'order': order,
               'sampling': SAMPLING, 'decode_tokens': args.decode_tokens,
               'documents_sha256': {k: hashlib.sha256(v.encode()).hexdigest() for k, v in documents.items()},
               'runtime': capture(args.url), 'cells': []}
     asked = {k: 0 for k in documents}
-    for size in ORDER:
+    for size in order:
         question = QUESTIONS[asked[size] % len(QUESTIONS)]
         asked[size] += 1
         payload = {'model': 'ulmus', 'messages': [{'role': 'user', 'content': documents[size] +
                    '\n\nQuestion: ' + question + ' Answer in detail.'}], 'max_tokens': args.decode_tokens,
                    'stream': True, 'stream_options': {'include_usage': True}, **SAMPLING}
         assert_container(report['runtime'])
+        trace_before = args.routing_trace.stat().st_size if args.routing_trace else None
         result = request(args.url, payload)
+        trace_after = args.routing_trace.stat().st_size if args.routing_trace else None
         assert_container(report['runtime'])
         t = result['timings']
         report['cells'].append({'context_k': size, 'question': question,
@@ -53,7 +59,8 @@ def main():
             'completion_tokens': result['usage']['completion_tokens'], 'finish_reason': result['finish_reason'],
             'decode_tok_s': t['predicted_per_second'], 'draft_n': t['draft_n'],
             'draft_n_accepted': t['draft_n_accepted'], 'median_power_w': result.get('median_power_w'),
-            'input_sha256': hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()})
+            'input_sha256': hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest(),
+            **({'routing_trace_bytes': [trace_before, trace_after]} if args.routing_trace else {})})
         args.out.write_text(json.dumps(report, indent=2))
         print(size, t['cache_n'], t['prompt_n'], round(t['prompt_ms']), result['usage']['completion_tokens'],
               t['predicted_per_second'], flush=True)

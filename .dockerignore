@@ -8,3 +8,7 @@
 !grade.py
 !eval-source
 !eval-source/**
+!patches/strata-vision-unload-load.patch
+!patches/ulmus-lend-vram.patch
+!patches/llama-mtmd-host-copy.patch
+!patches/decode-host-diagnostics.patch

@@ -1,0 +1,146 @@
+diff -ru a/tools/mtmd/clip.cpp b/tools/mtmd/clip.cpp
+--- a/tools/mtmd/clip.cpp	2026-10-04 11:34:53.220948374 +0200
++++ b/tools/mtmd/clip.cpp	2026-10-04 11:50:02.812888124 +0200
+@@ -17,6 +17,7 @@
+ #include <cstring>
+ #include <fstream>
+ #include <map>
++#include <mutex>
+ #include <random>
+ #include <stdexcept>
+ #include <unordered_set>
+@@ -169,6 +170,7 @@
+ 
+     // for measuring memory usage
+     bool no_alloc = false;
++    bool keep_host_copy = false;
+     std::map<ggml_backend_dev_t, size_t> mem_usage;
+     std::map<ggml_backend_dev_t, size_t> mem_compute;
+ 
+@@ -181,6 +183,7 @@
+     clip_ctx(clip_context_params & ctx_params) {
+         flash_attn_type = ctx_params.flash_attn_type;
+         no_alloc = ctx_params.no_alloc;
++        keep_host_copy = ctx_params.keep_host_copy;
+         backend_cpu = ggml_backend_init_by_type(GGML_BACKEND_DEVICE_TYPE_CPU, nullptr);
+         if (!backend_cpu) {
+             throw std::runtime_error("failed to initialize CPU backend");
+@@ -3600,6 +3603,74 @@
+             ggml_backend_buffer_type_t buft = ggml_backend_get_default_buffer_type(ctx_clip.backend);
+             ctx_clip.buf.reset(ggml_backend_alloc_ctx_tensors_from_buft(ctx_clip.ctx_data.get(), buft));
+             ggml_backend_buffer_set_usage(ctx_clip.buf.get(), GGML_BACKEND_BUFFER_USAGE_WEIGHTS);
++            // keep_host_copy: a device's weights come from one pinned copy of the file's tensor data, read once per
++            // process and kept for the next load (a context freed between images and created again).  The copy lives
++            // until the process exits and is deliberately not freed by a static destructor, which would run after
++            // the GPU runtime has begun to unload.
++            static std::mutex host_copy_mutex;
++            static struct {
++                std::string fname;
++                ggml_backend_buffer_t buf = nullptr;
++                std::map<std::string, size_t> at;
++            } host_copy;
++            std::unique_lock<std::mutex> host_copy_lock(host_copy_mutex);
++            if (ctx_clip.keep_host_copy && !ctx_clip.no_alloc && !ggml_backend_buft_is_host(buft)) {
++                bool cached = host_copy.buf && host_copy.fname == fname;
++                for (auto & t : tensors_to_load) {
++                    cached = cached && host_copy.at.count(t->name) == 1;
++                }
++                if (!cached) {
++                    if (host_copy.buf) {
++                        ggml_backend_buffer_free(host_copy.buf);
++                        host_copy.buf = nullptr;
++                    }
++                    host_copy.at.clear();
++                    host_copy.fname.clear();
++                    ggml_backend_dev_t dev = ggml_backend_get_device(ctx_clip.backend);
++                    ggml_backend_buffer_type_t host_buft = dev ? ggml_backend_dev_host_buffer_type(dev) : nullptr;
++                    size_t total = 0;
++                    for (auto & t : tensors_to_load) {
++                        total += GGML_PAD(ggml_nbytes(t), 64);
++                    }
++                    ggml_backend_buffer_t hb = host_buft ? ggml_backend_buft_alloc_buffer(host_buft, total) : nullptr;
++                    if (hb) {
++                        host_copy.buf = hb;
++                        uint8_t * base = (uint8_t *) ggml_backend_buffer_get_base(hb);
++                        size_t off = 0;
++                        for (auto & t : tensors_to_load) {
++                            fin.seekg(tensor_offset.at(t->name), std::ios::beg);
++                            fin.read(reinterpret_cast<char *>(base + off), ggml_nbytes(t));
++                            if (!fin) {
++                                throw std::runtime_error(string_format("%s: failed to read tensor %s\n", __func__, t->name));
++                            }
++                            host_copy.at[t->name] = off;
++                            off += GGML_PAD(ggml_nbytes(t), 64);
++                        }
++                        host_copy.fname = fname;
++                    }
++                }
++                if (host_copy.buf) {
++                    // from pinned memory the copies are DMA: queue them all on the backend, then wait once
++                    const int64_t t_up = ggml_time_us();
++                    const uint8_t * base = (const uint8_t *) ggml_backend_buffer_get_base(host_copy.buf);
++                    for (auto & t : tensors_to_load) {
++                        ggml_tensor * cur = ggml_get_tensor(ctx_clip.ctx_data.get(), t->name);
++                        GGML_ASSERT(cur && "tensor not found in ctx_data");
++                        ggml_backend_tensor_set_async(ctx_clip.backend, cur, base + host_copy.at.at(t->name), 0,
++                                                      ggml_nbytes(cur));
++                    }
++                    ggml_backend_synchronize(ctx_clip.backend);
++                    fprintf(stderr, "%s: %zu tensors from the pinned copy in %.1f ms\n", __func__,
++                            tensors_to_load.size(), (ggml_time_us() - t_up) / 1000.0);
++                    if (progress_callback) {
++                        progress_callback(1.0, progress_callback_user_data);
++                    }
++                    LOG_DBG("%s: loaded %zu tensors from the pinned copy of %s\n", __func__, tensors_to_load.size(), fname.c_str());
++                    fin.close();
++                    return;
++                }
++            }
++            host_copy_lock.unlock();
+             // read the weight from file
+             if (!ctx_clip.no_alloc) {
+                 size_t data_loaded = 0;
+diff -ru a/tools/mtmd/clip.h b/tools/mtmd/clip.h
+--- a/tools/mtmd/clip.h	2026-10-04 11:34:53.221215045 +0200
++++ b/tools/mtmd/clip.h	2026-10-04 11:50:02.812697336 +0200
+@@ -58,6 +58,7 @@
+     bool no_alloc;
+     mtmd_progress_callback progress_callback;
+     void * progress_callback_user_data;
++    bool keep_host_copy; // keep the weights in pinned host memory for fast reloads (one file per process)
+ };
+ 
+ struct clip_init_result {
+diff -ru a/tools/mtmd/mtmd.cpp b/tools/mtmd/mtmd.cpp
+--- a/tools/mtmd/mtmd.cpp	2026-10-04 11:34:53.221235373 +0200
++++ b/tools/mtmd/mtmd.cpp	2026-10-04 11:50:02.812770884 +0200
+@@ -472,6 +472,7 @@
+         /* batch_max_tokens  */ 1024,
+         /* progress_callback */ nullptr,
+         /* progress_callback_user_data */ nullptr,
++        /* keep_host_copy    */ false,
+     };
+     return params;
+ }
+@@ -577,6 +578,7 @@
+             /* no_alloc          */ no_alloc,
+             /* progress_callback */ ctx_params.progress_callback,
+             /* progress_callback_user_data */ ctx_params.progress_callback_user_data,
++            /* keep_host_copy    */ ctx_params.keep_host_copy,
+         };
+ 
+         auto res = clip_init(mmproj_fname, ctx_clip_params);
+diff -ru a/tools/mtmd/mtmd.h b/tools/mtmd/mtmd.h
+--- a/tools/mtmd/mtmd.h	2026-10-04 11:34:53.221314081 +0200
++++ b/tools/mtmd/mtmd.h	2026-10-04 11:50:02.812854952 +0200
+@@ -122,6 +122,10 @@
+     // If it returns false, model loading is immediately aborted.
+     mtmd_progress_callback progress_callback;
+     void * progress_callback_user_data;
++
++    // keep a pinned host copy of the projector weights, so freeing and re-creating the context reloads them
++    // without reading the file again (default: false)
++    bool keep_host_copy;
+ };
+ 
+ MTMD_API const char * mtmd_default_marker(void);

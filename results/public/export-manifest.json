@@ -266,6 +266,102 @@
     "context-decode-20261004.json": {
       "private_original_sha256": "bd12955a2ab831078038baa619866c607f98a5c4cdaf53a340baabb622ea03a4",
       "public_export_sha256": "e0766af23d90719d677070e5511936da96e3c18a324e8362ede1514e8771276e"
+    },
+    "short-read-trace-t20261004-summary.json": {
+      "private_original_sha256": "ede4ca577eaccb27c5ddca796c950469dae0e2a9e0ac1807bfe222b1f573391d",
+      "public_export_sha256": "85f97ca5fe78e15f6c71040cb9e457d20cb7cad53058db013bc757b87c376694"
+    },
+    "vision-memory-t20261004.json": {
+      "private_original_sha256": "073bf1de1cbb4c4a5092d2756199f90e643e2bdd3e908987db899fad482bd108",
+      "public_export_sha256": "dc25837ba476f24e7a287ea06358d6dbb20a7257b0951103d0b0050c034bbabf"
+    },
+    "vision-reload-r20261004.json": {
+      "private_original_sha256": "e43ac177f4789f2726850379e70f81f9e49e49161164e2666b3df87fe8ef7471",
+      "public_export_sha256": "92e1c5db8fc7481c6a542273e983d897e3a77247e74f59d162e231cbabf74725"
+    },
+    "swap-ab-comparison.json": {
+      "private_original_sha256": "b910ce7dfa0fa2b54a6dcc32207a0e8ce0965c2bd7d07c635cbc12bed4e0cdb1",
+      "public_export_sha256": "b910ce7dfa0fa2b54a6dcc32207a0e8ce0965c2bd7d07c635cbc12bed4e0cdb1"
+    },
+    "swap-deck-pinned-comparison.json": {
+      "private_original_sha256": "53d9ff3eff601865110ee4c6de2a18cbdccff855a49b974c6698a2011406a5f3",
+      "public_export_sha256": "53d9ff3eff601865110ee4c6de2a18cbdccff855a49b974c6698a2011406a5f3"
+    },
+    "swap-deck-async-comparison.json": {
+      "private_original_sha256": "c7d3cdef4e2e7ce99bb734f7797e74c6c15ec9779534da9157ac3ec7ce08d2bc",
+      "public_export_sha256": "c7d3cdef4e2e7ce99bb734f7797e74c6c15ec9779534da9157ac3ec7ce08d2bc"
+    },
+    "swap-deck-partial-comparison.json": {
+      "private_original_sha256": "badbeccfbc37a2fecb30b4b8d45956ee964cec1196aef1e42fb6d8db37e21ae6",
+      "public_export_sha256": "badbeccfbc37a2fecb30b4b8d45956ee964cec1196aef1e42fb6d8db37e21ae6"
+    },
+    "swap-ab-v4-comparison.json": {
+      "private_original_sha256": "adfa3ca2fdae78a7f9739be94fd3f8816bfab6369ef0593b4f6da1a45fce09e2",
+      "public_export_sha256": "adfa3ca2fdae78a7f9739be94fd3f8816bfab6369ef0593b4f6da1a45fce09e2"
+    },
+    "swap-prefix-control-comparison.json": {
+      "private_original_sha256": "0b0b3db9227808ddc73df0d216f8e3394d5d12f2dc056f988c29217e28de7b71",
+      "public_export_sha256": "0b0b3db9227808ddc73df0d216f8e3394d5d12f2dc056f988c29217e28de7b71"
+    },
+    "practical30-swap-v4-comparison.json": {
+      "private_original_sha256": "5dff4682b06d3c73d45acdd2cba03497ff3aa28edb9857c89314cc8497bf6bd5",
+      "public_export_sha256": "5dff4682b06d3c73d45acdd2cba03497ff3aa28edb9857c89314cc8497bf6bd5"
+    },
+    "swap64-comparison.json": {
+      "private_original_sha256": "e983c16927853a7e3a0080cc4ef26ed6a3c5499444ce69ffc64ae63e02da7d68",
+      "public_export_sha256": "e983c16927853a7e3a0080cc4ef26ed6a3c5499444ce69ffc64ae63e02da7d68"
+    },
+    "swap128-comparison.json": {
+      "private_original_sha256": "837028666881c388d301fa98343bd70ab06b46680a33ab4db2d5d4dec43598bf",
+      "public_export_sha256": "837028666881c388d301fa98343bd70ab06b46680a33ab4db2d5d4dec43598bf"
+    },
+    "swap-v4-large-image-smoke.json": {
+      "private_original_sha256": "10f77b42c825c4ac3f7576a8f3c619ecdb79faccaa87dc7d1403a736d7921628",
+      "public_export_sha256": "10f77b42c825c4ac3f7576a8f3c619ecdb79faccaa87dc7d1403a736d7921628"
+    },
+    "swap-v4-serving-api.json": {
+      "private_original_sha256": "1e6a6e0f858049ec8818e103e9bde31207771442a405e8ca9a072b6751d7e0b6",
+      "public_export_sha256": "6f913ec0af5f47f3614f8ffef26183f444c80a790300b722aa330a752b9bc43b"
+    },
+    "decode-diagnostics-20261004-summary.json": {
+      "private_original_sha256": "3a058331b458132cad1008820265a1780b1dd27cceb80bdc4d6cd0420cde4f65",
+      "public_export_sha256": "3a058331b458132cad1008820265a1780b1dd27cceb80bdc4d6cd0420cde4f65"
+    },
+    "host-memory-20261004-summary.json": {
+      "private_original_sha256": "98e332310fff1b0c9bfdf819cf7cb075a19122f3e080ce2f59bc87bdc0f1d881",
+      "public_export_sha256": "98e332310fff1b0c9bfdf819cf7cb075a19122f3e080ce2f59bc87bdc0f1d881"
+    },
+    "routing-allocation-20261004-summary.json": {
+      "private_original_sha256": "4833ba3c46fb385f6fff934cee89b83931b38d7e251c3e47965e9c5a1a7b4091",
+      "public_export_sha256": "4833ba3c46fb385f6fff934cee89b83931b38d7e251c3e47965e9c5a1a7b4091"
+    },
+    "decode-host-20261004-summary.json": {
+      "private_original_sha256": "69f74d4825c0cc91d98a2593397bce6cce9e0d0eb0b64b176f3ec34c726ac47e",
+      "public_export_sha256": "69f74d4825c0cc91d98a2593397bce6cce9e0d0eb0b64b176f3ec34c726ac47e"
+    },
+    "adapt-batch-20261004-summary.json": {
+      "private_original_sha256": "048704cacf085995d1aed70671f225dbae58f110c413bded19a9f34bd4a3fde5",
+      "public_export_sha256": "048704cacf085995d1aed70671f225dbae58f110c413bded19a9f34bd4a3fde5"
+    },
+    "practical30-adapt24-comparison.json": {
+      "private_original_sha256": "fb06e6a3d0a2f2323d2a9fbc010625111aff77b3807023baf8413c53445c42cf",
+      "public_export_sha256": "fb06e6a3d0a2f2323d2a9fbc010625111aff77b3807023baf8413c53445c42cf"
+    },
+    "adapt24-large-image-20261004.json": {
+      "private_original_sha256": "31ccaf99e93b79cc6d70cde8bc5fa9581ac637cf232cdfd645f6060b8d9c5139",
+      "public_export_sha256": "31ccaf99e93b79cc6d70cde8bc5fa9581ac637cf232cdfd645f6060b8d9c5139"
+    },
+    "vision15-adapt24-low.json": {
+      "private_original_sha256": "66726a03398c8191085b5fe8dc040204214ce99671191282aeb81db2f40384cc",
+      "public_export_sha256": "bbef502b04886b58f0507518b979ab633ccef7fcaf9bae1d2a30a34ecd966128"
+    },
+    "adapt24-final-api.json": {
+      "private_original_sha256": "99573f23832b4f2109352d846208b9d5a937c2056b53dab50198f77cff01ea4f",
+      "public_export_sha256": "e3e9db1c75a8d0fb57351f1dd859bd6e86ea6f0aa66950a233a863ca55ce2374"
+    },
+    "adapt24-selection-20261004.json": {
+      "private_original_sha256": "bdf8229f52eaed31f08d8b3cb2f6833d111d5a6e7b4fd8c49462b725f9f86757",
+      "public_export_sha256": "bdf8229f52eaed31f08d8b3cb2f6833d111d5a6e7b4fd8c49462b725f9f86757"
     }
   }
 }

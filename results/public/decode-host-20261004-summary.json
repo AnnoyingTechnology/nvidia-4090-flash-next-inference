@@ -1,0 +1,35 @@
+{
+  "scope": "Diagnostic host counters for three 32K fixed-length performance requests; no production speed claim.",
+  "image_id": "sha256:81577a52bc1a5ba62978807730a35dbbb0a2130082ca685f0fe07b347c35dbdb",
+  "cells": [
+    {
+      "select": 0.0002,
+      "pending": 1.1108,
+      "history": 0.0,
+      "join": 0.0056
+    },
+    {
+      "select": 0.0002,
+      "pending": 1.1553,
+      "history": 0.0,
+      "join": 0.0115
+    },
+    {
+      "select": 0.0002,
+      "pending": 1.0957,
+      "history": 0.0,
+      "join": 0.017
+    }
+  ],
+  "medians_ms_per_window": {
+    "select": 0.0002,
+    "pending": 1.1108,
+    "history": 0.0,
+    "join": 0.0115
+  },
+  "log_sha256": "ddee255ae19ed616cdc0496334b8f90d3e47dd2abdb15149a4df704c80a3113b",
+  "api": {
+    "passed": 9,
+    "total": 9
+  }
+}

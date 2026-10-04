@@ -1,0 +1,207 @@
+{
+  "observed_at": "2026-10-04T09:01:21.510500+00:00",
+  "image": "ulmus/strata:99f3dbd-ownerapi",
+  "vision_args": [
+    "/opt/vision-build/bin/strata-vision",
+    "--mmproj",
+    "/work/models/gsq-iq3_s/mmproj-Qwen3.8-Flash-Next-BF16.gguf",
+    "--model",
+    "/work/models/gsq-iq3_s/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf",
+    "--gpu",
+    "--max-tokens",
+    "4096",
+    "--threads",
+    "12"
+  ],
+  "idle_vram_mib": 2,
+  "bare_context": [
+    {
+      "phase": "ctx_ready",
+      "ms": 57.57855999945605,
+      "vram_mib": 392
+    }
+  ],
+  "idle_after_context_mib": 2,
+  "vision": [
+    {
+      "phase": "ready",
+      "line": "READY 2560",
+      "ms": 2356.9251699991582,
+      "vram_mib": 1948
+    },
+    {
+      "phase": "encode_start",
+      "image": "gray-2048.bmp",
+      "repeat": 0
+    },
+    {
+      "phase": "encode_done",
+      "image": "gray-2048.bmp",
+      "repeat": 0,
+      "reply": "OK 4096 64 64 1843",
+      "wall_ms": 1843.5016900002665,
+      "peak_vram_mib": 1954,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "nginx-error.png",
+      "repeat": 0
+    },
+    {
+      "phase": "encode_done",
+      "image": "nginx-error.png",
+      "repeat": 0,
+      "reply": "OK 1035 45 23 174",
+      "wall_ms": 173.84691699953692,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "invoice.png",
+      "repeat": 0
+    },
+    {
+      "phase": "encode_done",
+      "image": "invoice.png",
+      "repeat": 0,
+      "reply": "OK 850 34 25 125",
+      "wall_ms": 125.35477799974615,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "photo-astronaut.png",
+      "repeat": 0
+    },
+    {
+      "phase": "encode_done",
+      "image": "photo-astronaut.png",
+      "repeat": 0,
+      "reply": "OK 256 16 16 26",
+      "wall_ms": 26.17725900017831,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "gray-2048.bmp",
+      "repeat": 1
+    },
+    {
+      "phase": "encode_done",
+      "image": "gray-2048.bmp",
+      "repeat": 1,
+      "reply": "OK 4096 64 64 1854",
+      "wall_ms": 1854.4903460006026,
+      "peak_vram_mib": 1954,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "nginx-error.png",
+      "repeat": 1
+    },
+    {
+      "phase": "encode_done",
+      "image": "nginx-error.png",
+      "repeat": 1,
+      "reply": "OK 1035 45 23 164",
+      "wall_ms": 164.06442200059246,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "invoice.png",
+      "repeat": 1
+    },
+    {
+      "phase": "encode_done",
+      "image": "invoice.png",
+      "repeat": 1,
+      "reply": "OK 850 34 25 126",
+      "wall_ms": 125.65389599876653,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "photo-astronaut.png",
+      "repeat": 1
+    },
+    {
+      "phase": "encode_done",
+      "image": "photo-astronaut.png",
+      "repeat": 1,
+      "reply": "OK 256 16 16 26",
+      "wall_ms": 25.779403000342427,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "gray-2048.bmp",
+      "repeat": 2
+    },
+    {
+      "phase": "encode_done",
+      "image": "gray-2048.bmp",
+      "repeat": 2,
+      "reply": "OK 4096 64 64 1850",
+      "wall_ms": 1850.1810939997085,
+      "peak_vram_mib": 1954,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "nginx-error.png",
+      "repeat": 2
+    },
+    {
+      "phase": "encode_done",
+      "image": "nginx-error.png",
+      "repeat": 2,
+      "reply": "OK 1035 45 23 161",
+      "wall_ms": 161.53912600020703,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "invoice.png",
+      "repeat": 2
+    },
+    {
+      "phase": "encode_done",
+      "image": "invoice.png",
+      "repeat": 2,
+      "reply": "OK 850 34 25 124",
+      "wall_ms": 124.56639400079439,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "encode_start",
+      "image": "photo-astronaut.png",
+      "repeat": 2
+    },
+    {
+      "phase": "encode_done",
+      "image": "photo-astronaut.png",
+      "repeat": 2,
+      "reply": "OK 256 16 16 26",
+      "wall_ms": 25.696543998492416,
+      "peak_vram_mib": null,
+      "vram_after_mib": 1954
+    },
+    {
+      "phase": "exited",
+      "ms": 164.03142399940407,
+      "code": 0
+    }
+  ],
+  "idle_after_vision_mib": 2
+}

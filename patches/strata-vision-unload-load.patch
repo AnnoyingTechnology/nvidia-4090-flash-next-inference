@@ -1,0 +1,42 @@
+diff --git a/tools/vision/strata_vision.cpp b/tools/vision/strata_vision.cpp
+index 6be3f44..a18bd32 100644
+--- a/tools/vision/strata_vision.cpp
++++ b/tools/vision/strata_vision.cpp
+@@ -103,7 +103,9 @@ int main(int argc, char** argv) {
+     if (threads <= 0 && !gpu) threads = std::max(1u, std::thread::hardware_concurrency() / 2);
+     if (threads > 0) cp.n_threads = threads;
+     if (max_tokens > 0) cp.image_max_tokens = max_tokens;
+-    mtmd_context* ctx = mtmd_init_from_file(mmproj.c_str(), text, cp);
++    // UNLOAD frees the encoder's weights, work buffers and backend (the CUDA context stays); LOAD opens it again
++    auto open_encoder = [&]() { return mtmd_init_from_file(mmproj.c_str(), text, cp); };
++    mtmd_context* ctx = open_encoder();
+     if (!ctx || !mtmd_support_vision(ctx)) {
+         std::printf("ERR cannot load the vision encoder %s\n", mmproj.c_str());
+         std::fflush(stdout);
+@@ -153,6 +155,17 @@ int main(int argc, char** argv) {
+     while (std::getline(std::cin, line)) {
+         while (!line.empty() && (line.back() == '\r' || line.back() == '\n')) line.pop_back();
+         if (line == "QUIT") break;
++        if (line == "UNLOAD" || line == "LOAD") {
++            const auto tl = std::chrono::steady_clock::now();
++            if (line == "UNLOAD" && ctx) { mtmd_free(ctx); ctx = nullptr; }
++            if (line == "LOAD" && !ctx) ctx = open_encoder();
++            const double ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - tl).count();
++            if (line == "LOAD" && !ctx) std::printf("ERR cannot load the vision encoder %s\n", mmproj.c_str());
++            else std::printf("%s %.1f\n", line == "LOAD" ? "LOADED" : "UNLOADED", ms);
++            std::fflush(stdout);
++            continue;
++        }
++        if (!ctx) { std::printf("ERR the vision encoder is unloaded; send LOAD first\n"); std::fflush(stdout); continue; }
+         std::string img, out;
+         if (!parse_enc(line, img, out)) { std::printf("ERR expected: ENC <image> <output>\n"); std::fflush(stdout); continue; }
+         const auto t0 = std::chrono::steady_clock::now();
+@@ -198,7 +211,7 @@ int main(int argc, char** argv) {
+         mtmd_bitmap_free(bw.bitmap);
+         if (bw.video_ctx) mtmd_helper_video_free(bw.video_ctx);
+     }
+-    mtmd_free(ctx);
++    if (ctx) mtmd_free(ctx);
+     llama_model_free(text);
+     llama_backend_free();
+     return 0;

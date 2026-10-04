@@ -36,7 +36,10 @@ export ULMUS_REMOTE_ROOT='<absolute remote stack directory>'
 bash scripts/opencode.sh
 ```
 
-The launcher starts the owner vision profile only when the owned server
+The selected profile is `flash-iq3s-256k-vision-tune-owneradapt24` (lend-VRAM v4).
+It keeps one target loaded and stages GPU vision only for uncached images,
+with about 93 ms measured additional first-token latency per new image.
+The launcher starts this profile only when the owned server
 is absent and the GPU is idle. It refuses another active profile, creates
 a loopback-only SSH tunnel, selects the new model and closes its tunnel
 when OpenCode exits. It leaves the loaded model running for later use.

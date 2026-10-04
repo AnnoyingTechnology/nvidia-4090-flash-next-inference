@@ -40,6 +40,20 @@ FILES = [
     'vision-residency-comparison.json', 'short-read-comparison.json',
     'cpuvision-residency-comparison.json', 'vision15-cpu-gpu-20261004.json',
     'context-decode-20261004.json',
+    'short-read-trace-t20261004-summary.json',
+    'vision-memory-t20261004.json', 'vision-reload-r20261004.json',
+    'swap-ab-comparison.json', 'swap-deck-pinned-comparison.json',
+    'swap-deck-async-comparison.json', 'swap-deck-partial-comparison.json',
+    'swap-ab-v4-comparison.json',
+    'swap-prefix-control-comparison.json',
+    'practical30-swap-v4-comparison.json', 'swap64-comparison.json', 'swap128-comparison.json',
+    'swap-v4-large-image-smoke.json',
+    'swap-v4-serving-api.json',
+    'decode-diagnostics-20261004-summary.json', 'host-memory-20261004-summary.json',
+    'routing-allocation-20261004-summary.json',
+    'decode-host-20261004-summary.json', 'adapt-batch-20261004-summary.json',
+    'practical30-adapt24-comparison.json', 'adapt24-large-image-20261004.json',
+    'vision15-adapt24-low.json', 'adapt24-final-api.json', 'adapt24-selection-20261004.json',
 ]
 
 

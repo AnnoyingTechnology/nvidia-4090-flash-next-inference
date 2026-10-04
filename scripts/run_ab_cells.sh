@@ -9,6 +9,12 @@ task_prefix=${2:?usage: run_ab_cells.sh <paired-id> <cell-prefix> <profile>...}
 shift 2
 [[ "$task_prefix" =~ ^[a-z0-9-]+$ ]] || exit 2
 task_sampling='{"temperature":1,"top_p":0.95,"top_k":20,"min_p":0,"presence_penalty":0,"repetition_penalty":1,"reasoning_effort":"low","seed":42}'
+task_image_args=()
+# A controlled build comparison can reuse one profile. run.sh validates this local image tag;
+# launch_record.py and --capture-runtime record the actual image and binary used.
+if test -n "${ULMUS_AB_IMAGE:-}"; then
+    task_image_args=("$ULMUS_AB_IMAGE")
+fi
 task_index=0
 for task_profile in "$@"; do
     task_index=$((task_index + 1))
@@ -25,7 +31,7 @@ for task_profile in "$@"; do
     task_log="results/$task_profile-engine.log"
     bash stop.sh
     task_offset=$(stat -c %s "$task_log" 2>/dev/null || echo 0)
-    bash run.sh "$task_profile"
+    bash run.sh "$task_profile" "${task_image_args[@]}"
     python3 wait_ready.py
     python3 bench.py --out "$task_cell-perf.json" --repeats 2 --decode-tokens 512 \
         --fixtures fixtures --prefill-k 32 --paired-id "$task_paired" \

@@ -1,0 +1,64 @@
+--- a/src/program/generate.cpp
++++ b/src/program/generate.cpp
+@@ -5806,6 +5806,7 @@
+             };
+             const DecSnap ds0 = dec_snap();
+             double dt_run = 0, dt_commit = 0, dt_draft = 0;
++            double dt_select = 0, dt_pending = 0, dt_hist = 0, dt_join = 0;
+             int64_t dec_windows = 0, dec_T = 0;
+             const int64_t decode_hits0 = drive.d.cache_hits;
+             // CS-T: the RAM and file tiers of this request (the mmap source; 0 with the arena)
+@@ -5814,6 +5815,7 @@
+             const int64_t decode_look0 = drive.d.cache_hits + drive.d.cache_admitted + drive.d.cache_refused;
+             if (cancelled) finish = "cancel";
+             while (!cancelled && produced_n < max_new) {
++                const auto diag_select0 = Clock::now();
+                 int T = S_mtp;
+                 if (req_spec_min_p > 0.0) {
+                     T = 1;
+@@ -5834,6 +5836,7 @@
+                 }
+                 const bool timed_round = !first_window;
+                 const Clock::time_point round0 = Clock::now();
++                dt_select += std::chrono::duration<double, std::milli>(round0 - diag_select0).count();
+                 if (p + T > o.max_context) break;
+                 window[0] = x;
+                 for (int i = 1; i < T; ++i) window[(size_t) i] = from_sfx ? sbuf[(size_t) i - 1] : drafts[(size_t) i - 1];
+@@ -5843,7 +5846,10 @@
+                 // #463: the previous adapt round's copies land first - with a non-blocking query, whether a swapped-in
+                 // expert ran on the GPU or the CPU (they round differently) depended on the copy's timing
+                 // (STRATA_ADAPT_NOWAIT=1: 0.1.37's non-blocking query, the A/B)
++                const auto diag_pending0 = Clock::now();
+                 apply_pending(!adapt_nowait());
++                const auto diag_pending1 = Clock::now();
++                dt_pending += std::chrono::duration<double, std::milli>(diag_pending1 - diag_pending0).count();
+                 if (hist_n > 0) {
+                     // the tails the penalties count over, ONE PER ROW: the tokens the state has consumed, the
+                     // fed-back head `x` (it joins `consumed` only after this window commits), then the drafts
+@@ -5857,6 +5863,7 @@
+                 }
+                 tr("window", p, T);
+                 const Clock::time_point tw0 = Clock::now();
++                dt_hist += std::chrono::duration<double, std::milli>(tw0 - diag_pending1).count();
+                 if (!ver.run(T, window.data(), p, win_pool_fn, win_pool_user, outv.data(), err) || drive.d.failed) {
+                     std::printf("ERR %s\n", drive.d.failed && drive.d.fail ? drive.d.fail : err.c_str());
+                     return 1;
+@@ -5902,7 +5909,9 @@
+                     dt_run += msd(tw0, tw1); dt_commit += msd(tw1, tw2); dt_draft += msd(tw2, tw3);
+                     ++dec_windows; dec_T += T;
+                 }
++                const auto diag_join0 = Clock::now();
+                 if (adapt_thr.joinable()) adapt_thr.join();
++                dt_join += std::chrono::duration<double, std::milli>(Clock::now() - diag_join0).count();
+                 if (!adapt_ok) {
+                     std::printf("ERR an adaptive refill failed\n");
+                     return 1;
+@@ -5937,6 +5946,8 @@
+                              (d1.actq - ds0.actq) / w, (d1.jobs - ds0.jobs) / w, (d1.run - ds0.run) / w,
+                              (d1.host - ds0.host) / w, dt_commit / w, dt_draft / w, (d1.misses - ds0.misses) / (w * L),
+                              (d1.entries - ds0.entries) / (w * L), (d1.hits - ds0.hits) / (w * L), (d1.pcie - ds0.pcie) / (w * L));
++                std::fprintf(stderr, "ulmus decode host: select %.4f pending %.4f history %.4f join %.4f ms/window\n",
++                             dt_select / w, dt_pending / w, dt_hist / w, dt_join / w);
+                 const std::string pr = ver.profile_report();
+                 if (!pr.empty()) std::fprintf(stderr, "strata decode GPU stages (ms/window):%s\n", pr.c_str());
+             }

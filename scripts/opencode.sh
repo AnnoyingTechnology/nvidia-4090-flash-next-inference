@@ -11,14 +11,14 @@ ssh -F /dev/null -o BatchMode=yes "$task_target" "bash -s -- $task_root_quoted" 
 set -euo pipefail
 cd -- "$1"
 if ! docker inspect --format '{{.State.Running}}' ulmus-inference-test 2>/dev/null | grep -qx true; then
-    bash run.sh flash-iq3s-256k-vision-tune-ownervision
+    bash run.sh flash-iq3s-256k-vision-tune-owneradapt24
     python3 wait_ready.py
 fi
 python3 - <<'PY'
 import json, subprocess, urllib.request
 command = json.loads(subprocess.check_output(
     ['docker', 'inspect', '--format', '{{json .Config.Cmd}}', 'ulmus-inference-test'], text=True))
-if '/work/profiles/flash-iq3s-256k-vision-tune-ownervision.json' not in command:
+if '/work/profiles/flash-iq3s-256k-vision-tune-owneradapt24.json' not in command:
     raise SystemExit('Stop the owned workload and start the selected owner vision profile first.')
 with urllib.request.urlopen('http://127.0.0.1:19623/v1/status', timeout=10) as response:
     status = json.load(response)

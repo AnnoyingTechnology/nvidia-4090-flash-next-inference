@@ -1,0 +1,5 @@
+# Diagnostic counters only; never the selected serving image.
+FROM ulmus/strata:99f3dbd-lendvram
+COPY patches/decode-host-diagnostics.patch /tmp/
+RUN cd /opt/strata && patch -p1 < /tmp/decode-host-diagnostics.patch \
+    && cmake --build /opt/strata-build -j 12 --target strata

@@ -17,6 +17,9 @@
 !/Dockerfile.cpu-quant
 !/Dockerfile.cpu-parity
 !/Dockerfile.eddoursul-native
+!/Dockerfile.vision-unload
+!/Dockerfile.lend-vram
+!/Dockerfile.decode-diagnostic
 !/api-requirements.lock
 !/QUALITY-REFERENCE.json
 !/run.sh
