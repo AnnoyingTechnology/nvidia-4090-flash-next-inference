@@ -1,8 +1,10 @@
 """Bind local evaluations to the owned live container, target artifacts and template.
 
 Large artifacts use observed inode/size/mtime identities, not invented content hashes.
-The pinned download/build recipes provide content-hash evidence separately. Imports
-require the exact runtime fingerprint; legacy reports without one cannot be reused.
+The pinned download/build recipes provide content-hash evidence separately. Content-hashed
+small files are identified by path, size and hash alone: image-layer files sit on overlayfs,
+whose device number changes across reboots. Imports require the exact runtime fingerprint,
+recomputed from the stored identity; legacy reports without one cannot be reused.
 """
 import hashlib
 import json
@@ -61,8 +63,19 @@ print(json.dumps(result))
 '''
 
 
+def stable(identity):
+    if isinstance(identity, list):
+        return [stable(value) for value in identity]
+    if not isinstance(identity, dict):
+        return identity
+    if 'path' in identity and 'sha256' in identity:
+        return {key: identity[key] for key in ['path', 'size', 'sha256']}
+    return {key: stable(value) for key, value in identity.items()}
+
+
 def fingerprint(identity):
-    return hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    return hashlib.sha256(json.dumps(stable(identity), sort_keys=True,
+                                     separators=(',', ':')).encode()).hexdigest()
 
 
 def inspect_container():
@@ -98,5 +111,5 @@ def assert_container(runtime):
 
 def require_matching(report, runtime):
     old = report.get('runtime')
-    if not old or old.get('fingerprint') != runtime['fingerprint']:
+    if not old or 'identity' not in old or fingerprint(old['identity']) != runtime['fingerprint']:
         raise RuntimeError('Runtime provenance differs or is missing; legacy responses cannot be imported/resumed')

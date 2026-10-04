@@ -19,10 +19,11 @@ and [Intel Arc Pro B70](https://github.com/AnnoyingTechnology/intel-arc-b70-llm-
 projects. Their rates concern different models and cannot be treated as a
 same-target comparison.
 
-**Research paused, 2026-10-03.** The selected vision model was subsequently
-started at the owner's request for OpenCode use; optimization tests remain paused.
-Read the [session status](docs/session-status-2026-10-03.md) for completed results,
-unfinished experiments, closed alternatives and the next-session sequence.
+**Research resumed, 2026-10-04.** The current
+[session status](docs/session-status-2026-10-04.md) is the resume point: live state,
+the original IQ3 seed-variance baseline in progress and its decision rule.
+The [2026-10-03 status](docs/session-status-2026-10-03.md) keeps completed results,
+unfinished experiments, closed alternatives and the original next-session sequence.
 The requested [Claude Opus 5.5 xhigh review](docs/claude-opus-5.5-review-2026-10-03.md)
 is logged with qualifications; it adds advice, not measurements.
 
@@ -147,14 +148,25 @@ rules that IQ3 off handles. More precision does not uniformly win across
 efforts. These single-seed results support repeating specific disagreements,
 not a universal retained-quality percentage.
 
-An **experimental IQ3 + Q4-source output head** completes **29/30 low** in
-**9.45 s median**, versus 28/30 and 9.12 s for original IQ3. It fixes the two
-original failures but introduces a zero-base backoff edge-case failure. Fresh
-matched 512-token decode measures **100.6 tok/s original / 100.3 head-only**:
-no demonstrated throughput gain. This mixed checkpoint also changes the shared
-MTP head and is not the exact published GSQ release. It remains unselected;
-two more seeds on the observed disagreements and the embedding-plus-head
-diagnostic remain unfinished at the pause. [Matched performance](results/public/precision-iq3-head-comparison.json)
+**Seed variance, 2026-10-04.** Original IQ3 on the same runtime, deck and
+grader with seeds 42/7/123 scores **28/29/30 low** and **29/28/28 off**; all 180
+generations stop naturally. Three low and four off cases change verdict across
+seeds, and none fails under every seed. One- or two-case single-seed differences
+on this deck are therefore not resolvable: Q4's 30/30 low and 27/30 off sit
+inside or next to that spread. Pooled low 87/90 and off 85/90 do not separate
+the efforts either; median answer time is 3.4–3.9 s off and 9.1–9.8 s low.
+One low `backoff` answer finished naturally after 10,037 tokens and 107 s,
+beyond the profiles' 8192-token default output budget.
+[Seed evidence](results/public/practical30-comparison.json)
+
+An **experimental IQ3 + Q4-source output head** completed **29/30 low** in
+**9.45 s median** at seed 42, versus 28/30 and 9.12 s for original IQ3. Original
+IQ3 itself passes both of those failures at other seeds, so this is no
+demonstrated quality gain. Fresh matched 512-token decode measures **100.6 tok/s
+original / 100.3 head-only**: no throughput gain. The mixed checkpoint also
+changes the shared MTP head and is not the exact published GSQ release.
+**Closed 2026-10-04:** neither head-only nor embedding-plus-head is pursued
+without new evidence. [Matched performance](results/public/precision-iq3-head-comparison.json)
 
 ## Bandwidth reference and remaining headroom
 
@@ -164,6 +176,19 @@ remove CPU-memory bandwidth or transfer costs. Light decode profiling found
 roughly 19–23 ms speculative windows: 4.6–8.4 ms of CPU cold-expert work,
 about 9 ms waiting for GPU progress and 1.6–1.9 ms of draft work. These
 stages overlap; do not add them into an invented percentage breakdown.
+
+More CPU workers bought little decode speed. At the PCIe .2 / min-p .5
+placement, six 512-token requests per setting gave medians of **104.15 tok/s
+with 6 pool workers** and **107.1 with 11**: 83% more workers, about 3% more
+speed, with overlapping per-request ranges (97.5–111.2 and 98.6–120.6).
+This was not repeated at the selected .35 / .7 placement. The busy hardware
+thread on each physical core includes polling and waits, so occupancy does
+not show saturated arithmetic. Inference, not a measured critical path:
+cold-expert reads from the RAM-resident set and GPU progress probably bound
+decode more than core count, so a wider CPU on the same dual-channel memory
+is unlikely to help much. Whether fewer workers keep speed at lower wall
+power is not measured. [6 workers](results/public/sampled-iq3s-workers6spec4.json),
+[11 workers](results/public/sampled-iq3s-workers11spec4.json)
 
 The native build already uses AVX-512. Hybrid connections, GDN work,
 resident experts and transfer/wait stages all matter; the output head alone

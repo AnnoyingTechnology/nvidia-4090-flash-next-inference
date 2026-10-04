@@ -40,14 +40,29 @@ class CompletionTests(unittest.TestCase):
     def test_same_api_alias_does_not_allow_cross_quant_import(self):
         iq3 = {'model_alias': 'ulmus', 'target': 'iq3', 'native_sha256': 'engine-a'}
         q4 = {'model_alias': 'ulmus', 'target': 'q4', 'native_sha256': 'engine-a'}
-        report = {'runtime': {'fingerprint': fingerprint(iq3)}}
+        report = {'runtime': {'fingerprint': fingerprint(iq3), 'identity': iq3}}
         with self.assertRaises(RuntimeError):
             require_matching(report, {'fingerprint': fingerprint(q4)})
         require_matching(report, {'fingerprint': fingerprint(iq3)})
 
+    def test_reboot_overlay_device_keeps_identity_but_content_or_weights_do_not(self):
+        def runtime(profile_device=66, profile_hash='aa', weight_inode=7):
+            return {'artifacts': {
+                'expert_profile': [{'path': '/opt/p.bin', 'size': 3, 'mtime_ns': 1,
+                                    'device': profile_device, 'inode': 4, 'sha256': profile_hash}],
+                'target_shards': [{'path': '/models/t.gguf', 'size': 9, 'mtime_ns': 2,
+                                   'device': 66307, 'inode': weight_inode}]}}
+        report = {'runtime': {'fingerprint': 'stored-by-older-definition', 'identity': runtime()}}
+        require_matching(report, {'fingerprint': fingerprint(runtime(profile_device=58))})
+        for changed in [runtime(profile_hash='bb'), runtime(weight_inode=8)]:
+            with self.assertRaises(RuntimeError):
+                require_matching(report, {'fingerprint': fingerprint(changed)})
+
     def test_missing_legacy_runtime_is_not_importable(self):
         with self.assertRaises(RuntimeError):
             require_matching({}, {'fingerprint': 'fresh'})
+        with self.assertRaises(RuntimeError):
+            require_matching({'runtime': {'fingerprint': 'fresh'}}, {'fingerprint': 'fresh'})
 
 
 if __name__ == '__main__':

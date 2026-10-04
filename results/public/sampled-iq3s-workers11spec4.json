@@ -1,0 +1,327 @@
+{
+  "observed_at": "2026-10-03T11:11:04.013532+00:00",
+  "url": "http://127.0.0.1:19623",
+  "sampling": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "presence_penalty": 0,
+    "repetition_penalty": 1,
+    "reasoning_effort": "medium"
+  },
+  "tune": {},
+  "decode_tokens": 512,
+  "warmups": [
+    {
+      "ttft_s": 0.5812864610015822,
+      "total_s": 1.719737511000858,
+      "usage": {
+        "prompt_tokens": 92,
+        "completion_tokens": 128,
+        "total_tokens": 220,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 546.6,
+        "prompt_per_token_ms": 5.941,
+        "prompt_per_second": 168.3,
+        "predicted_n": 128,
+        "predicted_ms": 1163.8,
+        "predicted_per_token_ms": 9.092,
+        "predicted_per_second": 110.0,
+        "draft_n": 115,
+        "draft_n_accepted": 82
+      },
+      "content": "",
+      "reasoning": "The user wants a complete Python implementation of an LRU cache using `collections.OrderedDict` with:\n1. Capacity limit\n2. `get` and `put` methods\n3. Type annotations\n4. Docstrings\n5. Six unit tests\n\nLet me write a clean, complete implementation.\n\nThe LRU cache logic:\n- `put(key, value)`: If key exists, update it and move to end. If capacity exceeded, remove the least recently used (first item in OrderedDict).\n- `get(key)`: If key exists, move it to end (most recently used) and return value",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23926.0,
+      "gpu_peak_temperature_c": 51.0,
+      "host_min_available_gib": 103.84355926513672,
+      "median_power_w": 125.83,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.5024951270006568,
+      "total_s": 1.6041667030003737,
+      "usage": {
+        "prompt_tokens": 102,
+        "completion_tokens": 128,
+        "total_tokens": 230,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 102,
+        "prompt_ms": 484.2,
+        "prompt_per_token_ms": 4.747,
+        "prompt_per_second": 210.7,
+        "predicted_n": 128,
+        "predicted_ms": 1116.0,
+        "predicted_per_token_ms": 8.719,
+        "predicted_per_second": 114.7,
+        "draft_n": 119,
+        "draft_n_accepted": 79
+      },
+      "content": "",
+      "reasoning": "The user wants a detailed technical explanation of how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling, and caching interact during a browser page load. They want specific examples, discussion of latency and failure handling, and at least 1000 words. Let me structure this as a comprehensive technical explanation that walks through the lifecycle of a page load, showing how each layer interacts with the others. I'll include concrete examples (specific domains, timing numbers, specific protocols) and failure scenarios.\n\nLet me organize this as:\n1. Overview of the request lifecycle\n2. DNS Resolution - details, caching layers,",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 52.0,
+      "host_min_available_gib": 103.82507705688477,
+      "median_power_w": 210.45999999999998,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5134331720000773,
+      "total_s": 1.621467966999262,
+      "usage": {
+        "prompt_tokens": 93,
+        "completion_tokens": 128,
+        "total_tokens": 221,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 93,
+        "prompt_ms": 497.8,
+        "prompt_per_token_ms": 5.353,
+        "prompt_per_second": 186.8,
+        "predicted_n": 128,
+        "predicted_ms": 1119.9,
+        "predicted_per_token_ms": 8.749,
+        "predicted_per_second": 114.3,
+        "draft_n": 112,
+        "draft_n_accepted": 78
+      },
+      "content": "",
+      "reasoning": "The user wants me to describe twelve European capitals in alphabetical order, starting with Paris. Wait - they say \"start with Paris and continue in alphabetical order.\" This is a bit contradictory since Paris wouldn't come first alphabetically among all European capitals. Let me re-read: \"Start with Paris and continue in alphabetical order.\" I think they mean start with Paris, then continue alphabetically from there. So Paris, then alphabetical capitals after Paris... Let me think about this.\n\nActually, I think the instruction means: begin the list with Paris, then list the remaining eleven capitals in alphabetical order. Or perhaps they want twelve capitals starting with Paris",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 52.0,
+      "host_min_available_gib": 103.82396697998047,
+      "median_power_w": 219.04,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    }
+  ],
+  "decode": [
+    {
+      "ttft_s": 0.4560666350007523,
+      "total_s": 4.691670342001089,
+      "usage": {
+        "prompt_tokens": 91,
+        "completion_tokens": 512,
+        "total_tokens": 603,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 441.7,
+        "prompt_per_token_ms": 4.854,
+        "prompt_per_second": 206.0,
+        "predicted_n": 512,
+        "predicted_ms": 4246.2,
+        "predicted_per_token_ms": 8.293,
+        "predicted_per_second": 120.6,
+        "draft_n": 456,
+        "draft_n_accepted": 335
+      },
+      "content": "```python\n\"\"\"\nLRU (Least Recently Used) Cache implementation using collections.OrderedDict.\n\"\"\"\n\nfrom collections import OrderedDict\nfrom typing import Any, Optional\n\n\nclass LRUCache:\n    \"\"\"A Least Recently Used (LRU) cache with a fixed capacity.\n\n    Uses an OrderedDict to maintain insertion/access order so that the\n    least-recently-used entry is always at the front of the dict.\n\n    Attributes:\n        capacity: Maximum number of items the cache can hold.\n        _store: Internal OrderedDict mapping keys to values.\n    \"\"\"\n\n    def __init__(self, capacity: int) -> None:\n        \"\"\"Initialize the LRU cache.\n\n        Args:\n            capacity: Maximum number of items to store. Must be positive.\n\n        Raises:\n            ValueError: If capacity is not a positive integer.\n        \"\"\"\n        if not isinstance(capacity, int) or capacity <= 0:\n            raise ValueError(\"capacity must be a positive integer\")\n        self.capacity: int = capacity\n        self._store: OrderedDict[Any, Any] = OrderedDict()\n\n    def get(self, key: Any) -> Optional[Any]:\n        \"\"\"Retrieve a value from the cache.\n\n        If the key exists, it is marked as most recently used and its value\n        is returned. Otherwise, None is returned.\n\n        Args:\n            key: The cache key to look up.\n\n        Returns:\n            The cached value if found, otherwise None",
+      "reasoning": "The user wants a complete Python LRU cache implementation with:\n1. Uses collections.OrderedDict\n2. Capacity limit\n3. get and put methods\n4. Type annotations\n5. A docstring\n6. Six unit tests\n\nLet me write a clean, complete implementation with proper type annotations, docstrings, and 6 unit tests.\n\nLRU Cache logic:\n- get(key): if key exists, move to end (most recently used), return value. If not, return -1 (or None).\n- put(key, value): if key exists, update value and move to end. If not, add it. If capacity exceeded, remove the least recently used (first item).\n\nFor the sentinel return on get, I'll use -1 as is common in LeetCode-style problems, or I could raise a KeyError. Let me go with -1 for simplicity and testability.\n\nLet me write the complete code with all requirements.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 103.8249626159668,
+      "median_power_w": 237.935,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.53851629699966,
+      "total_s": 5.541584815000533,
+      "usage": {
+        "prompt_tokens": 101,
+        "completion_tokens": 512,
+        "total_tokens": 613,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 101,
+        "prompt_ms": 520.1,
+        "prompt_per_token_ms": 5.15,
+        "prompt_per_second": 194.2,
+        "predicted_n": 512,
+        "predicted_ms": 5018.2,
+        "predicted_per_token_ms": 9.801,
+        "predicted_per_second": 102.0,
+        "draft_n": 499,
+        "draft_n_accepted": 291
+      },
+      "content": "# How DNS, TLS, HTTP/2, Connection Pooling, and Caching Interact During a Page Load\n\nTo understand how these five mechanisms cooperate, imagine loading `https://shop.example.com/products/widget-42` in Chrome. What follows is a trace through the full request lifecycle, showing where each subsystem hands off to the next, where they overlap, and what happens when one of them fails.\n\n## 1. DNS Resolution: The First Hop\n\nThe browser first checks its own internal DNS cache (typically ~100\u20131000 entries with a 60-second TTL). If a previous visit to `shop.example.com` is recent, the resolved IPv4 `93.184.216.34` and IPv6 `2606:",
+      "reasoning": "The user wants a detailed technical explanation of how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling, and caching interact during a browser page load. They want specific examples, discussion of latency and failure handling, and at least 1000 words. Let me organize this as a comprehensive technical explanation that traces the journey of a page load through all these mechanisms, showing how they interact rather than just explaining each in isolation.\n\nLet me structure this around a concrete example (loading a page like https://example.com/shop) and trace through the layers, showing interactions at each stage. I need to cover:\n\n1. DNS resolution - how it starts, caching layers (browser, OS, recursive resolver), failure handling (NXDOMAIN, timeouts, DNS-over-HTTPS)\n2. TLS handshake - how it interacts with DNS (SNI), 0-RTT, TLS 1.3 vs 1.2, certificate validation\n3. HTTP/2 multiplexing - how it changes the connection model, interaction with pooling\n4. Connection pooling - keep-alive, connection reuse, how H2 changes pooling semantics\n5. Caching - HTTP caching headers, browser cache, service workers, interaction with DNS/TLS costs\n\nKey interactions to highlight:\n- DNS \u2192 TLS (SNI needs hostname from DNS)\n- TLS \u2192 HTTP/2 (ALPN negotiation during TLS)\n- HTTP/2 \u2192 Connection pooling (multiplexing reduces need for multiple connections)\n- Caching \u2192 everything (cached responses skip DNS, TLS, HTTP)\n- Failure at one layer cascades or is handled\n\nLet me write a thorough, well-structured response.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 54.0,
+      "host_min_available_gib": 103.82497787475586,
+      "median_power_w": 233.52,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5207570590009709,
+      "total_s": 5.125137450000693,
+      "usage": {
+        "prompt_tokens": 91,
+        "completion_tokens": 512,
+        "total_tokens": 603,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 500.5,
+        "prompt_per_token_ms": 5.5,
+        "prompt_per_second": 181.8,
+        "predicted_n": 512,
+        "predicted_ms": 4620.0,
+        "predicted_per_token_ms": 9.023,
+        "predicted_per_second": 110.8,
+        "draft_n": 477,
+        "draft_n_accepted": 312
+      },
+      "content": "# Twelve European Capitals\n\n**Paris.** Paris sits in northern France along the Seine River, roughly at the geographic centre of the country. Founded on the \u00cele de la Cit\u00e9 by the Celtic Parisii tribe around the third century BC, it grew through Roman rule as Lutetia, became the capital of the Frankish kingdom, and later flourished as the intellectual and cultural heart of Western Europe during the Enlightenment and the French Revolution of ",
+      "reasoning": "The user wants me to describe twelve European capitals, each with a paragraph covering location, history, transport, and one museum. They want alphabetical order starting with Paris. Let me plan this carefully.\n\nAlphabetical order starting with Paris... wait, they say \"Start with Paris and continue in alphabetical order.\" So Paris comes first, then the remaining eleven in alphabetical order after Paris.\n\nLet me pick twelve European capitals. Since Paris is first, then alphabetical from there. Let me choose capitals that come after Paris alphabetically, or I need to pick twelve capitals total with Paris first.\n\nLet me select: Paris, then 11 others alphabetically: Amsterdam, Berlin, Brussels, Copenhagen, Dublin, Helsinki, Lisbon, London, Madrid, Rome, Vienna, Warsaw... wait, that's 12 including Paris. Let me count.\n\nParis first, then alphabetical: Amsterdam, Berlin, Brussels, Copenhagen, Dublin, Helsinki, Lisbon, London, Madrid, Rome, Vienna, Warsaw - that's 11 more = 12 total. But wait, alphabetically Amsterdam, Berlin, Brussels come before Paris. The instruction says \"Start with Paris and continue in alphabetical order.\" So Paris is first, then the rest in alphabetical order.\n\nLet me pick 12 capitals:\n1. Paris\n2. Amsterdam\n3. Berlin\n4. Brussels\n5. Copenhagen\n6. Dublin\n7. Helsinki\n8. Lisbon\n9. London\n10. Madrid\n11. Rome\n12. Vienna\n\nWait, that's 12. Let me count: Paris, Amsterdam, Berlin, Brussels, Copenhagen, Dublin, Helsinki, Lisbon, London, Madrid, Rome, Vienna = 12. Good.\n\nEach needs: location, history, transport, one museum. At least 1000 words total means roughly 83+ words per paragraph. I'll aim for around 100-120 words per paragraph to comfortably exceed 1000.\n\nLet me write this out carefully.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 54.0,
+      "host_min_available_gib": 103.82477951049805,
+      "median_power_w": 240.955,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    },
+    {
+      "ttft_s": 0.5358547279993218,
+      "total_s": 5.274920038998971,
+      "usage": {
+        "prompt_tokens": 92,
+        "completion_tokens": 512,
+        "total_tokens": 604,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 517.0,
+        "prompt_per_token_ms": 5.62,
+        "prompt_per_second": 177.9,
+        "predicted_n": 512,
+        "predicted_ms": 4754.1,
+        "predicted_per_token_ms": 9.285,
+        "predicted_per_second": 107.7,
+        "draft_n": 459,
+        "draft_n_accepted": 335
+      },
+      "content": "```python\n\"\"\"A Least Recently Used (LRU) cache implementation using collections.OrderedDict.\"\"\"\n\nfrom collections import OrderedDict\nfrom typing import Any, Optional\n\n\nclass LRUCache:\n    \"\"\"An LRU (Least Recently Used) cache with a fixed capacity.\n\n    Uses ``collections.OrderedDict`` to maintain insertion/access order.\n    The least-recently-used entry is automatically evicted when the cache\n    exceeds its capacity.\n\n    Attributes:\n        capacity: Maximum number of entries the cache can hold.\n        _cache: Internal ordered dictionary mapping keys to values.\n    \"\"\"\n\n    def __init__(self, capacity: int) -> None:\n        \"\"\"Initialise the LRU cache.\n\n        Args:\n            capacity: A positive integer representing the maximum number\n                      of items the cache can store.\n\n        Raises:\n            ValueError: If *capacity* is less than 1.\n        \"\"\"\n        if capacity < 1:\n            raise ValueError(\"Capacity must be at least 1\")\n        self.capacity: int = capacity\n        self._cache: OrderedDict[str, Any] = OrderedDict()\n\n    def get(self, key: str) -> Optional[Any]:\n        \"\"\"Return the value for *key* if present, else ``None``.\n\n        Accessing a key promotes it to the most-recently-used position",
+      "reasoning": "The user wants a complete Python implementation of an LRU cache using `collections.OrderedDict` with:\n1. Capacity limit\n2. `get` and `put` methods\n3. Type annotations\n4. A docstring\n5. Six unit tests\n\nLet me write a clean, complete implementation with proper type annotations, docstrings, and six unit tests covering various scenarios.\n\nI'll structure it as:\n- An `LRUCache` class using `OrderedDict`\n- `__init__` with capacity\n- `get` method that returns value or -1, and moves the item to the end (most recently used)\n- `put` method that inserts/updates and evicts if over capacity\n- Six unit tests using `unittest`\n\nTests should cover:\n1. Basic get and put\n2. Eviction when capacity is exceeded\n3. Updating an existing key\n4. Accessing a key makes it most recently used\n5. Getting a non-existent key returns -1\n6. Capacity of 1 edge case or multiple evictions\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 53.0,
+      "host_min_available_gib": 103.9112434387207,
+      "median_power_w": 225.24,
+      "fixture": "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m"
+    },
+    {
+      "ttft_s": 0.5334904690007534,
+      "total_s": 5.712037249000787,
+      "usage": {
+        "prompt_tokens": 98,
+        "completion_tokens": 512,
+        "total_tokens": 610,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 98,
+        "prompt_ms": 514.4,
+        "prompt_per_token_ms": 5.249,
+        "prompt_per_second": 190.5,
+        "predicted_n": 512,
+        "predicted_ms": 5193.3,
+        "predicted_per_token_ms": 10.143,
+        "predicted_per_second": 98.6,
+        "draft_n": 473,
+        "draft_n_accepted": 267
+      },
+      "content": "# The Orchestration of Network Layers: How a Browser Loads a Page\n\nWhen you type `https://news.example.com` into a browser and hit Enter, what feels like an instantaneous page appearance is actually a carefully choreographed cascade through at least five distinct networking subsystems. Each layer introduces latency, each can fail, and each depends on the state of the others. Understanding their interactions is essential for diagnosing slow pages, designing resilient architectures, and optimizing user experience.\n\n## Stage 1: DNS Resolution\n\nThe browser first needs to convert the hostname `news.example.com` into an IP address. Before it even queries a DNS server, it checks three local caches in order: the browser's own DNS cache (typically 60 seconds to 10 minutes depending on configuration), the operating system's resolver cache, and the hosts file. If a hit occurs at any level, the round-trip is eliminated entirely\u2014a saving of roughly 20\u2013120 ms for a cold lookup.\n\nIf no cache hit exists, the browser issues a DNS query. Modern browsers often use DNS-over-HTTPS (DoH) or DNS-over-TLS (DoT), which adds a TLS handshake to the DNS resolution itself. For example, Firefox with Cloudflare's DoH enabled performs a TLS handshake to `cloudflare-dns.com` before resolving `news.example.com`. This turns a simple UDP/53 query into a TCP+TLS+DNS sequence, trading security for latency. The resolution itself might involve multiple recursive hops: the stub resolver contacts the local resolver, which may",
+      "reasoning": "The user wants a detailed technical explanation of how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling, and caching interact during browser page loading. They want specific examples, latency discussion, failure handling, and at least 1000 words. Let me structure this comprehensively, tracing the full lifecycle of a page load through these subsystems, with concrete examples, timing estimates, and failure scenarios.\n\nLet me organize this as a narrative walkthrough of a page load, showing how each layer interacts with the others, while weaving in specific examples (like loading example.com with CDN assets), latency numbers (DNS: ~20-100ms, TLS handshake: ~50-200ms, TTFB, etc.), and failure handling (DNS timeouts, TLS certificate errors, connection resets, cache invalidation).\n\nI'll aim for well over 1000 words with technical depth.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 54.0,
+      "host_min_available_gib": 103.92201614379883,
+      "median_power_w": 228.40499999999997,
+      "fixture": "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a"
+    },
+    {
+      "ttft_s": 0.5408871380004712,
+      "total_s": 5.328534981001212,
+      "usage": {
+        "prompt_tokens": 92,
+        "completion_tokens": 512,
+        "total_tokens": 604,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 516.8,
+        "prompt_per_token_ms": 5.617,
+        "prompt_per_second": 178.0,
+        "predicted_n": 512,
+        "predicted_ms": 4807.4,
+        "predicted_per_token_ms": 9.389,
+        "predicted_per_second": 106.5,
+        "draft_n": 471,
+        "draft_n_accepted": 297
+      },
+      "content": "# Twelve European Capitals\n\n**Paris** sits on the Seine River in north-central France, roughly in the heart of the country, serving as the political, cultural, and economic centre of the nation. Its history stretches back over two thousand years, beginning with the Celtic Parisii tribe who inhabited the \u00cele de la Cit\u00e9, through Roman Lutetia, the medieval seat of the Capetian monarchy, the revolutionary upheaval of 1789, and its transformation under Haussmann into the grand boulevards and uniform fa\u00e7ades recognizable today. Transport in Paris is dominated by the M\u00e9tro, a dense network of sixteen underground lines, supplemented by the suburban RER trains, a growing tram system, and major termini such as Gare du Nord and Gare de Lyon that connect the city to the rest of France and Europe. Among its countless cultural institutions, the Mus\u00e9e d'Orsay stands apart, housed in a converted Beaux-Arts railway station on the Left Bank, and it holds the world's finest collection of Impressionist and Post-Impressionist paintings, including works by Monet, Renoir, Degas, and Van Gogh.\n\n**Prague** lies in the Czech Republic along the Vltava River in central Bohemia, where hills and bridges frame a city of",
+      "reasoning": "The user wants me to describe twelve European capitals, starting with Paris, and continuing in alphabetical order. For each capital, I need a paragraph covering: location, history, transport, and one museum. The total must be at least 1000 words.\n\nLet me think about the alphabetical order starting with Paris. The 12 capitals should be:\n\n1. Paris (starting point)\n2. After Paris alphabetically... I need to pick 11 more European capitals that come after Paris alphabetically.\n\nWait, \"Start with Paris and continue in alphabetical order\" - this means Paris is first, then the remaining 11 should be in alphabetical order. Let me pick 11 European capitals that come after Paris alphabetically:\n\n- Prague\n- Riga\n- Rome\n- Sofia\n- Stockholm\n- Tallinn\n- Valletta\n- Vienna\n- Vilnius\n- Warsaw\n- Zagreb\n\nThat gives me 12 total starting with Paris. Let me write about each one.\n\nLet me write this out carefully, making sure each paragraph covers location, history, transport, and one museum, and the total is at least 1000 words.\n",
+      "tool_deltas": [],
+      "finish_reason": "length",
+      "gpu_peak_mib": 23970.0,
+      "gpu_peak_temperature_c": 55.0,
+      "host_min_available_gib": 103.92269134521484,
+      "median_power_w": 233.07,
+      "fixture": "Describe twelve European capitals. For each, give a paragraph about its location, history, transport"
+    }
+  ],
+  "prefill": [],
+  "decode_median_tok_s": 107.1
+}

@@ -200,8 +200,8 @@
       "public_export_sha256": "6291e61b86f0bcff984707715be09b37771ed19f4d1a4326f65f0d66e1a35f81"
     },
     "practical30-comparison.json": {
-      "private_original_sha256": "f22a583049d6e9afb3e831f1ea46c1ab141a1f6133f06a9278823870d1ddab60",
-      "public_export_sha256": "f22a583049d6e9afb3e831f1ea46c1ab141a1f6133f06a9278823870d1ddab60"
+      "private_original_sha256": "88eeb2ecbb2d9fdd14dae671ed4803847f2a36c5a0d14b2c1e8bd38646fee0a5",
+      "public_export_sha256": "88eeb2ecbb2d9fdd14dae671ed4803847f2a36c5a0d14b2c1e8bd38646fee0a5"
     },
     "resources-q4-vision-decode.json": {
       "private_original_sha256": "85397c3bf06451482dd0fd58f4aa3b1ce9ceae47b5b5477546b8f0afaceb8533",
@@ -238,6 +238,14 @@
     "precision-iq3-head-comparison.json": {
       "private_original_sha256": "0c471b5026a13c1610f110bfacffd5d80e2f57ce979a9df235b69e81c803d257",
       "public_export_sha256": "0c471b5026a13c1610f110bfacffd5d80e2f57ce979a9df235b69e81c803d257"
+    },
+    "sampled-iq3s-workers6spec4.json": {
+      "private_original_sha256": "752f61dced99d8f11b4af16471813e640a31db84da4d75551bbe18214fccb4c1",
+      "public_export_sha256": "b60e81c382ce83909e29cda03945c3def62810316caeae28964d89ab45691c0e"
+    },
+    "sampled-iq3s-workers11spec4.json": {
+      "private_original_sha256": "65482712fb1ffa6e77424ec4ba9eda47431a8f0db79a00e535e990ff42f83077",
+      "public_export_sha256": "bf9918f200a23ce3856ad0b1719ec6c42b5eb9e2a99332190ff2340c6bdf3d3b"
     }
   }
 }

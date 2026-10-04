@@ -8,6 +8,37 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.evaluation_status import status, summary
+from scripts.evaluation_provenance import fingerprint
+
+
+def seed_variance(runs):
+    """Same deck, grader, runtime and protocol apart from the seed: per-case verdict changes."""
+    groups = {}
+    for run in runs:
+        protocol = {k: v for k, v in run['protocol'].items() if k != 'seed'}
+        key = json.dumps([run['cases_sha256'], run['grader_image_id'], run['runtime_fingerprint'],
+                          protocol], sort_keys=True)
+        groups.setdefault(key, []).append(run)
+    rows = []
+    for members in groups.values():
+        seeds = [run['protocol']['seed'] for run in members]
+        if len(members) < 2 or len(set(seeds)) != len(seeds):
+            continue
+        verdicts = {}
+        for run in members:
+            for row in run['results']:
+                verdicts.setdefault(row['id'], {})[run['protocol']['seed']] = row['passed']
+        complete = all(run['coverage']['quality_score'] for run in members)
+        rows.append({'runtime_fingerprint': members[0]['runtime_fingerprint'],
+            'effort': members[0]['protocol']['effort'], 'labels': [run['label'] for run in members],
+            'passed_by_seed': {run['protocol']['seed']: run['coverage']['passed'] for run in members},
+            'all_runs_complete': complete,
+            'cases_with_differing_verdicts': sorted(case for case, by_seed in verdicts.items()
+                                                    if len(set(by_seed.values())) > 1),
+            'cases_failed_by_every_seed': sorted(case for case, by_seed in verdicts.items()
+                                                 if len(by_seed) == len(members) and
+                                                 not any(by_seed.values()))})
+    return rows
 
 
 def main():
@@ -43,7 +74,7 @@ def main():
         runs.append({'label': report['label'], 'source': source.name,
             'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
             'cases_sha256': report['source_sha256'], 'grader_image_id': report['grader_image_id'],
-            'runtime_fingerprint': report['runtime']['fingerprint'], 'protocol': report['protocol'],
+            'runtime_fingerprint': fingerprint(report['runtime']['identity']), 'protocol': report['protocol'],
             'controls': {'expected': 30, 'positive_passed': sum(v['positive']['pass'] for v in controls.values()),
                          'negative_rejected': sum(not v['negative']['pass'] for v in controls.values())},
             'coverage': summary(report['results'], 30),
@@ -60,7 +91,10 @@ def main():
     args.out.write_text(json.dumps({'scope': 'Thirty original executable DevOps/Python function canaries; '
         'bounded local tasks, not SWE-bench or repository-scale agent performance.',
         'completion_policy': 'Only natural stops graded; all thirty required for full-cohort accuracy.',
-        'runs': runs, 'paired_request_checks':paired}, indent=2)+'\n')
+        'runtime_fingerprint_policy': 'Recomputed from each stored identity; content-hashed files '
+            'exclude reboot-dependent overlay device/inode/mtime values.',
+        'runs': runs, 'paired_request_checks':paired,
+        'seed_variance': seed_variance(runs)}, indent=2)+'\n')
 
 
 if __name__ == '__main__':
