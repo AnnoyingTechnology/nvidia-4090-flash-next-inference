@@ -250,6 +250,10 @@
     "vision-residency-comparison.json": {
       "private_original_sha256": "e21ca4a9eb495a52be069fa18d9b767c11bec11a5fe180f0f708f8f5ac68f3c9",
       "public_export_sha256": "e21ca4a9eb495a52be069fa18d9b767c11bec11a5fe180f0f708f8f5ac68f3c9"
+    },
+    "short-read-comparison.json": {
+      "private_original_sha256": "9077d7335bef1982a797495eacbbf7017843fe4fcd9953979d11aadadd855228",
+      "public_export_sha256": "9077d7335bef1982a797495eacbbf7017843fe4fcd9953979d11aadadd855228"
     }
   }
 }

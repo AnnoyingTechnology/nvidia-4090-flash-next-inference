@@ -214,6 +214,7 @@ work, not a claim that an unused RAM allocation makes inference faster.
 | CPU activation-quantization parallelization | 107.4 vs subsequent 105.9 tok/s baseline | 18 native-pool parity configurations pass; gain not established, not selected |
 | eddoursul native fork, CUDA 12.4 adaptation, Q4 at 32K | **33.65 vs 57.65 tok/s upstream**, 9/9 component and API checks pass | Slower in this matched configuration; not selected. Its older engine lacks the selected stack's 256K KV paging |
 | Same adapted fork, IQ3 at 32K | **46.60 vs 105.05 tok/s upstream**, 9/9 API checks per engine | Identical target/arguments/requests; not selected |
+| `--short-read` window/batched threshold, chained turns at 64K | Windows faster up to 69 fresh tokens, slower from 97; break-even about 87 | Default 64 kept: projected 0.38% of real-session engine time. [Evidence](results/public/short-read-comparison.json) |
 
 These rows use several protocols. Their percentages are not multiplied, and
 no target-weight or KV precision change is described as lossless. Verified

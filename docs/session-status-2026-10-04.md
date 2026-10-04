@@ -143,7 +143,13 @@ plus ~180 ms refill, versus "~16 ms a token" for verify windows. Reads of at mos
 windows. On this host decode windows run near 3–4 ms per token, so the break-even
 may sit well above 64; the measured median increment is 113 tokens.
 
-## In progress: `--short-read` break-even probe
+## Owner constraint, 2026-10-04
+
+Keep **one** model loaded. No profile switching and no surprise latency on the
+order of a minute: a text-default/vision-on-demand split is excluded. Vision
+choices are limited to what one resident profile can serve.
+
+## Completed: `--short-read` break-even probe
 
 `scripts/short_read_probe.py` builds an agent-like chain on a ~64K-token document:
 each turn adds a fixed short assistant reply and a tool message of 1–48 lines,
@@ -158,6 +164,28 @@ median prompt time by 20% or more for reads between 65 tokens and the threshold,
 keeps 9/9 API checks, and the thirty canaries at low finish naturally at 28/30 or
 better (inside the measured seed range). Otherwise keep the default 64.
 
+Result, launch medians within about 1% of each other:
+
+| Fresh tokens | 27 | 41 | 69 | 97 | 124 | 234 | 453 | 676 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Batched, ms | 472 | 522 | 626 | 722 | 766 | 904 | 1028 | 1111 |
+| Windows, ms | 238 | 308 | 492 | 801 | 1093 | 2225 | 4014 | 7285 |
+
+Windows win up to 69 tokens and lose from 97; linear interpolation puts the
+break-even near 87 tokens at 64K context. Windows read at about decode speed
+(9–11 ms per token here), so the hypothesis of a much higher break-even is
+refuted. The 20% condition holds only at the 65–69-token edge, and it is
+necessary, not sufficient. Projected on the real session, 40 of 344 resumed
+requests fall in 65–87 tokens: about 4.7 s of 1225 s engine time (0.38%).
+**Decision: keep upstream's default 64; the knob is closed.**
+
+The remaining floor is structural: about 450 ms per batched read (expert
+streaming plus slot refill), paid by 213 of 344 real requests. Inference, not
+measured: `--no-prefill-borrow` removes the refill but permanently shrinks the
+expert cache and caps chunks at 2048, likely costing more decode and large-read
+prefill than it saves. Lowering the floor needs upstream engine design.
+[Evidence](../results/public/short-read-comparison.json)
+
 ## Planned: second R&D machine
 
 Owner request: later test this stack on an i7-6900K / X99 machine with three
@@ -166,12 +194,16 @@ in the Ulmus skill's `model-experiments.md`; nothing is probed yet.
 
 ## Next options
 
-From the 2026-10-03 plan and the annotated review, in recommended order:
+The matched A/B and the real-session decomposition are done. In recommended order:
 
-1. Matched text/vision A/B, ABAB with identical prompts, logging expert-cache
-   size: is the ~12% unmatched gap real and does it justify vision-lifetime work?
-2. Real-workload decomposition on owner-approved OpenCode sessions: prefill,
-   prefix reuse and >32K paging versus decode share of wall time.
+1. The permitted vision prototype, compatible with one resident profile: CPU
+   vision at the selected 4096-token budget. Measure expert-cache slots, matched
+   decode against GPU vision, per-image first-token latency and the 15-image deck.
+   It is an owner trade-off of image latency against about 9% decode; it is not
+   adopted without that decision.
+2. Fixed-length decode at 32K, 64K and 128K context: real sessions run at a
+   51K median, and the confounded band rates fall 17% from 16–32K to 64–128K.
 3. Time-boxed critical-path trace (about 300 speculative windows), no sweeps.
 
-ExLlamaV3/TabbyAPI, c2, 397B and DeepSeek 4.1 Flash remain later experiments.
+The second R&D machine, ExLlamaV3/TabbyAPI, c2, 397B and DeepSeek 4.1 Flash
+remain later experiments.
