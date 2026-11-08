@@ -14,7 +14,7 @@ python3 - <<'PY'
 import json, subprocess, urllib.request
 command = json.loads(subprocess.check_output(
     ['docker', 'inspect', '--format', '{{json .Config.Cmd}}', 'qwen3.8-flash-next'], text=True))
-if '/work/profiles/flash-iq3s-256k-vision-tune-owner20261108.json' not in command:
+if '/work/profiles/flash-iq3s-256k-vision-tune-huihuiv220261108.json' not in command:
     raise SystemExit('Stop the owned workload and start the selected owner vision profile first.')
 with urllib.request.urlopen('http://127.0.0.1:19623/v1/status', timeout=10) as response:
     status = json.load(response)

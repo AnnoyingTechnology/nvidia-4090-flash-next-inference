@@ -8,7 +8,7 @@ export ULMUS_ROOT="$task_root"
 task_library=${ULMUS_LIBRARY:-$task_root/models}
 task_profile=${1:?usage: run.sh flash-q4|flash-iq3s}
 case "$task_profile" in
-    *-tune-owner20261108) task_default_image=ulmus/strata:146df3c-owner20261108 ;;
+    *-tune-owner20261108|*-tune-huihuiv220261108) task_default_image=ulmus/strata:146df3c-owner20261108 ;;
     *-tune-ownertext|*-tune-ownervision|*-tune-ownerq4|*-tune-ownerq4static|*-tune-ownerhead|*-tune-ownerembedhead|*-tune-ownersr[0-9]*|*-tune-ownercpuvision) task_default_image=ulmus/strata:99f3dbd-ownerapi ;;
     *-tune-ownerswap|*-tune-owneradapt24|*-tune-owner9950x3d2) task_default_image=ulmus/strata:99f3dbd-lendvram ;;
     *-tune-eddoursultext|*-tune-eddoursulvision|*-tune-eddoursulq4|*-tune-eddoursulq4static) task_default_image=ulmus/strata:eddoursul-3a199-native ;;

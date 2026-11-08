@@ -23,6 +23,8 @@ def main():
     ap.add_argument('--tokens', type=int, default=8192)
     ap.add_argument('--seed', type=int, default=42)
     ap.add_argument('--control-only', action='store_true')
+    ap.add_argument('--projection', choices=['on', 'off'],
+                    help='Explicitly select a loaded runtime control vector for a paired evaluation')
     ap.add_argument('--penalty-last-n', type=int, default=64)
     args = ap.parse_args()
     if args.tokens <= 0 or not 1 <= args.penalty_last_n <= 4096 or not 0 <= args.seed < 2**32:
@@ -39,6 +41,8 @@ def main():
     if args.effort == 'none':
         protocol.update(temperature=0.7, top_p=0.8, presence_penalty=1.5,
                         penalty_last_n=args.penalty_last_n)
+    if args.projection is not None:
+        protocol['experimental_speed_projection'] = args.projection == 'on'
     report = {'label': args.label, 'source_sha256': digest, 'grader_image_id': grader_id,
               'protocol': protocol, 'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
               'controls': {}, 'results': []}

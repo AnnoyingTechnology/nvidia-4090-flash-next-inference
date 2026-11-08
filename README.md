@@ -2,7 +2,18 @@
 
 This repository records bounded qualification of **Qwen3.8-Flash-Next on one
 24 GiB RTX 4090 and 192 GB RAM**. The current host uses a Ryzen 9950X3D2.
-The qualified **2026-11-08 update** selects `flash-iq3s-256k-vision-tune-owner20261108`:
+The current personal selection is **Huihui v2-derived GSQ IQ3_S**,
+`flash-iq3s-256k-vision-tune-huihuiv220261108`, using baked weight edits and no runtime
+projection. Quality gates held within measured variation: HumanEval **38/40 → 39/40**,
+knowledge **110/168 → 111/168**, and the complete IFEval repeat **71/80 → 72/80**.
+The owner accepted the measured **3–4 tok/s** long-context decode cost for removing
+refusals. Context, vision, MTP, API identifiers and power policy are preserved; the
+normal OpenCode launcher is verified. The original model remains the rollback.
+[Qualification](updates/2026-11-08/abliteration.md),
+[adoption record](updates/2026-11-08/huihui-adoption.json).
+
+The preceding qualified **2026-11-08 runtime update** retained
+`flash-iq3s-256k-vision-tune-owner20261108` as the baseline:
 pooled median decode **119.4 → 136.35 tok/s (+14.2%)** and uncached 32K prefill
 **+5.7%**, across two fresh starts per arm. The same target, tokenizer and prompt
 template are retained. Complete code canaries score **30/30 low** and **29/30 off**;

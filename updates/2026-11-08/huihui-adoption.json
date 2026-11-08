@@ -1,0 +1,33 @@
+{
+  "observed_at_utc": "2026-11-08T18:35:43.261051+00:00",
+  "status": "adopted and verified",
+  "owner_decision": "The measured 3-4 tok/s long-context decode cost is accepted for abliteration; quality benchmark regressions remain unacceptable.",
+  "selected_profile": "flash-iq3s-256k-vision-tune-huihuiv220261108",
+  "previous_profile": "flash-iq3s-256k-vision-tune-owner20261108",
+  "model_derivation": "Official Huihui v2 dense edits in existing GSQ tensor formats; derived quantization, without runtime projection.",
+  "service": "qwen3.8-flash-next.service",
+  "active": true,
+  "enabled_at_boot": false,
+  "image": "ulmus/strata:146df3c-owner20261108",
+  "image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+  "profile_sha256": "360789c994e4d8f04b0d47a814225e69d39993b2c59f52b246d8011d348dbaaa",
+  "context": 262144,
+  "vision": true,
+  "binding": {
+    "19623/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "19623"
+      }
+    ]
+  },
+  "gpu_power_limit_w": 280,
+  "client_check": {
+    "launcher": "scripts/opencode.sh --run --variant low",
+    "response": "READY"
+  },
+  "rollback_directory": "updates/2026-11-08/huihui-adoption-rollback",
+  "rollback": "When the owned service is idle, stop it; restore run.sh, scripts/opencode.sh and the installed service from rollback; daemon-reload and start. Restore the source launcher assertion too. Original profile and model are retained.",
+  "qualified_runtime_fingerprint": "0023fa8023f7dc04821df92443b8da07d03fe221a131117091c83f61a26fdb48",
+  "deployed_artifacts_match_qualification": true
+}

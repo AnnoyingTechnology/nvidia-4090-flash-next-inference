@@ -8,7 +8,7 @@ Type=exec
 WorkingDirectory=%h/Documents/MachineLearning/Qwen38-Flash-Next-Ulmus/stack
 Environment=ULMUS_CONTAINER=qwen3.8-flash-next
 Environment=ULMUS_FOREGROUND=1
-ExecStart=/bin/bash run.sh flash-iq3s-256k-vision-tune-owner20261108
+ExecStart=/bin/bash run.sh flash-iq3s-256k-vision-tune-huihuiv220261108
 ExecStartPost=/usr/bin/python3 wait_ready.py
 ExecStop=-/usr/bin/docker stop --timeout 30 qwen3.8-flash-next
 Restart=on-failure

@@ -1,0 +1,1322 @@
+{
+  "status": "adopted and verified",
+  "artifacts": {
+    "huihui20261108-paired-screen.json": "ec9b24ba1e4a7eee2ca09cb05f6bb0d495212b54b81353b0be8a0c53ecbaf16f",
+    "huihui-weight20261108-paired-screen.json": "8ebf85ec990026fdb7987716aea4a48d5abdbfb383a266aead98683666481c7a",
+    "huihui20261108-paired-features.json": "8adb749de17ba06f7d409730580f3855b9fa825501b560a78c436c2168faea4d",
+    "huihui-weight20261108-paired-features.json": "64056a78614166ed9bcc81fb7d65019de656b2207b275f91994a67dc1ee632c5",
+    "huihui20261108-paired-practical.json": "9da410ef05c0dfcedd0a7d3f051a6a3419888d1359d720be5b34e85201d64f4b",
+    "huihui-weight20261108-paired-practical.json": "1c335fc23882d7b8c309f4a19ec051f9c5152bf3b19d60c34acbd248265f2d05",
+    "huihui20261108-paired-performance.json": "cd59f2f068549095111d835085331779fa5bfb049f90f963188a06f804b25c1c",
+    "huihui-weight20261108-abba-0-baseline.json": "4e578df6473881818efb53693b9dcb7218d8c2fb760b3e5246e99c20dfc50173",
+    "huihui-weight20261108-abba-1-candidate.json": "b0eab3b8c2aea48ccab5587eebf2c85db1281ad147f9bec0f0d2aea92e971a40",
+    "huihui-weight20261108-abba-2-candidate.json": "a6f681fd8cfaa684db54daa82d749dee42f809ef1b1cceca1968206dd3ab220b",
+    "huihui-weight20261108-abba-3-baseline.json": "74b6a30d5feb5d8ee33a2013b20e07c3f04660a2a30478344b17ae20c796f81b",
+    "huihui20261108-weight-candidate-integrity.json": "1d25934c7b9639033d200f4e44d3d5a026edbe4afe17a4ee249459104794c74f",
+    "huihui20261108-api.json": "27bee5cdf79d2091fc1b5f8b6f91025ae60a1cbb3c0c4bf22cb145acced728b4",
+    "huihui20261108-quality.json": "ebedd258fe53b1b67139b14efb37a1e001c2efa17d330a878ee76d19e3c0c4ed",
+    "huihui20261108-histories.json": "9b564ac90d9ec2264cb64ab688cc136789454b03a7f93bda1c4c602d1f286bd4",
+    "huihui20261108-agent-off.json": "aa1b101366bb3af9e848e90f9ef457b7eea5cae25dd1b9d84b6f62866afa6615",
+    "huihui20261108-agent-on.json": "42cde6fdb1c8910569a684a79641056797eb19775c4bba79162f35e84bb1a6eb",
+    "huihui20261108-ops-off-none.json": "460a86a6b8f718e3114f2485e79520d2aea8835f482f4bb7d37197447f68b7e5",
+    "huihui20261108-ops-on-none.json": "f11620a229ce119af3a9ec8653445b77b2b34850b0d44d5e37312a8a4f4fdf41",
+    "huihui20261108-ops-on-low.json": "8717248aa7a4651d22a1f0b0ea79f1718348d0dcf4c7d9b4b41c6a4a4b89ef8a",
+    "huihui-weight20261108-api.json": "9ebb63610a0540c616c4d57a1b9dab2fc5b7880ba628283dac9ba1becc24e285",
+    "huihui-weight20261108-quality.json": "17417574bb78481fc7b36c77d6922122a64097b8131491f2745f4333424d47fe",
+    "huihui-weight20261108-agent.json": "0150605f25592c68c011cb365a9653ad5cf2af98f3dd8d9810f7da9a607f999e",
+    "huihui-weight20261108-histories.json": "0dc1fa72225173a7cda7b2084d6679116b38558d2f44418b8522173a4fbf1907",
+    "huihui-weight20261108-ops-none.json": "54bbbaa6154c8d5f2a2deca40439d4014b96d868b4aeeea628398e46c3db07d9",
+    "huihui-weight20261108-ops-low.json": "8751b79ca1a829b320bf8458fe1393d1ad0195d2426af857017413d06647368a",
+    "huihui20261108-paired-disagreements.json": "4a62e10951edb3276209124a71c0d1017e110ce40dc9aaf300e91da19bf7b2bc",
+    "huihui-weight20261108-dense-bar-baseline.json": "64d4fcd9785558d7ed8c4942d504dc8dbe29d20cfc2d437588c6106ef850dc45",
+    "huihui-weight20261108-dense-bar-candidate.json": "2f15bee9e74f5455f0d1534b948cbe74cdf124fcd7c8a56cecb5c76de02c529f",
+    "huihui-repeat-baseline20261108-paired-screen.json": "0eea84574bbf681a79d0e9e6b05c93992da342869067a08ed2c50413f890f4c0",
+    "huihui-repeat-weights20261108-paired-screen.json": "7e2b7745e7669fb136fa13075aa0a29343ff9135544d198fb4b55bc6a3a03c8c",
+    "huihui-weight20261108-long-baseline.json": "f9e7e50f8c3ae259e3787230a4ae2bd6be494ef61fa7a190952f36bafd6aa04b",
+    "huihui-weight20261108-long-candidate.json": "ff5163096ac8ec398ad02d6b068c47fa46a05feade6b347aaec4598b43eb1079",
+    "huihui-weight20261108-long-candidate2.json": "18a1b99efe04febd51c99040a2f741c567e1746d7d11ce2b983377593e3e3ad3",
+    "huihui-weight20261108-long-baseline-resume.json": "b2497121677b23d3a0179658f32b1bb04741fd24cfeb5154e744ae29ac6823ad",
+    "huihui-weight20261108-long-resume-complete.json": "be0ba73ee2428cfb189f8d1d1c87345e0b69c9628fd647d3f051a2514d38e8ae"
+  },
+  "vector": {
+    "screen": {
+      "complete": true,
+      "baseline": {
+        "ifeval": {
+          "passed": 72,
+          "total": 80,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 199.7120562989976,
+          "median_completion_tokens": 180.5
+        },
+        "mmlu": {
+          "passed": 92,
+          "total": 140,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 61.4931200280007,
+          "median_completion_tokens": 2.0
+        }
+      },
+      "candidate": {
+        "ifeval": {
+          "passed": 75,
+          "total": 80,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 192.68850211900144,
+          "median_completion_tokens": 190.0
+        },
+        "mmlu": {
+          "passed": 93,
+          "total": 140,
+          "capped": 5,
+          "natural_completion_required": true,
+          "complete_cohort": false,
+          "wall_seconds": 64.14189113100201,
+          "median_completion_tokens": 2.0
+        }
+      },
+      "disagreements": {
+        "matched_cases": 220,
+        "identical_request_hashes": 0,
+        "losses": [
+          "ifeval-3276",
+          "mmlu-10591",
+          "mmlu-6041"
+        ],
+        "gains": [
+          "ifeval-1967",
+          "ifeval-2381",
+          "ifeval-2447",
+          "ifeval-3326",
+          "mmlu-122",
+          "mmlu-459",
+          "mmlu-9156"
+        ]
+      }
+    },
+    "features": {
+      "complete": true,
+      "baseline": {
+        "boundary": {
+          "passed": 3,
+          "total": 4,
+          "capped": 1,
+          "natural_completion_required": false,
+          "complete_cohort": false,
+          "wall_seconds": 18.290966815000047,
+          "median_completion_tokens": 537.5
+        },
+        "retrieval": {
+          "passed": 1,
+          "total": 1,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 57.57027756200023,
+          "median_completion_tokens": 307
+        },
+        "vision": {
+          "passed": 1,
+          "total": 5,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 8.947600314999818,
+          "median_completion_tokens": 27
+        }
+      },
+      "candidate": {
+        "boundary": {
+          "passed": 3,
+          "total": 4,
+          "capped": 1,
+          "natural_completion_required": false,
+          "complete_cohort": false,
+          "wall_seconds": 15.327374591000535,
+          "median_completion_tokens": 353.0
+        },
+        "retrieval": {
+          "passed": 1,
+          "total": 1,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 58.51219721399957,
+          "median_completion_tokens": 307
+        },
+        "vision": {
+          "passed": 3,
+          "total": 5,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 5.328804642000705,
+          "median_completion_tokens": 26
+        }
+      },
+      "disagreements": {
+        "matched_cases": 10,
+        "identical_request_hashes": 0,
+        "losses": [
+          "vision-request-path"
+        ],
+        "gains": [
+          "vision-disk-usage",
+          "vision-nginx-error",
+          "vision-service-ports"
+        ]
+      }
+    },
+    "practical": {
+      "complete": true,
+      "baseline": {
+        "practical-low": {
+          "passed": 27,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 287.7993477159989,
+          "median_completion_tokens": 1016.5
+        },
+        "practical-none": {
+          "passed": 27,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 86.48924669400321,
+          "median_completion_tokens": 344.5
+        }
+      },
+      "candidate": {
+        "practical-low": {
+          "passed": 29,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 314.52066999100043,
+          "median_completion_tokens": 900.0
+        },
+        "practical-none": {
+          "passed": 26,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 90.42911179599923,
+          "median_completion_tokens": 321.5
+        }
+      },
+      "disagreements": {
+        "matched_cases": 60,
+        "identical_request_hashes": 0,
+        "losses": [
+          "practical-none-backoff",
+          "practical-none-canonical-query",
+          "practical-none-environment-expansion"
+        ],
+        "gains": [
+          "practical-low-literal-endpoint",
+          "practical-low-path-route",
+          "practical-none-dns-wildcard",
+          "practical-none-path-route"
+        ]
+      }
+    },
+    "performance": {
+      "baseline": {
+        "decode_median_tok_s": 139.75,
+        "decode_samples": [
+          182.0,
+          134.1,
+          131.9,
+          167.0,
+          137.5,
+          127.2,
+          176.0,
+          131.0,
+          142.2,
+          168.8,
+          142.0,
+          131.9
+        ],
+        "prefill_median_tok_s": 5053.4,
+        "prefill_samples": [
+          5096.7,
+          5049.1,
+          5057.7,
+          5048.7
+        ]
+      },
+      "candidate": {
+        "decode_median_tok_s": 136.55,
+        "decode_samples": [
+          161.3,
+          135.0,
+          132.6,
+          175.8,
+          128.3,
+          136.5,
+          166.1,
+          139.4,
+          132.9,
+          183.2,
+          126.8,
+          136.6
+        ],
+        "prefill_median_tok_s": 4980.700000000001,
+        "prefill_samples": [
+          4977.1,
+          4984.3,
+          4967.0,
+          5005.8
+        ]
+      },
+      "decode_delta_pct": -2.2898032200357687,
+      "prefill_delta_pct": -1.4386353742034896
+    },
+    "api": {
+      "passed": 9,
+      "total": 9
+    },
+    "quality": {
+      "passed": 8,
+      "total": 9,
+      "cache_passed": 0
+    },
+    "histories": {
+      "passed": 6,
+      "total": 6,
+      "cache_passed": 6
+    },
+    "agent-off": {
+      "passed": 3,
+      "total": 3
+    },
+    "agent-on": {
+      "passed": 3,
+      "total": 3
+    },
+    "ops-off-none": {
+      "decision": {
+        "expected_cases": 8,
+        "attempted": 8,
+        "completed": 8,
+        "passed": 8,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 8,
+          "total": 8,
+          "accuracy": 1.0
+        }
+      },
+      "code": {
+        "expected_cases": 4,
+        "attempted": 4,
+        "completed": 4,
+        "passed": 4,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 4,
+          "total": 4,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "ops-on-none": {
+      "decision": {
+        "expected_cases": 8,
+        "attempted": 8,
+        "completed": 8,
+        "passed": 8,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 8,
+          "total": 8,
+          "accuracy": 1.0
+        }
+      },
+      "code": {
+        "expected_cases": 4,
+        "attempted": 4,
+        "completed": 4,
+        "passed": 3,
+        "failed": 1,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 3,
+          "total": 4,
+          "accuracy": 0.75
+        }
+      }
+    },
+    "ops-on-low": {
+      "code": {
+        "expected_cases": 4,
+        "attempted": 4,
+        "completed": 4,
+        "passed": 4,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 4,
+          "total": 4,
+          "accuracy": 1.0
+        }
+      },
+      "decision": {
+        "expected_cases": 8,
+        "attempted": 8,
+        "completed": 8,
+        "passed": 8,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 8,
+          "total": 8,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "repeated_disagreements": {
+      "ifeval-1967": {
+        "False": [
+          true,
+          true,
+          true
+        ],
+        "True": [
+          false,
+          true,
+          true
+        ]
+      },
+      "ifeval-2381": {
+        "False": [
+          true,
+          false,
+          true
+        ],
+        "True": [
+          false,
+          true,
+          false
+        ]
+      },
+      "ifeval-2447": {
+        "False": [
+          true,
+          true,
+          true
+        ],
+        "True": [
+          true,
+          true,
+          true
+        ]
+      },
+      "ifeval-3276": {
+        "False": [
+          true,
+          false,
+          true
+        ],
+        "True": [
+          false,
+          false,
+          false
+        ]
+      },
+      "ifeval-3326": {
+        "False": [
+          false,
+          false,
+          false
+        ],
+        "True": [
+          false,
+          false,
+          false
+        ]
+      },
+      "mmlu-10591": {
+        "False": [
+          true,
+          true,
+          true
+        ],
+        "True": [
+          true,
+          true,
+          true
+        ]
+      },
+      "mmlu-122": {
+        "False": [
+          false,
+          true,
+          true
+        ],
+        "True": [
+          true,
+          true,
+          true
+        ]
+      },
+      "mmlu-459": {
+        "False": [
+          true,
+          true,
+          true
+        ],
+        "True": [
+          true,
+          false,
+          true
+        ]
+      },
+      "mmlu-6041": {
+        "False": [
+          true,
+          true,
+          true
+        ],
+        "True": [
+          false,
+          false,
+          false
+        ]
+      },
+      "mmlu-9156": {
+        "False": [
+          false,
+          true,
+          false
+        ],
+        "True": [
+          false,
+          true,
+          false
+        ]
+      }
+    }
+  },
+  "weights": {
+    "screen": {
+      "complete": true,
+      "baseline": {
+        "ifeval": {
+          "passed": 72,
+          "total": 80,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 199.7120562989976,
+          "median_completion_tokens": 180.5
+        },
+        "mmlu": {
+          "passed": 92,
+          "total": 140,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 61.4931200280007,
+          "median_completion_tokens": 2.0
+        }
+      },
+      "candidate": {
+        "ifeval": {
+          "passed": 70,
+          "total": 80,
+          "capped": 1,
+          "natural_completion_required": true,
+          "complete_cohort": false,
+          "wall_seconds": 216.925668941999,
+          "median_completion_tokens": 174.5
+        },
+        "mmlu": {
+          "passed": 93,
+          "total": 140,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 61.65679865499533,
+          "median_completion_tokens": 2.0
+        }
+      },
+      "disagreements": {
+        "matched_cases": 220,
+        "identical_request_hashes": 220,
+        "losses": [
+          "ifeval-2216",
+          "ifeval-2273",
+          "ifeval-2785",
+          "ifeval-2853",
+          "ifeval-3245",
+          "mmlu-11607"
+        ],
+        "gains": [
+          "ifeval-2447",
+          "ifeval-3069",
+          "ifeval-3326",
+          "mmlu-603",
+          "mmlu-9156"
+        ]
+      }
+    },
+    "features": {
+      "complete": true,
+      "baseline": {
+        "boundary": {
+          "passed": 3,
+          "total": 4,
+          "capped": 1,
+          "natural_completion_required": false,
+          "complete_cohort": false,
+          "wall_seconds": 18.290966815000047,
+          "median_completion_tokens": 537.5
+        },
+        "retrieval": {
+          "passed": 1,
+          "total": 1,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 57.57027756200023,
+          "median_completion_tokens": 307
+        },
+        "vision": {
+          "passed": 1,
+          "total": 5,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 8.947600314999818,
+          "median_completion_tokens": 27
+        }
+      },
+      "candidate": {
+        "boundary": {
+          "passed": 3,
+          "total": 4,
+          "capped": 1,
+          "natural_completion_required": false,
+          "complete_cohort": false,
+          "wall_seconds": 15.557298484000057,
+          "median_completion_tokens": 336.0
+        },
+        "retrieval": {
+          "passed": 1,
+          "total": 1,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 57.51034685800005,
+          "median_completion_tokens": 307
+        },
+        "vision": {
+          "passed": 0,
+          "total": 5,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 8.831814887999826,
+          "median_completion_tokens": 27
+        }
+      },
+      "disagreements": {
+        "matched_cases": 10,
+        "identical_request_hashes": 10,
+        "losses": [
+          "vision-request-path"
+        ],
+        "gains": []
+      }
+    },
+    "practical": {
+      "complete": true,
+      "baseline": {
+        "practical-low": {
+          "passed": 27,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 287.7993477159989,
+          "median_completion_tokens": 1016.5
+        },
+        "practical-none": {
+          "passed": 27,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 86.48924669400321,
+          "median_completion_tokens": 344.5
+        }
+      },
+      "candidate": {
+        "practical-low": {
+          "passed": 29,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 256.320455776,
+          "median_completion_tokens": 1055.0
+        },
+        "practical-none": {
+          "passed": 28,
+          "total": 30,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 86.26421350199962,
+          "median_completion_tokens": 300.0
+        }
+      },
+      "disagreements": {
+        "matched_cases": 60,
+        "identical_request_hashes": 60,
+        "losses": [
+          "practical-low-json-pointer"
+        ],
+        "gains": [
+          "practical-low-literal-endpoint",
+          "practical-low-path-route",
+          "practical-low-retry-after",
+          "practical-none-dns-wildcard"
+        ]
+      }
+    },
+    "abba_starts": [
+      {
+        "start": 0,
+        "arm": "baseline",
+        "decode": [
+          164.9,
+          129.1,
+          133.6,
+          160.4,
+          127.8,
+          130.8
+        ],
+        "prefill": [
+          5143.2,
+          5105.1
+        ],
+        "decode_median": 132.2,
+        "prefill_median": 5124.15,
+        "decode_by_fixture": {
+          "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m": [
+            164.9,
+            160.4
+          ],
+          "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a": [
+            129.1,
+            127.8
+          ],
+          "Describe twelve European capitals. For each, give a paragraph about its location, history, transport": [
+            133.6,
+            130.8
+          ]
+        },
+        "image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+        "template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+        "request_hashes": {
+          "warmups": [
+            "67670b94ebab305f533585071e3eb5e377516e79dc10230e254ef72f51943cd6",
+            "a789d987cb5f9d64e5d1ef80654aeeebf4c46fbaa96f11d0a80b02fbbce6c2af",
+            "112316c26746b24fb647ae1f616a668936b3c78e22b53d7e25fbb908fdffb755"
+          ],
+          "decode": [
+            "55d243a85cd804f53cb87681cc0ca944724003918e8b739d4e0ad247ecb855bb",
+            "a09d5c007002b3ea16e9d91e7e2b71447c8bea401c7ffa8d1be5c8cc9c123add",
+            "3838630a7c5295d0d1b5ef831c3bbdfc3abdba542e45400e12b380d055af99c7",
+            "33290c6210a194dded5b19dae398966029d6ecc5ac5cefc3d1aa855a131f1761",
+            "f66fab09cc88d9566a36629f98ce006ca3bb37377e67516f7ac3df98caa26306",
+            "85d7647f02e3b4ccb6f7aebe73be303d59fd43cd215f75d89c2c69e0f7dbdaab"
+          ],
+          "prefill": [
+            "37687ffbaa52d66ce931f7654f218647242e3ba330b65960687c4da5004c4295",
+            "3e6d89ef22b8eabb62948e2db21e935e1cf5af9e07e9b01172b90352257cc35b"
+          ]
+        }
+      },
+      {
+        "start": 1,
+        "arm": "candidate",
+        "decode": [
+          162.8,
+          125.8,
+          133.4,
+          162.1,
+          126.2,
+          126.6
+        ],
+        "prefill": [
+          5142.5,
+          5092.6
+        ],
+        "decode_median": 130.0,
+        "prefill_median": 5117.55,
+        "decode_by_fixture": {
+          "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m": [
+            162.8,
+            162.1
+          ],
+          "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a": [
+            125.8,
+            126.2
+          ],
+          "Describe twelve European capitals. For each, give a paragraph about its location, history, transport": [
+            133.4,
+            126.6
+          ]
+        },
+        "image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+        "template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+        "request_hashes": {
+          "warmups": [
+            "67670b94ebab305f533585071e3eb5e377516e79dc10230e254ef72f51943cd6",
+            "a789d987cb5f9d64e5d1ef80654aeeebf4c46fbaa96f11d0a80b02fbbce6c2af",
+            "112316c26746b24fb647ae1f616a668936b3c78e22b53d7e25fbb908fdffb755"
+          ],
+          "decode": [
+            "55d243a85cd804f53cb87681cc0ca944724003918e8b739d4e0ad247ecb855bb",
+            "a09d5c007002b3ea16e9d91e7e2b71447c8bea401c7ffa8d1be5c8cc9c123add",
+            "3838630a7c5295d0d1b5ef831c3bbdfc3abdba542e45400e12b380d055af99c7",
+            "33290c6210a194dded5b19dae398966029d6ecc5ac5cefc3d1aa855a131f1761",
+            "f66fab09cc88d9566a36629f98ce006ca3bb37377e67516f7ac3df98caa26306",
+            "85d7647f02e3b4ccb6f7aebe73be303d59fd43cd215f75d89c2c69e0f7dbdaab"
+          ],
+          "prefill": [
+            "37687ffbaa52d66ce931f7654f218647242e3ba330b65960687c4da5004c4295",
+            "3e6d89ef22b8eabb62948e2db21e935e1cf5af9e07e9b01172b90352257cc35b"
+          ]
+        }
+      },
+      {
+        "start": 2,
+        "arm": "candidate",
+        "decode": [
+          164.6,
+          121.7,
+          136.3,
+          159.8,
+          128.3,
+          135.8
+        ],
+        "prefill": [
+          5147.9,
+          5064.5
+        ],
+        "decode_median": 136.05,
+        "prefill_median": 5106.2,
+        "decode_by_fixture": {
+          "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m": [
+            164.6,
+            159.8
+          ],
+          "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a": [
+            121.7,
+            128.3
+          ],
+          "Describe twelve European capitals. For each, give a paragraph about its location, history, transport": [
+            136.3,
+            135.8
+          ]
+        },
+        "image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+        "template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+        "request_hashes": {
+          "warmups": [
+            "67670b94ebab305f533585071e3eb5e377516e79dc10230e254ef72f51943cd6",
+            "a789d987cb5f9d64e5d1ef80654aeeebf4c46fbaa96f11d0a80b02fbbce6c2af",
+            "112316c26746b24fb647ae1f616a668936b3c78e22b53d7e25fbb908fdffb755"
+          ],
+          "decode": [
+            "55d243a85cd804f53cb87681cc0ca944724003918e8b739d4e0ad247ecb855bb",
+            "a09d5c007002b3ea16e9d91e7e2b71447c8bea401c7ffa8d1be5c8cc9c123add",
+            "3838630a7c5295d0d1b5ef831c3bbdfc3abdba542e45400e12b380d055af99c7",
+            "33290c6210a194dded5b19dae398966029d6ecc5ac5cefc3d1aa855a131f1761",
+            "f66fab09cc88d9566a36629f98ce006ca3bb37377e67516f7ac3df98caa26306",
+            "85d7647f02e3b4ccb6f7aebe73be303d59fd43cd215f75d89c2c69e0f7dbdaab"
+          ],
+          "prefill": [
+            "37687ffbaa52d66ce931f7654f218647242e3ba330b65960687c4da5004c4295",
+            "3e6d89ef22b8eabb62948e2db21e935e1cf5af9e07e9b01172b90352257cc35b"
+          ]
+        }
+      },
+      {
+        "start": 3,
+        "arm": "baseline",
+        "decode": [
+          163.8,
+          129.5,
+          132.8,
+          160.9,
+          130.2,
+          133.3
+        ],
+        "prefill": [
+          5132.6,
+          5120.8
+        ],
+        "decode_median": 133.05,
+        "prefill_median": 5126.700000000001,
+        "decode_by_fixture": {
+          "Write a complete Python LRU cache using collections.OrderedDict with a capacity limit, get and put m": [
+            163.8,
+            160.9
+          ],
+          "Explain how DNS resolution, TLS, HTTP/2 multiplexing, connection pooling and caching interact when a": [
+            129.5,
+            130.2
+          ],
+          "Describe twelve European capitals. For each, give a paragraph about its location, history, transport": [
+            132.8,
+            133.3
+          ]
+        },
+        "image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+        "template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+        "request_hashes": {
+          "warmups": [
+            "67670b94ebab305f533585071e3eb5e377516e79dc10230e254ef72f51943cd6",
+            "a789d987cb5f9d64e5d1ef80654aeeebf4c46fbaa96f11d0a80b02fbbce6c2af",
+            "112316c26746b24fb647ae1f616a668936b3c78e22b53d7e25fbb908fdffb755"
+          ],
+          "decode": [
+            "55d243a85cd804f53cb87681cc0ca944724003918e8b739d4e0ad247ecb855bb",
+            "a09d5c007002b3ea16e9d91e7e2b71447c8bea401c7ffa8d1be5c8cc9c123add",
+            "3838630a7c5295d0d1b5ef831c3bbdfc3abdba542e45400e12b380d055af99c7",
+            "33290c6210a194dded5b19dae398966029d6ecc5ac5cefc3d1aa855a131f1761",
+            "f66fab09cc88d9566a36629f98ce006ca3bb37377e67516f7ac3df98caa26306",
+            "85d7647f02e3b4ccb6f7aebe73be303d59fd43cd215f75d89c2c69e0f7dbdaab"
+          ],
+          "prefill": [
+            "37687ffbaa52d66ce931f7654f218647242e3ba330b65960687c4da5004c4295",
+            "3e6d89ef22b8eabb62948e2db21e935e1cf5af9e07e9b01172b90352257cc35b"
+          ]
+        }
+      }
+    ],
+    "performance": {
+      "baseline": {
+        "fresh_starts": 2,
+        "decode_median_tok_s": 133.05,
+        "prefill_median_tok_s": 5126.700000000001,
+        "per_start_decode_medians": [
+          132.2,
+          133.05
+        ],
+        "per_start_prefill_medians": [
+          5124.15,
+          5126.700000000001
+        ]
+      },
+      "candidate": {
+        "fresh_starts": 2,
+        "decode_median_tok_s": 134.60000000000002,
+        "prefill_median_tok_s": 5117.55,
+        "per_start_decode_medians": [
+          130.0,
+          136.05
+        ],
+        "per_start_prefill_medians": [
+          5117.55,
+          5106.2
+        ]
+      },
+      "decode_delta_pct": 1.1649755730928302,
+      "prefill_delta_pct": -0.17847738311195238,
+      "identical_requests": true,
+      "template_and_image_identical": true
+    },
+    "integrity": {
+      "metadata_equal": true,
+      "ngram_same_inode": true,
+      "projector_same_inode": true,
+      "first_shard_sha256": "eb1a486ce6c00f732a17e36135ff47e011597bd3cc5401cf68b77f97c6750c21",
+      "first_shard_bytes": 54817524224,
+      "unchanged_count": 1127,
+      "changed_count": 96
+    },
+    "api": {
+      "passed": 9,
+      "total": 9
+    },
+    "quality": {
+      "passed": 9,
+      "total": 9,
+      "cache_passed": 0
+    },
+    "agent": {
+      "passed": 3,
+      "total": 3
+    },
+    "histories": {
+      "passed": 6,
+      "total": 6,
+      "cache_passed": 6
+    },
+    "ops-none": {
+      "code": {
+        "expected_cases": 4,
+        "attempted": 4,
+        "completed": 4,
+        "passed": 4,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 4,
+          "total": 4,
+          "accuracy": 1.0
+        }
+      },
+      "decision": {
+        "expected_cases": 8,
+        "attempted": 8,
+        "completed": 8,
+        "passed": 8,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 8,
+          "total": 8,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "ops-low": {
+      "decision": {
+        "expected_cases": 8,
+        "attempted": 8,
+        "completed": 8,
+        "passed": 8,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 8,
+          "total": 8,
+          "accuracy": 1.0
+        }
+      },
+      "code": {
+        "expected_cases": 4,
+        "attempted": 4,
+        "completed": 4,
+        "passed": 4,
+        "failed": 0,
+        "incomplete": 0,
+        "evaluator_error": 0,
+        "quality_score": {
+          "passed": 4,
+          "total": 4,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "dense_bar_baseline": {
+      "complete": true,
+      "source_sha256": "0798d5750755cb7c0e332050807b3e8c051204975e62c5af3811d97448d87cdc",
+      "controls_passed": 40,
+      "suites": {
+        "humaneval": {
+          "passed": 38,
+          "total": 40,
+          "capped": 0
+        },
+        "mmlupro-extra": {
+          "passed": 18,
+          "total": 28,
+          "capped": 0
+        },
+        "boundary-manual-review": {
+          "passed": 4,
+          "total": 4,
+          "capped": 0
+        }
+      }
+    },
+    "dense_bar_candidate": {
+      "complete": true,
+      "source_sha256": "0798d5750755cb7c0e332050807b3e8c051204975e62c5af3811d97448d87cdc",
+      "controls_passed": 40,
+      "suites": {
+        "humaneval": {
+          "passed": 39,
+          "total": 40,
+          "capped": 0
+        },
+        "mmlupro-extra": {
+          "passed": 18,
+          "total": 28,
+          "capped": 0
+        },
+        "boundary-manual-review": {
+          "passed": 4,
+          "total": 4,
+          "capped": 0
+        }
+      }
+    },
+    "ifeval_repeat_baseline": {
+      "complete": true,
+      "cohorts": {
+        "ifeval": {
+          "passed": 71,
+          "total": 80,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 210.55135878500369,
+          "median_completion_tokens": 207.0
+        }
+      }
+    },
+    "ifeval_repeat_weights": {
+      "complete": true,
+      "cohorts": {
+        "ifeval": {
+          "passed": 72,
+          "total": 80,
+          "capped": 0,
+          "natural_completion_required": true,
+          "complete_cohort": true,
+          "wall_seconds": 191.80536970799676,
+          "median_completion_tokens": 177.0
+        }
+      }
+    },
+    "long_context_starts": [
+      {
+        "label": "baseline",
+        "complete": true,
+        "results": [
+          {
+            "repeat": 0,
+            "pass": true,
+            "input_sha256": "8e561a3f493359cb133f0cd59ebbf47636900414f8e117e0134fc10d34fcd687",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 5002.3,
+            "decode_tok_s": 148.5,
+            "total_s": 54.55317402900073,
+            "ttft_s": 52.49783485500029
+          },
+          {
+            "repeat": 1,
+            "pass": true,
+            "input_sha256": "9e11f07ea5b7e84d95cc1e6e086760e39c5dcb8df01bd1d4c363b79cab02a044",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 4948.8,
+            "decode_tok_s": 196.4,
+            "total_s": 54.54552096599946,
+            "ttft_s": 52.99419394199958
+          }
+        ]
+      },
+      {
+        "label": "candidate",
+        "complete": true,
+        "results": [
+          {
+            "repeat": 0,
+            "pass": true,
+            "input_sha256": "8e561a3f493359cb133f0cd59ebbf47636900414f8e117e0134fc10d34fcd687",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 5002.0,
+            "decode_tok_s": 144.7,
+            "total_s": 54.60699715999999,
+            "ttft_s": 52.497190432000025
+          },
+          {
+            "repeat": 1,
+            "pass": true,
+            "input_sha256": "9e11f07ea5b7e84d95cc1e6e086760e39c5dcb8df01bd1d4c363b79cab02a044",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 4928.2,
+            "decode_tok_s": 190.8,
+            "total_s": 54.8132528670003,
+            "ttft_s": 53.21569666600044
+          }
+        ]
+      },
+      {
+        "label": "candidate2",
+        "complete": true,
+        "results": [
+          {
+            "repeat": 0,
+            "pass": true,
+            "input_sha256": "8e561a3f493359cb133f0cd59ebbf47636900414f8e117e0134fc10d34fcd687",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 5049.9,
+            "decode_tok_s": 144.4,
+            "total_s": 54.11037630800001,
+            "ttft_s": 51.99704303500039
+          },
+          {
+            "repeat": 1,
+            "pass": true,
+            "input_sha256": "9e11f07ea5b7e84d95cc1e6e086760e39c5dcb8df01bd1d4c363b79cab02a044",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 4968.6,
+            "decode_tok_s": 191.1,
+            "total_s": 54.378056446999835,
+            "ttft_s": 52.78343672699975
+          }
+        ]
+      },
+      {
+        "label": "baseline-resume",
+        "complete": true,
+        "results": [
+          {
+            "repeat": 0,
+            "pass": true,
+            "input_sha256": "8e561a3f493359cb133f0cd59ebbf47636900414f8e117e0134fc10d34fcd687",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 5019.4,
+            "decode_tok_s": 146.2,
+            "total_s": 54.403391269,
+            "ttft_s": 52.31573208200001
+          },
+          {
+            "repeat": 1,
+            "pass": true,
+            "input_sha256": "9e11f07ea5b7e84d95cc1e6e086760e39c5dcb8df01bd1d4c363b79cab02a044",
+            "content_sha256": "651db8bd553c43e3ca31bef43af88cd86623fdcb576c2209cdcb17d4e9ae1f2c",
+            "prompt_tokens": 261567,
+            "completion_tokens": 307,
+            "cached_tokens": 0,
+            "prefill_tok_s": 4960.9,
+            "decode_tok_s": 193.9,
+            "total_s": 54.43450803500002,
+            "ttft_s": 52.862943277
+          }
+        ]
+      }
+    ],
+    "long_context_by_position": {
+      "0": {
+        "baseline": {
+          "decode_samples": [
+            148.5,
+            146.2
+          ],
+          "prefill_samples": [
+            5002.3,
+            5019.4
+          ],
+          "wall_seconds": [
+            54.55317402900073,
+            54.403391269
+          ]
+        },
+        "candidate": {
+          "decode_samples": [
+            144.7,
+            144.4
+          ],
+          "prefill_samples": [
+            5002.0,
+            5049.9
+          ],
+          "wall_seconds": [
+            54.60699715999999,
+            54.11037630800001
+          ]
+        },
+        "decode_delta_pct": -1.9002375296911955,
+        "prefill_delta_pct": 0.3013460790085354,
+        "identical_inputs": true,
+        "identical_outputs": true
+      },
+      "1": {
+        "baseline": {
+          "decode_samples": [
+            196.4,
+            193.9
+          ],
+          "prefill_samples": [
+            4948.8,
+            4960.9
+          ],
+          "wall_seconds": [
+            54.54552096599946,
+            54.43450803500002
+          ]
+        },
+        "candidate": {
+          "decode_samples": [
+            190.8,
+            191.1
+          ],
+          "prefill_samples": [
+            4928.2,
+            4968.6
+          ],
+          "wall_seconds": [
+            54.8132528670003,
+            54.378056446999835
+          ]
+        },
+        "decode_delta_pct": -2.1521906225980048,
+        "prefill_delta_pct": -0.13017548462619377,
+        "identical_inputs": true,
+        "identical_outputs": true
+      }
+    }
+  },
+  "decision": {
+    "selected_profile": "flash-iq3s-256k-vision-tune-huihuiv220261108",
+    "candidate_activated": true,
+    "owner_decision": "The measured 3-4 tok/s long-context decode cost is accepted for abliteration; quality benchmark regressions remain unacceptable.",
+    "adoption_record": "huihui-adoption.json",
+    "further_tests_authorized": false
+  }
+}
