@@ -3,7 +3,7 @@
   "provider": {
     "ai-ulmus-flash-next": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "Qwen3.8 Flash-Next (RTX 4090 / Ulmus)",
+      "name": "Huihui Qwen3.8 Flash-Next (Ulmus)",
       "options": {
         "baseURL": "http://127.0.0.1:19623/v1",
         "timeout": 600000
@@ -11,7 +11,7 @@
       "models": {
         "qwen3.8-flash-next": {
           "id": "Qwen3.8-Flash-Next",
-          "name": "Qwen3.8 Flash-Next GSQ IQ3_S / MTP4 (RTX 4090 / Ulmus)",
+          "name": "Huihui Qwen3.8 Flash-Next Abliterated GSQ IQ3_S / MTP4 (Ulmus)",
           "attachment": true,
           "modalities": {
             "input": [
@@ -60,6 +60,60 @@
             "context": 253952,
             "input": 245760,
             "output": 8192
+          }
+        }
+      }
+    },
+    "ai-ulmus": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Huihui Qwen3.8 27B Abliterated (RTX 4090 / Ulmus)",
+      "options": {
+        "baseURL": "http://127.0.0.1:19622/v1",
+        "timeout": 600000
+      },
+      "models": {
+        "qwen3.8-27b": {
+          "name": "Huihui Qwen3.8 27B Abliterated W4A16 / DFlash2 (RTX 4090 / Ulmus)",
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoning": true,
+          "options": {
+            "reasoningEffort": "low",
+            "temperature": 1.0,
+            "top_p": 0.95,
+            "top_k": 20
+          },
+          "variants": {
+            "off": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          },
+          "limit": {
+            "context": 253952,
+            "input": 245760,
+            "output": 8192
+          },
+          "id": "qwen3.8-27b",
+          "tool_call": true,
+          "interleaved": {
+            "field": "reasoning_content"
           }
         }
       }

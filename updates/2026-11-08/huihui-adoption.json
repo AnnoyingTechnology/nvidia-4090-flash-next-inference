@@ -29,5 +29,28 @@
   "rollback_directory": "updates/2026-11-08/huihui-adoption-rollback",
   "rollback": "When the owned service is idle, stop it; restore run.sh, scripts/opencode.sh and the installed service from rollback; daemon-reload and start. Restore the source launcher assertion too. Original profile and model are retained.",
   "qualified_runtime_fingerprint": "0023fa8023f7dc04821df92443b8da07d03fe221a131117091c83f61a26fdb48",
-  "deployed_artifacts_match_qualification": true
+  "deployed_artifacts_match_qualification": true,
+  "client_configuration": {
+    "verified_at_utc": "2026-11-08T19:27:49.088635+00:00",
+    "clients": [
+      "Juniperus",
+      "Ulmus"
+    ],
+    "default_model": "ai-ulmus/qwen3.8-27b",
+    "providers": [
+      "ai-ulmus",
+      "ai-ulmus-flash-next"
+    ],
+    "flash_display_name": "Huihui Qwen3.8 Flash-Next Abliterated GSQ IQ3_S / MTP4 (Ulmus)",
+    "flash_launcher_response": {
+      "Juniperus": "READY",
+      "Ulmus": "READY"
+    },
+    "shortcuts": [
+      "opencode-flash-next",
+      "opencode-27b"
+    ],
+    "ulmus_retired_lmstudio_27b_entries_removed": true,
+    "dense_service_live_test": "Not started during this client update; configured against the previously qualified dedicated service."
+  }
 }

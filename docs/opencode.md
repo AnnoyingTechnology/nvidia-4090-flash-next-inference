@@ -1,4 +1,17 @@
-# OpenCode on Juniperus
+# OpenCode on Juniperus and Ulmus
+
+Both clients use the dedicated Huihui services. The `ai-ulmus/qwen3.8-27b` default
+is preserved, with 245760 input and 8192 output tokens inside a 253952-token client window.
+Ulmus uses loopback port 19622 for 27B; remote clients supply or preserve its LAN endpoint.
+The obsolete local LM Studio 27B entries are retired by `--local-services`.
+Flash-Next is labelled Huihui v2-derived GSQ IQ3_S; its endpoint remains loopback port 19623.
+
+Installed shortcuts on both owner clients are `opencode-flash-next` and `opencode-27b`.
+On Juniperus the Flash shortcut starts the service and owns an SSH tunnel for the session.
+On Ulmus it starts the service and connects directly, using `scripts/opencode-local.sh`.
+The 27B shortcuts start only its dedicated unit; neither launcher stops other workloads.
+Selecting a model in ordinary OpenCode requires the corresponding service to be running,
+and remote Flash-Next also requires the SSH tunnel.
 
 The selected IQ3_S stack is the best measured Flash-Next path on Ulmus in
 this campaign. Unbuilt alternatives remain experiments, not established
@@ -23,7 +36,7 @@ are client names mapped through the supported `id` field. Reasoning
 history is preserved through `reasoning_content`. Sampling options are
 sent as native compatible-API fields, not a runtime rewriting patch.
 
-`docs/opencode-example.json` contains the owned provider. The installer
+`docs/opencode-example.json` contains both owned providers. The installer
 merges it into the user's existing configuration, keeps the previous
 default model and unrelated settings, writes atomically and retains a
 private rollback copy inside this workspace. No credential is required
@@ -36,11 +49,16 @@ export ULMUS_REMOTE_ROOT='<absolute remote stack directory>'
 bash scripts/opencode.sh
 ```
 
-The selected profile is `flash-iq3s-256k-vision-tune-owner20261108` (qualified 2026-11-08).
+On Ulmus, install with `python3 scripts/install_opencode.py --local-services`.
+For a new remote client, pass `--dense-base-url` with its trusted-LAN 27B URL.
+The existing Flash shortcut uses the private workspace wrapper; remote 27B uses
+`scripts/opencode-27b.sh` with `ULMUS_SSH_TARGET` supplied by its private wrapper.
+
+The selected profile is `flash-iq3s-256k-vision-tune-huihuiv220261108` (qualified 2026-11-08).
 It keeps one target loaded and starts GPU vision for uncached images. The native reader
 stops after five seconds idle; restarting it adds about 2.2 seconds on the next new image.
-Cached images bypass the reader. Target weights, reasoning defaults and client capacities
-are unchanged. The prior `owner9950x3d2` profile and image remain available for rollback.
+Cached images bypass the reader. The target uses baked Huihui v2 weight edits; reasoning defaults
+and client capacities are preserved. The original `owner20261108` profile remains the rollback.
 The launcher starts `qwen3.8-flash-next.service` and waits for systemd readiness.
 It verifies the selected profile, creates
 a loopback-only SSH tunnel, selects the new model and closes its tunnel
