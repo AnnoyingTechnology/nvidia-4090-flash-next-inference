@@ -1,9 +1,28 @@
 # NVIDIA RTX 4090 Flash-Next inference
 
-This repository records the optimization and bounded quality qualification of
-**Qwen3.8-Flash-Next on one 24 GiB RTX 4090, Ryzen 7900 and 192 GB RAM**.
-The selected unpruned GSQ IQ3_S path with on-demand GPU vision measured
-**120.10 tok/s at 32K** and **112.55 tok/s at 128K** in the latest matched
+This repository records bounded qualification of **Qwen3.8-Flash-Next on one
+24 GiB RTX 4090 and 192 GB RAM**. The current host uses a Ryzen 9950X3D2.
+The qualified **2026-11-08 update** selects `flash-iq3s-256k-vision-tune-owner20261108`:
+pooled median decode **119.4 → 136.35 tok/s (+14.2%)** and uncached 32K prefill
+**+5.7%**, across two fresh starts per arm. The same target, tokenizer and prompt
+template are retained. Complete code canaries score **30/30 low** and **29/30 off**;
+retrieval passes through a 261241-token prompt. Native GPU-vision restart adds
+about two seconds to the first uncached image after idle. Driver and 280 W policy
+are unchanged. [Evidence](updates/2026-11-08/summary.json),
+[build manifest](updates/2026-11-08/build-manifest.json).
+
+The strongest measured contributor is cache admission (`STRATA_ADAPT_FETCH=2`):
+eligible experts already fetched from RAM for GPU computation enter the expert cache,
+instead of being discarded and copied again by a separate adaptive update. On the
+same new runtime/profile, one fresh start per setting measured **80.0% → 89.05%**
+median cache hits and **121.8 → 137.15 tok/s**. This is a diagnostic, not a precise
+decomposition of the complete gain. Automatic CPU/PCIe balancing settled at a
+0.25 share instead of the old fixed 0.35. The CPU also assists short prompt chunks;
+short-prompt TTFT fell **520 → 362 ms** in the full comparison. The 32K prefill gain
+was not isolated per kernel. Both comparison arms used the upgraded CPU and RAM.
+
+The historical October campaign used a Ryzen 7900. Its GSQ IQ3_S path measured
+**120.10 tok/s at 32K** and **112.55 tok/s at 128K** in its matched
 context probes, with roughly **4,700–4,800 tok/s** on uncached
 32K prefill, at an unchanged **280 W GPU limit**.
 
@@ -20,17 +39,24 @@ and [Intel Arc Pro B70](https://github.com/AnnoyingTechnology/intel-arc-b70-llm-
 projects. Their rates concern different models and cannot be treated as a
 same-target comparison.
 
-**Frozen checkpoint, 2026-10-04.** The owner has frozen this Ulmus deployment
-as-is. Do not resume tuning or alter its serving configuration without a new
-explicit request. Work on other hardware belongs in a separate checkout. Selected profile is
-`flash-iq3s-256k-vision-tune-owneradapt24`: the qualified lend-VRAM v4 image,
+**Historical freeze, 2026-10-04.** The owner reopened optimization for the
+qualified November update above. Further tuning requires a new explicit request;
+work on other hardware belongs in a separate checkout.
+
+**Lifecycle housekeeping, 2026-10-04:** separately authorized after the tuning
+freeze. Flash-Next now runs as the on-demand user unit `qwen3.8-flash-next.service`
+and container `qwen3.8-flash-next`. The preserved 27B has `qwen3.8-27b.service`
+(installed, stopped). No mutual exclusion; neither unit is enabled at boot.
+See [operations](docs/operations.md) for commands, readiness and archive layout.
+
+The October selection was `flash-iq3s-256k-vision-tune-owneradapt24`: the qualified lend-VRAM v4 image,
 with expert-cache updates capped at 24 experts instead of 96. The model,
 precision, reasoning defaults and context capacity are unchanged.
 OpenCode has been verified through the normal launcher; no experiments remain running.
 [Resumption record and decisions](docs/exploration-2026-10-04.md),
 [selection checks](results/public/adapt24-selection-20261004.json).
 
-| Latest matched ABBA, low reasoning | V4 / 96 swaps | V4 / 24 swaps | Change |
+| October matched ABBA, low reasoning | V4 / 96 swaps | V4 / 24 swaps | Change |
 |---|---:|---:|---:|
 | 32K context, median of launch medians | 119.05 tok/s | 120.10 tok/s | +0.88% |
 | 128K context, median of launch medians | 107.95 tok/s | 112.55 tok/s | +4.26% |
@@ -53,9 +79,9 @@ reduce the amount copied per adaptation, trading slower adaptation for less
 potential exposed waiting. CPU wait is only 0.63–0.94 ms/window, so expanding
 CPU weights is deprioritized. Offline cross-layer cache allocation reduced
 misses only 0.4–2.9%, insufficient to justify implementation on this deck.
-Firmware reports DDR5-3600 across four 48 GiB DIMMs. A short sequential-read
+October firmware reported DDR5-3600 across four 48 GiB DIMMs. A short sequential-read
 probe measured 51.84 GB/s on one thread and 43.29 on twelve; this is synthetic
-bandwidth, not inference bandwidth. No hardware setting changed.
+bandwidth, not inference bandwidth. No hardware setting changed during that October probe.
 [Diagnostics](results/public/decode-diagnostics-20261004-summary.json),
 [RAM](results/public/host-memory-20261004-summary.json).
 
@@ -344,12 +370,18 @@ vision-capable model remains loaded; routine use does not switch profiles:
 
 | Profile | Purpose |
 |---|---|
+| `flash-iq3s-256k-vision-tune-owner20261108` | Selected native elastic vision, MTP and cache admission on the 9950X3D2 |
+| `flash-iq3s-256k-vision-tune-owner9950x3d2` | Pre-update CPU-upgrade profile and lend-VRAM rollback |
 | `flash-iq3s-256k-tune-ownertext` | Faster text-only code, operations and agent work |
 | `flash-iq3s-256k-vision-tune-ownervision` | Preserved resident-GPU-vision baseline and rollback |
-| `flash-iq3s-256k-vision-tune-owneradapt24` | Selected v4, 24-expert update batches; GPU BF16 vision on demand, 4096-token image budget |
+| `flash-iq3s-256k-vision-tune-owneradapt24` | Historical Ryzen 7900 v4 profile, 24-expert update batches |
 | `flash-iq3s-256k-vision-tune-ownerswap` | Original v4 / 96-expert batch rollback |
 
-On an NVIDIA Linux host with Docker and the NVIDIA Container Toolkit:
+The following reproduces the October base. The November overlay recipes and
+pinned source are identified in the [build manifest](updates/2026-11-08/build-manifest.json).
+Normal operation uses the selected systemd service; see [operations](docs/operations.md).
+
+October bootstrap on an NVIDIA Linux host with Docker and the NVIDIA Container Toolkit:
 
 ```bash
 git clone https://github.com/AnnoyingTechnology/nvidia-4090-flash-next-inference
@@ -388,7 +420,7 @@ For OpenCode on Juniperus, the installed model is
 The prior 27B default is preserved.
 [Client configuration and SSH launcher](docs/opencode.md)
 
-## Production invocation and settings
+## Historical October invocation and settings
 
 The profiles execute the following engine command inside the container;
 the vision profile additionally supplies `--vision` and starts the GPU encoder:

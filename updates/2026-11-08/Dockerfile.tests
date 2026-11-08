@@ -1,0 +1,4 @@
+FROM ulmus/strata:146df3c-cu124-sm89
+RUN cmake --build /opt/strata-next-build -j 12 --target \
+    native_expert_parity qsa_prompt_attn_parity sampler_parity coupled_draft_test \
+    conversation_cache_test conversation_memory_test

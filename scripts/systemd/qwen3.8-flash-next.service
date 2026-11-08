@@ -1,0 +1,20 @@
+[Unit]
+Description=Ulmus Qwen3.8 Flash-Next (Strata / Ryzen 9950X3D2)
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=exec
+WorkingDirectory=%h/Documents/MachineLearning/Qwen38-Flash-Next-Ulmus/stack
+Environment=ULMUS_CONTAINER=qwen3.8-flash-next
+Environment=ULMUS_FOREGROUND=1
+ExecStart=/bin/bash run.sh flash-iq3s-256k-vision-tune-owner20261108
+ExecStartPost=/usr/bin/python3 wait_ready.py
+ExecStop=-/usr/bin/docker stop --timeout 30 qwen3.8-flash-next
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=360
+TimeoutStopSec=60
+
+[Install]
+WantedBy=default.target

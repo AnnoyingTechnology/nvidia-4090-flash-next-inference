@@ -5,31 +5,59 @@ loopback port 19623, model `ulmus`. Required host components are a suitable
 NVIDIA driver, Docker with GPU access, Git, curl and Python 3. Fresh builds
 are substantial; model/source/cache paths stay within the checkout.
 
-`run.sh` refuses to start while any GPU compute workload is active, records
-its actual image ID and profile/default hashes, then launches the owned
-`ulmus-inference-test` container. `stop.sh` waits for its removal before a
-profile switch. It preserves model files and images. The 175 GiB container
-memory budget is for this 192 GB host; smaller machines need separate tuning.
-No power policy, driver, firewall or automatic startup is changed by these tools.
+## Selected service lifecycle (2026-10-04)
 
-The selected profile is `flash-iq3s-256k-vision-tune-owneradapt24`, using the locally
-built `ulmus/strata:99f3dbd-lendvram` v4 image. Build it with
-`docker build -f Dockerfile.lend-vram -t ulmus/strata:99f3dbd-lendvram .`
-after the base owner image. Do not build during a performance measurement.
-One target model stays loaded; image staging lends/reclaims its expert-cache
-tail under the request FIFO. The measured additional delay is about 93 ms per
-uncached image; cached images do not LOAD/LEND again.
+Both deployments use on-demand systemd user services, with user lingering enabled:
 
-For batch-size rollback, stop the owned workload, start
-`flash-iq3s-256k-vision-tune-ownerswap` (original v4, 96 swaps) and update both
-launcher profile occurrences. For a full vision-swap rollback, start
-`flash-iq3s-256k-vision-tune-ownervision` and wait for readiness. Change both
-selected-profile occurrences in `scripts/opencode.sh` back to that resident
-profile before using the launcher. Do not restart the preserved 27B service as
-an incidental fallback. Older experiment runners restore resident vision; the resumed diagnostic runners
-restore original v4 with 96 swaps. After either, explicitly restore selected
-`owneradapt24` before opening OpenCode. The final vision-qualification runner
-leaves the candidate running only on success.
+```bash
+systemctl --user start qwen3.8-flash-next.service
+systemctl --user stop qwen3.8-flash-next.service
+systemctl --user status qwen3.8-flash-next.service
+journalctl --user -u qwen3.8-flash-next.service -f
+# The 27B deployment uses the same commands with qwen3.8-27b.service.
+```
+
+Neither unit is enabled at boot. Both supervise foreground Docker clients, wait
+for HTTP readiness and restart on failure with bounded restart attempts. No
+mutual exclusion, GPU occupancy check or cross-service stopping is installed.
+The Flash-Next container is `qwen3.8-flash-next`; its OpenCode launcher starts the
+service. The 27B unit runs its existing Compose deployment without rebuilding.
+Templates live in `scripts/systemd/`; both are installed under the owner's
+`~/.config/systemd/user/`. The vLLM readiness helper is deployed in its own
+project's `systemd/` directory. User units rely on the existing system Docker daemon.
+
+`run.sh` records image/profile hashes. Its default detached experimental container
+remains `ulmus-inference-test`; systemd selects foreground mode and the production
+name via `ULMUS_FOREGROUND=1` and `ULMUS_CONTAINER=qwen3.8-flash-next`.
+`stop.sh` stops the selected service and any old owned experimental container.
+Historical benchmark runners assume the experimental container name: they must
+be deliberately adapted before reuse. No new tuning is authorized by this change.
+The 175 GiB memory budget remains specific to this 192 GB host.
+
+The outer Flash-Next directory now points operators into `stack/`. Its obsolete
+September vLLM files are preserved under `archive/vllm-prototype-2026-09-03/`.
+Model assets remain in place. No driver, power policy or network binding changed.
+The Flash-Next service was started and its API checked. The 27B unit was statically
+validated but not loaded: its previously qualified runtime remains stopped.
+
+Observed selection, 2026-11-08: `flash-iq3s-256k-vision-tune-owner20261108`, using
+`ulmus/strata:146df3c-owner20261108`. The [build manifest](../updates/2026-11-08/build-manifest.json)
+identifies the clean Strata source export and CUDA 12.4 overlay recipes. Do not build during
+a performance measurement. The image sets `STRATA_ROUTE_TAIL_SKIP=0` and `STRATA_ADAPT_FETCH=2`.
+The target remains loaded; native elastic vision starts its GPU reader on demand and stops it
+after five seconds idle. Keep the 3072 MiB image budget and 1024 MiB engine reserve: a 2048 MiB
+image budget failed GPU startup. Reader restart adds about 2.2 seconds after idle; cached
+images do not restart it. Full-RAM experts/PLE, 256K capacity and original weights remain selected.
+
+For an explicitly requested profile rollback, change the Flash-Next unit's
+`ExecStart` profile and the matching profile assertion in `scripts/opencode.sh`,
+then reload the user manager and restart that service. The direct pre-update rollback is
+`flash-iq3s-256k-vision-tune-owner9950x3d2` with `ulmus/strata:99f3dbd-lendvram`.
+The remote `updates/20261108/rollback/` retains the previous installed unit, template, launcher
+and run script. Keep the workspace's client assertion aligned when restoring them.
+The historical `ownerswap`
+profile retains 96 adaptation slots per update; `ownervision` retains resident
+vision. Do not use old experiment runners to manage the selected service.
 
 ## Requests
 
@@ -94,6 +122,8 @@ python3 practical_eval.py --cases eval/practical30-v2-cases.jsonl \
 The evaluator verifies positive/negative controls for every function before model
 calls and binds the run to the actual owned runtime. The output limit is a runaway
 guard; exhausting it withholds full-cohort accuracy. Keep off and low runs separate.
+Set `ULMUS_EVAL_CONTAINER` for an owned container other than `ulmus-inference-test`;
+the fingerprint reads API sources from the configured runtime working directory.
 
 ## Public evidence
 

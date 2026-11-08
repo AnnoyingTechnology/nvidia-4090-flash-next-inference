@@ -1,0 +1,4 @@
+# The selected runtime keeps all routed experts and uses the measured cache-admission path.
+FROM ulmus/strata:146df3c-cu124-sm89
+ENV STRATA_ROUTE_TAIL_SKIP=0 STRATA_ADAPT_FETCH=2
+LABEL ulmus.profile=owner20261108 ulmus.drafting=mtp

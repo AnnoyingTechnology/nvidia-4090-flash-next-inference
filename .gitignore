@@ -7,6 +7,9 @@
 !/LICENSE
 !/NOTICE
 !/docs/
+!/updates/
+/updates/*
+!/updates/2026-11-08/
 !/scripts/
 !/profiles/
 !/patches/

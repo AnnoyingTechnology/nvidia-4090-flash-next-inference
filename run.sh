@@ -8,8 +8,9 @@ export ULMUS_ROOT="$task_root"
 task_library=${ULMUS_LIBRARY:-$task_root/models}
 task_profile=${1:?usage: run.sh flash-q4|flash-iq3s}
 case "$task_profile" in
+    *-tune-owner20261108) task_default_image=ulmus/strata:146df3c-owner20261108 ;;
     *-tune-ownertext|*-tune-ownervision|*-tune-ownerq4|*-tune-ownerq4static|*-tune-ownerhead|*-tune-ownerembedhead|*-tune-ownersr[0-9]*|*-tune-ownercpuvision) task_default_image=ulmus/strata:99f3dbd-ownerapi ;;
-    *-tune-ownerswap|*-tune-owneradapt24) task_default_image=ulmus/strata:99f3dbd-lendvram ;;
+    *-tune-ownerswap|*-tune-owneradapt24|*-tune-owner9950x3d2) task_default_image=ulmus/strata:99f3dbd-lendvram ;;
     *-tune-eddoursultext|*-tune-eddoursulvision|*-tune-eddoursulq4|*-tune-eddoursulq4static) task_default_image=ulmus/strata:eddoursul-3a199-native ;;
     *) task_default_image=ulmus/strata:99f3dbd-cu124-sm89 ;;
 esac
@@ -22,10 +23,11 @@ if ! [[ "$task_profile" =~ ^flash-(q4|iq3s)(-(32k|128k|256k)(-vision)?)?(-tune-[
     exit 2
 fi
 test -f "$task_root/profiles/$task_profile.json"
-# Refuse resource collisions. Only this experiment's container may be replaced.
-if test -n "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)"; then
-    echo 'A GPU workload is active; stop the owned experiment before switching.' >&2
-    exit 1
+task_container=${ULMUS_CONTAINER:-ulmus-inference-test}
+[[ "$task_container" =~ ^[a-zA-Z0-9][a-zA-Z0-9_.-]+$ ]] || exit 2
+task_mode=(--detach)
+if [[ "${ULMUS_FOREGROUND:-0}" == 1 ]]; then
+    task_mode=()
 fi
 python3 "$task_root/launch_record.py" "$task_profile" "$task_image"
 task_env=()
@@ -42,7 +44,7 @@ if test -n "${ULMUS_POOL_QUANT_THRESH:-}"; then
     [[ "$ULMUS_POOL_QUANT_THRESH" =~ ^[0-9]+$ ]] || exit 2
     task_env+=(--env "STRATA_POOL_QUANT_THRESH=$ULMUS_POOL_QUANT_THRESH")
 fi
-docker run --name ulmus-inference-test --rm --detach --gpus all \
+exec docker run --name "$task_container" --rm "${task_mode[@]}" --gpus all \
     "${task_env[@]}" \
     --user "$(id -u):$(id -g)" --ulimit memlock=-1 --memory 175g --shm-size 4g \
     --publish 127.0.0.1:19623:19623 \

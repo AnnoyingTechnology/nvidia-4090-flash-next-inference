@@ -1,0 +1,18 @@
+[Unit]
+Description=Ulmus Qwen3.8 27B (vLLM)
+StartLimitIntervalSec=1800
+StartLimitBurst=3
+
+[Service]
+Type=exec
+WorkingDirectory=%h/Documents/MachineLearning/Qwen38-vLLM-4090
+ExecStart=/usr/bin/docker compose up --no-build --abort-on-container-exit --exit-code-from qwen qwen
+ExecStartPost=/usr/bin/python3 systemd/wait_ready.py http://127.0.0.1:19622/health 900
+ExecStop=/usr/bin/docker compose stop --timeout 30 qwen
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=960
+TimeoutStopSec=60
+
+[Install]
+WantedBy=default.target

@@ -8,10 +8,11 @@ recomputed from the stored identity; legacy reports without one cannot be reused
 """
 import hashlib
 import json
+import os
 import subprocess
 import urllib.request
 
-CONTAINER = 'ulmus-inference-test'
+CONTAINER = os.environ.get('ULMUS_EVAL_CONTAINER', 'ulmus-inference-test')
 
 PROBE = r'''
 import hashlib,json,os,re,sys
@@ -44,7 +45,7 @@ for p in Path('/proc').iterdir():
 if len(processes)!=1: raise RuntimeError('Expected one matching native engine process')
 result={'config_sha256':digest(cfg_path),'engine_config':cfg,
         'native_sha256':digest(Path(cfg['exe'])),'native_command':processes[0],
-        'api_sources':{name:digest(Path('/opt/strata/serve')/name) for name in
+        'api_sources':{name:digest(Path(cfg.get('cwd') or '/opt/strata')/'serve'/name) for name in
                        ['server.py','frontend.py','structured.py']},
         'tokenizer':files(cfg['tokenizer']), 'target_shards':[identity(p) for p in shards]}
 for option,key in [('--pack','pack'),('--mtp','mtp'),('--expert-profile','expert_profile')]:

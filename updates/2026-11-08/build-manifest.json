@@ -1,0 +1,46 @@
+{
+  "observed_date": "2026-11-08",
+  "upstream": {
+    "url": "https://github.com/Niko1221/Strata",
+    "tag": "v0.2.12",
+    "commit": "146df3c468739147f520ac3816de806f71232571"
+  },
+  "build": {
+    "cuda": "12.4.1",
+    "gpu_architecture": "89-real",
+    "native_cpu": true,
+    "ggml_source": "/opt/strata/ref/llama.cpp",
+    "ggml_commit": "3cf03257f219afbe7334045ff7c6a06ac68c627d",
+    "inherited_base": "ulmus/strata:99f3dbd-ownerapi",
+    "engine_image": "ulmus/strata:146df3c-cu124-sm89",
+    "engine_image_id": "sha256:a23325cd45f3e327f2114d004d1233a49d5941b8a9fb43d51f12b70448fa713b",
+    "selected_image": "ulmus/strata:146df3c-owner20261108",
+    "selected_image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+    "inherited_base_id": "sha256:a1649d9812c7944dbbf880a33e272886a5b059bae22e65e713404a50aed46644"
+  },
+  "serving_selection": "flash-iq3s-256k-vision-tune-owner20261108",
+  "driver_changes": false,
+  "artifact_policy": "Target and projector bytes unchanged; full-RAM experts and PLE. Draft experiments do not change target weights.",
+  "rebuild": {
+    "source": "Export the pinned Strata commit into source/ beside Dockerfile. The image reuses the existing CUDA 12.4 ownerapi image and its llama.cpp checkout; no host driver change is needed.",
+    "commands": [
+      "docker build -f Dockerfile -t ulmus/strata:146df3c-cu124-sm89 .",
+      "docker build -f Dockerfile.selected -t ulmus/strata:146df3c-owner20261108 ."
+    ],
+    "source_integrity": "The inspected upstream checkout was clean at the recorded tag and full commit SHA. No Strata source patch was applied."
+  },
+  "rollback": {
+    "profile": "flash-iq3s-256k-vision-tune-owner9950x3d2",
+    "image": "ulmus/strata:99f3dbd-lendvram",
+    "image_id": "sha256:24386fa3fb0e4d7ff2680174d5a126090293920c4556f1cf289a6af9d24bdefe",
+    "remote_files": "Qwen38-Flash-Next-Ulmus/updates/20261108/rollback/",
+    "procedure": "Stop the owned Flash-Next service when idle; restore its installed unit and project run/launcher copies from rollback, align the workspace launcher assertion to owner9950x3d2, daemon-reload and start the unit. Original model/profile files were not replaced."
+  },
+  "client_check": {
+    "launcher": "scripts/opencode.sh --run (with the documented SSH target/root environment)",
+    "variant": "low",
+    "response": "READY",
+    "natural_stop": true,
+    "prior_27b_default_preserved": true
+  }
+}

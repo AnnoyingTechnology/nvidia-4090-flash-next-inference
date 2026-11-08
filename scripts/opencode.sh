@@ -1,24 +1,20 @@
 #!/usr/bin/env bash
-# Start only when idle, tunnel the loopback API, and select the owned OpenCode model.
+# Start the selected systemd service, tunnel its API, and select the owned model.
 set -euo pipefail
 task_target=${ULMUS_SSH_TARGET:?Set ULMUS_SSH_TARGET to the SSH user@host}
 task_remote_root=${ULMUS_REMOTE_ROOT:?Set ULMUS_REMOTE_ROOT to the deployed stack directory}
 task_model=${ULMUS_OPENCODE_MODEL:-ai-ulmus-flash-next/qwen3.8-flash-next}
 [[ "$task_target" =~ ^[a-zA-Z0-9_.@:-]+$ ]] || exit 2
 printf -v task_root_quoted '%q' "$task_remote_root"
-# A running profile is preserved. run.sh itself refuses any GPU resource collision.
 ssh -F /dev/null -o BatchMode=yes "$task_target" "bash -s -- $task_root_quoted" <<'REMOTE'
 set -euo pipefail
 cd -- "$1"
-if ! docker inspect --format '{{.State.Running}}' ulmus-inference-test 2>/dev/null | grep -qx true; then
-    bash run.sh flash-iq3s-256k-vision-tune-owneradapt24
-    python3 wait_ready.py
-fi
+systemctl --user start qwen3.8-flash-next.service
 python3 - <<'PY'
 import json, subprocess, urllib.request
 command = json.loads(subprocess.check_output(
-    ['docker', 'inspect', '--format', '{{json .Config.Cmd}}', 'ulmus-inference-test'], text=True))
-if '/work/profiles/flash-iq3s-256k-vision-tune-owneradapt24.json' not in command:
+    ['docker', 'inspect', '--format', '{{json .Config.Cmd}}', 'qwen3.8-flash-next'], text=True))
+if '/work/profiles/flash-iq3s-256k-vision-tune-owner20261108.json' not in command:
     raise SystemExit('Stop the owned workload and start the selected owner vision profile first.')
 with urllib.request.urlopen('http://127.0.0.1:19623/v1/status', timeout=10) as response:
     status = json.load(response)

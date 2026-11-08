@@ -36,14 +36,16 @@ export ULMUS_REMOTE_ROOT='<absolute remote stack directory>'
 bash scripts/opencode.sh
 ```
 
-The selected profile is `flash-iq3s-256k-vision-tune-owneradapt24` (lend-VRAM v4).
-It keeps one target loaded and stages GPU vision only for uncached images,
-with about 93 ms measured additional first-token latency per new image.
-The launcher starts this profile only when the owned server
-is absent and the GPU is idle. It refuses another active profile, creates
+The selected profile is `flash-iq3s-256k-vision-tune-owner20261108` (qualified 2026-11-08).
+It keeps one target loaded and starts GPU vision for uncached images. The native reader
+stops after five seconds idle; restarting it adds about 2.2 seconds on the next new image.
+Cached images bypass the reader. Target weights, reasoning defaults and client capacities
+are unchanged. The prior `owner9950x3d2` profile and image remain available for rollback.
+The launcher starts `qwen3.8-flash-next.service` and waits for systemd readiness.
+It verifies the selected profile, creates
 a loopback-only SSH tunnel, selects the new model and closes its tunnel
 when OpenCode exits. It leaves the loaded model running for later use.
-It does not replace another GPU workload, install automatic startup,
+There is no GPU occupancy gate or cross-service stopping. It does not install automatic startup,
 change a firewall or power on/off the host. Ulmus must already be awake.
 
 `scripts/opencode.sh --run ...` supports the normal noninteractive OpenCode

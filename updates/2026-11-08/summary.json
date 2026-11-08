@@ -1,0 +1,318 @@
+{
+  "observed_at": "2026-11-08T08:34:16.543395+00:00",
+  "status": "deployed and verified through the normal OpenCode launcher",
+  "deployment": {
+    "observed_at": "2026-11-08T07:44:13.133355+00:00",
+    "service": "ActiveState=active\nSubState=running\nUnitFileState=disabled\n",
+    "image_id": "sha256:283ca8dc1de2dc6d49edea0d44d6d074df3c34505c608ab1f408a0c7be6f242b",
+    "gpu": "NVIDIA GeForce RTX 4090, 550.163.01, 280.00 W, 23244 MiB, 35\n",
+    "qualification_identity_match_except_profile_log_path": true,
+    "opencode_response": "READY"
+  },
+  "baseline": {
+    "reports": [
+      "update-20261108-baseline-ready-perf.json",
+      "update-20261108-baseline2-perf.json"
+    ],
+    "fresh_starts": 2,
+    "decode_requests": 12,
+    "decode_median_tok_s": 119.4,
+    "prefill_median_tok_s": 4793.5,
+    "short_prompt_ttft_median_s": 0.5202229599999555,
+    "per_start_decode_medians": [
+      115.5,
+      122.65
+    ]
+  },
+  "selected": {
+    "reports": [
+      "perf-fetch.json",
+      "perf-fetch2.json"
+    ],
+    "fresh_starts": 2,
+    "decode_requests": 12,
+    "decode_median_tok_s": 136.35000000000002,
+    "prefill_median_tok_s": 5065.6,
+    "short_prompt_ttft_median_s": 0.3618191990001378,
+    "per_start_decode_medians": [
+      137.15,
+      135.9
+    ]
+  },
+  "decode_change_pct": 14.195979899497502,
+  "prefill_change_pct": 5.676436841556276,
+  "mechanism_diagnostic": {
+    "scope": "One fresh start per setting; same new runtime/profile, with cache admission disabled/enabled.",
+    "arms": {
+      "auto": {
+        "decode_median_tok_s": 121.8,
+        "decode_cache_hit_median_pct": 80.0
+      },
+      "fetch": {
+        "decode_median_tok_s": 137.15,
+        "decode_cache_hit_median_pct": 89.05000000000001
+      }
+    },
+    "interpretation": "ADAPT_FETCH=2 admits eligible fetched misses directly into the GPU cache and disables separate adaptive-tier copies. Automatic CPU/PCIe balancing settled at 0.25; the old profile fixed 0.35.",
+    "limits": "The complete 14.2% gain is not a sum of isolated kernel improvements. CPU-assisted short prefill is enabled, but the 32K prefill gain was not decomposed per kernel."
+  },
+  "code_canaries": {
+    "off": {
+      "baseline": {
+        "code": {
+          "expected_cases": 30,
+          "attempted": 30,
+          "completed": 30,
+          "passed": 28,
+          "failed": 2,
+          "incomplete": 0,
+          "evaluator_error": 0,
+          "quality_score": {
+            "passed": 28,
+            "total": 30,
+            "accuracy": 0.9333333333333333
+          }
+        }
+      },
+      "selected": {
+        "code": {
+          "expected_cases": 30,
+          "attempted": 30,
+          "completed": 30,
+          "passed": 29,
+          "failed": 1,
+          "incomplete": 0,
+          "evaluator_error": 0,
+          "quality_score": {
+            "passed": 29,
+            "total": 30,
+            "accuracy": 0.9666666666666667
+          }
+        }
+      },
+      "max_tokens": 32768,
+      "all_natural_completions": true,
+      "same_target_artifact_identity": true
+    },
+    "low": {
+      "baseline": {
+        "code": {
+          "expected_cases": 30,
+          "attempted": 30,
+          "completed": 30,
+          "passed": 28,
+          "failed": 2,
+          "incomplete": 0,
+          "evaluator_error": 0,
+          "quality_score": {
+            "passed": 28,
+            "total": 30,
+            "accuracy": 0.9333333333333333
+          }
+        }
+      },
+      "selected": {
+        "code": {
+          "expected_cases": 30,
+          "attempted": 30,
+          "completed": 30,
+          "passed": 30,
+          "failed": 0,
+          "incomplete": 0,
+          "evaluator_error": 0,
+          "quality_score": {
+            "passed": 30,
+            "total": 30,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "max_tokens": 32768,
+      "all_natural_completions": true,
+      "same_target_artifact_identity": true
+    }
+  },
+  "api": {
+    "passed": 9,
+    "total": 9
+  },
+  "vision_content": {
+    "strict_passed": 3,
+    "content_passed": 5,
+    "total": 5,
+    "truncated": 0
+  },
+  "functional_checks": [
+    {
+      "check": "instruction",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 26,
+        "completion_tokens": 8,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "arithmetic",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 29,
+        "completion_tokens": 5,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "french",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 30,
+        "completion_tokens": 4,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "json",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 30,
+        "completion_tokens": 21,
+        "total_tokens": 51,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "tool",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 291,
+        "completion_tokens": 40,
+        "total_tokens": 331,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "prefix-217",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 3145,
+        "completion_tokens": 4,
+        "total_tokens": 3149,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "prefix-719",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 3145,
+        "completion_tokens": 4,
+        "total_tokens": 3149,
+        "prompt_tokens_details": {
+          "cached_tokens": 3125
+        }
+      }
+    },
+    {
+      "check": "retrieval-32k",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 31861,
+        "completion_tokens": 13,
+        "total_tokens": 31874,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "retrieval-128k",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 130162,
+        "completion_tokens": 13,
+        "total_tokens": 130175,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "check": "retrieval-256k",
+      "pass": true,
+      "usage": {
+        "prompt_tokens": 261241,
+        "completion_tokens": 16,
+        "total_tokens": 261257,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    }
+  ],
+  "maximum_image_staging": [
+    {
+      "cached": false,
+      "passed": true,
+      "reader_starts": 1,
+      "ttft_s": 6.567956584000058,
+      "usage": {
+        "prompt_tokens": 4119,
+        "completion_tokens": 2,
+        "total_tokens": 4121,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "cached": true,
+      "passed": true,
+      "reader_starts": 0,
+      "ttft_s": 0.07052539699998306,
+      "usage": {
+        "prompt_tokens": 4119,
+        "completion_tokens": 2,
+        "total_tokens": 4121,
+        "prompt_tokens_details": {
+          "cached_tokens": 4112
+        }
+      }
+    },
+    {
+      "cached": false,
+      "passed": true,
+      "reader_starts": 1,
+      "ttft_s": 6.144256831999883,
+      "usage": {
+        "prompt_tokens": 4119,
+        "completion_tokens": 2,
+        "total_tokens": 4121,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Two fresh starts per arm; not a universal speed guarantee.",
+    "Thirty synthetic DevOps functions at one seed per effort; not broad quality parity.",
+    "Vision content and JSON formatting are scored separately.",
+    "The first uncached image after encoder idle pays a measured GPU-reader restart cost.",
+    "No local full-size/Q8 target reference, host driver upgrade, or power-policy change."
+  ]
+}
