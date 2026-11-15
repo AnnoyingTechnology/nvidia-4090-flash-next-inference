@@ -1,7 +1,7 @@
 # Operations and reproducibility
 
 Use the README build/prepare/start sequence. The selected API stays on host
-loopback port 19623, model `ulmus`. Required host components are a suitable
+LAN port 19623, model `ulmus` (Docker publishes on `0.0.0.0`). Required host components are a suitable
 NVIDIA driver, Docker with GPU access, Git, curl and Python 3. Fresh builds
 are substantial; model/source/cache paths stay within the checkout.
 
@@ -74,11 +74,10 @@ JSON uses native prompt-and-validate `response_format`; do not combine it with
 tool calls. Invalid/capped JSON returns an error. Ordinary tool requests work
 separately, with the runtime's native parser.
 
-An SSH tunnel permits remote use without changing the listener:
-
-```bash
-ssh -N -L 19623:127.0.0.1:19623 <user>@<host-address>
-```
+Remote clients connect directly to `http://<server-lan-address>:19623/v1`.
+SSH is used for service control only; no tunnel is required. The 27B service
+similarly publishes directly on LAN port 19622. These APIs are unauthenticated
+and intended for the trusted local network.
 
 ## Benchmarks
 

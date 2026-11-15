@@ -369,8 +369,9 @@ adaptation enabled. This does not identify the cause of the remaining stall.
 - Advertised context is 262,144 tokens. Text retrieval canaries passed near
   32K/128K/256K, but the exact native boundary and combined 256K plus images
   are not yet qualified.
-- The API is unauthenticated and published on loopback only. Use an SSH tunnel
-  for remote access. No automatic startup service is installed.
+- The API is unauthenticated and published directly on the trusted LAN, port 19623.
+  Remote clients use the server LAN address. The on-demand systemd user service
+  is disabled at boot; SSH is used only for service control, with no API tunnel.
 - Downloaded weights, private deployment captures, dataset question/test payloads
   and binary dependencies are excluded from Git.
 
@@ -429,7 +430,7 @@ For OpenCode on Juniperus, the installed model is
 `ai-ulmus-flash-next/qwen3.8-flash-next`, with low/off variants and a
 **253952-token context window**. The duplicate output-budget entry was removed.
 The prior 27B default is preserved.
-[Client configuration and SSH launcher](docs/opencode.md)
+[Client configuration and direct LAN launcher](docs/opencode.md)
 
 ## Historical October invocation and settings
 
@@ -523,7 +524,7 @@ experiment. [Research and alternatives](docs/research-and-pitfalls.md)
 - [Benchmarks and quality](docs/benchmarks-and-quality.md): protocols, full-size references and caveats.
 - [Operations](docs/operations.md): build, start, requests, measurements and rollback.
 - [Vision comparisons](docs/vision-comparison.md): Luna, Terra, Sol, low/off protocols and annotation audit.
-- [OpenCode](docs/opencode.md): naming, output reserves, reasoning variants and SSH access.
+- [OpenCode](docs/opencode.md): naming, output reserves, reasoning variants and direct LAN access.
 - [Research and pitfalls](docs/research-and-pitfalls.md): measured and unqualified alternatives.
 - [Public evidence](results/public/export-manifest.json): explicit export set and original/export hashes.
 

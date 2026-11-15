@@ -47,7 +47,7 @@ fi
 exec docker run --name "$task_container" --rm "${task_mode[@]}" --gpus all \
     "${task_env[@]}" \
     --user "$(id -u):$(id -g)" --ulimit memlock=-1 --memory 175g --shm-size 4g \
-    --publish 127.0.0.1:19623:19623 \
+    --publish 0.0.0.0:19623:19623 \
     --mount "type=bind,src=$task_root,dst=/work" \
     --mount "type=bind,src=$task_library,dst=/models,readonly" \
     "$task_image" python -m serve.server --engine strata \

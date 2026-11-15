@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import shutil
 import tempfile
+from urllib.parse import urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,14 +24,27 @@ def main():
     ap.add_argument('--config', type=Path, default=Path.home()/'.config/opencode/opencode.json')
     ap.add_argument('--local-services', action='store_true', help='Use the dedicated services on this computer')
     ap.add_argument('--dense-base-url', help='27B endpoint for a remote client; otherwise preserve its existing endpoint')
+    ap.add_argument('--flash-base-url', help='Flash-Next endpoint; remote default uses the 27B host on port 19623')
     args = ap.parse_args()
     source = json.loads((ROOT/'docs/opencode-example.json').read_text())
     target = args.config
     config = json.loads(target.read_text()) if target.exists() else {'$schema': source['$schema']}
+    if args.dense_base_url:
+        source['provider']['ai-ulmus']['options']['baseURL'] = args.dense_base_url
     if not args.local_services:
         endpoint=args.dense_base_url or config.get('provider',{}).get('ai-ulmus',{}).get('options',{}).get('baseURL')
         if not endpoint:ap.error('Remote clients require --dense-base-url or an existing ai-ulmus endpoint')
         source['provider']['ai-ulmus']['options']['baseURL']=endpoint
+        address = urlsplit(endpoint)
+        host = address.hostname
+        if not host:
+            ap.error('The 27B endpoint must include a hostname')
+        if ':' in host:
+            host = '[' + host + ']'
+        source['provider']['ai-ulmus-flash-next']['options']['baseURL'] = urlunsplit(
+            (address.scheme, host + ':19623', '/v1', '', ''))
+    if args.flash_base_url:
+        source['provider']['ai-ulmus-flash-next']['options']['baseURL'] = args.flash_base_url
     rollback = ROOT/'client-private'
     rollback.mkdir(mode=0o700, exist_ok=True)
     rollback.chmod(0o700)

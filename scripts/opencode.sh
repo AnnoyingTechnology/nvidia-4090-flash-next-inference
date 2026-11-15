@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start the selected systemd service, tunnel its API, and select the owned model.
+# Start the selected systemd service; inference connects directly over the LAN.
 set -euo pipefail
 task_target=${ULMUS_SSH_TARGET:?Set ULMUS_SSH_TARGET to the SSH user@host}
 task_remote_root=${ULMUS_REMOTE_ROOT:?Set ULMUS_REMOTE_ROOT to the deployed stack directory}
@@ -22,21 +22,11 @@ if status['model'] != 'Qwen3.8-Flash-Next':
     raise SystemExit('Expected the owned Flash-Next server')
 PY
 REMOTE
-task_tunnel_dir=$(mktemp -d)
-task_socket=$task_tunnel_dir/control
-cleanup() {
-    ssh -F /dev/null -S "$task_socket" -O exit "$task_target" >/dev/null 2>&1 || true
-    rmdir "$task_tunnel_dir" 2>/dev/null || true
-}
-trap cleanup EXIT
-# Background only after authentication and successful binding; an occupied port fails.
-ssh -F /dev/null -M -S "$task_socket" -fN -o BatchMode=yes -o ExitOnForwardFailure=yes \
-    -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
-    -L 127.0.0.1:19623:127.0.0.1:19623 "$task_target"
-curl -fsS --max-time 5 http://127.0.0.1:19623/health >/dev/null
+task_base_url=${ULMUS_BASE_URL:-http://${task_target##*@}:19623/v1}
+curl --noproxy '*' -fsS --max-time 5 "${task_base_url%/v1}/health" >/dev/null
 if [[ "${1:-}" == --run ]]; then
     shift
-    opencode run --model "$task_model" "$@"
+    exec opencode run --model "$task_model" "$@"
 else
-    opencode --model "$task_model" "$@"
+    exec opencode --model "$task_model" "$@"
 fi

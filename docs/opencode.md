@@ -2,16 +2,18 @@
 
 Both clients use the dedicated Huihui services. The `ai-ulmus/qwen3.8-27b` default
 is preserved, with 245760 input and 8192 output tokens inside a 253952-token client window.
-Ulmus uses loopback port 19622 for 27B; remote clients supply or preserve its LAN endpoint.
-The obsolete local LM Studio 27B entries are retired by `--local-services`.
-Flash-Next is labelled Huihui v2-derived GSQ IQ3_S; its endpoint remains loopback port 19623.
+Both services publish directly on the trusted LAN: 27B on port 19622 and Flash-Next
+on port 19623. Remote clients use the server LAN address; neither uses an SSH tunnel.
+Local clients may also use the same LAN endpoints. `--local-services` defaults to
+loopback endpoints and retires obsolete local LM Studio 27B entries; explicit endpoint
+arguments override those defaults. Flash-Next is labelled Huihui v2-derived GSQ IQ3_S.
 
 Installed shortcuts on both owner clients are `opencode-flash-next` and `opencode-27b`.
-On Juniperus the Flash shortcut starts the service and owns an SSH tunnel for the session.
-On Ulmus it starts the service and connects directly, using `scripts/opencode-local.sh`.
+On Juniperus the Flash shortcut starts the service over SSH, then connects directly
+to its LAN API. On Ulmus it starts the service locally, using `scripts/opencode-local.sh`.
 The 27B shortcuts start only its dedicated unit; neither launcher stops other workloads.
-Selecting a model in ordinary OpenCode requires the corresponding service to be running,
-and remote Flash-Next also requires the SSH tunnel.
+Selecting a model in ordinary OpenCode requires the corresponding service to be running.
+The launchers are optional conveniences; SSH is used only for service control.
 
 The selected IQ3_S stack is the best measured Flash-Next path on Ulmus in
 this campaign. Unbuilt alternatives remain experiments, not established
@@ -40,17 +42,18 @@ sent as native compatible-API fields, not a runtime rewriting patch.
 merges it into the user's existing configuration, keeps the previous
 default model and unrelated settings, writes atomically and retains a
 private rollback copy inside this workspace. No credential is required
-for the loopback model API.
+for these trusted-LAN model APIs.
 
 ```bash
-python3 scripts/install_opencode.py
+python3 scripts/install_opencode.py --dense-base-url 'http://<server-lan-address>:19622/v1'
 export ULMUS_SSH_TARGET='<user>@<host-address>'
 export ULMUS_REMOTE_ROOT='<absolute remote stack directory>'
 bash scripts/opencode.sh
 ```
 
 On Ulmus, install with `python3 scripts/install_opencode.py --local-services`.
-For a new remote client, pass `--dense-base-url` with its trusted-LAN 27B URL.
+For a remote client, pass `--dense-base-url` with its trusted-LAN 27B URL. Flash-Next
+defaults to the same host on port 19623; `--flash-base-url` can override it on either client.
 The existing Flash shortcut uses the private workspace wrapper; remote 27B uses
 `scripts/opencode-27b.sh` with `ULMUS_SSH_TARGET` supplied by its private wrapper.
 
@@ -60,9 +63,9 @@ stops after five seconds idle; restarting it adds about 2.2 seconds on the next 
 Cached images bypass the reader. The target uses baked Huihui v2 weight edits; reasoning defaults
 and client capacities are preserved. The original `owner20261108` profile remains the rollback.
 The launcher starts `qwen3.8-flash-next.service` and waits for systemd readiness.
-It verifies the selected profile, creates
-a loopback-only SSH tunnel, selects the new model and closes its tunnel
-when OpenCode exits. It leaves the loaded model running for later use.
+It verifies the selected profile and LAN API health, then selects the model.
+It leaves the loaded model running for later use. `ULMUS_BASE_URL` overrides its
+health-check URL when needed; keep it aligned with the OpenCode provider endpoint.
 There is no GPU occupancy gate or cross-service stopping. It does not install automatic startup,
 change a firewall or power on/off the host. Ulmus must already be awake.
 

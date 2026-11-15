@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ulmus: start the selected dedicated service and use its loopback provider.
+# Ulmus: start the selected dedicated service and use its configured direct API.
 set -euo pipefail
 task_model=ai-ulmus-flash-next/qwen3.8-flash-next
 task_unit=qwen3.8-flash-next.service
